@@ -11,7 +11,7 @@ class BinderyDAOImpl @Autowired constructor(
     private val entityManager: EntityManager
 ) : BinderyDAO {
     @Transactional
-    override fun findById(id: Int): Bindery {
+    override fun findById(id: Int): Bindery? {
         return entityManager.find(Bindery::class.java, id)
     }
 }
