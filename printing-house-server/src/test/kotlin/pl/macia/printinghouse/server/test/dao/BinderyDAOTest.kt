@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.test.dao
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -18,17 +18,18 @@ class BinderyDAOTest {
 
     @Order(1)
     @Test
-    fun `test findById`() {
+    fun testFindById() {
         val searchedName = "A1"
         val bindery = dao.findById(1)
-        Assertions.assertNotEquals(null, bindery?.name, "can't find $searchedName bindery in the database")
-        Assertions.assertEquals(searchedName, bindery?.name)
+        assertNotEquals(null, bindery?.name, "can't find $searchedName bindery in the database")
+        assertEquals(searchedName, bindery?.name)
     }
+
     @Order(1)
     @Test
-    fun `test findByName`() {
+    fun testFindByName() {
         val searchedName = "A1"
         val bindery = dao.findByName(searchedName)
-        Assertions.assertNotEquals(null, bindery)
+        assertNotEquals(null, bindery)
     }
 }
