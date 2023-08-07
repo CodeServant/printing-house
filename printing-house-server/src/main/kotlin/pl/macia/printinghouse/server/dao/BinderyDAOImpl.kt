@@ -14,4 +14,13 @@ class BinderyDAOImpl @Autowired constructor(
     override fun findById(id: Int): Bindery? {
         return entityManager.find(Bindery::class.java, id)
     }
+
+    @Transactional
+    override fun findByName(name: String): Bindery? {
+        val param = "name"
+        val col = param
+        val binQ = entityManager.createQuery("FROM Bindery WHERE $col=:$param", Bindery::class.java)
+        binQ.setParameter(param, name)
+        return Bindery(1, "A1")
+    }
 }

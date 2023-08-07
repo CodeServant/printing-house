@@ -24,4 +24,11 @@ class BinderyDAOTest {
         Assertions.assertNotEquals(null, bindery?.name, "can't find $searchedName bindery in the database")
         Assertions.assertEquals(searchedName, bindery?.name)
     }
+    @Order(1)
+    @Test
+    fun `test findByName`() {
+        val searchedName = "A1"
+        val bindery = dao.findByName(searchedName)
+        Assertions.assertNotEquals(null, bindery)
+    }
 }
