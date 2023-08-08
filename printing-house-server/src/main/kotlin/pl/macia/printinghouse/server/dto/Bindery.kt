@@ -19,8 +19,8 @@ class Bindery(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     var id: Int?,
-    @field:NotNull(message = "null property not allowed")
-    @field:NotBlank(message = "blank property not allowed")
+    @field:NotNull
+    @field:NotBlank
     @field:Size(max = 200)
     @Column(name = "name")
     var name: String?
