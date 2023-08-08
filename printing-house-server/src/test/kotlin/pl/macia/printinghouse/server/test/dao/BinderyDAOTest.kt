@@ -30,11 +30,13 @@ class BinderyDAOTest {
     @Order(1)
     @Test
     fun testFindByName() {
-        val searchedName = "A1"
-        val bindery = dao.findByName(searchedName)
-        assertNotNull(bindery, "bindery $searchedName not found")
-        val expectedId = 1
-        assertEquals(1, bindery?.id, "expected id is $expectedId")
+        fun bulkTests(searchedName: String, expectedId: Int){
+            var bindery = dao.findByName(searchedName)
+            assertNotNull(bindery, "bindery $searchedName not found")
+            assertEquals(expectedId, bindery?.id, "expected id is $expectedId")
+        }
+        bulkTests("A1", 1)
+        bulkTests("A2", 2)
     }
 
     @Order(2)
