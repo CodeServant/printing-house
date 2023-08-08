@@ -23,4 +23,9 @@ class BinderyDAOImpl @Autowired constructor(
         binQ.setParameter(param, name)
         return Bindery(1, "A1")
     }
+
+    @Transactional
+    override fun create(bindery: Bindery) {
+        entityManager.persist(bindery)
+    }
 }
