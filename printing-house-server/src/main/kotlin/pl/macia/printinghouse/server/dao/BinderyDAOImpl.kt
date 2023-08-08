@@ -21,7 +21,7 @@ class BinderyDAOImpl @Autowired constructor(
         val col = param
         val binQ = entityManager.createQuery("FROM Bindery WHERE $col=:$param", Bindery::class.java)
         binQ.setParameter(param, name)
-        return Bindery(1, "A1")
+        return binQ.singleResult
     }
 
     @Transactional
