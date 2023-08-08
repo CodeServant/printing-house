@@ -37,6 +37,7 @@ class BinderyDAOTest {
         assertEquals(1, bindery?.id, "expected id is $expectedId")
     }
 
+    @Order(2)
     @Test
     fun `test create new`() {
         var bindery = Bindery("testCreateNew")
