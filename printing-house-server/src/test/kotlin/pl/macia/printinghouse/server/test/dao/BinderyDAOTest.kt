@@ -21,7 +21,7 @@ class BinderyDAOTest {
     fun testFindById() {
         val searchedName = "A1"
         val bindery = dao.findById(1)
-        assertNotEquals(null, bindery?.name, "can't find $searchedName bindery in the database")
+        assertNotNull(bindery?.name, "can't find $searchedName bindery in the database")
         assertEquals(searchedName, bindery?.name)
         val expectedId = 1
         assertEquals(1, bindery?.id, "expected id is $expectedId")
@@ -32,7 +32,7 @@ class BinderyDAOTest {
     fun testFindByName() {
         val searchedName = "A1"
         val bindery = dao.findByName(searchedName)
-        assertNotEquals(null, bindery, "bindery $searchedName not found")
+        assertNotNull(bindery, "bindery $searchedName not found")
         val expectedId = 1
         assertEquals(1, bindery?.id, "expected id is $expectedId")
     }
