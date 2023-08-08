@@ -34,7 +34,7 @@ class BinderyDAOTest {
     @Test
     fun testFindByName() {
         fun bulkTests(searchedName: String, expectedId: Int) {
-            var bindery = dao.findByName(searchedName)
+            val bindery = dao.findByName(searchedName)
             assertNotNull(bindery, "bindery $searchedName not found")
             assertEquals(expectedId, bindery?.id, "expected id is $expectedId")
         }
