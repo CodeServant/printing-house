@@ -9,6 +9,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
@@ -20,6 +21,7 @@ class Bindery(
     var id: Int?,
     @field:NotNull(message = "null property not allowed")
     @field:NotBlank(message = "blank property not allowed")
+    @field:Size(max = 200)
     @Column(name = "name")
     var name: String?
 ) {
