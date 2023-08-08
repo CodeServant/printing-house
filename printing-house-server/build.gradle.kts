@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
+    kotlin("plugin.allopen") version kotlinVersion
 }
 
 group = "pl.macia"
@@ -40,4 +41,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+allOpen {
+    annotation("jakarta.persistence.Table")
 }
