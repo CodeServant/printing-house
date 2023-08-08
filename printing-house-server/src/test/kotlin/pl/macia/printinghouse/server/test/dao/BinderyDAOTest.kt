@@ -6,6 +6,9 @@ import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.dao.InvalidDataAccessApiUsageException
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.BinderyDAO
 import pl.macia.printinghouse.server.dto.Bindery
@@ -62,6 +65,29 @@ class BinderyDAOTest {
         bindery = Bindery(" ")
         assertThrows<ConstraintViolationException> {
             dao.create(bindery)
+        }
+    }
+
+    @Order(3)
+    @Test
+    fun `test delete single`() {
+        var bindery: Bindery? = null
+        val binToDel = "testCreateNew"
+        assertDoesNotThrow {
+            bindery = dao.findByName(binToDel)
+        }
+        assertDoesNotThrow {
+            dao.delete(bindery!!)
+
+        }
+        assertThrows<EmptyResultDataAccessException> {
+            bindery = dao.findByName(binToDel)
+        }
+        assertThrows<JpaObjectRetrievalFailureException> {
+            dao.delete(bindery!!)
+        }
+        assertThrows<InvalidDataAccessApiUsageException> {
+            dao.delete(Bindery("shouldGiveError no id field"))
         }
     }
 }

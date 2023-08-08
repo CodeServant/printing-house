@@ -28,4 +28,17 @@ class BinderyDAOImpl @Autowired constructor(
     override fun create(bindery: Bindery) {
         entityManager.persist(bindery)
     }
+
+    /**
+     * Keep in mind that this method if entity is detached don't check actual equality.
+     */
+    @Transactional
+    override fun delete(bindery: Bindery){
+        if (entityManager.contains(bindery)) {
+            entityManager.remove(bindery)
+        } else {
+            val ee: Bindery = entityManager.getReference(bindery::class.java, bindery.id)
+            entityManager.remove(ee)
+        }
+    }
 }

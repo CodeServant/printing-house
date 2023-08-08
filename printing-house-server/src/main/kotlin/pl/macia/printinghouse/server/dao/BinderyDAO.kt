@@ -6,4 +6,5 @@ interface BinderyDAO {
     fun findById(id: Int): Bindery?
     fun findByName(name: String): Bindery?
     fun create(bindery: Bindery)
+    fun delete(bindery: Bindery)
 }
