@@ -17,7 +17,7 @@ class Bindery(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    var id: Long?,
+    var id: Int?,
     @field:NotNull(message = "null property not allowed")
     @field:NotBlank(message = "blank property not allowed")
     @Column(name = "name")
