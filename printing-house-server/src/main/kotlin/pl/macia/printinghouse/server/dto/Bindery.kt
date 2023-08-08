@@ -25,6 +25,8 @@ class Bindery(
     @Column(name = "name")
     var name: String?
 ) {
+    constructor(name: String) : this(null, name)
+
     override fun toString(): String {
         return "{$id, $name}"
     }
