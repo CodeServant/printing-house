@@ -105,4 +105,31 @@ class BinderyDAOTest {
             dao.delete(Bindery("should Give Error"))
         }
     }
+
+    @Order(4)
+    @Test
+    fun `update test`() {
+        var bindery = dao.findById(1).getOrNull()
+        assertEquals("A1", bindery?.name)
+        bindery?.name = "B1"
+        dao.save(bindery!!)
+        dao.flush()
+        bindery = dao.findById(1).getOrNull()
+        assertEquals("B1", bindery?.name)
+        var binderies = dao.findAllById(listOf(1, 2, 3))
+        binderies.forEach {
+            it?.name = it?.name?.replace('A', 'B', true)
+        }
+        dao.saveAllAndFlush(binderies)
+        binderies = dao.findAllById(listOf(1, 2, 3))
+        assertEquals(3, binderies.count { it?.name!!.matches("B.+".toRegex()) })
+        binderies.forEach {
+            it?.name = it?.name?.replace('B', 'A', true)
+        }
+        binderies = dao.saveAllAndFlush(binderies)
+        assertEquals(3, binderies.count { it?.name!!.matches("A.+".toRegex()) })
+    }
+
 }
+
+
