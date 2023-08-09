@@ -71,10 +71,8 @@ class BinderyDAOTest {
     @Order(3)
     @Test
     fun `test delete single`() {
-        var bindery: Bindery? = null
         val binToDel = "testCreateNew"
-
-        bindery = dao.findByName(binToDel)
+        var bindery = dao.findByName(binToDel)
 
         assertNotNull(bindery)
 
