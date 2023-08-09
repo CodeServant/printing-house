@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.BinderyDAO
 import pl.macia.printinghouse.server.dto.Bindery
+import pl.macia.printinghouse.server.dto.binderyName
+import pl.macia.printinghouse.server.dto.tableBindery
 import java.lang.NullPointerException
 import kotlin.jvm.optionals.getOrNull
 
@@ -23,7 +25,7 @@ class BinderyDAOTest {
     fun testFindById() {
         val searchedName = "A1"
         val bindery = dao.findById(1).getOrNull()
-        assertNotNull(bindery?.name, "can't find $searchedName bindery in the database")
+        assertNotNull(bindery?.name, "can't find $searchedName $tableBindery in the database")
         assertEquals(searchedName, bindery?.name)
         val expectedId = 1
         assertEquals(1, bindery?.id, "expected id is $expectedId")
@@ -34,7 +36,7 @@ class BinderyDAOTest {
     fun testFindByName() {
         fun bulkTests(searchedName: String, expectedId: Int) {
             val bindery = dao.findByName(searchedName)
-            assertNotNull(bindery, "bindery $searchedName not found")
+            assertNotNull(bindery, "$tableBindery $searchedName not found")
             assertEquals(expectedId, bindery?.id, "expected id is $expectedId")
         }
         bulkTests("A1", 1)
@@ -52,13 +54,12 @@ class BinderyDAOTest {
             dao.saveAndFlush(bindery)
         }
         val maxLength = 200
-        val binderyMetaName = "bindery"
         bindery = Bindery("".padEnd(maxLength, 'a'))
-        assertDoesNotThrow("$binderyMetaName name should include $maxLength characters") {
+        assertDoesNotThrow("$tableBindery $binderyName should include $maxLength characters") {
             dao.saveAndFlush(bindery)
         }
         bindery = Bindery("".padEnd(maxLength + 1, 'b'))
-        assertThrows<ConstraintViolationException>("$binderyMetaName max length is $maxLength") {
+        assertThrows<ConstraintViolationException>("$tableBindery max length is $maxLength") {
             dao.saveAndFlush(bindery)
         }
         bindery = Bindery(" ")
