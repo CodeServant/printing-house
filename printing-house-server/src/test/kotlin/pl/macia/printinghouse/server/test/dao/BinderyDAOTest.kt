@@ -39,6 +39,11 @@ class BinderyDAOTest {
             assertNotNull(bindery, "$tableBindery $searchedName not found")
             assertEquals(expectedId, bindery?.id, "expected id is $expectedId")
         }
+        var bind: Bindery? = null
+        assertDoesNotThrow {
+            bind = dao.findByName("does not exists in database")
+        }
+        assertNull(bind)
         bulkTests("A1", 1)
         bulkTests("A2", 2)
     }
