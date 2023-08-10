@@ -126,7 +126,7 @@ CREATE TABLE Person
     id          INT PRIMARY KEY AUTO_INCREMENT,
     name        VARCHAR(200) NOT NULL,
     surname     VARCHAR(300) NOT NULL,
-    pseudoPESEL CHAR(11)     NOT NULL UNIQUE
+    pseudoPESEL CHAR(11)     NOT NULL UNIQUE -- PESEL is Polish personal ID number but it actually any string that can identify person
 );
 
 CREATE TABLE BindingForm
