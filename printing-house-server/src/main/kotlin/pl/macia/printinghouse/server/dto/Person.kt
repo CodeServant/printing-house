@@ -25,16 +25,16 @@ class Person(
     @field:NotBlank
     @field:Size(max = 200)
     @Column(name = personName)
-    val name: String,
+    var name: String,
     @field:NotNull
     @field:NotBlank
     @field:Size(max = 300)
     @Column(name = personSurname)
-    val surname: String,
+    var surname: String,
     @field:NotNull
     @field:Size(min = 11, max = 11)
     @Column(name = personPseudoPESEL)
-    val pseudoPESEL: String
+    var pseudoPESEL: String
 ) {
     constructor(name: String, surname: String, pseudoPESEL: String) : this(null, name, surname, pseudoPESEL)
 
