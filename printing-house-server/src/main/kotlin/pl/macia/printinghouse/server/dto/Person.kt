@@ -35,6 +35,8 @@ open class Person(
     @Column(name = personPseudoPESEL)
     val pseudoPESEL: String
 ) {
+    constructor(name: String, surname: String, pseudoPESEL: String) : this(null, name, surname, pseudoPESEL)
+
     override fun toString(): String {
         return "{$personId: $id, $personName: $name, $personSurname: $surname, $personPseudoPESEL: $pseudoPESEL}"
     }
