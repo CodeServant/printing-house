@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.dao
 
+import jakarta.validation.ConstraintViolationException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer
@@ -52,6 +53,61 @@ class EmployeeDAOTest {
             "NewGuy",
             "McVerynew",
             "99999999999"
+        )
+        assertThrows<DataIntegrityViolationException> {
+            dao.saveAndFlush(emp)
+        }
+    }
+
+    @Order(3)
+    @Test
+    fun `model constraints test`() {
+        val passwordLengthConstr = 68
+        var email = Email("newEmp@constraints.test.pl")
+        val legalPassword = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W."
+        var passwd = legalPassword
+        var emp = Employee(
+            email,
+            passwd,
+            true,
+            true,
+            "NewGuy",
+            "McVerynew",
+            "999gb399997"
+        )
+        dao.saveAndFlush(emp)
+        emp.password="a".repeat(passwordLengthConstr)
+
+        assertDoesNotThrow{
+            dao.saveAndFlush(emp)
+        }
+        //checking if passworf is fixed length
+        emp.password="a".repeat(passwordLengthConstr+1)
+        assertThrows<ConstraintViolationException> {
+            dao.saveAndFlush(emp)
+        }
+        emp.password="a".repeat(passwordLengthConstr-1)
+        assertThrows<ConstraintViolationException> {
+            dao.saveAndFlush(emp)
+        }
+        emp.password = legalPassword
+        val initialPesel = emp.pseudoPESEL
+        val annasPesel = "423523523"
+        emp.pseudoPESEL = annasPesel
+        assertThrows<ConstraintViolationException> {
+            dao.saveAndFlush(emp)
+        }
+        emp.pseudoPESEL = initialPesel
+        //check email already exists constraint
+        email = Email("newEmp@constraints.test.pl")
+        emp = Employee(
+            email,
+            passwd,
+            true,
+            true,
+            "NewGuy",
+            "McVerynew",
+            "999j5699998"
         )
         assertThrows<DataIntegrityViolationException> {
             dao.saveAndFlush(emp)
