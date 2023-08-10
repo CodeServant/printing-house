@@ -15,7 +15,8 @@ const val personPseudoPESEL = "pseudoPESEL"
 @Poko
 @Entity
 @Table(name = tablePerson)
-open class Person(
+@Inheritance(strategy = InheritanceType.JOINED)
+class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = personId)
