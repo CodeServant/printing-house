@@ -75,7 +75,7 @@ CREATE TABLE Enobling
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(100) NOT NULL UNIQUE,
-    descrition VARCHAR(500) NULL
+    description VARCHAR(500) NULL
 );
 
 CREATE TABLE Punch
