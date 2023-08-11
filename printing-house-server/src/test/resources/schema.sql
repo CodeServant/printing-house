@@ -389,7 +389,7 @@ CREATE TABLE WorkflowStageStop
     INDEX             wssWorker_ind (worker),
     FOREIGN KEY (worker)
         REFERENCES Worker (personId)
-        ON DELETE NO ACTION,
+        ON DELETE SET NULL,
     INDEX             wssOrder_ind (`order`),
     FOREIGN KEY (`order`)
         REFERENCES `Order` (id)
