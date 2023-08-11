@@ -13,6 +13,11 @@ const val employeePassword = "password"
 const val employeeActiveAccount = "activeAccount"
 const val employeeEmployed = "employed"
 
+
+const val employeeEmploeeRole = "EmploeeRole"
+const val employeeEmpId = "empId"
+const val employeeRoleId = "roleId"
+
 @Poko
 @Entity
 @Table(name = tableEmployee)
@@ -36,4 +41,12 @@ class Employee(
     name: String,
     surname: String,
     pseudoPESEL: String
-) : Person(name, surname, pseudoPESEL)
+) : Person(name, surname, pseudoPESEL) {
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @JoinTable(
+        name = employeeEmploeeRole,
+        joinColumns = [JoinColumn(name = employeeRoleId)],
+        inverseJoinColumns = [JoinColumn(name = employeeEmpId)]
+    )
+    var roles = mutableListOf<Role>()
+}
