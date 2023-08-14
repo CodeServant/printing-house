@@ -203,7 +203,7 @@ CREATE TABLE Company
 (
     id       INT PRIMARY KEY AUTO_INCREMENT,
     name     VARCHAR(500) NOT NULL,
-    NIP      CHAR(10)     NOT NULL UNIQUE,
+    NIP      CHAR(10)     NOT NULL UNIQUE, -- pl.wikipedia.org/wiki/Numer_identyfikacji_podatkowej
     clientId int NULL UNIQUE,
     INDEX    compCliId_ind (clientId),
     FOREIGN KEY (clientId)
