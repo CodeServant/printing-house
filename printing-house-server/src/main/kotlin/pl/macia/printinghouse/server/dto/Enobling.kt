@@ -15,6 +15,7 @@ const val enoblingDescription = "description"
 @Poko
 @Entity
 @Table(name = tableEnobling)
+@Inheritance(strategy = InheritanceType.JOINED)
 class Enobling(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +30,6 @@ class Enobling(
     @field:Nullable
     @Column(name = enoblingDescription)
     var description: String?
-)
+) {
+    constructor(name: String, description: String?) : this(null, name, description)
+}
