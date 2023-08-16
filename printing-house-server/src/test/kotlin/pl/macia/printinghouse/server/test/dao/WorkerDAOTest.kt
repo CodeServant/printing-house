@@ -12,7 +12,6 @@ import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.PersonDAO
 import pl.macia.printinghouse.server.dao.WorkerDAO
-import pl.macia.printinghouse.server.dao.WorkflowStageDAO
 import pl.macia.printinghouse.server.dto.Email
 import pl.macia.printinghouse.server.dto.Worker
 import kotlin.jvm.optionals.getOrNull
@@ -25,9 +24,6 @@ class WorkerDAOTest {
 
     @Autowired
     lateinit var personDAO: PersonDAO
-
-    @Autowired
-    lateinit var workflowStageDAO: WorkflowStageDAO
 
     @Test
     @Order(1)
