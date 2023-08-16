@@ -74,7 +74,7 @@ class WorkerDAOTest {
     @Order(4)
     @Transactional
     fun `workflow manager association test`() {
-        var workerManager = dao.findByIdOrNull(4)!!
+        val workerManager = dao.findByIdOrNull(4)!!
         assertEquals(
             2, workerManager
                 .isManagerOf
