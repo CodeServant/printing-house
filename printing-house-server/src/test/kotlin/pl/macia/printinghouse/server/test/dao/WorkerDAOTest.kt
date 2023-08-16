@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.dao
 
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -11,22 +12,27 @@ import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.PersonDAO
 import pl.macia.printinghouse.server.dao.WorkerDAO
+import pl.macia.printinghouse.server.dao.WorkflowStageDAO
 import pl.macia.printinghouse.server.dto.Email
 import pl.macia.printinghouse.server.dto.Worker
+import kotlin.jvm.optionals.getOrNull
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class WorkerDAOTest {
     @Autowired
-    lateinit var workerDAO: WorkerDAO
+    lateinit var dao: WorkerDAO
 
     @Autowired
     lateinit var personDAO: PersonDAO
 
+    @Autowired
+    lateinit var workflowStageDAO: WorkflowStageDAO
+
     @Test
     @Order(1)
     fun `find by id test`() {
-        val workers = workerDAO.findAllById(listOf(1, 2, 3, 4))
+        val workers = dao.findAllById(listOf(1, 2, 3, 4))
         val expectedNames = listOf("Marian", "Jiliusz", "Robert")
         assertIterableEquals(expectedNames, workers.map { it.name })
     }
@@ -34,7 +40,7 @@ class WorkerDAOTest {
     @Test
     @Order(1)
     fun `inheritance test`() {
-        val worker = workerDAO.findByIdOrNull(7)
+        val worker = dao.findByIdOrNull(7)
         val person = personDAO.findByIdOrNull(7)
         assertEquals(worker?.id, person?.id)
         assertEquals(worker?.name, person?.name)
@@ -53,14 +59,29 @@ class WorkerDAOTest {
             pseudoPESEL = "25322246s13"
         )
         assertDoesNotThrow {
-            workerDAO.save(newWork)
+            dao.save(newWork)
         }
     }
 
     @Test
     @Order(3)
     fun `delete one test`() {
-        workerDAO.deleteById(7)
-        assertFalse(workerDAO.existsById(7))
+        dao.deleteById(7)
+        assertFalse(dao.existsById(7))
+    }
+
+    @Test
+    @Order(4)
+    @Transactional
+    fun `workflow manager association test`() {
+        var workerManager = dao.findByIdOrNull(4)!!
+        assertEquals(
+            2, workerManager
+                .isManagerOf
+                .stream()
+                .findFirst()
+                .getOrNull()
+                ?.id
+        )
     }
 }

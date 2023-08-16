@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.dto
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
@@ -10,6 +11,10 @@ const val tableWorkflowStage = "WorkflowStage"
 const val workflowStageId = "id"
 const val workflowStageRoleId = "roleId"
 const val workflowStageName = "name"
+
+const val tableWorkflowStageManager = "WorkflowStageManager"
+const val workflowStageMgrWrkflStId = "workflowStage"
+const val workflowStageMgrEmpId = "employeeId"
 
 @Poko
 @Entity
@@ -27,6 +32,19 @@ class WorkflowStage(
     @field:NotNull
     @Column(name = workflowStageName)
     var name: String,
+    @field:NotEmpty
+    @ManyToMany
+    @JoinTable(
+        name = tableWorkflowStageManager,
+        joinColumns = [JoinColumn(name = workflowStageMgrWrkflStId)],
+        inverseJoinColumns = [JoinColumn(name = workflowStageMgrEmpId)]
+    )
+    var workflowStageManagers: MutableSet<Worker>
 ) {
-    constructor(role: Role, name: String) : this(null, role, name)
+    constructor(role: Role, name: String, workflowStageManagers: MutableSet<Worker>) : this(
+        null,
+        role,
+        name,
+        workflowStageManagers
+    )
 }

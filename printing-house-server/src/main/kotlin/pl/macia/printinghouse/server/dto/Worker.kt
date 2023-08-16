@@ -6,6 +6,8 @@ import jakarta.persistence.*
 const val tableWorker = "Worker"
 const val workerId = "personId"
 
+const val workerIsManagerOf = "workflowStageManagers"
+
 @Poko
 @Entity
 @Table(name = tableWorker)
@@ -17,5 +19,7 @@ class Worker(
     employed: Boolean,
     name: String,
     surname: String,
-    pseudoPESEL: String
+    pseudoPESEL: String,
+    @ManyToMany(mappedBy = workerIsManagerOf)
+    var isManagerOf: MutableList<WorkflowStage> = mutableListOf()
 ) : Employee(email, password, activeAccount, employed, name, surname, pseudoPESEL)
