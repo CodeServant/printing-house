@@ -101,8 +101,8 @@ CREATE TABLE Colouring
 (
     id          TINYINT PRIMARY KEY AUTO_INCREMENT,
     firstSide   TINYINT NOT NULL,
-    secoundSide TINYINT NOT NULL,
-    UNIQUE `bothSides`(`firstSide`, `secoundSide`)
+    secondSide TINYINT NOT NULL,
+    UNIQUE `bothSides`(`firstSide`, `secondSide`)
 );
 
 -- Role of the employee for the data to access

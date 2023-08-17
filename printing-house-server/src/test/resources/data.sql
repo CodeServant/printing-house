@@ -55,7 +55,7 @@ INSERT INTO Client (email, phoneNumber)
 VALUES (5, '984324654'),
        (4, '254236643'),
        (6, '152358752');
-INSERT INTO Colouring (firstSide, secoundSide)
+INSERT INTO Colouring (firstSide, secondSide)
 VALUES (4, 0),
        (2, 0),
        (2, 2),
