@@ -9,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dto.ImpositionType
-import pl.macia.printinghouse.server.dto.ImpositionTypeDAO
+import pl.macia.printinghouse.server.dao.ImpositionTypeDAO
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
