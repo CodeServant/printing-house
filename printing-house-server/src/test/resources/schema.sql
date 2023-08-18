@@ -351,7 +351,7 @@ CREATE TABLE EmploeeRole
 CREATE TABLE WorkflowStage
 (
     id     INT PRIMARY KEY AUTO_INCREMENT,
-    roleId INT          NOT NULL, -- dodać tabelkę
+    roleId INT          NOT NULL,
     name   VARCHAR(100) NOT NULL UNIQUE,
     INDEX  wsRoleId_ind (roleId),
     FOREIGN KEY (roleId)
