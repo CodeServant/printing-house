@@ -61,7 +61,9 @@ class WorkerDAOTest {
 
     @Test
     @Order(3)
+    @Transactional
     fun `delete one test`() {
+        assertTrue(dao.existsById(7))
         dao.deleteById(7)
         assertFalse(dao.existsById(7))
     }
