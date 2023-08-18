@@ -1,0 +1,55 @@
+package pl.macia.printinghouse.server.dto
+
+import dev.drewhamilton.poko.Poko
+import jakarta.annotation.Nullable
+import jakarta.persistence.*
+import jakarta.validation.constraints.Size
+import java.time.LocalDateTime
+
+const val tableWorkflowStageStop = "WorkflowStageStop"
+const val workflowStageStopId = "id"
+const val workflowStageStopComment = "comment"
+const val workflowStageStopCreateTime = "createTime"
+const val workflowStageStopAssignTime = "assignTime"
+const val workflowStageStopWorker = "worker"
+const val workflowStageStopOrder = "order"
+const val workflowStageStopWorkflowStage = "workflowStage"
+const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
+
+@Poko
+@Entity
+@Table(name = tableWorkflowStageStop)
+class WorkflowStageStop(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = workflowStageStopId)
+    var id: Int?,
+    @Column(name = workflowStageStopComment)
+    @field:Size(max = 500)
+    var comment: String?,
+    @Column(name = workflowStageStopCreateTime)
+    var createTime: LocalDateTime,
+    @Column(name = workflowStageStopAssignTime)
+    @field:Nullable
+    var assignTime: LocalDateTime?,
+    @OneToOne
+    @JoinColumn(name = workflowStageStopWorker, referencedColumnName = workerId)
+    @Nullable
+    var worker: Worker?,
+    @OneToOne
+    @JoinColumn(name = workflowStageStopWorkflowStage, referencedColumnName = workflowStageId)
+    var workflowStage: WorkflowStage,
+    @Column(name = workflowStageStopLastWorkflowStage)
+    var lastWorkflowStage: Boolean
+) {
+    constructor(
+        comment: String?,
+        createTime: LocalDateTime,
+        assignTime: LocalDateTime?,
+        worker: Worker?,
+        workflowStage: WorkflowStage,
+        lastWorkflowStage: Boolean
+    ) : this(
+        null, comment, createTime, assignTime, worker, workflowStage, lastWorkflowStage
+    )
+}
