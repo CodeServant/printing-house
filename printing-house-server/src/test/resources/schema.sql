@@ -106,7 +106,7 @@ CREATE TABLE Colouring
 );
 
 -- Role of the employee for the data to access
--- this is spring boot roles to ensure the authrorisation
+-- this is spring boot roles to ensure the authorization
 CREATE TABLE Role
 (
     id   INT PRIMARY KEY AUTO_INCREMENT,
