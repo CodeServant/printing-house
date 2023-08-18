@@ -28,7 +28,7 @@ DROP TABLE If EXISTS
     PlatePrice,
     CalculationCard,
     PrintCost,
-    URI;
+    URL;
 
 -- size teble is like A2, A3 etc.
 CREATE TABLE Size
@@ -63,11 +63,11 @@ CREATE TABLE PaperType
     shortName VARCHAR(30)  NOT NULL UNIQUE
 );
 
--- URI Type f. eg URL's
-CREATE TABLE URI
+-- URL Type f. eg URL's
+CREATE TABLE URL
 (
     id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    uri TEXT NOT NULL
+    url TEXT NOT NULL
 );
 
 -- Some additional atribute to the final product
@@ -256,7 +256,7 @@ CREATE TABLE `Order`
         REFERENCES Bindery (id),
     INDEX                 ordURLImg_ind (imageURL),
     FOREIGN KEY (imageURL)
-        REFERENCES URI (id)
+        REFERENCES URL (id)
 );
 
 

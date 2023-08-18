@@ -12,7 +12,7 @@ VALUES ('A1'),
        ('A3'),
        ('A4'),
        ('A5');
-INSERT INTO URI (uri)
+INSERT INTO URL (url)
 VALUES ('https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Diagram%20bez%20tytu%C5%82u.drawio#RzZXRjqMgFIafhstNFGrrXk51djoXk0zSSfaayhklRTCIo%2FbpFyrWWneSnWST6ZXwn8MPfAcBkaTsnjStihfFQCAcsA6RFGEcrsjKfpzSD8omxoOQa8580iTs%2BQm8GHi14QzqWaJRShhezcVMSQmZmWlUa9XO096VmM9a0RwWwj6jYqn%2B5swUgxrjzaTvgOfFOHO4%2FjlESjom%2B53UBWWqvZLIIyKJVsoMrbJLQDh4I5dh3K9PopeFaZDmXwa8vqVV%2F3J4o1H6%2FBC0h0x0ux%2Fe5YOKxm%2FYL9b0IwGtGsnAmQSIbNuCG9hXNHPR1tbcaoUphe2FtuntQBvoPl1neNm9PTagSjC6tynjgNgD8ycGb3y%2FnfiHI9Tiiv3aa9SXPL9YT1Rsw4P5AiR8f5BIeG%2BQyP1Buj1JZPXdkFb3B%2Bn2JH0%2FpGgBqdKn%2FoiSCMXY3aFu9bo%2FNRKOC3wWhJkzooLn0rYzCwS0FRwubm%2F4Bx8oOWNu%2BFZDzU%2F0cLZy8CvFpTnvLtqiKHVejVH18EY569podYRECWV9U6mkc3nnQtxI%2F6FMmETzHz6Il2UifykT%2BXqZbHd6ls6xq8edPP4B');
 INSERT INTO Enobling (name, description)
 VALUES ('farba kolorowa', 'to jest farba kolorowa'),
