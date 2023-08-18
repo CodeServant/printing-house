@@ -18,10 +18,10 @@ class OrderEnobling(
     @Column(name = orderEnoblingId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = orderEnoblingEnobling, referencedColumnName = enoblingId)
     var enobling: Enobling,
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = orderEnoblingBindery, referencedColumnName = binderyId)
     var bindery: Bindery,
     @Column(name = orderEnoblingAnnotation)
