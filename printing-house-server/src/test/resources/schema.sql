@@ -221,7 +221,7 @@ CREATE TABLE `Order`
     supervisor            INT          NOT NULL,
     client                INT          NOT NULL,
     creationDate          TIMESTAMP    NOT NULL,
-    realizationDate       TIMESTAMP    NOT NULL,
+    realizationDate       TIMESTAMP    NOT NULL, -- is the deadline date that we wish to serve the order
     bindingForm           INT          NOT NULL,
     bindery               INT          NOT NULL,
     folding               BOOL         NOT NULL,
@@ -230,7 +230,7 @@ CREATE TABLE `Order`
     imageComment          TEXT NULL,
     checked               BOOL         NOT NULL,
     designsNumberForSheet INT          NOT NULL,
-    completionDate        TIMESTAMP NULL,
+    completionDate        TIMESTAMP NULL, -- this is completion date of the last WorkflowStageStop
     withdrawalDate        TIMESTAMP NULL,
     comment               TEXT NULL,
 
@@ -374,7 +374,7 @@ CREATE TABLE WorkflowStageManager
     UNIQUE `workflowStageMgrUnique`(`workflowStage`, `employeeId`)
 );
 
--- WorkflowStageStop is
+-- WorkflowStageStop is kind of sequential task that is going to be completed by worker
 CREATE TABLE WorkflowStageStop
 (
     id                INT PRIMARY KEY AUTO_INCREMENT,
