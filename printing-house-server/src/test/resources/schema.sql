@@ -97,6 +97,7 @@ CREATE TABLE UVVarnish
 );
 
 -- for example 4/0, 4/1
+-- todo create trigger on insert, update to check id fistSide>secondSide
 CREATE TABLE Colouring
 (
     id          TINYINT PRIMARY KEY AUTO_INCREMENT,
@@ -212,6 +213,7 @@ CREATE TABLE Company
 );
 
 -- Order is equivalent for the calculation card and work card combined
+-- todo Create trigger on insert or update Order to check if creationDate is lower than realizationDate or completionDate
 CREATE TABLE `Order`
 (
     id                    INT PRIMARY KEY AUTO_INCREMENT,

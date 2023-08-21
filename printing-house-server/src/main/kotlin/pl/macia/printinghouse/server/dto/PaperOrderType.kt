@@ -60,5 +60,39 @@ class PaperOrderType internal constructor(
     var size: Size,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = paperOrderTypeProductionSize)
-    var productionSize: Size
-)
+    var productionSize: Size,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = paperOrderTypeOrderId, nullable = false)
+    val order: Order
+) {
+    internal constructor(
+        paperType: PaperType,
+        grammage: Double,
+        colours: Colouring,
+        circulation: Int,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        printer: Printer,
+        platesQuantityForPrinter: Int,
+        imposition: ImpositionType,
+        size: Size,
+        productionSize: Size,
+        order: Order
+    ) : this(
+        null,
+        paperType,
+        grammage,
+        colours,
+        circulation,
+        stockCirculation,
+        sheetNumber,
+        comment,
+        printer,
+        platesQuantityForPrinter,
+        imposition,
+        size,
+        productionSize,
+        order
+    )
+}
