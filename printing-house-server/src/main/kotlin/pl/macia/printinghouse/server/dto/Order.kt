@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Positive
 import jakarta.validation.constraints.PositiveOrZero
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import jakarta.validation.constraints.Size as JpaSize
 
@@ -227,5 +228,25 @@ class Order private constructor(
         )
         paperOrderTypes.add(papOrdTp)
         return papOrdTp
+    }
+
+    /**
+     * Creates [CalculationCard] or alters it.
+     */
+    fun setCalculationCard(
+        bindingCost: BigDecimal,
+        enobling: BigDecimal,
+        otherCosts: BigDecimal,
+        transport: BigDecimal
+    ): CalculationCard {
+        val calC = CalculationCard(
+            bindingCost,
+            enobling,
+            otherCosts,
+            transport,
+            this
+        )
+        calculationCard = calC
+        return calC
     }
 }

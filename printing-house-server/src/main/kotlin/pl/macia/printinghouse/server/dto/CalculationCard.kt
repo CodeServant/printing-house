@@ -35,4 +35,12 @@ class CalculationCard(
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = calculationCardOrderId)
     var order: Order
-)
+) {
+    constructor(
+        bindingCost: BigDecimal,
+        enobling: BigDecimal,
+        otherCosts: BigDecimal,
+        transport: BigDecimal,
+        order: Order
+    ) : this(null, bindingCost, enobling, otherCosts, transport, order)
+}
