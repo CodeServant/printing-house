@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.test.dao
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Order as JpaOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
@@ -26,14 +27,14 @@ class WorkflowStageDAOTest {
     @Autowired
     lateinit var daoWorker: WorkerDAO
 
-    @Order(1)
+    @JpaOrder(1)
     @Test
     fun `get by id`() {
         val workflowStage = dao.findByIdOrNull(1)
         assertEquals("Introligatornia", workflowStage?.name)
     }
 
-    @Order(2)
+    @JpaOrder(2)
     @Test
     @Transactional
     fun `role association test`() {
@@ -55,7 +56,7 @@ class WorkflowStageDAOTest {
         assertNull(dao.findByIdOrNull(deletedId))
     }
 
-    @Order(3)
+    @JpaOrder(3)
     @Test
     fun `data integrity test`() {
         var workflowStage = dao.findByIdOrNull(1)
@@ -68,7 +69,7 @@ class WorkflowStageDAOTest {
         }
     }
 
-    @Order(4)
+    @JpaOrder(4)
     @Test
     @Transactional
     fun `delete workflowstage that has role association`() {
@@ -84,7 +85,7 @@ class WorkflowStageDAOTest {
     }
 
     @Test
-    @Order(5)
+    @JpaOrder(5)
     @Transactional
     fun `worker association test`() {
         val workflowStage = dao.findByIdOrNull(2)!!
