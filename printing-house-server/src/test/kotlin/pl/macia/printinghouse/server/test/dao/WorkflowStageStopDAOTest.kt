@@ -1,12 +1,13 @@
 package pl.macia.printinghouse.server.test.dao
 
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import pl.macia.printinghouse.server.dao.OrderDAO
 import pl.macia.printinghouse.server.dao.WorkerDAO
 import pl.macia.printinghouse.server.dao.WorkflowStageDAO
 import pl.macia.printinghouse.server.dao.WorkflowStageStopDAO
@@ -14,6 +15,7 @@ import java.time.LocalDateTime
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 class WorkflowStageStopDAOTest {
+
     @Autowired
     lateinit var dao: WorkflowStageStopDAO
 
@@ -22,6 +24,9 @@ class WorkflowStageStopDAOTest {
 
     @Autowired
     lateinit var daoWorkflowStage: WorkflowStageDAO
+
+    @Autowired
+    private lateinit var daoOrder: OrderDAO
 
     @Test
     fun `find by id test`() {
@@ -53,5 +58,24 @@ class WorkflowStageStopDAOTest {
         // names should remain the same
         assertEquals("Anna", actualWorker.name)
         assertEquals("Naświetlarnia", actualWorkflowStage.name)
+    }
+
+    @Test
+    @Transactional
+    fun `insert single`() {
+        val order = daoOrder.findByIdOrNull(1)!!
+        val workflowStage = daoWorkflowStage.findByIdOrNull(2)!!
+
+        val workflowStageStop = order.addWorkflowStageStop(
+            null,
+            LocalDateTime.now(),
+            null,
+            null,
+            workflowStage,
+            false
+        )
+        assertNull(workflowStageStop.id)
+        dao.save(workflowStageStop)
+        assertNotNull(workflowStageStop.id)
     }
 }

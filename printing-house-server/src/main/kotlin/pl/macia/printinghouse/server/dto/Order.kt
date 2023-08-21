@@ -146,4 +146,28 @@ class Order private constructor(
         withdrawalDate,
         comment
     )
+
+    /**
+     * Adds new [tableWorkflowStageStop] with association to this [Order]
+     */
+    fun addWorkflowStageStop(
+        comment: String?,
+        createTime: LocalDateTime,
+        assignTime: LocalDateTime?,
+        worker: Worker?,
+        workflowStage: WorkflowStage,
+        lastWorkflowStage: Boolean
+    ): WorkflowStageStop {
+        val workflowStageStop = WorkflowStageStop(
+            comment,
+            createTime,
+            assignTime,
+            worker,
+            workflowStage,
+            lastWorkflowStage,
+            this
+        )
+        workflowStageStops.add(workflowStageStop)
+        return workflowStageStop
+    }
 }
