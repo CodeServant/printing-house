@@ -23,7 +23,7 @@ const val paperOrderTypeProductionSize = "productionSize"
 @Poko
 @Entity
 @Table(name = tablePaperOrderType)
-class PaperOrderType(
+class PaperOrderType internal constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = paperOrderTypeId, nullable = false)
