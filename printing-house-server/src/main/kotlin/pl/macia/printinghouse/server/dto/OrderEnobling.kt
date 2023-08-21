@@ -13,7 +13,7 @@ const val orderEnoblingAnnotation = "annotation"
 @Poko
 @Entity
 @Table(name = tableOrderEnobling)
-class OrderEnobling(
+class OrderEnobling internal constructor(
     @Id
     @Column(name = orderEnoblingId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +27,5 @@ class OrderEnobling(
     @Column(name = orderEnoblingAnnotation)
     var annotation: String?
 ) {
-    constructor(enobling: Enobling, bindery: Bindery, annotation: String?) : this(null, enobling, bindery, annotation)
+    internal constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(null, enobling, bindery, annotation, order)
 }
