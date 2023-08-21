@@ -85,6 +85,8 @@ class Order private constructor(
     @Column(name = orderComment, nullable = true)
     @field:JpaSize(min = 1)
     var comment: String?,
+    @OneToOne(cascade = [CascadeType.ALL], mappedBy = calculationCardOrderField, orphanRemoval = true)
+    var calculationCard: CalculationCard?,
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = paperOrderTypeOrderField,
@@ -124,7 +126,8 @@ class Order private constructor(
         designsNumberForSheet: Int,
         completionDate: LocalDateTime?,
         withdrawalDate: LocalDateTime?,
-        comment: String?
+        comment: String?,
+        calculationCard: CalculationCard?,
     ) : this(
         null,
         name,
@@ -144,7 +147,8 @@ class Order private constructor(
         designsNumberForSheet,
         completionDate,
         withdrawalDate,
-        comment
+        comment,
+        calculationCard
     )
 
     /**

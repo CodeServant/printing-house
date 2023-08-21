@@ -11,6 +11,7 @@ import pl.macia.printinghouse.server.dao.OrderDAO
 import pl.macia.printinghouse.server.dao.OrderEnoblingDAO
 import pl.macia.printinghouse.server.dao.PaperOrderTypeDAO
 import pl.macia.printinghouse.server.dao.WorkflowStageStopDAO
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -43,6 +44,7 @@ class OrderDAOTest {
         assertNull(order.completionDate)
         assertNull(order.withdrawalDate)
         assertNull(order.comment)
+        assertTrue(BigDecimal(1000).compareTo(order.calculationCard?.bindingCost)==0)
     }
 
     @Test
