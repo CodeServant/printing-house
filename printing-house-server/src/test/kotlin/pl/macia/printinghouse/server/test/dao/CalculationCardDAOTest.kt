@@ -36,4 +36,19 @@ class CalculationCardDAOTest {
         order.calculationCard = null
         assertEquals(init - 1, dao.count())
     }
+
+    @Test
+    @Transactional
+    fun `change one`() {
+        val order = daoOrder.findByIdOrNull(1)!!
+        order.calculationCard=null
+        daoOrder.saveAndFlush(order)
+        order.setCalculationCard(BigDecimal(100), BigDecimal(101), BigDecimal(102), BigDecimal(103))
+        daoOrder.saveAndFlush(order)
+        val calc = dao.findByIdOrNull(1)!!
+        assertEquals(100, calc.bindingCost.toInt())
+        assertEquals(101, calc.enobling.toInt())
+        assertEquals(102, calc.otherCosts.toInt())
+        assertEquals(103, calc.transport.toInt())
+    }
 }
