@@ -6,7 +6,7 @@ import jakarta.persistence.*
 const val tableOrderEnobling = "OrderEnobling"
 const val orderEnoblingId = "id"
 const val orderEnoblingEnobling = "enobling"
-const val orderEnoblingOrder = "order"
+const val orderEnoblingOrder = "`order`"
 const val orderEnoblingBindery = "bindery"
 const val orderEnoblingAnnotation = "annotation"
 const val orderEnoblingOrderField = "order"
