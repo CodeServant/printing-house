@@ -19,6 +19,7 @@ const val paperOrderTypePlatesQuantityForPrinter = "platesQuantityForPrinter"
 const val paperOrderTypeImposition = "imposition"
 const val paperOrderTypeSize = "size"
 const val paperOrderTypeProductionSize = "productionSize"
+const val paperOrderTypeOrderField = "order"
 
 @Poko
 @Entity
@@ -28,7 +29,6 @@ class PaperOrderType internal constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = paperOrderTypeId, nullable = false)
     var id: Int? = null,
-
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = paperOrderTypeTypeId)
     var paperType: PaperType,

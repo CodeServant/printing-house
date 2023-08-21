@@ -15,6 +15,7 @@ const val workflowStageStopWorker = "worker"
 const val workflowStageStopOrder = "order"
 const val workflowStageStopWorkflowStage = "workflowStage"
 const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
+const val workflowStageStopOrderField = "order"
 
 @Poko
 @Entity
@@ -34,13 +35,17 @@ class WorkflowStageStop internal constructor(
     var assignTime: LocalDateTime?,
     @OneToOne
     @JoinColumn(name = workflowStageStopWorker, referencedColumnName = workerId)
-    @Nullable
+    @field:Nullable
     var worker: Worker?,
     @OneToOne
     @JoinColumn(name = workflowStageStopWorkflowStage, referencedColumnName = workflowStageId)
     var workflowStage: WorkflowStage,
     @Column(name = workflowStageStopLastWorkflowStage)
-    var lastWorkflowStage: Boolean
+    var lastWorkflowStage: Boolean,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = workflowStageStopOrder, nullable = false)
+    val order: Order
+
 ) {
     internal constructor(
         comment: String?,
@@ -48,8 +53,9 @@ class WorkflowStageStop internal constructor(
         assignTime: LocalDateTime?,
         worker: Worker?,
         workflowStage: WorkflowStage,
-        lastWorkflowStage: Boolean
+        lastWorkflowStage: Boolean,
+        order: Order
     ) : this(
-        null, comment, createTime, assignTime, worker, workflowStage, lastWorkflowStage
+        null, comment, createTime, assignTime, worker, workflowStage, lastWorkflowStage, order
     )
 }

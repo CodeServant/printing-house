@@ -9,6 +9,7 @@ const val orderEnoblingEnobling = "enobling"
 const val orderEnoblingOrder = "order"
 const val orderEnoblingBindery = "bindery"
 const val orderEnoblingAnnotation = "annotation"
+const val orderEnoblingOrderField = "order"
 
 @Poko
 @Entity
@@ -25,7 +26,16 @@ class OrderEnobling internal constructor(
     @JoinColumn(name = orderEnoblingBindery, referencedColumnName = binderyId)
     var bindery: Bindery,
     @Column(name = orderEnoblingAnnotation)
-    var annotation: String?
+    var annotation: String?,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = orderEnoblingOrder, nullable = false)
+    val order: Order
 ) {
-    internal constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(null, enobling, bindery, annotation, order)
+    internal constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(
+        null,
+        enobling,
+        bindery,
+        annotation,
+        order
+    )
 }
