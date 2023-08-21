@@ -188,4 +188,40 @@ class Order private constructor(
         orderEnoblings.add(ordEnob)
         return ordEnob
     }
+
+    /**
+     * Adds new [PaperOrderType] with association to this [Order]
+     */
+    fun addPaperOrderType(
+        paperType: PaperType,
+        grammage: Double,
+        colours: Colouring,
+        circulation: Int,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        printer: Printer,
+        platesQuantityForPrinter: Int,
+        imposition: ImpositionType,
+        size: Size,
+        productionSize: Size
+    ): PaperOrderType {
+        val papOrdTp = PaperOrderType(
+            paperType,
+            grammage,
+            colours,
+            circulation,
+            stockCirculation,
+            sheetNumber,
+            comment,
+            printer,
+            platesQuantityForPrinter,
+            imposition,
+            size,
+            productionSize,
+            this
+        )
+        paperOrderTypes.add(papOrdTp)
+        return papOrdTp
+    }
 }

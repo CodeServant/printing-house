@@ -55,10 +55,10 @@ class PaperOrderType internal constructor(
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = paperOrderTypeImposition)
     var imposition: ImpositionType,
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = paperOrderTypeSize)
     var size: Size,
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = paperOrderTypeProductionSize)
     var productionSize: Size,
     @ManyToOne(fetch = FetchType.EAGER)
