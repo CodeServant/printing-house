@@ -19,7 +19,7 @@ const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
 @Poko
 @Entity
 @Table(name = tableWorkflowStageStop)
-class WorkflowStageStop(
+class WorkflowStageStop internal constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = workflowStageStopId)
@@ -42,7 +42,7 @@ class WorkflowStageStop(
     @Column(name = workflowStageStopLastWorkflowStage)
     var lastWorkflowStage: Boolean
 ) {
-    constructor(
+    internal constructor(
         comment: String?,
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,
