@@ -1,3 +1,7 @@
 package pl.macia.printinghouse.server.dao
 
-interface SizeDAOCustom
+import pl.macia.printinghouse.server.dto.Size
+
+interface SizeDAOCustom {
+    fun findOrCreate(width: Double, height: Double): Size
+}

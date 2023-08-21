@@ -58,4 +58,14 @@ class SizeDAOTest {
         dao.deleteById(idToDelete)
         assertNull(dao.findByIdOrNull(idToDelete), "not properly deleted when $sizeId: $idToDelete")
     }
+
+    @Test
+    @Transactional
+    fun `findOrCreate test`() {
+        assertEquals("A4", dao.findOrCreate(210.0, 297.0).name)
+        val nonExistance = dao.findOrCreate(10.0, 17.0)
+        assertDoesNotThrow {
+            dao.saveAndFlush(nonExistance)
+        }
+    }
 }
