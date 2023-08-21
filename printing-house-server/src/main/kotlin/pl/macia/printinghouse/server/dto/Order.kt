@@ -231,7 +231,7 @@ class Order private constructor(
     }
 
     /**
-     * Creates [CalculationCard] or alters it.
+     * Creates new [CalculationCard].
      */
     fun setCalculationCard(
         bindingCost: BigDecimal,
