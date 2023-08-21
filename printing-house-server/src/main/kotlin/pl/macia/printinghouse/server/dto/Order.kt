@@ -170,4 +170,22 @@ class Order private constructor(
         workflowStageStops.add(workflowStageStop)
         return workflowStageStop
     }
+
+    /**
+     * Adds new [OrderEnobling] with association to this [Order]
+     */
+    fun addOrderEnobling(
+        enobling: Enobling,
+        bindery: Bindery,
+        annotation: String?
+    ): OrderEnobling {
+        val ordEnob = OrderEnobling(
+            enobling,
+            bindery,
+            annotation,
+            this
+        )
+        orderEnoblings.add(ordEnob)
+        return ordEnob
+    }
 }
