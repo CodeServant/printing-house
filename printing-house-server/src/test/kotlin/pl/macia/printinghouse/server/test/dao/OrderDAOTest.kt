@@ -44,7 +44,7 @@ class OrderDAOTest {
         assertNull(order.completionDate)
         assertNull(order.withdrawalDate)
         assertNull(order.comment)
-        assertTrue(BigDecimal(1000).compareTo(order.calculationCard?.bindingCost)==0)
+        assertTrue(BigDecimal(1000).compareTo(order.calculationCard?.bindingCost) == 0)
     }
 
     @Test

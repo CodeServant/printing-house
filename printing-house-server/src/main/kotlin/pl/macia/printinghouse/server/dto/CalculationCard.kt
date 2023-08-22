@@ -34,7 +34,14 @@ class CalculationCard(
     @MapsId
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = calculationCardOrderId)
-    var order: Order
+    var order: Order,
+    @OneToMany(
+        mappedBy = printCostCalcField,
+        orphanRemoval = true,
+        cascade = [CascadeType.ALL],
+        fetch = FetchType.EAGER
+    )
+    var printCosts: MutableList<PrintCost> = mutableListOf()
 ) {
     constructor(
         bindingCost: BigDecimal,
@@ -43,4 +50,14 @@ class CalculationCard(
         transport: BigDecimal,
         order: Order
     ) : this(null, bindingCost, enobling, otherCosts, transport, order)
+
+    fun addPrintCost(
+        printer: Printer,
+        printCost: BigDecimal,
+        matrixCost: BigDecimal
+    ): PrintCost {
+        val printCost = PrintCost(this, printer, printCost, matrixCost)
+        printCosts.add(printCost)
+        return printCost
+    }
 }
