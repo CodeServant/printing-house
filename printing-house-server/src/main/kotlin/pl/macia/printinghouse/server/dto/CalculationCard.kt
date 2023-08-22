@@ -56,8 +56,8 @@ class CalculationCard(
         printCost: BigDecimal,
         matrixCost: BigDecimal
     ): PrintCost {
-        val printCost = PrintCost(this, printer, printCost, matrixCost)
-        printCosts.add(printCost)
-        return printCost
+        val newCost = PrintCost(this, printer, printCost, matrixCost)
+        printCosts.add(newCost)
+        return newCost
     }
 }
