@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.dto
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
 import jakarta.validation.constraints.PositiveOrZero
+import jakarta.validation.constraints.Size
 import java.math.BigDecimal
 
 const val tableCalculationCard = "CalculationCard"
@@ -41,6 +42,7 @@ class CalculationCard(
         cascade = [CascadeType.ALL],
         fetch = FetchType.EAGER
     )
+    @field:Size(min = 1)
     var printCosts: MutableList<PrintCost> = mutableListOf()
 ) {
     constructor(
