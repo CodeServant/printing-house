@@ -27,7 +27,7 @@ class Bindery(
     @field:NotBlank
     @field:Size(max = 200)
     @Column(name = binderyName)
-    var name: String?
+    var name: String
 ) {
     constructor(name: String) : this(null, name)
 
