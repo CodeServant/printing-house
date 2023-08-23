@@ -21,7 +21,7 @@ class PrintCost(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = printCostid)
     var id: Int?,
-    @ManyToOne(cascade = [CascadeType.ALL], optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = printCostorderId, referencedColumnName = calculationCardOrderId)
     var calculationCard: CalculationCard,
     @ManyToOne(optional = false)
