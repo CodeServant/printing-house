@@ -118,13 +118,13 @@ class BinderyDAOTest {
         assertEquals("B1", bindery?.name)
         var binderies = dao.findAllById(listOf(1, 2, 3))
         binderies.forEach {
-            it?.name = it?.name?.replace('A', 'B', true)
+            it?.name = it?.name?.replace('A', 'B', true)!!
         }
         dao.saveAllAndFlush(binderies)
         binderies = dao.findAllById(listOf(1, 2, 3))
         assertEquals(3, binderies.count { it?.name!!.matches("B.+".toRegex()) })
         binderies.forEach {
-            it?.name = it?.name?.replace('B', 'A', true)
+            it?.name = it?.name?.replace('B', 'A', true)!!
         }
         binderies = dao.saveAllAndFlush(binderies)
         assertEquals(3, binderies.count { it?.name!!.matches("A.+".toRegex()) })
