@@ -31,7 +31,13 @@ class RoleDAOTest {
     @Transactional
     fun `test join employee`() {
         val emp = eDao.findByIdOrNull(1)
-        assertEquals("handlowiec", emp?.roles?.get(0)?.name)
+        assertTrue(
+            emp?.roles
+                ?.map {
+                    it.name
+                }!!
+                .contains("handlowiec")
+        )
         assertEquals("Kowalski-Salesman", rDao.findByIdOrNull(1)?.employees?.get(0)?.surname)
     }
 }

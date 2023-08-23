@@ -48,5 +48,5 @@ class Employee(
         joinColumns = [JoinColumn(name = employeeRoleId)],
         inverseJoinColumns = [JoinColumn(name = employeeEmpId)]
     )
-    var roles = mutableListOf<Role>()
+    var roles = mutableSetOf<Role>()
 }
