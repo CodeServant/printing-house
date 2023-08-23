@@ -51,9 +51,10 @@ class CalculationCardDAOTest {
         val order = daoOrder.findByIdOrNull(1)!!
         order.calculationCard = null
         daoOrder.saveAndFlush(order)
-        order.setCalculationCard(BigDecimal(100), BigDecimal(101), BigDecimal(102), BigDecimal(103))
+        var calc = order.setCalculationCard(BigDecimal(100), BigDecimal(101), BigDecimal(102), BigDecimal(103))
+        calc.addPrintCost(daoPrinter.findByDigest("DK")!!, BigDecimal(100), BigDecimal(130))
         daoOrder.saveAndFlush(order)
-        val calc = dao.findByIdOrNull(1)!!
+        calc = dao.findByIdOrNull(1)!!
         assertEquals(100, calc.bindingCost.toInt())
         assertEquals(101, calc.enobling.toInt())
         assertEquals(102, calc.otherCosts.toInt())
