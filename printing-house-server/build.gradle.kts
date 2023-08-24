@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "pl.macia"
-version = "0.0.1-SNAPSHOT"
+version = project.properties["applicationVersion"].toString()
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
