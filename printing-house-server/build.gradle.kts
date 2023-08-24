@@ -1,13 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "3.1.2"
-    id("io.spring.dependency-management") version "1.1.2"
-    val kotlinVersion = "1.9.0"
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
+    kotlin("jvm")
+    kotlin("plugin.spring")
+    kotlin("plugin.jpa")
+    kotlin("plugin.allopen")
 }
 
 group = "pl.macia"
@@ -22,13 +21,17 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    runtimeOnly("com.mysql:mysql-connector-j")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("dev.drewhamilton.poko:poko-annotations:0.14.0")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    val springVersion = project.properties["springBootVersion"].toString()
+    val kotlinVersion = project.properties["kotlinVersion"].toString()
+    val mysqlVersion = project.properties["mysqlVersion"].toString()
+    val pokoVersion = project.properties["pokoVersion"].toString()
+    implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    runtimeOnly("com.mysql:mysql-connector-j:$mysqlVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
+    implementation("dev.drewhamilton.poko:poko-annotations:$pokoVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springVersion")
 }
 
 tasks.withType<KotlinCompile> {
