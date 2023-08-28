@@ -24,5 +24,5 @@ class Client(
     @field:Pattern(regexp = "^(\\+[1-9]{1,4} )?[0-9]{3,14}\$")
     var phoneNumber: String?
 ) {
-    constructor(email: Email, phoneNumber: String?) : this(null, email, phoneNumber)
+    constructor(email: Email?, phoneNumber: String?) : this(null, email, phoneNumber)
 }
