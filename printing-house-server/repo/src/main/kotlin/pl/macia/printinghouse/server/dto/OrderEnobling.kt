@@ -6,7 +6,7 @@ import jakarta.persistence.*
 @Poko
 @Entity
 @Table(name = OrderEnobling.tableOrderEnobling)
-class OrderEnobling internal constructor(
+internal class OrderEnobling(
     @Id
     @Column(name = orderEnoblingId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ class OrderEnobling internal constructor(
         const val orderEnoblingOrderField = "order"
     }
 
-    internal constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(
+    constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(
         null,
         enobling,
         bindery,

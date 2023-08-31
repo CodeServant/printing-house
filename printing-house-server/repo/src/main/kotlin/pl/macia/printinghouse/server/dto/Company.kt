@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern
 @Poko
 @Entity
 @Table(name = Company.tableCompany)
-class Company(
+internal class Company(
     @Id
     @Column(name = companyId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

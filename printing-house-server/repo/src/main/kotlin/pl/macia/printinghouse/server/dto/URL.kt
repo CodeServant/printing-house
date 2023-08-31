@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.URL as AURL
 @Poko
 @Entity
 @Table(name = URL.tableURL)
-class URL(
+internal class URL(
     @Id
     @Column(name = urlId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

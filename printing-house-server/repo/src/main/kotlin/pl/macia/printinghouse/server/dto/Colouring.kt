@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Range
 @Poko
 @Entity
 @Table(name = Colouring.tableColouring)
-final class Colouring(
+internal final class Colouring(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = colouringId)

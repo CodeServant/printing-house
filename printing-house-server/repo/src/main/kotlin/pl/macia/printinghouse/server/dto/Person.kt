@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size
 @Entity
 @Table(name = Person.tablePerson)
 @Inheritance(strategy = InheritanceType.JOINED)
-class Person(
+internal class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = personId)

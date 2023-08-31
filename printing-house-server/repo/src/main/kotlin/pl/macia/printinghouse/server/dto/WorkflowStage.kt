@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = WorkflowStage.tableWorkflowStage)
-class WorkflowStage(
+internal class WorkflowStage(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = workflowStageId)

@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size
 @Entity
 @Table(name = Enobling.tableEnobling)
 @Inheritance(strategy = InheritanceType.JOINED)
-class Enobling(
+internal class Enobling(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = enoblingId)

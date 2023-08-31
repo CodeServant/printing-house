@@ -7,7 +7,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = Salesman.tableSalesman)
 @PrimaryKeyJoinColumn(name = Salesman.salesmanId)
-class Salesman(
+internal class Salesman(
     email: Email,
     password: String,
     activeAccount: Boolean,

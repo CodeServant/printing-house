@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = BindingForm.tableBindingForm)
-class BindingForm(
+internal class BindingForm(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = bindingFormId)

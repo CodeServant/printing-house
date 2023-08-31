@@ -7,7 +7,7 @@ import jakarta.persistence.*
 @Poko
 @Entity
 @Table(name = PaperOrderType.tablePaperOrderType)
-class PaperOrderType internal constructor(
+internal class PaperOrderType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = paperOrderTypeId, nullable = false)
@@ -67,7 +67,7 @@ class PaperOrderType internal constructor(
         const val paperOrderTypeOrderField = "order"
     }
 
-    internal constructor(
+    constructor(
         paperType: PaperType,
         grammage: Double,
         colours: Colouring,

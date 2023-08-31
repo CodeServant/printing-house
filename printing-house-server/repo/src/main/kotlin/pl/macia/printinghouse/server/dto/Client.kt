@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern
 @Poko
 @Entity
 @Table(name = Client.tableClient)
-class Client(
+internal class Client(
     @Id
     @Column(name = clientId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

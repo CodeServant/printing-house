@@ -7,7 +7,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = Punch.tablePunch)
 @PrimaryKeyJoinColumn(name = Punch.punchEnoblingId)
-class Punch(
+internal class Punch(
     name: String,
     descritpion: String?
 ) : Enobling(name, descritpion) {

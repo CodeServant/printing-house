@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = Printer.tablePrinter)
-class Printer(
+internal class Printer(
     @Id
     @Column(name = printerId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

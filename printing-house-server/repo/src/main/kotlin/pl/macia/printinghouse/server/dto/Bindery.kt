@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = Bindery.tableBindery)
-class Bindery(
+internal class Bindery(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = binderyId)

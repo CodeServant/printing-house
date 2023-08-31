@@ -7,7 +7,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = IndividualClient.tableIndividualClient)
 @PrimaryKeyJoinColumn(name = IndividualClient.individualClientpersonId)
-class IndividualClient(
+internal class IndividualClient(
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = individualClientclientId, referencedColumnName = Client.clientId)
     var client: Client,

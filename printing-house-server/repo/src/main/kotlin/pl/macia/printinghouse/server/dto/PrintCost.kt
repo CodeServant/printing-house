@@ -8,7 +8,7 @@ import java.math.BigDecimal
 @Poko
 @Entity
 @Table(name = PrintCost.tablePrintCost)
-class PrintCost(
+internal class PrintCost(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = printCostid)

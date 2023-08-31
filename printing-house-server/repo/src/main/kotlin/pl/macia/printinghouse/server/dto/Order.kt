@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size as JpaSize
 @Poko
 @Entity
 @Table(name = Order.tableOrder)
-class Order private constructor(
+internal class Order private constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = orderId)

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = PaperType.tablePaperType)
-class PaperType(
+internal class PaperType(
     @Id
     @Column(name = paperTypeId)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

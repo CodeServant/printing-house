@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @Poko
 @Entity
 @Table(name = WorkflowStageStop.tableWorkflowStageStop)
-class WorkflowStageStop internal constructor(
+internal class WorkflowStageStop(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = workflowStageStopId)
@@ -49,7 +49,7 @@ class WorkflowStageStop internal constructor(
         const val workflowStageStopOrderField = "order"
     }
 
-    internal constructor(
+    constructor(
         comment: String?,
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,

@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size
 @Table(name = Employee.tableEmployee)
 @PrimaryKeyJoinColumn(name = Employee.employeeId)
 @Inheritance(strategy = InheritanceType.JOINED)
-class Employee(
+internal class Employee(
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = employeeEmail, referencedColumnName = Email.emailId)
     var email: Email,

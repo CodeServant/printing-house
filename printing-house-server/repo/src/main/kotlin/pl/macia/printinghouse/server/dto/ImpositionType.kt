@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = ImpositionType.tableImpositionType)
-class ImpositionType(
+internal class ImpositionType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = impositionTypeId)

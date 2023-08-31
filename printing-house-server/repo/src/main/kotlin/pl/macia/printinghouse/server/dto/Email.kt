@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull
 @Poko
 @Entity
 @Table(name = Email.tableEmail)
-class Email(
+internal class Email(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = emailId)

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size as ASize
 @Poko
 @Entity
 @Table(name = Size.tableSize)
-class Size(
+internal class Size(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = sizeId)

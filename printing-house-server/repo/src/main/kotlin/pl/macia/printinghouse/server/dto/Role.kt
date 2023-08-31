@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size
 @Poko
 @Entity
 @Table(name = Role.tableRole)
-class Role(
+internal class Role(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = roleId)

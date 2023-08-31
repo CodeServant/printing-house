@@ -9,7 +9,7 @@ import java.math.BigDecimal
 @Poko
 @Entity
 @Table(name = CalculationCard.tableCalculationCard)
-class CalculationCard(
+internal class CalculationCard(
     @Id
     var id: Int?,
     @Column(name = calculationCardBindingCost)

@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = UVVarnish.tableUVVarnish)
 @PrimaryKeyJoinColumn(name = UVVarnish.uvVarnishEnoblingId)
-class UVVarnish(
+internal class UVVarnish(
     name: String,
     descritpion: String?
 ) : Enobling(name, descritpion) {
