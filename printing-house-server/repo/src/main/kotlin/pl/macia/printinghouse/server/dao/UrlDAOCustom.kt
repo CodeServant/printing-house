@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.dao
 
-interface UrlDAOCustom
+internal interface UrlDAOCustom

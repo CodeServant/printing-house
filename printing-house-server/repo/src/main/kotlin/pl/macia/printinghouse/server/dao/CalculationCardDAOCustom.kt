@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.dao
 
-interface CalculationCardDAOCustom
+internal interface CalculationCardDAOCustom

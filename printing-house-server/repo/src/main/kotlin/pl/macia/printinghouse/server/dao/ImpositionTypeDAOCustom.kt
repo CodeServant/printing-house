@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.dao
 
-interface ImpositionTypeDAOCustom
+internal interface ImpositionTypeDAOCustom

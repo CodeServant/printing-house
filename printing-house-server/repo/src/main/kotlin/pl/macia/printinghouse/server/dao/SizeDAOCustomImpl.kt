@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import pl.macia.printinghouse.server.dto.Size
 
 @Repository
-class SizeDAOCustomImpl : SizeDAOCustom {
+internal class SizeDAOCustomImpl : SizeDAOCustom {
     @Autowired
     lateinit var em: EntityManager
 

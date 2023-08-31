@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.dao
 
-interface PaperTypeDAOCustom
+internal interface PaperTypeDAOCustom

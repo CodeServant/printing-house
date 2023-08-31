@@ -2,6 +2,6 @@ package pl.macia.printinghouse.server.dao
 
 import pl.macia.printinghouse.server.dto.IndividualClient
 
-interface IndividualClientDAOCustom {
+internal interface IndividualClientDAOCustom {
     fun findByEmail(email: String): IndividualClient?
 }

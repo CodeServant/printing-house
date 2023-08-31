@@ -3,4 +3,4 @@ package pl.macia.printinghouse.server.dao
 import org.springframework.data.jpa.repository.JpaRepository
 import pl.macia.printinghouse.server.dto.Order
 
-interface OrderDAO : JpaRepository<Order, Int>, OrderDAOCustom
+internal interface OrderDAO : JpaRepository<Order, Int>, OrderDAOCustom

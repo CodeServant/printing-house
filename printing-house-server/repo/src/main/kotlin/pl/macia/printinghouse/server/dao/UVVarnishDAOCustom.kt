@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.dao
 
-interface UVVarnishDAOCustom
+internal interface UVVarnishDAOCustom

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import pl.macia.printinghouse.server.dto.IndividualClient
 @Repository
 
-class IndividualClientDAOCustomImpl : IndividualClientDAOCustom {
+internal class IndividualClientDAOCustomImpl : IndividualClientDAOCustom {
     @Autowired
     lateinit var em: EntityManager
 
