@@ -10,6 +10,7 @@
 
 rootProject.name = "printing-house"
 include("printing-house-server")
+include("printing-house-server:repo")
 
 pluginManagement {
     val springBootVersion: String by settings
