@@ -18,7 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class WorkerDAOTest {
+internal class WorkerDAOTest {
     @Autowired
     lateinit var dao: WorkerDAO
 

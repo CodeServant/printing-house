@@ -13,7 +13,7 @@ import pl.macia.printinghouse.server.dto.URL
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class UrlDAOTest {
+internal class UrlDAOTest {
     @Autowired
     lateinit var dao: UrlDAO
 

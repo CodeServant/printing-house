@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class OrderDAOTest {
+internal class OrderDAOTest {
     @Autowired
     lateinit var dao: OrderDAO
 

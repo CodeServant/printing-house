@@ -16,7 +16,7 @@ import kotlin.jvm.optionals.getOrNull
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class UVVarnishDAOTest {
+internal class UVVarnishDAOTest {
     @Autowired
     lateinit var dao: UVVarnishDAO
 

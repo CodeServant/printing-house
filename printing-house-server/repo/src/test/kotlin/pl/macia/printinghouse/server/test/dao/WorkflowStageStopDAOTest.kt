@@ -14,7 +14,7 @@ import pl.macia.printinghouse.server.dao.WorkflowStageStopDAO
 import java.time.LocalDateTime
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
-class WorkflowStageStopDAOTest {
+internal class WorkflowStageStopDAOTest {
 
     @Autowired
     lateinit var dao: WorkflowStageStopDAO

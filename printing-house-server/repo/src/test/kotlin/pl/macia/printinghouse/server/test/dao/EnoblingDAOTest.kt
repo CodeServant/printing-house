@@ -11,7 +11,7 @@ import pl.macia.printinghouse.server.dao.EnoblingDAO
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class EnoblingDAOTest {
+internal class EnoblingDAOTest {
     @Autowired
     lateinit var dao: EnoblingDAO
 

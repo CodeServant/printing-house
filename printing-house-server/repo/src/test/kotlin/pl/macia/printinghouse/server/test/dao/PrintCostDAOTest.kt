@@ -9,7 +9,7 @@ import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.PrintCostDAO
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
-class PrintCostDAOTest {
+internal class PrintCostDAOTest {
     @Autowired
     lateinit var dao: PrintCostDAO
 

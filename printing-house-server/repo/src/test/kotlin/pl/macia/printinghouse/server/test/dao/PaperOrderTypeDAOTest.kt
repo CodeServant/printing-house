@@ -13,7 +13,7 @@ import pl.macia.printinghouse.server.dao.*
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class PaperOrderTypeDAOTest {
+internal class PaperOrderTypeDAOTest {
     @Autowired
     private lateinit var daoColouring: ColouringDAO
 

@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.dao.EmployeeDAO
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class RoleDAOTest {
+internal class RoleDAOTest {
     @Autowired
     lateinit var rDao: RoleDAO
 

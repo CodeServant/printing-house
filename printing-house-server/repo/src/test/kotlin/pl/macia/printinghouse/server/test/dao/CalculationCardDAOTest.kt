@@ -14,7 +14,7 @@ import pl.macia.printinghouse.server.dao.PrinterDAO
 import java.math.BigDecimal
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
-class CalculationCardDAOTest {
+internal class CalculationCardDAOTest {
     @Autowired
     private lateinit var daoPrintCost: PrintCostDAO
 

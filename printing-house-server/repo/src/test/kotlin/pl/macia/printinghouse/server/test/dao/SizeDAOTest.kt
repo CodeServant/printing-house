@@ -17,7 +17,7 @@ import pl.macia.printinghouse.server.dto.sizeId
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class SizeDAOTest {
+internal class SizeDAOTest {
     @Autowired
     lateinit var dao: SizeDAO
 

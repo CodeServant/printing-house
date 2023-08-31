@@ -13,7 +13,7 @@ import pl.macia.printinghouse.server.dao.ImpositionTypeDAO
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class ImpositionTypeDAOTest {
+internal class ImpositionTypeDAOTest {
     @Autowired
     lateinit var dao: ImpositionTypeDAO
 

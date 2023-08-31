@@ -18,7 +18,7 @@ import pl.macia.printinghouse.server.dto.bindingFormName
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class BindingFormTest {
+internal class BindingFormTest {
     @Autowired
     lateinit var dao: BindingFormDAO
 

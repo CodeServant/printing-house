@@ -16,7 +16,7 @@ import pl.macia.printinghouse.server.dto.Salesman
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class SalesmanDAOTest {
+internal class SalesmanDAOTest {
     @Autowired
     lateinit var salesmanDAO: SalesmanDAO
 

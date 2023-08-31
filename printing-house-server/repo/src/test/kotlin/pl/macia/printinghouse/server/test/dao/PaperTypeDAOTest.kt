@@ -16,7 +16,7 @@ import pl.macia.printinghouse.server.dto.PaperType
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class PaperTypeDAOTest {
+internal class PaperTypeDAOTest {
     @Autowired
     lateinit var dao: PaperTypeDAO
 

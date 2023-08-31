@@ -16,7 +16,7 @@ import pl.macia.printinghouse.server.dto.Colouring
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class ColouringDAOTest {
+internal class ColouringDAOTest {
     @Autowired
     lateinit var dao: ColouringDAO
 
