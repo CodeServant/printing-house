@@ -155,7 +155,7 @@ internal class Order private constructor(
     )
 
     /**
-     * Adds new [tableWorkflowStageStop] with association to this [Order]
+     * Adds new [WorkflowStageStop] with association to this [Order]
      */
     fun addWorkflowStageStop(
         comment: String?,
