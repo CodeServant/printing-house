@@ -14,7 +14,6 @@ import org.junit.jupiter.api.assertThrows
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.domain.Example
 import pl.macia.printinghouse.server.dto.BindingForm
-import pl.macia.printinghouse.server.dto.bindingFormName
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -36,7 +35,11 @@ internal class BindingFormTest {
         assertThrows<DataIntegrityViolationException> {
             dao.saveAndFlush(BindingForm(ppTypeName))
         }
-        assertEquals(1, dao.count(Example.of(BindingForm(ppTypeName))), "duplicated $bindingFormName field")
+        assertEquals(
+            1,
+            dao.count(Example.of(BindingForm(ppTypeName))),
+            "duplicated ${BindingForm.bindingFormName} field"
+        )
         assertThrows<ConstraintViolationException> {
             val toLong = BindingForm(generateLongName(nameLimit + 1))
             dao.saveAndFlush(toLong)

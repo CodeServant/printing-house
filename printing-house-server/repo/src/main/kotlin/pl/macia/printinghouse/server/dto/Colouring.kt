@@ -5,14 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.PositiveOrZero
 import org.hibernate.validator.constraints.Range
 
-const val tableColouring = "Colouring"
-const val colouringId = "id"
-const val colouringFirstSide = "firstSide"
-const val colouringSecondSide = "secondSide"
-
 @Poko
 @Entity
-@Table(name = tableColouring)
+@Table(name = Colouring.tableColouring)
 final class Colouring(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +32,10 @@ final class Colouring(
 
     constructor(firstSide: Byte, secondSide: Byte) : this(null, firstSide, secondSide)
 
+    companion object {
+        const val tableColouring = "Colouring"
+        const val colouringId = "id"
+        const val colouringFirstSide = "firstSide"
+        const val colouringSecondSide = "secondSide"
+    }
 }

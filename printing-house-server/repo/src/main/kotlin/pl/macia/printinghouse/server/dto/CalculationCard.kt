@@ -6,17 +6,9 @@ import jakarta.validation.constraints.PositiveOrZero
 import jakarta.validation.constraints.Size
 import java.math.BigDecimal
 
-const val tableCalculationCard = "CalculationCard"
-const val calculationCardOrderId = "orderId"
-const val calculationCardBindingCost = "bindingCost"
-const val calculationCardEnobling = "enobling"
-const val calculationCardOtherCosts = "otherCosts"
-const val calculationCardTransport = "transport"
-const val calculationCardOrderField = "order"
-
 @Poko
 @Entity
-@Table(name = tableCalculationCard)
+@Table(name = CalculationCard.tableCalculationCard)
 class CalculationCard(
     @Id
     var id: Int?,
@@ -37,7 +29,7 @@ class CalculationCard(
     @JoinColumn(name = calculationCardOrderId)
     var order: Order,
     @OneToMany(
-        mappedBy = printCostCalcField,
+        mappedBy = PrintCost.printCostCalcField,
         orphanRemoval = true,
         cascade = [CascadeType.ALL],
         fetch = FetchType.EAGER
@@ -61,5 +53,15 @@ class CalculationCard(
         val newCost = PrintCost(this, printer, printCost, matrixCost)
         printCosts.add(newCost)
         return newCost
+    }
+
+    companion object {
+        const val tableCalculationCard = "CalculationCard"
+        const val calculationCardOrderId = "orderId"
+        const val calculationCardBindingCost = "bindingCost"
+        const val calculationCardEnobling = "enobling"
+        const val calculationCardOtherCosts = "otherCosts"
+        const val calculationCardTransport = "transport"
+        const val calculationCardOrderField = "order"
     }
 }

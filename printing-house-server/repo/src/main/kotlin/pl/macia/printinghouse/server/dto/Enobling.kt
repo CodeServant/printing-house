@@ -7,14 +7,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
-const val tableEnobling = "Enobling"
-const val enoblingId = "id"
-const val enoblingName = "name"
-const val enoblingDescription = "description"
-
 @Poko
 @Entity
-@Table(name = tableEnobling)
+@Table(name = Enobling.tableEnobling)
 @Inheritance(strategy = InheritanceType.JOINED)
 class Enobling(
     @Id
@@ -32,4 +27,11 @@ class Enobling(
     var description: String?
 ) {
     constructor(name: String, description: String?) : this(null, name, description)
+
+    companion object {
+        const val tableEnobling = "Enobling"
+        const val enoblingId = "id"
+        const val enoblingName = "name"
+        const val enoblingDescription = "description"
+    }
 }

@@ -6,26 +6,14 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
-const val tableEmployee = "Employee"
-const val employeeId = "personId"
-const val employeeEmail = "email"
-const val employeePassword = "password"
-const val employeeActiveAccount = "activeAccount"
-const val employeeEmployed = "employed"
-
-
-const val employeeEmploeeRole = "EmploeeRole"
-const val employeeEmpId = "empId"
-const val employeeRoleId = "roleId"
-
 @Poko
 @Entity
-@Table(name = tableEmployee)
-@PrimaryKeyJoinColumn(name = employeeId)
+@Table(name = Employee.tableEmployee)
+@PrimaryKeyJoinColumn(name = Employee.employeeId)
 @Inheritance(strategy = InheritanceType.JOINED)
 class Employee(
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = employeeEmail, referencedColumnName = emailId)
+    @JoinColumn(name = employeeEmail, referencedColumnName = Email.emailId)
     var email: Email,
     @field:NotNull
     @field:NotBlank
@@ -49,4 +37,16 @@ class Employee(
         inverseJoinColumns = [JoinColumn(name = employeeEmpId)]
     )
     var roles = mutableSetOf<Role>()
+
+    companion object {
+        const val tableEmployee = "Employee"
+        const val employeeId = "personId"
+        const val employeeEmail = "email"
+        const val employeePassword = "password"
+        const val employeeActiveAccount = "activeAccount"
+        const val employeeEmployed = "employed"
+        const val employeeEmploeeRole = "EmploeeRole"
+        const val employeeEmpId = "empId"
+        const val employeeRoleId = "roleId"
+    }
 }

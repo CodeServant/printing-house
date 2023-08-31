@@ -5,14 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-const val tablePaperType = "PaperType"
-const val paperTypeId = "id"
-const val paperTypeName = "name"
-const val paperTypeShortName = "shortName"
-
 @Poko
 @Entity
-@Table(name = tablePaperType)
+@Table(name = PaperType.tablePaperType)
 class PaperType(
     @Id
     @Column(name = paperTypeId)
@@ -27,5 +22,12 @@ class PaperType(
     @Column(name = paperTypeShortName)
     var shortName: String
 ) {
+    companion object {
+        const val tablePaperType = "PaperType"
+        const val paperTypeId = "id"
+        const val paperTypeName = "name"
+        const val paperTypeShortName = "shortName"
+    }
+
     constructor(name: String, shortName: String) : this(null, name, shortName)
 }

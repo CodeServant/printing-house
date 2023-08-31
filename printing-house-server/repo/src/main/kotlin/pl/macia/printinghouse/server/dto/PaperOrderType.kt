@@ -4,26 +4,9 @@ import dev.drewhamilton.poko.Poko
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
 
-const val tablePaperOrderType = "PaperOrderType"
-const val paperOrderTypeId = "id"
-const val paperOrderTypeTypeId = "typeId"
-const val paperOrderTypeOrderId = "orderId"
-const val paperOrderTypeGrammage = "grammage"
-const val paperOrderTypeColours = "colours"
-const val paperOrderTypeCirculation = "circulation"
-const val paperOrderTypeStockCirculation = "stockCirculation"
-const val paperOrderTypeSheetNumber = "sheetNumber"
-const val paperOrderTypeComment = "comment"
-const val paperOrderTypePrinter = "printer"
-const val paperOrderTypePlatesQuantityForPrinter = "platesQuantityForPrinter"
-const val paperOrderTypeImposition = "imposition"
-const val paperOrderTypeSize = "size"
-const val paperOrderTypeProductionSize = "productionSize"
-const val paperOrderTypeOrderField = "order"
-
 @Poko
 @Entity
-@Table(name = tablePaperOrderType)
+@Table(name = PaperOrderType.tablePaperOrderType)
 class PaperOrderType internal constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +48,25 @@ class PaperOrderType internal constructor(
     @JoinColumn(name = paperOrderTypeOrderId, nullable = false)
     val order: Order
 ) {
+    companion object {
+        const val tablePaperOrderType = "PaperOrderType"
+        const val paperOrderTypeId = "id"
+        const val paperOrderTypeTypeId = "typeId"
+        const val paperOrderTypeOrderId = "orderId"
+        const val paperOrderTypeGrammage = "grammage"
+        const val paperOrderTypeColours = "colours"
+        const val paperOrderTypeCirculation = "circulation"
+        const val paperOrderTypeStockCirculation = "stockCirculation"
+        const val paperOrderTypeSheetNumber = "sheetNumber"
+        const val paperOrderTypeComment = "comment"
+        const val paperOrderTypePrinter = "printer"
+        const val paperOrderTypePlatesQuantityForPrinter = "platesQuantityForPrinter"
+        const val paperOrderTypeImposition = "imposition"
+        const val paperOrderTypeSize = "size"
+        const val paperOrderTypeProductionSize = "productionSize"
+        const val paperOrderTypeOrderField = "order"
+    }
+
     internal constructor(
         paperType: PaperType,
         grammage: Double,

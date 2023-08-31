@@ -5,13 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-const val tableImpositionType = "ImpositionType"
-const val impositionTypeId = "id"
-const val impositionTypeName = "name"
-
 @Poko
 @Entity
-@Table(name = tableImpositionType)
+@Table(name = ImpositionType.tableImpositionType)
 class ImpositionType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +19,10 @@ class ImpositionType(
     var name: String
 ) {
     constructor(name: String) : this(null, name)
+
+    companion object {
+        const val tableImpositionType = "ImpositionType"
+        const val impositionTypeId = "id"
+        const val impositionTypeName = "name"
+    }
 }

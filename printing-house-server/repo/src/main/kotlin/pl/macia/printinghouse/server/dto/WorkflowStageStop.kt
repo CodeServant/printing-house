@@ -6,20 +6,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.Size
 import java.time.LocalDateTime
 
-const val tableWorkflowStageStop = "WorkflowStageStop"
-const val workflowStageStopId = "id"
-const val workflowStageStopComment = "comment"
-const val workflowStageStopCreateTime = "createTime"
-const val workflowStageStopAssignTime = "assignTime"
-const val workflowStageStopWorker = "worker"
-const val workflowStageStopOrder = "`order`"
-const val workflowStageStopWorkflowStage = "workflowStage"
-const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
-const val workflowStageStopOrderField = "order"
-
 @Poko
 @Entity
-@Table(name = tableWorkflowStageStop)
+@Table(name = WorkflowStageStop.tableWorkflowStageStop)
 class WorkflowStageStop internal constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +23,11 @@ class WorkflowStageStop internal constructor(
     @field:Nullable
     var assignTime: LocalDateTime?,
     @OneToOne
-    @JoinColumn(name = workflowStageStopWorker, referencedColumnName = workerId)
+    @JoinColumn(name = workflowStageStopWorker, referencedColumnName = Worker.workerId)
     @field:Nullable
     var worker: Worker?,
     @OneToOne
-    @JoinColumn(name = workflowStageStopWorkflowStage, referencedColumnName = workflowStageId)
+    @JoinColumn(name = workflowStageStopWorkflowStage, referencedColumnName = WorkflowStage.workflowStageId)
     var workflowStage: WorkflowStage,
     @Column(name = workflowStageStopLastWorkflowStage)
     var lastWorkflowStage: Boolean,
@@ -47,6 +36,19 @@ class WorkflowStageStop internal constructor(
     val order: Order
 
 ) {
+    companion object {
+        const val tableWorkflowStageStop = "WorkflowStageStop"
+        const val workflowStageStopId = "id"
+        const val workflowStageStopComment = "comment"
+        const val workflowStageStopCreateTime = "createTime"
+        const val workflowStageStopAssignTime = "assignTime"
+        const val workflowStageStopWorker = "worker"
+        const val workflowStageStopOrder = "`order`"
+        const val workflowStageStopWorkflowStage = "workflowStage"
+        const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
+        const val workflowStageStopOrderField = "order"
+    }
+
     internal constructor(
         comment: String?,
         createTime: LocalDateTime,

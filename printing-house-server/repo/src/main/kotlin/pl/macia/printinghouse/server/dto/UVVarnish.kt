@@ -5,14 +5,16 @@ import jakarta.persistence.Entity
 import jakarta.persistence.PrimaryKeyJoinColumn
 import jakarta.persistence.Table
 
-const val tableUVVarnish = "UVVarnish"
-const val uvVarnishEnoblingId = "enoblingId"
-
 @Poko
 @Entity
-@Table(name = tableUVVarnish)
-@PrimaryKeyJoinColumn(name = uvVarnishEnoblingId)
+@Table(name = UVVarnish.tableUVVarnish)
+@PrimaryKeyJoinColumn(name = UVVarnish.uvVarnishEnoblingId)
 class UVVarnish(
     name: String,
     descritpion: String?
-) : Enobling(name, descritpion)
+) : Enobling(name, descritpion) {
+    companion object {
+        const val tableUVVarnish = "UVVarnish"
+        const val uvVarnishEnoblingId = "enoblingId"
+    }
+}

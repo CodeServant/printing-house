@@ -5,14 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-const val tablePrinter = "Printer"
-const val printerId = "id"
-const val printerName = "name"
-const val printerDigest = "digest"
-
 @Poko
 @Entity
-@Table(name = tablePrinter)
+@Table(name = Printer.tablePrinter)
 class Printer(
     @Id
     @Column(name = printerId)
@@ -27,5 +22,12 @@ class Printer(
     @Column(name = printerDigest)
     var digest: String
 ) {
+    companion object {
+        const val tablePrinter = "Printer"
+        const val printerId = "id"
+        const val printerName = "name"
+        const val printerDigest = "digest"
+    }
+
     constructor(name: String, digest: String) : this(null, name, digest)
 }

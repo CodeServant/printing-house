@@ -3,19 +3,21 @@ package pl.macia.printinghouse.server.dto
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
 
-const val tableIndividualClient = "IndividualClient"
-const val individualClientpersonId = "personId"
-const val individualClientclientId = "clientId"
-
 @Poko
 @Entity
-@Table(name = tableIndividualClient)
-@PrimaryKeyJoinColumn(name = individualClientpersonId)
+@Table(name = IndividualClient.tableIndividualClient)
+@PrimaryKeyJoinColumn(name = IndividualClient.individualClientpersonId)
 class IndividualClient(
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = individualClientclientId, referencedColumnName = clientId)
+    @JoinColumn(name = individualClientclientId, referencedColumnName = Client.clientId)
     var client: Client,
     name: String,
     surname: String,
     pseudoPESEL: String
-) : Person(name, surname, pseudoPESEL)
+) : Person(name, surname, pseudoPESEL) {
+    companion object {
+        const val tableIndividualClient = "IndividualClient"
+        const val individualClientpersonId = "personId"
+        const val individualClientclientId = "clientId"
+    }
+}

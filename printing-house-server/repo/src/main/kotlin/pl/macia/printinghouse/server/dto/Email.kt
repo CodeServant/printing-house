@@ -2,25 +2,27 @@ package pl.macia.printinghouse.server.dto
 
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
-import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Email as AEmail
 import jakarta.validation.constraints.NotNull
-
-const val tableEmail = "Email"
-const val emailId = "id"
-const val emailEmail = "email"
 
 @Poko
 @Entity
-@Table(name = tableEmail)
+@Table(name = Email.tableEmail)
 class Email(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = emailId)
     var id: Int? = null,
     @field:NotNull
-    @field:Email
+    @field:AEmail
     @Column(name = emailEmail)
     var email: String
 ) {
     constructor(email: String) : this(null, email)
+
+    companion object {
+        const val tableEmail = "Email"
+        const val emailId = "id"
+        const val emailEmail = "email"
+    }
 }

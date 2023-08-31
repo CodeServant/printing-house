@@ -6,15 +6,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
-const val tablePerson = "Person"
-const val personId = "id"
-const val personName = "name"
-const val personSurname = "surname"
-const val personPseudoPESEL = "pseudoPESEL"
-
 @Poko
 @Entity
-@Table(name = tablePerson)
+@Table(name = Person.tablePerson)
 @Inheritance(strategy = InheritanceType.JOINED)
 class Person(
     @Id
@@ -36,6 +30,14 @@ class Person(
     @Column(name = personPseudoPESEL)
     var pseudoPESEL: String
 ) {
+    companion object {
+        const val tablePerson = "Person"
+        const val personId = "id"
+        const val personName = "name"
+        const val personSurname = "surname"
+        const val personPseudoPESEL = "pseudoPESEL"
+    }
+
     constructor(name: String, surname: String, pseudoPESEL: String) : this(null, name, surname, pseudoPESEL)
 
     override fun toString(): String {

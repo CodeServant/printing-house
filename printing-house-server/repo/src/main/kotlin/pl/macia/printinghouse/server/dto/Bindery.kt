@@ -11,13 +11,9 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
-const val tableBindery = "Bindery"
-const val binderyId = "id"
-const val binderyName = "name"
-
 @Poko
 @Entity
-@Table(name = tableBindery)
+@Table(name = Bindery.tableBindery)
 class Bindery(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +29,11 @@ class Bindery(
 
     override fun toString(): String {
         return "{$binderyId: $id, $binderyName: $name}"
+    }
+
+    companion object {
+        const val tableBindery = "Bindery"
+        const val binderyId = "id"
+        const val binderyName = "name"
     }
 }

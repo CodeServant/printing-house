@@ -5,13 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-const val tableBindingForm = "BindingForm"
-const val bindingFormId = "id"
-const val bindingFormName = "name"
-
 @Poko
 @Entity
-@Table(name = tableBindingForm)
+@Table(name = BindingForm.tableBindingForm)
 class BindingForm(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +19,10 @@ class BindingForm(
     var name: String
 ) {
     constructor(name: String) : this(null, name)
+
+    companion object {
+        const val tableBindingForm = "BindingForm"
+        const val bindingFormId = "id"
+        const val bindingFormName = "name"
+    }
 }

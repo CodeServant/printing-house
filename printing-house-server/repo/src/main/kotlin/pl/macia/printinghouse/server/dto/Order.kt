@@ -9,30 +9,9 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import jakarta.validation.constraints.Size as JpaSize
 
-const val tableOrder = "`Order`"
-const val orderId = "id"
-const val orderName = "name"
-const val orderNetSize = "netSize"
-const val orderPages = "pages"
-const val orderSupervisor = "supervisor"
-const val orderClient = "client"
-const val orderCreationDate = "creationDate"
-const val orderRealizationDate = "realizationDate"
-const val orderBindingForm = "bindingForm"
-const val orderBindery = "bindery"
-const val orderFolding = "folding"
-const val orderTowerCut = "towerCut"
-const val orderImageURL = "imageURL"
-const val orderImageComment = "imageComment"
-const val orderChecked = "checked"
-const val orderDesignsNumberForSheet = "designsNumberForSheet"
-const val orderCompletionDate = "completionDate"
-const val orderWithdrawalDate = "withdrawalDate"
-const val orderComment = "comment"
-
 @Poko
 @Entity
-@Table(name = tableOrder)
+@Table(name = Order.tableOrder)
 class Order private constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +41,7 @@ class Order private constructor(
     @JoinColumn(name = orderBindingForm, nullable = false)
     var bindingForm: BindingForm,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderBindery, nullable = false, referencedColumnName = binderyId)
+    @JoinColumn(name = orderBindery, nullable = false, referencedColumnName = Bindery.binderyId)
     var bindery: Bindery,
     @Column(name = orderFolding, nullable = false)
     var folding: Boolean,
@@ -86,29 +65,52 @@ class Order private constructor(
     @Column(name = orderComment, nullable = true)
     @field:JpaSize(min = 1)
     var comment: String?,
-    @OneToOne(cascade = [CascadeType.ALL], mappedBy = calculationCardOrderField, orphanRemoval = true)
+    @OneToOne(cascade = [CascadeType.ALL], mappedBy = CalculationCard.calculationCardOrderField, orphanRemoval = true)
     var calculationCard: CalculationCard?,
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = paperOrderTypeOrderField,
+        mappedBy = PaperOrderType.paperOrderTypeOrderField,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     @field:JpaSize(min = 1)
     val paperOrderTypes: MutableList<PaperOrderType> = mutableListOf(),
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = orderEnoblingOrderField,
+        mappedBy = OrderEnobling.orderEnoblingOrderField,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     val orderEnoblings: MutableList<OrderEnobling> = mutableListOf(),
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = workflowStageStopOrderField,
+        mappedBy = WorkflowStageStop.workflowStageStopOrderField,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     @field:JpaSize(min = 1)
     val workflowStageStops: MutableList<WorkflowStageStop> = mutableListOf()
 ) {
+    companion object {
+        const val tableOrder = "`Order`"
+        const val orderId = "id"
+        const val orderName = "name"
+        const val orderNetSize = "netSize"
+        const val orderPages = "pages"
+        const val orderSupervisor = "supervisor"
+        const val orderClient = "client"
+        const val orderCreationDate = "creationDate"
+        const val orderRealizationDate = "realizationDate"
+        const val orderBindingForm = "bindingForm"
+        const val orderBindery = "bindery"
+        const val orderFolding = "folding"
+        const val orderTowerCut = "towerCut"
+        const val orderImageURL = "imageURL"
+        const val orderImageComment = "imageComment"
+        const val orderChecked = "checked"
+        const val orderDesignsNumberForSheet = "designsNumberForSheet"
+        const val orderCompletionDate = "completionDate"
+        const val orderWithdrawalDate = "withdrawalDate"
+        const val orderComment = "comment"
+    }
+
     constructor(
         name: String,
         netSize: Size,

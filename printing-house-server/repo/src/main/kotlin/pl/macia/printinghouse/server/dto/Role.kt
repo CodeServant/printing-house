@@ -5,15 +5,9 @@ import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
-const val tableRole = "Role"
-const val roleId = "id"
-const val roleName = "name"
-
-const val roleRoles = "roles"
-
 @Poko
 @Entity
-@Table(name = tableRole)
+@Table(name = Role.tableRole)
 class Role(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +23,11 @@ class Role(
     var employees = mutableListOf<Employee>()
 
     constructor(name: String) : this(null, name)
+
+    companion object {
+        const val tableRole = "Role"
+        const val roleId = "id"
+        const val roleName = "name"
+        const val roleRoles = "roles"
+    }
 }
