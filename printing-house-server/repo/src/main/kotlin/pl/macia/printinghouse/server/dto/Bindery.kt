@@ -13,27 +13,27 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = Bindery.tableBindery)
+@Table(name = Bindery.TABLE_NAME)
 internal class Bindery(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = binderyId)
+    @Column(name = ID)
     var id: Int?,
     @field:NotNull
     @field:NotBlank
     @field:Size(max = 200)
-    @Column(name = binderyName)
+    @Column(name = NAME)
     var name: String
 ) {
     constructor(name: String) : this(null, name)
 
     override fun toString(): String {
-        return "{$binderyId: $id, $binderyName: $name}"
+        return "{$ID: $id, $NAME: $name}"
     }
 
     companion object {
-        const val tableBindery = "Bindery"
-        const val binderyId = "id"
-        const val binderyName = "name"
+        const val TABLE_NAME = "Bindery"
+        const val ID = "id"
+        const val NAME = "name"
     }
 }

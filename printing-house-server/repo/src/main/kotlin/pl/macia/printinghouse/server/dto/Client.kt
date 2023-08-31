@@ -6,25 +6,25 @@ import jakarta.validation.constraints.Pattern
 
 @Poko
 @Entity
-@Table(name = Client.tableClient)
+@Table(name = Client.TABLE_NAME)
 internal class Client(
     @Id
-    @Column(name = clientId)
+    @Column(name = ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = clientEmail, referencedColumnName = Email.emailId)
+    @JoinColumn(name = EMAIL, referencedColumnName = Email.ID)
     var email: Email?,
-    @Column(name = clientPhoneNumber)
+    @Column(name = PHONE_NUMBER)
     @field:Pattern(regexp = "^(\\+[1-9]{1,4} )?[0-9]{3,14}\$")
     var phoneNumber: String?
 ) {
     constructor(email: Email?, phoneNumber: String?) : this(null, email, phoneNumber)
 
     companion object {
-        const val tableClient = "Client"
-        const val clientId = "id"
-        const val clientEmail = "email"
-        const val clientPhoneNumber = "phoneNumber"
+        const val TABLE_NAME = "Client"
+        const val ID = "id"
+        const val EMAIL = "email"
+        const val PHONE_NUMBER = "phoneNumber"
     }
 }

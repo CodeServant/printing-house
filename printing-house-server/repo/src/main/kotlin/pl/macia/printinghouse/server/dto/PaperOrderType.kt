@@ -6,65 +6,65 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = PaperOrderType.tablePaperOrderType)
+@Table(name = PaperOrderType.TABLE_NAME)
 internal class PaperOrderType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = paperOrderTypeId, nullable = false)
+    @Column(name = ID, nullable = false)
     var id: Int? = null,
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = paperOrderTypeTypeId)
+    @JoinColumn(name = TYPE_ID)
     var paperType: PaperType,
-    @Column(name = paperOrderTypeGrammage)
+    @Column(name = GRAMMAGE)
     var grammage: Double,
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = paperOrderTypeColours)
+    @JoinColumn(name = COLOURS)
     var colours: Colouring,
-    @Column(name = paperOrderTypeCirculation)
+    @Column(name = CIRCULATION)
     var circulation: Int,
-    @Column(name = paperOrderTypeStockCirculation)
+    @Column(name = STOCK_CIRCULATION)
     var stockCirculation: Int,
-    @Column(name = paperOrderTypeSheetNumber)
+    @Column(name = SHEET_NUMBER)
     var sheetNumber: Int,
     @Nullable
     @jakarta.validation.constraints.Size(max = 1000)
-    @Column(name = paperOrderTypeComment)
+    @Column(name = COMMENT)
     var comment: String?,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = paperOrderTypePrinter)
+    @JoinColumn(name = PRINTER)
     var printer: Printer,
-    @Column(name = paperOrderTypePlatesQuantityForPrinter)
+    @Column(name = PLATES_QUANTITY_FOR_PRINTER)
     var platesQuantityForPrinter: Int,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = paperOrderTypeImposition)
+    @JoinColumn(name = IMPOSITION)
     var imposition: ImpositionType,
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    @JoinColumn(name = paperOrderTypeSize)
+    @JoinColumn(name = SIZE)
     var size: Size,
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    @JoinColumn(name = paperOrderTypeProductionSize)
+    @JoinColumn(name = PRODUCTION_SIZE)
     var productionSize: Size,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = paperOrderTypeOrderId, nullable = false)
+    @JoinColumn(name = ORDER_ID, nullable = false)
     val order: Order
 ) {
     companion object {
-        const val tablePaperOrderType = "PaperOrderType"
-        const val paperOrderTypeId = "id"
-        const val paperOrderTypeTypeId = "typeId"
-        const val paperOrderTypeOrderId = "orderId"
-        const val paperOrderTypeGrammage = "grammage"
-        const val paperOrderTypeColours = "colours"
-        const val paperOrderTypeCirculation = "circulation"
-        const val paperOrderTypeStockCirculation = "stockCirculation"
-        const val paperOrderTypeSheetNumber = "sheetNumber"
-        const val paperOrderTypeComment = "comment"
-        const val paperOrderTypePrinter = "printer"
-        const val paperOrderTypePlatesQuantityForPrinter = "platesQuantityForPrinter"
-        const val paperOrderTypeImposition = "imposition"
-        const val paperOrderTypeSize = "size"
-        const val paperOrderTypeProductionSize = "productionSize"
-        const val paperOrderTypeOrderField = "order"
+        const val TABLE_NAME = "PaperOrderType"
+        const val ID = "id"
+        const val TYPE_ID = "typeId"
+        const val ORDER_ID = "orderId"
+        const val GRAMMAGE = "grammage"
+        const val COLOURS = "colours"
+        const val CIRCULATION = "circulation"
+        const val STOCK_CIRCULATION = "stockCirculation"
+        const val SHEET_NUMBER = "sheetNumber"
+        const val COMMENT = "comment"
+        const val PRINTER = "printer"
+        const val PLATES_QUANTITY_FOR_PRINTER = "platesQuantityForPrinter"
+        const val IMPOSITION = "imposition"
+        const val SIZE = "size"
+        const val PRODUCTION_SIZE = "productionSize"
+        const val ORDER_FIELD = "order"
     }
 
     constructor(

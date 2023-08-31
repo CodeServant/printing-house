@@ -7,26 +7,26 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = Printer.tablePrinter)
+@Table(name = Printer.TABLE_NAME)
 internal class Printer(
     @Id
-    @Column(name = printerId)
+    @Column(name = ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     @field:NotBlank
     @field:Size(max = 100)
-    @Column(name = printerName)
+    @Column(name = NAME)
     var name: String,
     @field:NotBlank
     @field:Size(max = 4)
-    @Column(name = printerDigest)
+    @Column(name = DIGEST)
     var digest: String
 ) {
     companion object {
-        const val tablePrinter = "Printer"
-        const val printerId = "id"
-        const val printerName = "name"
-        const val printerDigest = "digest"
+        const val TABLE_NAME = "Printer"
+        const val ID = "id"
+        const val NAME = "name"
+        const val DIGEST = "digest"
     }
 
     constructor(name: String, digest: String) : this(null, name, digest)

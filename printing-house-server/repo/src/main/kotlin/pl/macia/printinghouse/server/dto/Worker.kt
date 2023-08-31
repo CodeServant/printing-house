@@ -5,8 +5,8 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = Worker.tableWorker)
-@PrimaryKeyJoinColumn(name = Worker.workerId)
+@Table(name = Worker.TABLE_NAME)
+@PrimaryKeyJoinColumn(name = Worker.ID)
 internal class Worker(
     email: Email,
     password: String,
@@ -15,12 +15,12 @@ internal class Worker(
     name: String,
     surname: String,
     pseudoPESEL: String,
-    @ManyToMany(mappedBy = workerIsManagerOf)
+    @ManyToMany(mappedBy = WORKER_IS_MANAGER_OF)
     var isManagerOf: MutableList<WorkflowStage> = mutableListOf()
 ) : Employee(email, password, activeAccount, employed, name, surname, pseudoPESEL) {
     companion object {
-        const val tableWorker = "Worker"
-        const val workerId = "personId"
-        const val workerIsManagerOf = "workflowStageManagers"
+        const val TABLE_NAME = "Worker"
+        const val ID = "personId"
+        const val WORKER_IS_MANAGER_OF = "workflowStageManagers"
     }
 }

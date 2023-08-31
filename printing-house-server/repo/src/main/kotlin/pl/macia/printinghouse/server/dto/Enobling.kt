@@ -9,29 +9,29 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = Enobling.tableEnobling)
+@Table(name = Enobling.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.JOINED)
 internal class Enobling(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = enoblingId)
+    @Column(name = ID)
     var id: Int?,
     @field:Size(max = 100)
     @field:NotNull
     @field:NotBlank
-    @Column(name = enoblingName)
+    @Column(name = NAME)
     var name: String,
     @field:Size(max = 500)
     @field:Nullable
-    @Column(name = enoblingDescription)
+    @Column(name = DESCRIPTION)
     var description: String?
 ) {
     constructor(name: String, description: String?) : this(null, name, description)
 
     companion object {
-        const val tableEnobling = "Enobling"
-        const val enoblingId = "id"
-        const val enoblingName = "name"
-        const val enoblingDescription = "description"
+        const val TABLE_NAME = "Enobling"
+        const val ID = "id"
+        const val NAME = "name"
+        const val DESCRIPTION = "description"
     }
 }

@@ -8,28 +8,28 @@ import java.math.BigDecimal
 
 @Poko
 @Entity
-@Table(name = CalculationCard.tableCalculationCard)
+@Table(name = CalculationCard.TABLE_NAME)
 internal class CalculationCard(
     @Id
     var id: Int?,
-    @Column(name = calculationCardBindingCost)
+    @Column(name = BINDING_COST)
     @field:PositiveOrZero
     var bindingCost: BigDecimal,
-    @Column(name = calculationCardEnobling)
+    @Column(name = ENOBLING)
     @field:PositiveOrZero
     var enobling: BigDecimal,
-    @Column(name = calculationCardOtherCosts)
+    @Column(name = OTHER_COSTS)
     @field:PositiveOrZero
     var otherCosts: BigDecimal,
-    @Column(name = calculationCardTransport)
+    @Column(name = TRANSPORT)
     @field:PositiveOrZero
     var transport: BigDecimal,
     @MapsId
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = calculationCardOrderId)
+    @JoinColumn(name = ORDER_ID)
     var order: Order,
     @OneToMany(
-        mappedBy = PrintCost.printCostCalcField,
+        mappedBy = PrintCost.CALC_FIELD,
         orphanRemoval = true,
         cascade = [CascadeType.ALL],
         fetch = FetchType.EAGER
@@ -56,12 +56,12 @@ internal class CalculationCard(
     }
 
     companion object {
-        const val tableCalculationCard = "CalculationCard"
-        const val calculationCardOrderId = "orderId"
-        const val calculationCardBindingCost = "bindingCost"
-        const val calculationCardEnobling = "enobling"
-        const val calculationCardOtherCosts = "otherCosts"
-        const val calculationCardTransport = "transport"
-        const val calculationCardOrderField = "order"
+        const val TABLE_NAME = "CalculationCard"
+        const val ORDER_ID = "orderId"
+        const val BINDING_COST = "bindingCost"
+        const val ENOBLING = "enobling"
+        const val OTHER_COSTS = "otherCosts"
+        const val TRANSPORT = "transport"
+        const val ORDER_FIELD = "order"
     }
 }

@@ -8,45 +8,45 @@ import java.time.LocalDateTime
 
 @Poko
 @Entity
-@Table(name = WorkflowStageStop.tableWorkflowStageStop)
+@Table(name = WorkflowStageStop.TABLE_NAME)
 internal class WorkflowStageStop(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = workflowStageStopId)
+    @Column(name = ID)
     var id: Int?,
-    @Column(name = workflowStageStopComment)
+    @Column(name = COMMENT)
     @field:Size(max = 500)
     var comment: String?,
-    @Column(name = workflowStageStopCreateTime)
+    @Column(name = CREATION_TIME)
     var createTime: LocalDateTime,
-    @Column(name = workflowStageStopAssignTime)
+    @Column(name = ASSIGN_TIME)
     @field:Nullable
     var assignTime: LocalDateTime?,
     @OneToOne
-    @JoinColumn(name = workflowStageStopWorker, referencedColumnName = Worker.workerId)
+    @JoinColumn(name = WORKER, referencedColumnName = Worker.ID)
     @field:Nullable
     var worker: Worker?,
     @OneToOne
-    @JoinColumn(name = workflowStageStopWorkflowStage, referencedColumnName = WorkflowStage.workflowStageId)
+    @JoinColumn(name = WORKFLOW_STAGE, referencedColumnName = WorkflowStage.ID)
     var workflowStage: WorkflowStage,
-    @Column(name = workflowStageStopLastWorkflowStage)
+    @Column(name = LAST_WORKFLOW_STAGE)
     var lastWorkflowStage: Boolean,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = workflowStageStopOrder, nullable = false)
+    @JoinColumn(name = ORDER, nullable = false)
     val order: Order
 
 ) {
     companion object {
-        const val tableWorkflowStageStop = "WorkflowStageStop"
-        const val workflowStageStopId = "id"
-        const val workflowStageStopComment = "comment"
-        const val workflowStageStopCreateTime = "createTime"
-        const val workflowStageStopAssignTime = "assignTime"
-        const val workflowStageStopWorker = "worker"
-        const val workflowStageStopOrder = "`order`"
-        const val workflowStageStopWorkflowStage = "workflowStage"
-        const val workflowStageStopLastWorkflowStage = "lastWorkflowStage"
-        const val workflowStageStopOrderField = "order"
+        const val TABLE_NAME = "WorkflowStageStop"
+        const val ID = "id"
+        const val COMMENT = "comment"
+        const val CREATION_TIME = "createTime"
+        const val ASSIGN_TIME = "assignTime"
+        const val WORKER = "worker"
+        const val ORDER = "`order`"
+        const val WORKFLOW_STAGE = "workflowStage"
+        const val LAST_WORKFLOW_STAGE = "lastWorkflowStage"
+        const val ORDER_FIELD = "order"
     }
 
     constructor(

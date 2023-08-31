@@ -5,19 +5,19 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = IndividualClient.tableIndividualClient)
-@PrimaryKeyJoinColumn(name = IndividualClient.individualClientpersonId)
+@Table(name = IndividualClient.TABLE_NAME)
+@PrimaryKeyJoinColumn(name = IndividualClient.PERSON_ID)
 internal class IndividualClient(
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = individualClientclientId, referencedColumnName = Client.clientId)
+    @JoinColumn(name = CLIENT_ID, referencedColumnName = Client.ID)
     var client: Client,
     name: String,
     surname: String,
     pseudoPESEL: String
 ) : Person(name, surname, pseudoPESEL) {
     companion object {
-        const val tableIndividualClient = "IndividualClient"
-        const val individualClientpersonId = "personId"
-        const val individualClientclientId = "clientId"
+        const val TABLE_NAME = "IndividualClient"
+        const val PERSON_ID = "personId"
+        const val CLIENT_ID = "clientId"
     }
 }

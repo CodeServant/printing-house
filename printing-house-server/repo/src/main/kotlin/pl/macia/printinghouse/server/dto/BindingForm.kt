@@ -7,22 +7,22 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = BindingForm.tableBindingForm)
+@Table(name = BindingForm.TABLE_NAME)
 internal class BindingForm(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = bindingFormId)
+    @Column(name = ID)
     val id: Int?,
     @field:Size(max = 200)
     @field:NotBlank
-    @Column(name = bindingFormName)
+    @Column(name = NAME)
     var name: String
 ) {
     constructor(name: String) : this(null, name)
 
     companion object {
-        const val tableBindingForm = "BindingForm"
-        const val bindingFormId = "id"
-        const val bindingFormName = "name"
+        const val TABLE_NAME = "BindingForm"
+        const val ID = "id"
+        const val NAME = "name"
     }
 }

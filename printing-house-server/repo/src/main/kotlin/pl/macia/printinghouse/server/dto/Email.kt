@@ -7,22 +7,22 @@ import jakarta.validation.constraints.NotNull
 
 @Poko
 @Entity
-@Table(name = Email.tableEmail)
+@Table(name = Email.TABLE_NAME)
 internal class Email(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = emailId)
+    @Column(name = ID)
     var id: Int? = null,
     @field:NotNull
     @field:AEmail
-    @Column(name = emailEmail)
+    @Column(name = EMAIL)
     var email: String
 ) {
     constructor(email: String) : this(null, email)
 
     companion object {
-        const val tableEmail = "Email"
-        const val emailId = "id"
-        const val emailEmail = "email"
+        const val TABLE_NAME = "Email"
+        const val ID = "id"
+        const val EMAIL = "email"
     }
 }

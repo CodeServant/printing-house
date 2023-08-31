@@ -7,33 +7,33 @@ import java.math.BigDecimal
 
 @Poko
 @Entity
-@Table(name = PrintCost.tablePrintCost)
+@Table(name = PrintCost.TABLE_NAME)
 internal class PrintCost(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = printCostid)
+    @Column(name = ID)
     var id: Int?,
     @ManyToOne(optional = false)
-    @JoinColumn(name = printCostorderId, referencedColumnName = CalculationCard.calculationCardOrderId)
+    @JoinColumn(name = ORDER_ID, referencedColumnName = CalculationCard.ORDER_ID)
     var calculationCard: CalculationCard,
     @ManyToOne(optional = false)
-    @JoinColumn(name = printCostprinter, referencedColumnName = Printer.printerId)
+    @JoinColumn(name = PRINTER, referencedColumnName = Printer.ID)
     var printer: Printer,
-    @Column(name = printCostprintCost)
+    @Column(name = PRINT_COST)
     @field:PositiveOrZero
     var printCost: BigDecimal,
-    @Column(name = printCostmatrixCost)
+    @Column(name = MATRIX_COST)
     @field:PositiveOrZero
     var matrixCost: BigDecimal
 ) {
     companion object {
-        const val tablePrintCost = "PrintCost"
-        const val printCostid = "id"
-        const val printCostorderId = "orderId"
-        const val printCostprinter = "printer"
-        const val printCostprintCost = "printCost"
-        const val printCostmatrixCost = "matrixCost"
-        const val printCostCalcField = "calculationCard"
+        const val TABLE_NAME = "PrintCost"
+        const val ID = "id"
+        const val ORDER_ID = "orderId"
+        const val PRINTER = "printer"
+        const val PRINT_COST = "printCost"
+        const val MATRIX_COST = "matrixCost"
+        const val CALC_FIELD = "calculationCard"
     }
 
     constructor(

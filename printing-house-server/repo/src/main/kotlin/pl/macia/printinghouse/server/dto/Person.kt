@@ -8,39 +8,39 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = Person.tablePerson)
+@Table(name = Person.TABLE_NAME)
 @Inheritance(strategy = InheritanceType.JOINED)
 internal class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = personId)
+    @Column(name = ID)
     val id: Int?,
     @field:NotNull
     @field:NotBlank
     @field:Size(max = 200)
-    @Column(name = personName)
+    @Column(name = NAME)
     var name: String,
     @field:NotNull
     @field:NotBlank
     @field:Size(max = 300)
-    @Column(name = personSurname)
+    @Column(name = SURNAME)
     var surname: String,
     @field:NotNull
     @field:Size(min = 11, max = 11)
-    @Column(name = personPseudoPESEL)
+    @Column(name = PSEUDO_PESEL)
     var pseudoPESEL: String
 ) {
     companion object {
-        const val tablePerson = "Person"
-        const val personId = "id"
-        const val personName = "name"
-        const val personSurname = "surname"
-        const val personPseudoPESEL = "pseudoPESEL"
+        const val TABLE_NAME = "Person"
+        const val ID = "id"
+        const val NAME = "name"
+        const val SURNAME = "surname"
+        const val PSEUDO_PESEL = "pseudoPESEL"
     }
 
     constructor(name: String, surname: String, pseudoPESEL: String) : this(null, name, surname, pseudoPESEL)
 
     override fun toString(): String {
-        return "{$personId: $id, $personName: $name, $personSurname: $surname, $personPseudoPESEL: $pseudoPESEL}"
+        return "{$ID: $id, $NAME: $name, $SURNAME: $surname, $PSEUDO_PESEL: $pseudoPESEL}"
     }
 }

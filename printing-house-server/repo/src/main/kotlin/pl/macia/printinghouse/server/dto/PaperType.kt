@@ -7,26 +7,26 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = PaperType.tablePaperType)
+@Table(name = PaperType.TABLE_NAME)
 internal class PaperType(
     @Id
-    @Column(name = paperTypeId)
+    @Column(name = ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     @field:Size(max = 200)
     @field:NotBlank
-    @Column(name = paperTypeName)
+    @Column(name = NAME)
     var name: String,
     @field:Size(max = 30)
     @field:NotBlank
-    @Column(name = paperTypeShortName)
+    @Column(name = SHORT_NAME)
     var shortName: String
 ) {
     companion object {
-        const val tablePaperType = "PaperType"
-        const val paperTypeId = "id"
-        const val paperTypeName = "name"
-        const val paperTypeShortName = "shortName"
+        const val TABLE_NAME = "PaperType"
+        const val ID = "id"
+        const val NAME = "name"
+        const val SHORT_NAME = "shortName"
     }
 
     constructor(name: String, shortName: String) : this(null, name, shortName)

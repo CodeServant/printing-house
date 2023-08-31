@@ -7,14 +7,14 @@ import jakarta.persistence.Table
 
 @Poko
 @Entity
-@Table(name = UVVarnish.tableUVVarnish)
-@PrimaryKeyJoinColumn(name = UVVarnish.uvVarnishEnoblingId)
+@Table(name = UVVarnish.TABLE_NAME)
+@PrimaryKeyJoinColumn(name = UVVarnish.ENOBLING_ID)
 internal class UVVarnish(
     name: String,
     descritpion: String?
 ) : Enobling(name, descritpion) {
     companion object {
-        const val tableUVVarnish = "UVVarnish"
-        const val uvVarnishEnoblingId = "enoblingId"
+        const val TABLE_NAME = "UVVarnish"
+        const val ENOBLING_ID = "enoblingId"
     }
 }

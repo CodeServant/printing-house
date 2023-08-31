@@ -5,32 +5,32 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = OrderEnobling.tableOrderEnobling)
+@Table(name = OrderEnobling.TABLE_NAME)
 internal class OrderEnobling(
     @Id
-    @Column(name = orderEnoblingId)
+    @Column(name = ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderEnoblingEnobling, referencedColumnName = Enobling.enoblingId)
+    @JoinColumn(name = ENOBLING, referencedColumnName = Enobling.ID)
     var enobling: Enobling,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderEnoblingBindery, referencedColumnName = Bindery.binderyId)
+    @JoinColumn(name = BINDERY, referencedColumnName = Bindery.ID)
     var bindery: Bindery,
-    @Column(name = orderEnoblingAnnotation)
+    @Column(name = ANNOTATION)
     var annotation: String?,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderEnoblingOrder, nullable = false)
+    @JoinColumn(name = ORDER, nullable = false)
     val order: Order
 ) {
     companion object {
-        const val tableOrderEnobling = "OrderEnobling"
-        const val orderEnoblingId = "id"
-        const val orderEnoblingEnobling = "enobling"
-        const val orderEnoblingOrder = "`order`"
-        const val orderEnoblingBindery = "bindery"
-        const val orderEnoblingAnnotation = "annotation"
-        const val orderEnoblingOrderField = "order"
+        const val TABLE_NAME = "OrderEnobling"
+        const val ID = "id"
+        const val ENOBLING = "enobling"
+        const val ORDER = "`order`"
+        const val BINDERY = "bindery"
+        const val ANNOTATION = "annotation"
+        const val ORDER_FIELD = "order"
     }
 
     constructor(enobling: Enobling, bindery: Bindery, annotation: String?, order: Order) : this(

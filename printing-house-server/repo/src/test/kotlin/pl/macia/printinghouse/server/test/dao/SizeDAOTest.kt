@@ -55,7 +55,7 @@ internal class SizeDAOTest {
     fun `delete single test`() {
         val idToDelete = 1
         dao.deleteById(idToDelete)
-        assertNull(dao.findByIdOrNull(idToDelete), "not properly deleted when ${Size.sizeId}: $idToDelete")
+        assertNull(dao.findByIdOrNull(idToDelete), "not properly deleted when ${Size.ID}: $idToDelete")
     }
 
     @Test

@@ -11,104 +11,104 @@ import jakarta.validation.constraints.Size as JpaSize
 
 @Poko
 @Entity
-@Table(name = Order.tableOrder)
+@Table(name = Order.TABLE_NAME)
 internal class Order private constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = orderId)
+    @Column(name = ID)
     var id: Int?,
-    @Column(name = orderName, nullable = false)
+    @Column(name = NAME, nullable = false)
     @field:JpaSize(max = 200)
     @field:NotBlank
     var name: String,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderNetSize, nullable = false)
+    @JoinColumn(name = NET_SIZE, nullable = false)
     var netSize: Size,
-    @Column(name = orderPages, nullable = false)
+    @Column(name = PAGES, nullable = false)
     @field:Positive
     var pages: Int,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderSupervisor, nullable = false)
+    @JoinColumn(name = SUPERVISOR, nullable = false)
     var supervisor: Salesman,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderClient, nullable = false)
+    @JoinColumn(name = CLIENT, nullable = false)
     var client: Client,
-    @Column(name = orderCreationDate, nullable = false)
+    @Column(name = CREATION_DATE, nullable = false)
     var creationDate: LocalDateTime,
-    @Column(name = orderRealizationDate, nullable = false)
+    @Column(name = REALIZATION_DATE, nullable = false)
     var realizationDate: LocalDateTime,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderBindingForm, nullable = false)
+    @JoinColumn(name = BINDING_FORM, nullable = false)
     var bindingForm: BindingForm,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderBindery, nullable = false, referencedColumnName = Bindery.binderyId)
+    @JoinColumn(name = BINDERY, nullable = false, referencedColumnName = Bindery.ID)
     var bindery: Bindery,
-    @Column(name = orderFolding, nullable = false)
+    @Column(name = FOLDING, nullable = false)
     var folding: Boolean,
-    @Column(name = orderTowerCut, nullable = false)
+    @Column(name = TOWER_CUT, nullable = false)
     var towerCut: Boolean,
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = orderImageURL, nullable = true)
+    @JoinColumn(name = IMAGE_URL, nullable = true)
     var imageURL: URL?,
-    @Column(name = orderImageComment, nullable = true)
+    @Column(name = IMAGE_COMMENT, nullable = true)
     @field:JpaSize(min = 1)
     var imageComment: String?,
-    @Column(name = orderChecked, nullable = false)
+    @Column(name = CHECKED, nullable = false)
     var checked: Boolean,
-    @Column(name = orderDesignsNumberForSheet, nullable = false)
+    @Column(name = DESIGNS_NUMBER_FOR_SHEET, nullable = false)
     @field:PositiveOrZero
     var designsNumberForSheet: Int,
-    @Column(name = orderCompletionDate, nullable = true)
+    @Column(name = COMPLETION_DATE, nullable = true)
     var completionDate: LocalDateTime?,
-    @Column(name = orderWithdrawalDate, nullable = true)
+    @Column(name = WITHDRAWAL_DATE, nullable = true)
     var withdrawalDate: LocalDateTime?,
-    @Column(name = orderComment, nullable = true)
+    @Column(name = COMMENT, nullable = true)
     @field:JpaSize(min = 1)
     var comment: String?,
-    @OneToOne(cascade = [CascadeType.ALL], mappedBy = CalculationCard.calculationCardOrderField, orphanRemoval = true)
+    @OneToOne(cascade = [CascadeType.ALL], mappedBy = CalculationCard.ORDER_FIELD, orphanRemoval = true)
     var calculationCard: CalculationCard?,
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = PaperOrderType.paperOrderTypeOrderField,
+        mappedBy = PaperOrderType.ORDER_FIELD,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     @field:JpaSize(min = 1)
     val paperOrderTypes: MutableList<PaperOrderType> = mutableListOf(),
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = OrderEnobling.orderEnoblingOrderField,
+        mappedBy = OrderEnobling.ORDER_FIELD,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     val orderEnoblings: MutableList<OrderEnobling> = mutableListOf(),
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = WorkflowStageStop.workflowStageStopOrderField,
+        mappedBy = WorkflowStageStop.ORDER_FIELD,
         cascade = [CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH]
     )
     @field:JpaSize(min = 1)
     val workflowStageStops: MutableList<WorkflowStageStop> = mutableListOf()
 ) {
     companion object {
-        const val tableOrder = "`Order`"
-        const val orderId = "id"
-        const val orderName = "name"
-        const val orderNetSize = "netSize"
-        const val orderPages = "pages"
-        const val orderSupervisor = "supervisor"
-        const val orderClient = "client"
-        const val orderCreationDate = "creationDate"
-        const val orderRealizationDate = "realizationDate"
-        const val orderBindingForm = "bindingForm"
-        const val orderBindery = "bindery"
-        const val orderFolding = "folding"
-        const val orderTowerCut = "towerCut"
-        const val orderImageURL = "imageURL"
-        const val orderImageComment = "imageComment"
-        const val orderChecked = "checked"
-        const val orderDesignsNumberForSheet = "designsNumberForSheet"
-        const val orderCompletionDate = "completionDate"
-        const val orderWithdrawalDate = "withdrawalDate"
-        const val orderComment = "comment"
+        const val TABLE_NAME = "`Order`"
+        const val ID = "id"
+        const val NAME = "name"
+        const val NET_SIZE = "netSize"
+        const val PAGES = "pages"
+        const val SUPERVISOR = "supervisor"
+        const val CLIENT = "client"
+        const val CREATION_DATE = "creationDate"
+        const val REALIZATION_DATE = "realizationDate"
+        const val BINDING_FORM = "bindingForm"
+        const val BINDERY = "bindery"
+        const val FOLDING = "folding"
+        const val TOWER_CUT = "towerCut"
+        const val IMAGE_URL = "imageURL"
+        const val IMAGE_COMMENT = "imageComment"
+        const val CHECKED = "checked"
+        const val DESIGNS_NUMBER_FOR_SHEET = "designsNumberForSheet"
+        const val COMPLETION_DATE = "completionDate"
+        const val WITHDRAWAL_DATE = "withdrawalDate"
+        const val COMMENT = "comment"
     }
 
     constructor(

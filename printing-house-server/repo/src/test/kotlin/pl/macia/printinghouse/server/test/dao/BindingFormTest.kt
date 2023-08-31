@@ -38,7 +38,7 @@ internal class BindingFormTest {
         assertEquals(
             1,
             dao.count(Example.of(BindingForm(ppTypeName))),
-            "duplicated ${BindingForm.bindingFormName} field"
+            "duplicated ${BindingForm.NAME} field"
         )
         assertThrows<ConstraintViolationException> {
             val toLong = BindingForm(generateLongName(nameLimit + 1))

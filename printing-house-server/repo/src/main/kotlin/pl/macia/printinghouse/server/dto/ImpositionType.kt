@@ -7,13 +7,13 @@ import jakarta.validation.constraints.Size
 
 @Poko
 @Entity
-@Table(name = ImpositionType.tableImpositionType)
+@Table(name = ImpositionType.TABLE_NAME)
 internal class ImpositionType(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = impositionTypeId)
+    @Column(name = ID)
     var id: Int?,
-    @Column(name = impositionTypeName)
+    @Column(name = NAME)
     @field:NotBlank
     @field:Size(max = 10)
     var name: String
@@ -21,8 +21,8 @@ internal class ImpositionType(
     constructor(name: String) : this(null, name)
 
     companion object {
-        const val tableImpositionType = "ImpositionType"
-        const val impositionTypeId = "id"
-        const val impositionTypeName = "name"
+        const val TABLE_NAME = "ImpositionType"
+        const val ID = "id"
+        const val NAME = "name"
     }
 }

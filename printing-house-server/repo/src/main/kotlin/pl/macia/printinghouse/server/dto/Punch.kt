@@ -5,14 +5,14 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = Punch.tablePunch)
-@PrimaryKeyJoinColumn(name = Punch.punchEnoblingId)
+@Table(name = Punch.TABLE_NAME)
+@PrimaryKeyJoinColumn(name = Punch.ENOBLING_ID)
 internal class Punch(
     name: String,
     descritpion: String?
 ) : Enobling(name, descritpion) {
     companion object {
-        const val tablePunch = "Punch"
-        const val punchEnoblingId = "enoblingId"
+        const val TABLE_NAME = "Punch"
+        const val ENOBLING_ID = "enoblingId"
     }
 }

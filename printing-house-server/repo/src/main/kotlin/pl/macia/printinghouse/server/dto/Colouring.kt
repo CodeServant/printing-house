@@ -7,17 +7,17 @@ import org.hibernate.validator.constraints.Range
 
 @Poko
 @Entity
-@Table(name = Colouring.tableColouring)
+@Table(name = Colouring.TABLE_NAME)
 internal final class Colouring(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = colouringId)
+    @Column(name = ID)
     var id: Byte?,
-    @Column(name = colouringFirstSide)
+    @Column(name = FIRST_SIDE)
     @field:PositiveOrZero
     @field:Range(max = 4)
     var firstSide: Byte,
-    @Column(name = colouringSecondSide)
+    @Column(name = SECOND_SIDE)
     @field:PositiveOrZero
     @field:Range(max = 4)
     var secondSide: Byte
@@ -33,9 +33,9 @@ internal final class Colouring(
     constructor(firstSide: Byte, secondSide: Byte) : this(null, firstSide, secondSide)
 
     companion object {
-        const val tableColouring = "Colouring"
-        const val colouringId = "id"
-        const val colouringFirstSide = "firstSide"
-        const val colouringSecondSide = "secondSide"
+        const val TABLE_NAME = "Colouring"
+        const val ID = "id"
+        const val FIRST_SIDE = "firstSide"
+        const val SECOND_SIDE = "secondSide"
     }
 }

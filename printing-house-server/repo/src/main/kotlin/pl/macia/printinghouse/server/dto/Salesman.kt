@@ -5,8 +5,8 @@ import jakarta.persistence.*
 
 @Poko
 @Entity
-@Table(name = Salesman.tableSalesman)
-@PrimaryKeyJoinColumn(name = Salesman.salesmanId)
+@Table(name = Salesman.TABLE_NAME)
+@PrimaryKeyJoinColumn(name = Salesman.ID)
 internal class Salesman(
     email: Email,
     password: String,
@@ -17,7 +17,7 @@ internal class Salesman(
     pseudoPESEL: String
 ) : Employee(email, password, activeAccount, employed, name, surname, pseudoPESEL) {
     companion object {
-        const val tableSalesman = "Salesman"
-        const val salesmanId = "personId"
+        const val TABLE_NAME = "Salesman"
+        const val ID = "personId"
     }
 }
