@@ -15,7 +15,7 @@ internal class EmailRepoTest {
     lateinit var dao: EmailRepo
 
     @Test
-    fun name() {
+    fun `find by id`() {
         assertEquals("anna@wp.pl", dao.findById(1)?.email)
     }
 }
