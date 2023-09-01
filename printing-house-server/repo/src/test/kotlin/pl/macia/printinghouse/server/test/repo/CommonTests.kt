@@ -7,10 +7,10 @@ import kotlin.reflect.KProperty
 internal class CommonTests<T, ID>(val repo: BaseRepo<T, ID>) {
 
     fun createNew(obj: T, id: KProperty<ID?>){
-        val new = obj
-        var saved: T? = repo.save(new)
+        var new = obj
+        repo.save(new)
         Assertions.assertNotNull(id.call())
-        saved = repo.findById(id.call()!!)
+        val saved = repo.findById(id.call()!!)
         Assertions.assertNotNull(saved)
     }
 }
