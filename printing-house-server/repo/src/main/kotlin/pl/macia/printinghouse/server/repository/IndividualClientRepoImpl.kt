@@ -16,8 +16,8 @@ internal class IndividualClientRepoImpl : IndividualClientRepo {
 
     }
 
-    override fun save(indCLi: IndividualClient): IndividualClientImpl {
-        indCLi as IndividualClientImpl
-        return IndividualClientImpl(dao.save(indCLi.persistent))
+    override fun save(obj: IndividualClient): IndividualClientImpl {
+        obj as IndividualClientImpl
+        return IndividualClientImpl(dao.save(obj.persistent))
     }
 }

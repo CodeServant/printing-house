@@ -16,8 +16,8 @@ class EmailRepoImpl : EmailRepo {
         return dao.findByIdOrNull(id)?.let { EmailImpl(it) }
     }
 
-    override fun save(email: Email): Email {
-        email as EmailImpl
-        return EmailImpl(dao.save(email.persistent))
+    override fun save(obj: Email): Email {
+        obj as EmailImpl
+        return EmailImpl(dao.save(obj.persistent))
     }
 }
