@@ -18,6 +18,6 @@ class EmailRepoImpl : EmailRepo {
 
     override fun save(email: Email): Email {
         email as EmailImpl
-        return dao.save(email.persistent).let { EmailImpl(it) }
+        return EmailImpl(dao.save(email.persistent))
     }
 }
