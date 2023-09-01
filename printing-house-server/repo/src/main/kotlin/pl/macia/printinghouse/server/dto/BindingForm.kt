@@ -12,7 +12,7 @@ internal class BindingForm(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
-    val id: Int?,
+    var id: Int?,
     @field:Size(max = 200)
     @field:NotBlank
     @Column(name = NAME)

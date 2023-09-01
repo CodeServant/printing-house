@@ -14,7 +14,7 @@ internal class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
-    val id: Int?,
+    var id: Int?,
     @field:NotNull
     @field:NotBlank
     @field:Size(max = 200)
