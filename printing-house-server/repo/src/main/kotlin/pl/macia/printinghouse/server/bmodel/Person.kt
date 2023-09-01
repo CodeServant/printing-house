@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface Person {
+sealed interface Person {
     var personId: Int?
     var psudoPESEL: String
     var surname: String

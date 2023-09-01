@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import java.math.BigDecimal
 
-interface CalculationCard {
+sealed interface CalculationCard {
     var calcCardId: Int?
     var transport: BigDecimal
     var otherCosts: BigDecimal

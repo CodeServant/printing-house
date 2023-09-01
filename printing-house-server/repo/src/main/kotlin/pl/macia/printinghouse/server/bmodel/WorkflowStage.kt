@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface WorkflowStage {
+sealed interface WorkflowStage {
     var workflowStageid: Int?
     var name: String
     var workflowManagers: List<Worker>

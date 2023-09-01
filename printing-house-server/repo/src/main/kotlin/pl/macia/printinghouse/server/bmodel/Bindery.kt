@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface Bindery {
+sealed interface Bindery {
     var binderyId: Int?
     var name: String
 }

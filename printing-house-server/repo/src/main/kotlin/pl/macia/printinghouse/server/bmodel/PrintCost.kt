@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import java.math.BigDecimal
 
-interface PrintCost {
+sealed interface PrintCost {
     var printCostId: Int?
     var printCost: BigDecimal
     var matrixCost: BigDecimal

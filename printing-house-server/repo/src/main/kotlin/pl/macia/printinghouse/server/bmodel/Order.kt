@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import java.time.LocalDateTime
 
-interface Order {
+sealed interface Order {
     var orderid: Int?
     var name: String
     var comment: String?

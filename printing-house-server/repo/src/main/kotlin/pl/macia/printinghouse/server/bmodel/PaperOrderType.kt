@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface PaperOrderType {
+sealed interface PaperOrderType {
     var papOrdTypid: Int?
     var grammage: Double
     var stockCirculation: Int

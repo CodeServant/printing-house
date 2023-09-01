@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface Size {
+sealed interface Size {
     var sizeId: Int?
     var name: String
     var heigth: Double

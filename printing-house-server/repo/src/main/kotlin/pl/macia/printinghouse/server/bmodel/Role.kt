@@ -1,6 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
-interface Role {
+sealed interface Role {
     var roleId: Int?
     var name: String
 }

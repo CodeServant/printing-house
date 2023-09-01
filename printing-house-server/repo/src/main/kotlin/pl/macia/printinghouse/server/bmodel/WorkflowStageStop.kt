@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import java.time.LocalDateTime
 
-interface WorkflowStageStop {
+sealed interface WorkflowStageStop {
     var wfssId: Int?
     var comment: String?
     var lastWorkflowStage: Boolean
