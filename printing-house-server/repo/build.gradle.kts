@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
@@ -25,4 +27,8 @@ dependencies {
 
 allOpen {
     annotation("jakarta.persistence.Table")
+}
+
+tasks.named<BootJar>("bootJar"){
+    enabled = false
 }
