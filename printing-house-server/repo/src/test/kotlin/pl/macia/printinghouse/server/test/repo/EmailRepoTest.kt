@@ -1,11 +1,13 @@
 package pl.macia.printinghouse.server.test.repo
 
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.repository.EmailRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -17,5 +19,12 @@ internal class EmailRepoTest {
     @Test
     fun `find by id`() {
         assertEquals("anna@wp.pl", dao.findById(1)?.email)
+    }
+
+    @Test
+    @Transactional
+    fun `create new`() {
+        val email = Email("newEmailFromRepo@example.com")
+        CommonTests(dao).createNew(email, email::emailId)
     }
 }
