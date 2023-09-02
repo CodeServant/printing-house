@@ -5,6 +5,9 @@ import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.IndividualClient
 import pl.macia.printinghouse.server.bmodel.Person
 
+/**
+ * End repository contract. Minimal requirements for repositories.
+ */
 sealed interface BaseRepo<T> {
     fun save(obj: T): T
 }
