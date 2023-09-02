@@ -4,13 +4,12 @@ import org.junit.jupiter.api.Assertions
 import pl.macia.printinghouse.server.repository.BaseRepo
 import kotlin.reflect.KProperty
 
-internal class CommonTests<T, ID>(val repo: BaseRepo<T, ID>) {
+internal class SingleIdTests<T, ID>(private val repo: BaseRepo<T>) {
 
-    fun createNew(obj: T, id: KProperty<ID?>){
-        var new = obj
-        repo.save(new)
+    fun createNew(obj: T, id: KProperty<ID?>, findBy: (ID) -> T?) {
+        repo.save(obj)
         Assertions.assertNotNull(id.call())
-        val saved = repo.findById(id.call()!!)
+        val saved = findBy(id.call()!!)
         Assertions.assertNotNull(saved)
     }
 }

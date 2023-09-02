@@ -25,6 +25,6 @@ internal class EmailRepoTest {
     @Transactional
     fun `create new`() {
         val email = Email("newEmailFromRepo@example.com")
-        CommonTests(dao).createNew(email, email::emailId)
+        SingleIdTests<Email, Int>(dao).createNew(email, email::emailId, dao::findById)
     }
 }

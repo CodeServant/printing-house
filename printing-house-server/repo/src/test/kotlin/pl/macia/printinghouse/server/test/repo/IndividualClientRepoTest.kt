@@ -20,9 +20,9 @@ class IndividualClientRepoTest {
 
     @Test
     fun `find by id`() {
-        var found = repo.findById(1)
+        var found = repo.findByPersonId(1)
         assertNull(found)
-        found = repo.findById(6)
+        found = repo.findByPersonId(6)
         assertEquals("Rick", found?.name)
         assertEquals("SanchesIndividualCli", found?.surname)
         assertEquals("913582395  ", found?.psudoPESEL)
@@ -40,6 +40,8 @@ class IndividualClientRepoTest {
             psudoPESEL = "52562151525",
             surname = "Bros"
         )
-        CommonTests(repo).createNew(new, new::personId)
+        SingleIdTests<IndividualClient, Int>(repo).createNew(new, new::personId){
+            repo.findByPersonId(it)
+        }
     }
 }

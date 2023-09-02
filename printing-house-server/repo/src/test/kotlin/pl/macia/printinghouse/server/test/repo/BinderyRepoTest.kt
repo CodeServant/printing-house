@@ -26,6 +26,6 @@ class BinderyRepoTest {
     @Transactional
     fun `create new`() {
         val new = Bindery("B2")
-        CommonTests(dao).createNew(new, new::binderyId)
+        SingleIdTests<Bindery,Int>(dao).createNew(new, new::binderyId, dao::findById)
     }
 }

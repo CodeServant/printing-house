@@ -11,9 +11,12 @@ import pl.macia.printinghouse.server.dao.IndividualClientDAO
 internal class IndividualClientRepoImpl : IndividualClientRepo {
     @Autowired
     private lateinit var dao: IndividualClientDAO
-    override fun findById(id: Int): IndividualClientImpl? {
-        return dao.findByIdOrNull(id)?.let { IndividualClientImpl(it) }
+    override fun findByClientId(clientId: Int): IndividualClient? {
+        TODO()
+    }
 
+    override fun findByPersonId(personId: Int): IndividualClient? {
+        return dao.findByIdOrNull(personId)?.let { IndividualClientImpl(it) }
     }
 
     override fun save(obj: IndividualClient): IndividualClientImpl {
