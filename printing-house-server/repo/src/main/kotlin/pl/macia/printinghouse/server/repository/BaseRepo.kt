@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.repository
 import pl.macia.printinghouse.server.bmodel.Bindery
 import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.IndividualClient
+import pl.macia.printinghouse.server.bmodel.Person
 
 sealed interface BaseRepo<T> {
     fun save(obj: T): T
@@ -12,10 +13,17 @@ sealed interface SingleIdRepo<T, ID> : BaseRepo<T> {
     fun findById(id: ID): T?
 }
 
+/**
+ * Interface for all repositories of [Person] child objects.
+ */
+sealed interface PersonRepos {
+    fun findByPersonId(personId: Int): Person?
+}
+
 interface EmailRepo : BaseRepo<Email>, SingleIdRepo<Email, Int>
-interface IndividualClientRepo : BaseRepo<IndividualClient> {
+interface IndividualClientRepo : BaseRepo<IndividualClient>, PersonRepos {
     fun findByClientId(clientId: Int): IndividualClient?
-    fun findByPersonId(personId: Int): IndividualClient?
+    override fun findByPersonId(personId: Int): IndividualClient?
 }
 
 interface BinderyRepo : BaseRepo<Bindery>, SingleIdRepo<Bindery, Int>
