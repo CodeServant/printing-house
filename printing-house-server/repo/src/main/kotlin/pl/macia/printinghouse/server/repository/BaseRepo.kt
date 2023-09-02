@@ -4,11 +4,11 @@ import pl.macia.printinghouse.server.bmodel.Bindery
 import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.IndividualClient
 
-interface BaseRepo<T> {
+sealed interface BaseRepo<T> {
     fun save(obj: T): T
 }
 
-interface SingleIdRepo<T, ID> : BaseRepo<T> {
+sealed interface SingleIdRepo<T, ID> : BaseRepo<T> {
     fun findById(id: ID): T?
 }
 
