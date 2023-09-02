@@ -14,11 +14,11 @@ import pl.macia.printinghouse.server.repository.BinderyRepo
 @TestPropertySource("classpath:inMemDB.properties")
 class BinderyRepoTest {
     @Autowired
-    lateinit var dao: BinderyRepo
+    lateinit var repo: BinderyRepo
 
     @Test
     fun `find by id test`() {
-        val found = dao.findById(1)!!
+        val found = repo.findById(1)!!
         assertEquals("A1", found.name)
     }
 
@@ -26,6 +26,6 @@ class BinderyRepoTest {
     @Transactional
     fun `create new`() {
         val new = Bindery("B2")
-        SingleIdTests<Bindery,Int>(dao).createNew(new, new::binderyId, dao::findById)
+        SingleIdTests<Bindery,Int>(repo).createNew(new, new::binderyId, repo::findById)
     }
 }
