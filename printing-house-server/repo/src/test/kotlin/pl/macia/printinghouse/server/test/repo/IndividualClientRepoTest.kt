@@ -22,12 +22,17 @@ class IndividualClientRepoTest {
     fun `find by id`() {
         var found = repo.findByPersonId(1)
         assertNull(found)
+        fun checkFound(found: IndividualClient?) {
+            assertEquals("Rick", found?.name)
+            assertEquals("SanchesIndividualCli", found?.surname)
+            assertEquals("913582395  ", found?.psudoPESEL)
+            assertEquals("julek@wp.pl", found?.email?.email)
+            assertEquals("984324654", found?.phoneNumber)
+        }
         found = repo.findByPersonId(6)
-        assertEquals("Rick", found?.name)
-        assertEquals("SanchesIndividualCli", found?.surname)
-        assertEquals("913582395  ", found?.psudoPESEL)
-        assertEquals("julek@wp.pl", found?.email?.email)
-        assertEquals("984324654", found?.phoneNumber)
+        checkFound(found)
+        found = repo.findByClientId(1)
+        checkFound(found)
     }
 
     @Test
@@ -40,8 +45,12 @@ class IndividualClientRepoTest {
             psudoPESEL = "52562151525",
             surname = "Bros"
         )
-        SingleIdTests<IndividualClient, Int>(repo).createNew(new, new::personId){
+        val test = SingleIdTests<IndividualClient, Int>(repo)
+        test.createNew(new, new::personId) {
             repo.findByPersonId(it)
+        }
+        test.createNew(new, new::clientId) {
+            repo.findByClientId(it)
         }
     }
 }

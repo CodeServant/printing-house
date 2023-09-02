@@ -12,7 +12,7 @@ internal class IndividualClientRepoImpl : IndividualClientRepo {
     @Autowired
     private lateinit var dao: IndividualClientDAO
     override fun findByClientId(clientId: Int): IndividualClient? {
-        TODO()
+        return dao.findByClientId(clientId)?.let { IndividualClientImpl(it) }
     }
 
     override fun findByPersonId(personId: Int): IndividualClient? {
