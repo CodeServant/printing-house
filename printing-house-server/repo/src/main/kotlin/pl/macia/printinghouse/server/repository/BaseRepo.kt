@@ -1,9 +1,6 @@
 package pl.macia.printinghouse.server.repository
 
-import pl.macia.printinghouse.server.bmodel.Bindery
-import pl.macia.printinghouse.server.bmodel.Email
-import pl.macia.printinghouse.server.bmodel.IndividualClient
-import pl.macia.printinghouse.server.bmodel.Person
+import pl.macia.printinghouse.server.bmodel.*
 
 /**
  * End repository contract. Minimal requirements for repositories.
@@ -23,10 +20,10 @@ sealed interface PersonRepos {
     fun findByPersonId(personId: Int): Person?
 }
 
-interface EmailRepo : BaseRepo<Email>, SingleIdRepo<Email, Int>
+interface EmailRepo : SingleIdRepo<Email, Int>
 interface IndividualClientRepo : BaseRepo<IndividualClient>, PersonRepos {
     fun findByClientId(clientId: Int): IndividualClient?
     override fun findByPersonId(personId: Int): IndividualClient?
 }
 
-interface BinderyRepo : BaseRepo<Bindery>, SingleIdRepo<Bindery, Int>
+interface BinderyRepo : SingleIdRepo<Bindery, Int>
