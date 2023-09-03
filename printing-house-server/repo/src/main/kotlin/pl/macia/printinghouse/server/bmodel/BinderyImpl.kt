@@ -9,6 +9,6 @@ internal class BinderyImpl(persistent: PBindery) : Bindery, ConvertableAbstract<
     override var name: String by persistent::name
 }
 
-fun Bindery(name: String):Bindery{
+fun Bindery(name: String): Bindery {
     return BinderyImpl(name)
 }
