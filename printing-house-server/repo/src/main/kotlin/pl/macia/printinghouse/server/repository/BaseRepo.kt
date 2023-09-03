@@ -27,3 +27,4 @@ interface IndividualClientRepo : BaseRepo<IndividualClient>, PersonRepos {
 }
 
 interface BinderyRepo : SingleIdRepo<Bindery, Int>
+interface BindingFormRepo : SingleIdRepo<BindingForm, Int>
