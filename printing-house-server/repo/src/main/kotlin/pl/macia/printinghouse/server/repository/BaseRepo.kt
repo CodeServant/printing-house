@@ -58,3 +58,10 @@ interface CompanyClientRepo {
 }
 
 internal interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>
+
+interface EnoblingRepo {
+    fun findById(id: Int): Enobling?
+    fun save(obj: Enobling): Enobling
+}
+
+internal interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>
