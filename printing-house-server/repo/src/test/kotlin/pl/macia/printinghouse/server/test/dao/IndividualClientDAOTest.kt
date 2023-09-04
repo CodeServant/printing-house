@@ -53,5 +53,6 @@ internal class IndividualClientDAOTest {
         dao.deleteById(indCliId)
         assertNull(dao.findByIdOrNull(indCliId))
         assertNull(daoClient.findByIdOrNull(cliId))
+        assertNull(dao.findByEmail("thereIsNoSuchEmail@examples.cm"))
     }
 }

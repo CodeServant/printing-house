@@ -13,6 +13,6 @@ internal class CompanyDAOCustomImpl : CompanyDAOCustom {
         val query =
             em.createQuery("FROM Company as c WHERE c.client.id=:cliId", Company::class.java)
         query.setParameter("cliId", id)
-        return query.singleResult
+        return query.resultList.firstOrNull()
     }
 }

@@ -27,6 +27,7 @@ internal class CompanyDAOTest {
         assertEquals("evil corp inc.", corp.name)
         corp = dao.findClientById(3)!!
         assertEquals("evil corp inc.", corp.name)
+        assertNull(dao.findClientById(1))
     }
 
     @Test
