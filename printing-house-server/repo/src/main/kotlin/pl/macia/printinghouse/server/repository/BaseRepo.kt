@@ -45,3 +45,9 @@ interface BindingFormRepo {
 }
 
 internal interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<BindingForm, Int>
+interface ColouringRepo {
+    fun findById(id: Byte): Colouring?
+    fun save(obj: Colouring): Colouring
+}
+
+internal interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
