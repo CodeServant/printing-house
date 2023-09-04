@@ -23,7 +23,9 @@ internal class CompanyDAOTest {
     @Test
     @Order(1)
     fun `find by id test`() {
-        val corp = dao.findByIdOrNull(1)!!
+        var corp = dao.findByIdOrNull(1)!!
+        assertEquals("evil corp inc.", corp.name)
+        corp = dao.findClientById(3)!!
         assertEquals("evil corp inc.", corp.name)
     }
 
