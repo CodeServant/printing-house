@@ -72,3 +72,9 @@ interface PunchRepo {
 }
 
 internal interface PunchIntRepo : PunchRepo, SingleIdRepo<Punch, Int>
+interface UVVarnishRepo {
+    fun findById(id: Int): UVVarnish?
+    fun save(obj: UVVarnish): UVVarnish
+}
+
+internal interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int>
