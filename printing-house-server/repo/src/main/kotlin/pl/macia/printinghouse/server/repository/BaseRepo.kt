@@ -51,3 +51,10 @@ interface ColouringRepo {
 }
 
 internal interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
+interface CompanyClientRepo {
+    fun findByCompanyId(companyId: Int): CompanyClient?
+    fun findByClientId(clientId: Int): CompanyClient?
+    fun save(obj: CompanyClient): CompanyClient
+}
+
+internal interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>
