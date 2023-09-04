@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Bindery
-import pl.macia.printinghouse.server.repository.BinderyRepo
+import pl.macia.printinghouse.server.repository.BinderyIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
 internal class BinderyRepoTest {
     @Autowired
-    lateinit var repo: BinderyRepo
+    lateinit var repo: BinderyIntRepo
 
     @Test
     fun `find by id test`() {

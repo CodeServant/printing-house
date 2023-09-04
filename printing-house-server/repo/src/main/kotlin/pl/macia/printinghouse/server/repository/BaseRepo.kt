@@ -5,26 +5,43 @@ import pl.macia.printinghouse.server.bmodel.*
 /**
  * End repository contract. Minimal requirements for repositories.
  */
-sealed interface BaseRepo<T> {
+internal sealed interface BaseRepo<T> {
     fun save(obj: T): T
 }
 
-sealed interface SingleIdRepo<T, ID> : BaseRepo<T> {
+internal sealed interface SingleIdRepo<T, ID> : BaseRepo<T> {
     fun findById(id: ID): T?
 }
 
 /**
  * Interface for all repositories of [Person] child objects.
  */
-sealed interface PersonRepos {
+internal sealed interface PersonRepos {
     fun findByPersonId(personId: Int): Person?
 }
 
-interface EmailRepo : SingleIdRepo<Email, Int>
-interface IndividualClientRepo : BaseRepo<IndividualClient>, PersonRepos {
-    fun findByClientId(clientId: Int): IndividualClient?
-    override fun findByPersonId(personId: Int): IndividualClient?
+interface EmailRepo {
+    fun findById(id: Int): Email?
+    fun save(obj: Email): Email
 }
 
-interface BinderyRepo : SingleIdRepo<Bindery, Int>
-interface BindingFormRepo : SingleIdRepo<BindingForm, Int>
+internal interface EmailIntRepo : EmailRepo, SingleIdRepo<Email, Int>
+interface IndividualClientRepo {
+    fun save(obj: IndividualClient): IndividualClient
+    fun findByClientId(clientId: Int): IndividualClient?
+    fun findByPersonId(personId: Int): IndividualClient?
+}
+
+internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>
+interface BinderyRepo {
+    fun findById(id: Int): Bindery?
+    fun save(obj: Bindery): Bindery
+}
+
+internal interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, Int>
+interface BindingFormRepo {
+    fun findById(id: Int): BindingForm?
+    fun save(obj: BindingForm): BindingForm
+}
+
+internal interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<BindingForm, Int>

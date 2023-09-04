@@ -8,7 +8,7 @@ import pl.macia.printinghouse.server.bmodel.IndividualClientImpl
 import pl.macia.printinghouse.server.dao.IndividualClientDAO
 
 @Repository
-internal class IndividualClientRepoImpl : IndividualClientRepo {
+internal class IndividualClientRepoImpl : IndividualClientIntRepo {
     @Autowired
     private lateinit var dao: IndividualClientDAO
     override fun findByClientId(clientId: Int): IndividualClient? {

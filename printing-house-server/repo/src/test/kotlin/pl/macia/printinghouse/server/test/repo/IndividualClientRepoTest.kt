@@ -10,13 +10,13 @@ import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.IndividualClient
-import pl.macia.printinghouse.server.repository.IndividualClientRepo
+import pl.macia.printinghouse.server.repository.IndividualClientIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
 internal class IndividualClientRepoTest {
     @Autowired
-    lateinit var repo: IndividualClientRepo
+    lateinit var repo: IndividualClientIntRepo
 
     @Test
     fun `find by id`() {

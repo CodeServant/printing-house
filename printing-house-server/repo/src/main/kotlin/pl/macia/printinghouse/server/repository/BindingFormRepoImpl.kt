@@ -8,7 +8,7 @@ import pl.macia.printinghouse.server.bmodel.BindingFormImpl
 import pl.macia.printinghouse.server.dao.BindingFormDAO
 
 @Repository
-internal class BindingFormRepoImpl : BindingFormRepo {
+internal class BindingFormRepoImpl : BindingFormIntRepo {
     @Autowired
     lateinit var dao: BindingFormDAO
     override fun save(obj: BindingForm): BindingForm {

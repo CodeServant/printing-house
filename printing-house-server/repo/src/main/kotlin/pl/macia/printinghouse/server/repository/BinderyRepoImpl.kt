@@ -8,7 +8,7 @@ import pl.macia.printinghouse.server.bmodel.BinderyImpl
 import pl.macia.printinghouse.server.dao.BinderyDAO
 
 @Repository
-internal class BinderyRepoImpl : BinderyRepo {
+internal class BinderyRepoImpl : BinderyIntRepo {
     @Autowired
     lateinit var dao: BinderyDAO
     override fun findById(id: Int): Bindery? = dao.findByIdOrNull(id)?.let { BinderyImpl(it) }

@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
-import pl.macia.printinghouse.server.repository.EmailRepo
+import pl.macia.printinghouse.server.repository.EmailIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
 internal class EmailRepoTest {
     @Autowired
-    lateinit var dao: EmailRepo
+    lateinit var dao: EmailIntRepo
 
     @Test
     fun `find by id`() {

@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.BindingForm
-import pl.macia.printinghouse.server.repository.BindingFormRepo
+import pl.macia.printinghouse.server.repository.BindingFormIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
 internal class BindingFormRepoImplTest {
     @Autowired
-    lateinit var repo: BindingFormRepo
+    lateinit var repo: BindingFormIntRepo
 
     @Test
     fun `find by id test`() {
