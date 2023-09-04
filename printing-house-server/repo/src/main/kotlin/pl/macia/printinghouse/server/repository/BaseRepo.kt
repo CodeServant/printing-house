@@ -65,3 +65,10 @@ interface EnoblingRepo {
 }
 
 internal interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>
+
+interface PunchRepo {
+    fun findById(id: Int): Punch?
+    fun save(obj: Punch): Punch
+}
+
+internal interface PunchIntRepo : PunchRepo, SingleIdRepo<Punch, Int>
