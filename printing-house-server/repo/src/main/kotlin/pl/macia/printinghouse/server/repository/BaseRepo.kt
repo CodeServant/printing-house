@@ -32,7 +32,7 @@ interface IndividualClientRepo {
     fun findByPersonId(personId: Int): IndividualClient?
 }
 
-internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>
+internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos
 interface BinderyRepo {
     fun findById(id: Int): Bindery?
     fun save(obj: Bindery): Bindery
