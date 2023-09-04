@@ -14,7 +14,7 @@ import pl.macia.printinghouse.server.repository.IndividualClientRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-class IndividualClientRepoTest {
+internal class IndividualClientRepoTest {
     @Autowired
     lateinit var repo: IndividualClientRepo
 

@@ -8,7 +8,7 @@ import pl.macia.printinghouse.server.bmodel.EmailImpl
 import pl.macia.printinghouse.server.dao.EmailDAO
 
 @Repository
-class EmailRepoImpl : EmailRepo {
+internal class EmailRepoImpl : EmailRepo {
     @Autowired
     private lateinit var dao: EmailDAO
 

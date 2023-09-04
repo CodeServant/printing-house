@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.repository.BinderyRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-class BinderyRepoTest {
+internal class BinderyRepoTest {
     @Autowired
     lateinit var repo: BinderyRepo
 
