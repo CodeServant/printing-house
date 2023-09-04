@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.server.bmodel
 
-sealed internal abstract class ConvertableAbstract<P>(val persistent: P)
+internal sealed class ConvertableAbstract<P>(val persistent: P)
