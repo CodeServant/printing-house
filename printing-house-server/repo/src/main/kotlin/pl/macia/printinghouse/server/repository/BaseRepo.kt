@@ -81,3 +81,12 @@ internal interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int
 internal interface ClientRepos {
     fun findByClientId(clientId: Int): Client?
 }
+
+/**
+ * To save [Client], use specified repos of [Client] subtypes.
+ */
+interface ClientRepo {
+    fun findById(id: Int): Client?
+}
+
+internal interface ClientIntRepo : ClientRepo
