@@ -6,7 +6,7 @@ import pl.macia.printinghouse.server.dto.Company
 /**
  * @throws NullPointerException when in [persistent] does not have defined client
  */
-internal class CompanyClientImpl(persistent: Company) : CompanyClient, ConvertableAbstract<Company>(persistent) {
+internal class CompanyClientImpl(persistent: Company) : CompanyClient, BusinessBase<Company>(persistent) {
     constructor(name: String, nip: String, email: EmailImpl?, phoneNumber: String?) : this(
         Company(
             name,

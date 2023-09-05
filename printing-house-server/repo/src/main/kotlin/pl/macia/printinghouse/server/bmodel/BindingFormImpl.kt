@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import pl.macia.printinghouse.server.dto.BindingForm as PBindingForm
 
-internal class BindingFormImpl(persistent: PBindingForm) : BindingForm, ConvertableAbstract<PBindingForm>(persistent) {
+internal class BindingFormImpl(persistent: PBindingForm) : BindingForm, BusinessBase<PBindingForm>(persistent) {
     constructor(name: String) : this(
         PBindingForm(name)
     )

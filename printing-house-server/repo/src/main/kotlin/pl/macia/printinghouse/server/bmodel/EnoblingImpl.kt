@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import pl.macia.printinghouse.server.dto.Enobling as PEnobling
 
-internal class EnoblingImpl(persistent: PEnobling) : Enobling, ConvertableAbstract<PEnobling>(persistent) {
+internal class EnoblingImpl(persistent: PEnobling) : Enobling, BusinessBase<PEnobling>(persistent) {
     constructor(name: String, description: String?) : this(
         PEnobling(name, description)
     )

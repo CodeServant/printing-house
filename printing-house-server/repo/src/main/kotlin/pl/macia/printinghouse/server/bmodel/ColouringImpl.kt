@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import pl.macia.printinghouse.server.dto.Colouring as PColouring
 
-internal class ColouringImpl(persistent: PColouring) : Colouring, ConvertableAbstract<PColouring>(persistent) {
+internal class ColouringImpl(persistent: PColouring) : Colouring, BusinessBase<PColouring>(persistent) {
     constructor(firstSide: Byte, secondSide: Byte) : this(
         PColouring(firstSide, secondSide)
     )

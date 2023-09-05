@@ -4,7 +4,7 @@ import pl.macia.printinghouse.server.dto.Client
 import pl.macia.printinghouse.server.dto.IndividualClient as PInCli
 
 internal class IndividualClientImpl(persistent: PInCli) : IndividualClient,
-    ConvertableAbstract<PInCli>(persistent) {
+    BusinessBase<PInCli>(persistent) {
 
     constructor(
         phoneNumber: String?,

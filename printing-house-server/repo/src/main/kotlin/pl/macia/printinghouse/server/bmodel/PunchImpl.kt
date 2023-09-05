@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import pl.macia.printinghouse.server.dto.Punch as PPunch
 
-internal class PunchImpl(persistent: PPunch) : Punch, ConvertableAbstract<PPunch>(persistent) {
+internal class PunchImpl(persistent: PPunch) : Punch, BusinessBase<PPunch>(persistent) {
     constructor(name: String, description: String?) : this(
         PPunch(name, description)
     )
