@@ -32,7 +32,7 @@ interface IndividualClientRepo {
     fun findByPersonId(personId: Int): IndividualClient?
 }
 
-internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos
+internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos, ClientRepos
 interface BinderyRepo {
     fun findById(id: Int): Bindery?
     fun save(obj: Bindery): Bindery
@@ -57,7 +57,7 @@ interface CompanyClientRepo {
     fun save(obj: CompanyClient): CompanyClient
 }
 
-internal interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>
+internal interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>, ClientRepos
 
 interface EnoblingRepo {
     fun findById(id: Int): Enobling?
@@ -78,3 +78,6 @@ interface UVVarnishRepo {
 }
 
 internal interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int>
+internal interface ClientRepos {
+    fun findByClientId(clientId: Int): Client?
+}
