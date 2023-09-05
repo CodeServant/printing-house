@@ -8,7 +8,7 @@ import pl.macia.printinghouse.server.bmodel.UVVarnishImpl
 import pl.macia.printinghouse.server.dao.UVVarnishDAO
 
 @Repository
-internal class UVVarnishIntRepoImpl : UVVarnishIntRepo {
+internal class UVVarnishRepoImpl : UVVarnishIntRepo {
     @Autowired
     lateinit var dao: UVVarnishDAO
     override fun findById(id: Int): UVVarnish? {
