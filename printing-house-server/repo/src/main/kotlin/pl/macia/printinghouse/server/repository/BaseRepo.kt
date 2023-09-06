@@ -20,72 +20,74 @@ internal sealed interface PersonRepos {
     fun findByPersonId(personId: Int): Person?
 }
 
-interface EmailRepo {
+sealed interface EmailRepo {
     fun findById(id: Int): Email?
     fun save(obj: Email): Email
 }
 
-internal interface EmailIntRepo : EmailRepo, SingleIdRepo<Email, Int>
-interface IndividualClientRepo {
+internal sealed interface EmailIntRepo : EmailRepo, SingleIdRepo<Email, Int>
+sealed interface IndividualClientRepo {
     fun save(obj: IndividualClient): IndividualClient
     fun findByClientId(clientId: Int): IndividualClient?
     fun findByPersonId(personId: Int): IndividualClient?
 }
 
-internal interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos, ClientRepos
-interface BinderyRepo {
+internal sealed interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos,
+    ClientRepos
+
+sealed interface BinderyRepo {
     fun findById(id: Int): Bindery?
     fun save(obj: Bindery): Bindery
 }
 
-internal interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, Int>
-interface BindingFormRepo {
+internal sealed interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, Int>
+sealed interface BindingFormRepo {
     fun findById(id: Int): BindingForm?
     fun save(obj: BindingForm): BindingForm
 }
 
-internal interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<BindingForm, Int>
-interface ColouringRepo {
+internal sealed interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<BindingForm, Int>
+sealed interface ColouringRepo {
     fun findById(id: Byte): Colouring?
     fun save(obj: Colouring): Colouring
 }
 
-internal interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
-interface CompanyClientRepo {
+internal sealed interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
+sealed interface CompanyClientRepo {
     fun findByCompanyId(companyId: Int): CompanyClient?
     fun findByClientId(clientId: Int): CompanyClient?
     fun save(obj: CompanyClient): CompanyClient
 }
 
-internal interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>, ClientRepos
+internal sealed interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>, ClientRepos
 
-interface EnoblingRepo {
+sealed interface EnoblingRepo {
     fun findById(id: Int): Enobling?
     fun save(obj: Enobling): Enobling
 }
 
-internal interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>
+internal sealed interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>
 
-interface PunchRepo {
+sealed interface PunchRepo {
     fun findById(id: Int): Punch?
     fun save(obj: Punch): Punch
 }
 
-internal interface PunchIntRepo : PunchRepo, SingleIdRepo<Punch, Int>
-interface UVVarnishRepo {
+internal sealed interface PunchIntRepo : PunchRepo, SingleIdRepo<Punch, Int>
+sealed interface UVVarnishRepo {
     fun findById(id: Int): UVVarnish?
     fun save(obj: UVVarnish): UVVarnish
 }
 
-internal interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int>
-internal interface ClientRepos {
+internal sealed interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int>
+internal sealed interface ClientRepos {
     fun findByClientId(clientId: Int): Client?
 }
 
 /**
  * To save [Client], use specified repos of [Client] subtypes.
  */
-interface ClientRepo {
+sealed interface ClientRepo {
     fun findById(id: Int): Client?
 }
 
