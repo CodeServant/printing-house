@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
+import pl.macia.printinghouse.server.bmodel.Client
 import pl.macia.printinghouse.server.bmodel.CompanyClient
 import pl.macia.printinghouse.server.bmodel.CompanyClientImpl
 import pl.macia.printinghouse.server.dao.CompanyDAO
@@ -24,5 +25,11 @@ internal class CompanyClientRepoImpl : CompanyClientIntRepo {
         return CompanyClientImpl(
             dao.save(obj.persistent)
         )
+    }
+
+    override fun Client.isCompanyClient(): Boolean {
+        if (this is CompanyClient) return true
+        val id = clientId ?: return false
+        return findByClientId(id) != null
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.CompanyClient
 import pl.macia.printinghouse.server.bmodel.Email
+import pl.macia.printinghouse.server.repository.ClientIntRepo
 import pl.macia.printinghouse.server.repository.CompanyClientIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -16,6 +17,9 @@ import pl.macia.printinghouse.server.repository.CompanyClientIntRepo
 internal class CompanyClientRepoTest {
     @Autowired
     lateinit var repo: CompanyClientIntRepo
+
+    @Autowired
+    lateinit var cliRepo: ClientIntRepo
 
     @Test
     fun `find by id test`() {
@@ -33,5 +37,15 @@ internal class CompanyClientRepoTest {
         val new = CompanyClient("example corp.", "9182736456", Email("exampleEmailCompClinew@example.com"), "000000000")
         SingleIdTests<CompanyClient, Int>(repo).createNew(new, new::companyId, repo::findByCompanyId)
         SingleIdTests<CompanyClient, Int>(repo).createNew(new, new::clientId, repo::findByClientId)
+    }
+
+    @Test
+    @Transactional
+    fun `is company client test`() {
+        repo.apply {
+            infix fun Boolean.ifIdIs(id: Int) = cliRepo.findById(id)?.isCompanyClient() ?: !this
+            true ifIdIs 3
+            false ifIdIs 1
+        }
     }
 }
