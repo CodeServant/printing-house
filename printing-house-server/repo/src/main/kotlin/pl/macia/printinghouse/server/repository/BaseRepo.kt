@@ -30,6 +30,7 @@ sealed interface IndividualClientRepo {
     fun save(obj: IndividualClient): IndividualClient
     fun findByClientId(clientId: Int): IndividualClient?
     fun findByPersonId(personId: Int): IndividualClient?
+    fun Client.isIndividualClient(): Boolean
 }
 
 internal sealed interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos,
