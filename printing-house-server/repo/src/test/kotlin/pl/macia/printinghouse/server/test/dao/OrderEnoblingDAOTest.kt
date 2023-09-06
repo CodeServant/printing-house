@@ -20,7 +20,6 @@ internal class OrderEnoblingDAOTest {
     @Autowired
     private lateinit var daoOrder: OrderDAO
 
-    //todo insertion test but after implementing order
     @Autowired
     lateinit var dao: OrderEnoblingDAO
 
