@@ -26,6 +26,6 @@ internal class BinderyRepoTest {
     @Transactional
     fun `create new`() {
         val new = Bindery("B2")
-        SingleIdTests<Bindery,Int>(repo).createNew(new, new::binderyId, repo::findById)
+        SingleIdTests<Bindery, Int>(repo).createNew(new, new::binderyId, repo::findById)
     }
 }
