@@ -2,6 +2,12 @@ package pl.macia.printinghouse.server.bmodel
 
 import kotlin.reflect.KProperty
 
+/**
+ * @param P persistance object to be delegated to
+ * @param be target persistance entity to delegate the property to
+ * @param construct constructor of type [BusinessBase]
+ * @param clazz class of interface to be cast to
+ */
 internal fun <B : BusinessBase<P>, P, I> delegate(
     be: P?,
     construct: (P) -> B,
