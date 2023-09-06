@@ -91,4 +91,10 @@ sealed interface ClientRepo {
     fun findById(id: Int): Client?
 }
 
-internal interface ClientIntRepo : ClientRepo
+internal sealed interface ClientIntRepo : ClientRepo
+sealed interface ImpositionTypeRepo {
+    fun findById(id: Int): ImpositionType?
+    fun save(obj: ImpositionType): ImpositionType
+}
+
+internal sealed interface ImpositionTypeIntRepo : ImpositionTypeRepo, SingleIdRepo<ImpositionType, Int>
