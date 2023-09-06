@@ -10,6 +10,7 @@ import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.IndividualClient
+import pl.macia.printinghouse.server.repository.ClientIntRepo
 import pl.macia.printinghouse.server.repository.IndividualClientIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -18,6 +19,9 @@ internal class IndividualClientRepoTest {
     @Autowired
     lateinit var repo: IndividualClientIntRepo
 
+    @Autowired
+    lateinit var cliRepo: ClientIntRepo
+
     @Test
     fun `find by id`() {
         var found = repo.findByPersonId(1)
@@ -25,7 +29,10 @@ internal class IndividualClientRepoTest {
         fun checkFound(found: IndividualClient?) {
             assertEquals("Rick", found?.name)
             assertEquals("SanchesIndividualCli", found?.surname)
-            assertEquals("913582395", found?.psudoPESEL?.trim()) // h2 database does not auto trim fixed char values unlike mysql
+            assertEquals(
+                "913582395",
+                found?.psudoPESEL?.trim()
+            ) // h2 database does not auto trim fixed char values unlike mysql
             assertEquals("julek@wp.pl", found?.email?.email)
             assertEquals("984324654", found?.phoneNumber)
         }
@@ -51,6 +58,16 @@ internal class IndividualClientRepoTest {
         }
         test.createNew(new, new::clientId) {
             repo.findByClientId(it)
+        }
+    }
+
+    @Test
+    @Transactional
+    fun `test if is individual client`() {
+        repo.apply {
+            infix fun Boolean.ifIdIs(id:Int) = cliRepo.findById(id)?.isIndividualClient() ?: !this
+            true ifIdIs 1
+            false ifIdIs 3
         }
     }
 }
