@@ -113,3 +113,10 @@ sealed interface RoleRepo {
 }
 
 internal sealed interface RoleIntRepo : RoleRepo, SingleIdRepo<Role, Int>
+
+sealed interface PaperTypeRepo {
+    fun save(obj: PaperType): PaperType
+    fun findById(id: Int): PaperType?
+}
+
+internal sealed interface PaperTypeIntRepo : PaperTypeRepo, SingleIdRepo<PaperType, Int>
