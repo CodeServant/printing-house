@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.dao.RoleDAO
 internal class RoleRepoImpl : RoleIntRepo {
     @Autowired
     lateinit var dao: RoleDAO
-    fun PRole.toBiz() = RoleImpl(this)
+    private fun PRole.toBiz() = RoleImpl(this)
     override fun save(obj: Role): Role {
         obj as RoleImpl
         return dao.save(obj.persistent).toBiz()
