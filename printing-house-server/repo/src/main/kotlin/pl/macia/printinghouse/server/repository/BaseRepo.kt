@@ -100,3 +100,9 @@ sealed interface ImpositionTypeRepo {
 }
 
 internal sealed interface ImpositionTypeIntRepo : ImpositionTypeRepo, SingleIdRepo<ImpositionType, Int>
+sealed interface PrinterRepo {
+    fun save(obj: Printer): Printer
+    fun findById(id: Int): Printer?
+}
+
+internal sealed interface PrinterIntRepo : PrinterRepo, SingleIdRepo<Printer, Int>
