@@ -23,7 +23,7 @@ internal class SizeRepoTest {
         assertEquals("A0", found?.name)
         found = repo.findById(6)
         assertNull(found?.name)
-        assertEquals(123.0, found?.weigth)
+        assertEquals(123.0, found?.width)
         found = repo.findById(1000)
         assertNull(found)
     }

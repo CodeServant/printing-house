@@ -14,7 +14,7 @@ internal class SizeImpl(persistent: PSize) : Size, BusinessBase<PSize>(persisten
     override var sizeId: Int? by persistent::id
     override var name: String? by persistent::name
     override var heigth: Double by persistent::heigth
-    override var weigth: Double by persistent::width
+    override var width: Double by persistent::width
 }
 
 fun Size(name: String, width: Double, heigth: Double): Size = SizeImpl(name, width, heigth)
