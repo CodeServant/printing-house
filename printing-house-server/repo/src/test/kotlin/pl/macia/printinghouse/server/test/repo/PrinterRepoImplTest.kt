@@ -19,14 +19,14 @@ class PrinterRepoImplTest {
 
     @Test
     fun `find by id`() {
-        repo.findById(1)?.apply {
-            assertEquals("duża komori", name)
-            assertEquals("DK", digest)
-        }
-        repo.findById(2)?.apply {
-            assertEquals("mała komori", name)
-            assertEquals("MK", digest)
-        }
+        var prntr = repo.findById(1)
+        assertEquals("duża komori", prntr?.name)
+        assertEquals("DK", prntr?.digest)
+        prntr = repo.findById(2)
+        assertEquals("mała komori", prntr?.name)
+        assertEquals("MK", prntr?.digest)
+        prntr = repo.findById(100)
+        assertNull(prntr)
     }
 
     @Test
