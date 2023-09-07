@@ -127,3 +127,10 @@ sealed interface SizeRepo {
 }
 
 internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>
+
+sealed interface URLRepo {
+    fun findById(id: Long): URL?
+    fun save(obj: URL): URL
+}
+
+internal sealed interface URLIntRepo : URLRepo, SingleIdRepo<URL, Long>
