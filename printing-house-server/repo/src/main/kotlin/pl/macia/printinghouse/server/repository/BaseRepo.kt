@@ -120,3 +120,10 @@ sealed interface PaperTypeRepo {
 }
 
 internal sealed interface PaperTypeIntRepo : PaperTypeRepo, SingleIdRepo<PaperType, Int>
+
+sealed interface SizeRepo {
+    fun save(obj: Size): Size
+    fun findById(id: Int): Size?
+}
+
+internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>

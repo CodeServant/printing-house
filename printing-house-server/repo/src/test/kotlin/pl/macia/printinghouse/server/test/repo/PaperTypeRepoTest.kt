@@ -29,7 +29,7 @@ internal class PaperTypeRepoTest {
 
     @Test
     fun `create test`() {
-        var new = PaperType("new paper create test repo", "npctr")
+        val new = PaperType("new paper create test repo", "npctr")
         SingleIdTests<PaperType, Int>(repo).createNew(new, new::papTypeId, repo::findById)
     }
 }
