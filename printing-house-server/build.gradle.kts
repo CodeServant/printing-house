@@ -10,17 +10,13 @@ plugins {
 group = "pl.macia"
 version = libs.versions.app.get()
 
-val jvmPlug = libs.plugins.kotlin.jvm.get().pluginId
-val reflect = libs.kotlin.reflect
-val springWeb = libs.spring.boot.web
-val springTest = libs.spring.boot.test
 allprojects {
-    apply(plugin = jvmPlug)
+    apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
 
     dependencies {
-        implementation(springWeb)
-        implementation(reflect)
-        testImplementation(springTest)
+        implementation(rootProject.libs.spring.boot.web)
+        implementation(rootProject.libs.kotlin.reflect)
+        testImplementation(rootProject.libs.spring.boot.test)
     }
 
     tasks.withType<KotlinCompile> {
