@@ -1,28 +1,23 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
-    kotlin("plugin.jpa")
-    kotlin("plugin.allopen")
+    alias(libs.plugins.spring.depManagement)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.kotlin.jpa)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.kotlin.allopen)
 }
 
 group = "pl.macia"
-version = project.properties["applicationVersion"].toString()
+version = libs.versions.app.get()
 
 
 dependencies {
-    val mysqlVersion = project.properties["mysqlVersion"].toString()
-    val pokoVersion = project.properties["pokoVersion"].toString()
-    val springVersion = project.properties["springBootVersion"].toString()
-    val h2db = project.properties["h2db"].toString()
-    runtimeOnly("com.mysql:mysql-connector-j:$mysqlVersion")
-    implementation("dev.drewhamilton.poko:poko-annotations:$pokoVersion")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springVersion")
-    implementation("org.springframework.boot:spring-boot-starter-validation:$springVersion")
-    testImplementation("com.h2database:h2:$h2db")
+    runtimeOnly(libs.db.mysql)
+    implementation(libs.poko)
+    implementation(libs.spring.boot.jpa)
+    implementation(libs.spring.boot.validation)
+    testImplementation(libs.db.h2)
 }
 
 allOpen {

@@ -1,25 +1,26 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
+    alias(libs.plugins.spring.depManagement)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
 }
 
 group = "pl.macia"
-version = project.properties["applicationVersion"].toString()
+version = libs.versions.app.get()
 
-
+val jvmPlug = libs.plugins.kotlin.jvm.get().pluginId
+val reflect = libs.kotlin.reflect
+val springWeb = libs.spring.boot.web
+val springTest = libs.spring.boot.test
 allprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = jvmPlug)
 
     dependencies {
-        val springVersion = project.properties["springBootVersion"].toString()
-        val kotlinVersion = project.properties["kotlinVersion"].toString()
-        implementation("org.springframework.boot:spring-boot-starter-web:$springVersion")
-        implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-        testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion")
+        implementation(springWeb)
+        implementation(reflect)
+        testImplementation(springTest)
     }
 
     tasks.withType<KotlinCompile> {
