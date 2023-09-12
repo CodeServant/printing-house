@@ -97,4 +97,29 @@ internal class WorkflowStageDAOTest {
                 ?.id
         )
     }
+
+    @Test
+    @JpaOrder(6)
+    @Transactional
+    fun `create new worker assoc`() {
+        val workflowStage = dao.findByIdOrNull(2)!!
+        val newWorker = Worker(
+            email = Email("createNewWorkerAssocTest@example.com"),
+            name = "Jan",
+            surname = "Kowalski",
+            password = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.",
+            activeAccount = true,
+            employed = true,
+            pseudoPESEL = "11111111111"
+        )
+        // you need to first save them to database
+        dao.save(workflowStage)
+        daoWorker.save(newWorker)
+        // then add to each other
+        workflowStage.workflowStageManagers.add(newWorker)
+        newWorker.isManagerOf.add(workflowStage)
+        assertNotNull(newWorker.id)
+        assertEquals("Jan", daoWorker.findByIdOrNull(newWorker.id)?.name)
+        assertTrue(dao.findByIdOrNull(2)?.workflowStageManagers?.contains(newWorker)!!)
+    }
 }
