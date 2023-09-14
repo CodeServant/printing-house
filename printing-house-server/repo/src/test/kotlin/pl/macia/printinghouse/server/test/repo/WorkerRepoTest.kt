@@ -28,7 +28,7 @@ internal class WorkerRepoTest {
     @Test
     @Transactional
     fun `find by id test`() {
-        var found = repo.findById(2)!!
+        val found = repo.findById(2)!!
         assertEquals(found.name, "Marian")
         assertEquals(found.surname, "Rokita-IntroligManager")
         assertEquals(found.psudoPESEL.trim(), "548746687")
