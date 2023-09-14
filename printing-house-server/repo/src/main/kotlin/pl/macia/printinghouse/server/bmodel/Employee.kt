@@ -4,6 +4,6 @@ sealed interface Employee : Person {
     var employed: Boolean
     var activeAccount: Boolean
     var password: String
-    var roles: Set<Role>
+    val roles: MutableSet<Role>
     var email: Email
 }
