@@ -5,10 +5,15 @@ import pl.macia.printinghouse.server.dto.Role as PRole
 import pl.macia.printinghouse.server.dto.WorkflowStage as PWorkflowStage
 
 internal class WorkerImpl(
-    persistent: PWorker,
-    override val isManagerOf: BMutableList<WorkflowStage, PWorkflowStage>,
-    override val roles: BMutableSet<Role, PRole>
+    persistent: PWorker
 ) : Worker, BusinessBase<PWorker>(persistent) {
+    override val isManagerOf: BMutableList<WorkflowStage, PWorkflowStage> =
+        BMutableList(::WorkflowStageImpl, {
+            it as WorkflowStageImpl
+            it.persistent
+        }, persistent.isManagerOf)
+    override val roles: BMutableSet<Role, PRole>
+        get() = TODO()
     override var employed: Boolean by persistent::employed
     override var activeAccount: Boolean by persistent::activeAccount
     override var password: String by persistent::password
