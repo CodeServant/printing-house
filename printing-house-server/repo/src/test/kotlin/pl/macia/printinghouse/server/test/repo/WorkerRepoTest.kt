@@ -11,6 +11,8 @@ import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.repository.WorkerIntRepo
 
+private const val easyPass = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W."
+
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
 internal class WorkerRepoTest {
@@ -33,7 +35,7 @@ internal class WorkerRepoTest {
     fun `create single test`() {
         val new = Worker(
             Email("createSingleTestWorker@example.com"),
-            password = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.",
+            password = easyPass,
             activeAccount = false,
             employed = false,
             name = "John",
