@@ -8,8 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
+import pl.macia.printinghouse.server.bmodel.Role
 import pl.macia.printinghouse.server.bmodel.Worker
+import pl.macia.printinghouse.server.bmodel.WorkflowStage
 import pl.macia.printinghouse.server.repository.WorkerIntRepo
+import pl.macia.printinghouse.server.repository.WorkflowStageIntRepo
 
 private const val easyPass = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W."
 
@@ -18,6 +21,9 @@ private const val easyPass = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVn
 internal class WorkerRepoTest {
     @Autowired
     lateinit var repo: WorkerIntRepo
+
+    @Autowired
+    lateinit var repoWorkflowStage: WorkflowStageIntRepo
 
     @Test
     @Transactional
@@ -46,7 +52,34 @@ internal class WorkerRepoTest {
     }
 
     @Test
+    @Transactional
     fun `Worker and WorkflowStage binding test`() {
-        TODO("Not yet implemented")
+        val new = Worker(
+            Email("createSingleTestWorker@example.com"),
+            password = easyPass,
+            activeAccount = false,
+            employed = false,
+            name = "John",
+            surname = "Travolta",
+            pseudoPESEL = "09876543210"
+        )
+        val ws1 = WorkflowStage(name = "Station1", role = Role("station1"))
+        val ws2 = WorkflowStage(name = "Station2", role = Role("station2"))
+        val listOfWss = listOf(ws1, ws2)
+
+        listOfWss.forEach {
+            it.workflowManagers.add(new)
+        }
+        new.isManagerOf.addAll(listOfWss)
+        listOfWss.forEach(repoWorkflowStage::save)
+        repo.save(new)
+        assertNotNull(ws1.workflowStageid)
+        assertNotNull(ws2.workflowStageid)
+        assertNotNull(new.personId)
+        repo.findById(new.personId!!)
+            ?.isManagerOf
+            ?.let { manager ->
+                assertTrue(manager.containsAll(listOfWss))
+            }
     }
 }
