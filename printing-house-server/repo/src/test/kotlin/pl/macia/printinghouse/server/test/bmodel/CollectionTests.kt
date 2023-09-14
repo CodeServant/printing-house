@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.dto.Email as PEmail
 import pl.macia.printinghouse.server.bmodel.EmailImpl
-import pl.macia.printinghouse.server.repository.BMutableList
-import pl.macia.printinghouse.server.repository.BMutableSet
+import pl.macia.printinghouse.server.bmodel.BMutableList
+import pl.macia.printinghouse.server.bmodel.BMutableSet
 
 
 internal class CollectionTests {

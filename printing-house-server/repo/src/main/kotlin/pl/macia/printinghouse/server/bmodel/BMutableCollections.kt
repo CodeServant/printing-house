@@ -1,4 +1,4 @@
-package pl.macia.printinghouse.server.repository
+package pl.macia.printinghouse.server.bmodel
 
 internal class BMutableList<I, P>(
     val toBiz: (P) -> I,
