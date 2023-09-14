@@ -7,6 +7,27 @@ import pl.macia.printinghouse.server.dto.WorkflowStage as PWorkflowStage
 internal class WorkerImpl(
     persistent: PWorker
 ) : Worker, BusinessBase<PWorker>(persistent) {
+
+    constructor(
+        email: EmailImpl,
+        password: String,
+        activeAccount: Boolean,
+        employed: Boolean,
+        name: String,
+        surname: String,
+        pseudoPESEL: String
+    ) : this(
+        PWorker(
+            email.persistent,
+            password,
+            activeAccount,
+            employed,
+            name,
+            surname,
+            pseudoPESEL
+        )
+    )
+
     override val isManagerOf: BMutableList<WorkflowStage, PWorkflowStage> =
         BMutableList(::WorkflowStageImpl, {
             it as WorkflowStageImpl
@@ -22,4 +43,17 @@ internal class WorkerImpl(
     override var psudoPESEL: String by persistent::pseudoPESEL
     override var surname: String by persistent::surname
     override var name: String by persistent::name
+}
+
+fun Worker(
+    email: Email,
+    password: String,
+    activeAccount: Boolean,
+    employed: Boolean,
+    name: String,
+    surname: String,
+    pseudoPESEL: String
+): Worker {
+    val em = email as EmailImpl
+    return WorkerImpl(em, password, activeAccount, employed, name, surname, pseudoPESEL)
 }

@@ -141,3 +141,10 @@ sealed interface WorkflowStageRepo {
 }
 
 internal sealed interface WorkflowStageIntRepo : WorkflowStageRepo, SingleIdRepo<WorkflowStage, Int>
+
+sealed interface WorkerRepo {
+    fun save(obj: Worker): Worker
+    fun findById(id: Int): Worker?
+}
+
+internal sealed interface WorkerIntRepo : WorkerRepo, SingleIdRepo<Worker, Int>

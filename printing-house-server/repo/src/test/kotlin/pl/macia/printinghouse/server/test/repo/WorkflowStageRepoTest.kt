@@ -6,6 +6,6 @@ import pl.macia.printinghouse.server.PrintingHouseServerApplication
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-class WorkflowStageTest {
+class WorkflowStageRepoTest {
     // TODO()
 }
