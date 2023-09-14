@@ -12,6 +12,6 @@ internal class WorkflowStageImpl(
         BMutableList(::WorkerImpl, {
             it as WorkerImpl
             it.persistent
-        }, persistent.workflowStageManagers.toMutableList())
+        }, persistent.workflowStageManagers)
     override var role: Role by delegate(persistent.role, ::RoleImpl, Role::class.java)
 }

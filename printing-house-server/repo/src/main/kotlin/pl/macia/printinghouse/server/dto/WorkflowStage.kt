@@ -30,7 +30,7 @@ internal class WorkflowStage(
         joinColumns = [JoinColumn(name = MANAGER_WORKFLOW_STAGE_ID)],
         inverseJoinColumns = [JoinColumn(name = MANAGER_EMPLOYEE_ID)]
     )
-    var workflowStageManagers: MutableSet<Worker>
+    var workflowStageManagers: MutableList<Worker>
 ) {
     companion object {
         const val TABLE_NAME = "WorkflowStage"
@@ -42,7 +42,7 @@ internal class WorkflowStage(
         const val MANAGER_EMPLOYEE_ID = "employeeId"
     }
 
-    constructor(role: Role, name: String, workflowStageManagers: MutableSet<Worker>) : this(
+    constructor(role: Role, name: String, workflowStageManagers: MutableList<Worker>) : this(
         null,
         role,
         name,

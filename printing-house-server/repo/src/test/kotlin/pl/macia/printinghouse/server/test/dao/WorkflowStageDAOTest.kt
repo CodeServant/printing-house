@@ -43,7 +43,7 @@ internal class WorkflowStageDAOTest {
             WorkflowStage(
                 Role("newRoleToWorkflowStage role association test"),
                 "introligatorNewWorkflowStage test",
-                mutableSetOf(workerManager)
+                mutableListOf(workerManager)
             )
         dao.saveAndFlush(newWorkflowStage)
         assertNotNull(newWorkflowStage.id, "${WorkflowStage.TABLE_NAME} not created")
@@ -75,7 +75,7 @@ internal class WorkflowStageDAOTest {
     fun `delete workflowstage that has role association`() {
         val workerManager = daoWorker.findByIdOrNull(4)!! // Makłowisz-NaśwManager
         val workflowStage =
-            WorkflowStage(daoRole.findByIdOrNull(5)!!, "delete role that has association", mutableSetOf(workerManager))
+            WorkflowStage(daoRole.findByIdOrNull(5)!!, "delete role that has association", mutableListOf(workerManager))
         dao.saveAndFlush(workflowStage)
         assertNotNull(workflowStage.id)
         assertEquals("naświetlarnia", workflowStage.role.name)
