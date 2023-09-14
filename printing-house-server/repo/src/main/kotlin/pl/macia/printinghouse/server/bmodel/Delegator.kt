@@ -16,6 +16,14 @@ internal fun <B : BusinessBase<P>, P, I> delegate(
     return Delegate(be, construct, clazz)
 }
 
+internal fun <B : BusinessBase<P>, P, I> delegate(
+    be: P,
+    construct: (P) -> B,
+    clazz: Class<I>
+): NonNullDelegate<B, P, I> {
+    return NonNullDelegate(be, construct, clazz)
+}
+
 internal class Delegate<B : BusinessBase<P>, P, I>(var be: P?, val constructor: (P) -> B, val clazz: Class<I>) {
     operator fun getValue(thisRef: Any, property: KProperty<*>): I? {
         return be?.let { clazz.cast(constructor(it)) }
@@ -23,5 +31,15 @@ internal class Delegate<B : BusinessBase<P>, P, I>(var be: P?, val constructor: 
 
     operator fun setValue(thisRef: Any, property: KProperty<*>, value: I?) {
         be = (value as? B)?.persistent
+    }
+}
+
+internal class NonNullDelegate<B : BusinessBase<P>, P, I>(var be: P, val constructor: (P) -> B, val clazz: Class<I>) {
+    operator fun getValue(thisRef: Any, property: KProperty<*>): I {
+        return be.let { clazz.cast(constructor(it)) }
+    }
+
+    operator fun setValue(thisRef: Any, property: KProperty<*>, value: I) {
+        be = (value as B).persistent
     }
 }
