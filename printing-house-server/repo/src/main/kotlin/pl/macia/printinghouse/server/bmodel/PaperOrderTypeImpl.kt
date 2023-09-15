@@ -26,3 +26,9 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
     override var productionSize: Size by delegate(persistent.productionSize, ::SizeImpl, Size::class.java)
 
 }
+
+internal fun toBizPaperOrderType(ppap: MutableList<PPaperOrderType>): BMutableList<PaperOrderTypeImpl, PPaperOrderType> {
+    return BMutableList(::PaperOrderTypeImpl, {
+        it.persistent
+    }, ppap)
+}
