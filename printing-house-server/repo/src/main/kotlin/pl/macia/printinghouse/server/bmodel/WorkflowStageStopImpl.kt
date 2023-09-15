@@ -20,3 +20,9 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
         get() = TODO("Not yet implemented")
         set(value) {}
 }
+
+internal fun toBizWorkflowStageStop(wss: MutableList<PWorkflowStageStop>): BMutableList<WorkflowStageStopImpl, PWorkflowStageStop> {
+    return BMutableList(::WorkflowStageStopImpl, {
+        it.persistent
+    }, wss)
+}
