@@ -34,6 +34,7 @@ internal class WorkerRepoTest {
         assertEquals(found.psudoPESEL.trim(), "548746687")
         assertTrue(found.isManagerOf.isNotEmpty())
         assertEquals(found.isManagerOf.first().name, "Introligatornia")
+        assertEquals("krajalnia", found.roles.first().name)
     }
 
     @Test
