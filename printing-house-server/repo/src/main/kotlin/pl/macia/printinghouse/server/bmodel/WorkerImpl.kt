@@ -33,8 +33,11 @@ internal class WorkerImpl(
             it as WorkflowStageImpl
             it.persistent
         }, persistent.isManagerOf)
-    override val roles: BMutableSet<Role, PRole>
-        get() = TODO()
+    override val roles: BMutableSet<Role, PRole> =
+        BMutableSet(::RoleImpl, {
+            it as RoleImpl
+            it.persistent
+        }, persistent.roles)
     override var employed: Boolean by persistent::employed
     override var activeAccount: Boolean by persistent::activeAccount
     override var password: String by persistent::password
