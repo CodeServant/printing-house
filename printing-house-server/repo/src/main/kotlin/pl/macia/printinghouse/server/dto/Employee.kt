@@ -28,16 +28,15 @@ internal class Employee(
     var employed: Boolean,
     name: String,
     surname: String,
-    pseudoPESEL: String
-) : Person(name, surname, pseudoPESEL) {
+    pseudoPESEL: String,
     @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(
         name = EMPLOYEE_ROLE,
-        joinColumns = [JoinColumn(name = ROLE_ID)],
-        inverseJoinColumns = [JoinColumn(name = EMP_ID)]
+        joinColumns = [JoinColumn(name = EMP_ID)],
+        inverseJoinColumns = [JoinColumn(name = ROLE_ID)]
     )
-    var roles = mutableSetOf<Role>()
-
+    var roles: MutableSet<Role> = mutableSetOf()
+) : Person(name, surname, pseudoPESEL) {
     companion object {
         const val TABLE_NAME = "Employee"
         const val ID = "personId"
