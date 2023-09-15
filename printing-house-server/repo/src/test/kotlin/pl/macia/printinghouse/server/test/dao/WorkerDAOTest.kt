@@ -31,6 +31,8 @@ internal class WorkerDAOTest {
         val workers = dao.findAllById(listOf(1, 2, 3, 4))
         val expectedNames = listOf("Marian", "Jiliusz", "Robert")
         assertIterableEquals(expectedNames, workers.map { it.name })
+        val firstWkr = workers.first()!!
+        assertEquals("krajalnia", firstWkr.roles.first().name)
     }
 
     @Test
