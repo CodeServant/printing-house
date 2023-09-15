@@ -16,12 +16,12 @@ sealed interface Order {
     var realizationDate: LocalDateTime
     var caretionDate: LocalDateTime
     var pages: Int
-    var paperOrderTypes: MutableList<PaperOrderType>
-    var orderEnoblings: MutableList<OrderEnobling>
+    val paperOrderTypes: MutableList<PaperOrderType>
+    val orderEnoblings: MutableList<OrderEnobling>
     var url: URL?
     var bindery: Bindery
     var salesman: Salesman
-    var workflowStageStops: MutableList<WorkflowStageStop>
+    val workflowStageStops: MutableList<WorkflowStageStop>
     var bindingForm: BindingForm
     var calculationCard: CalculationCard?
     var netSize: Size

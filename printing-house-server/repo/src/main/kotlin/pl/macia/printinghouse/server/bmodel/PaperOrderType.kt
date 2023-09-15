@@ -12,7 +12,7 @@ sealed interface PaperOrderType {
     var printer: Printer
     var colouring: Colouring
     var impositionType: ImpositionType
-    var order: Order
+    val order: Order
     var size: Size
     var productionSize: Size
 }
