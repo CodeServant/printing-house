@@ -21,7 +21,7 @@ internal class Order private constructor(
     @field:JpaSize(max = 200)
     @field:NotBlank
     var name: String,
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinColumn(name = NET_SIZE, nullable = false)
     var netSize: Size,
     @Column(name = PAGES, nullable = false)
