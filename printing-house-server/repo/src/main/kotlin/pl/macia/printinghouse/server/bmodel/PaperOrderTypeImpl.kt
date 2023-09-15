@@ -27,8 +27,9 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
 
 }
 
-internal fun toBizPaperOrderType(ppap: MutableList<PPaperOrderType>): BMutableList<PaperOrderTypeImpl, PPaperOrderType> {
+internal fun toBizPaperOrderType(ppap: MutableList<PPaperOrderType>): BMutableList<PaperOrderType, PPaperOrderType> {
     return BMutableList(::PaperOrderTypeImpl, {
+        it as PaperOrderTypeImpl
         it.persistent
     }, ppap)
 }

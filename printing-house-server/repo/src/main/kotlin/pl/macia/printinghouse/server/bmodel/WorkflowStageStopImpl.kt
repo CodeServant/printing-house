@@ -21,8 +21,9 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
         set(value) {}
 }
 
-internal fun toBizWorkflowStageStop(wss: MutableList<PWorkflowStageStop>): BMutableList<WorkflowStageStopImpl, PWorkflowStageStop> {
+internal fun toBizWorkflowStageStop(wss: MutableList<PWorkflowStageStop>): BMutableList<WorkflowStageStop, PWorkflowStageStop> {
     return BMutableList(::WorkflowStageStopImpl, {
+        it as WorkflowStageStopImpl
         it.persistent
     }, wss)
 }
