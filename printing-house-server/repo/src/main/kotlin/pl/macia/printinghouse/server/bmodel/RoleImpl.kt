@@ -14,3 +14,10 @@ internal class RoleImpl(persistent: PRole) : Role, BusinessBase<PRole>(persisten
 fun Role(name: String): Role {
     return RoleImpl(name)
 }
+
+internal fun toBizRoleSet(roles: MutableSet<PRole>): BMutableSet<Role, PRole> {
+    return BMutableSet(::RoleImpl, {
+        it as RoleImpl
+        it.persistent
+    }, roles)
+}
