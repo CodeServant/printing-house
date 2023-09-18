@@ -85,6 +85,7 @@ internal class OrderDAOTest {
     }
 
     @Test
+    @Transactional
     fun `create new one`() {
         val ord = Order(
             name = "createNewOneOrderDAOTest",
@@ -133,5 +134,7 @@ internal class OrderDAOTest {
             productionSize = Size(120.0, 120.0)
         )
         dao.saveAndFlush(ord)
+        assertNotNull(ord.id)
+        assertEquals(2, dao.count())
     }
 }
