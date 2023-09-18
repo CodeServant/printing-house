@@ -78,4 +78,45 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var netSize: Size by delegate(persistent.netSize, ::SizeImpl, Size::class.java)
     override var client: Client by delegate(persistent.client, ::ClientImpl, Client::class.java)
 }
-//TODO constructor function
+
+fun Order(
+    name: String,
+    netSize: Size,
+    comment: String?,
+    withdrawalDate: LocalDateTime?,
+    completionDate: LocalDateTime?,
+    designsNumberForSheet: Int,
+    checked: Boolean,
+    imageComment: String?,
+    towerCut: Boolean,
+    folding: Boolean,
+    client: Client,
+    realizationDate: LocalDateTime,
+    caretionDate: LocalDateTime,
+    pages: Int,
+    url: URL?,
+    bindery: Bindery,
+    salesman: Salesman,
+    bindingForm: BindingForm
+): Order {
+    return OrderImpl(
+        name = name,
+        netSize = netSize as SizeImpl,
+        comment = comment,
+        withdrawalDate = withdrawalDate,
+        completionDate = completionDate,
+        designsNumberForSheet = designsNumberForSheet,
+        checked = checked,
+        imageComment = imageComment,
+        towerCut = towerCut,
+        folding = folding,
+        client = client as ClientImpl,
+        realizationDate = realizationDate,
+        caretionDate = caretionDate,
+        pages = pages,
+        url = url as URLImpl,
+        bindery = bindery as BinderyImpl,
+        salesman = salesman as SalesmanImpl,
+        bindingForm = bindingForm as BindingFormImpl
+    )
+}
