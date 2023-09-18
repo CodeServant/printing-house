@@ -47,7 +47,10 @@ internal class Order private constructor(
     var folding: Boolean,
     @Column(name = TOWER_CUT, nullable = false)
     var towerCut: Boolean,
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH]
+    )
     @JoinColumn(name = IMAGE_URL, nullable = true)
     var imageURL: URL?,
     @Column(name = IMAGE_COMMENT, nullable = true)
