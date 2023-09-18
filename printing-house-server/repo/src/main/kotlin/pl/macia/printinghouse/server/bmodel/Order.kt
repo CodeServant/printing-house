@@ -26,4 +26,12 @@ sealed interface Order {
     var calculationCard: CalculationCard?
     var netSize: Size
     var client: Client
+    fun addWorkflowStageStop(
+        comment: String?,
+        lastWorkflowStage: Boolean,
+        assignTime: LocalDateTime?,
+        createTime: LocalDateTime,
+        worker: Worker?,
+        workflowStage: WorkflowStage
+    ): WorkflowStageStop
 }

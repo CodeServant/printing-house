@@ -77,6 +77,26 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         set(value) {}
     override var netSize: Size by delegate(persistent.netSize, ::SizeImpl, Size::class.java)
     override var client: Client by delegate(persistent.client, ::ClientImpl, Client::class.java)
+    override fun addWorkflowStageStop(
+        comment: String?,
+        lastWorkflowStage: Boolean,
+        assignTime: LocalDateTime?,
+        createTime: LocalDateTime,
+        worker: Worker?,
+        workflowStage: WorkflowStage
+    ): WorkflowStageStop {
+        val wss = WorkflowStageStopImpl(
+            comment,
+            lastWorkflowStage,
+            assignTime,
+            createTime,
+            worker as WorkerImpl,
+            workflowStage as WorkflowStageImpl,
+            this
+        )
+        workflowStageStops.add(wss)
+        return wss
+    }
 }
 
 fun Order(
