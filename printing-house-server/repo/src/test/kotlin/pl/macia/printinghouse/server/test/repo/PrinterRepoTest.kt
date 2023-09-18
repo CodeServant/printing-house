@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.repository.PrinterIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-internal class PrinterRepoImplTest {
+internal class PrinterRepoTest {
 
     @Autowired
     private lateinit var repo: PrinterIntRepo
