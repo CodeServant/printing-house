@@ -19,7 +19,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         realizationDate: LocalDateTime,
         caretionDate: LocalDateTime,
         pages: Int,
-        url: URLImpl,
+        url: URLImpl?,
         bindery: BinderyImpl,
         salesman: SalesmanImpl,
         bindingForm: BindingFormImpl
@@ -36,7 +36,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             bindery = bindery.persistent,
             folding = folding,
             towerCut = towerCut,
-            imageURL = url.persistent,
+            imageURL = url?.persistent,
             imageComment = imageComment,
             checked = checked,
             designsNumberForSheet = designsNumberForSheet,
