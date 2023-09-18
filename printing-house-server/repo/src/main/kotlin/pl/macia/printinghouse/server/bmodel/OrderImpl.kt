@@ -46,6 +46,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             calculationCard = null
         )
     )
+
     override var orderid: Int? by persistent::id
     override var name: String by persistent::name
     override var comment: String? by persistent::comment
