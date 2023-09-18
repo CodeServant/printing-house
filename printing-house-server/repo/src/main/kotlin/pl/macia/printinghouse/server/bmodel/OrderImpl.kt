@@ -4,7 +4,48 @@ import java.time.LocalDateTime
 import pl.macia.printinghouse.server.dto.Order as POrder
 
 internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
-    //TODO constructor
+    constructor(
+        name: String,
+        netSize: SizeImpl,
+        comment: String?,
+        withdrawalDate: LocalDateTime?,
+        completionDate: LocalDateTime?,
+        designsNumberForSheet: Int,
+        checked: Boolean,
+        imageComment: String?,
+        towerCut: Boolean,
+        folding: Boolean,
+        client: ClientImpl,
+        realizationDate: LocalDateTime,
+        caretionDate: LocalDateTime,
+        pages: Int,
+        url: URLImpl,
+        bindery: BinderyImpl,
+        salesman: SalesmanImpl,
+        bindingForm: BindingFormImpl
+    ) : this(
+        POrder(
+            name = name,
+            netSize = netSize.persistent,
+            pages = pages,
+            supervisor = salesman.persistent,
+            client = client.persistent,
+            creationDate = caretionDate,
+            realizationDate = realizationDate,
+            bindingForm = bindingForm.persistent,
+            bindery = bindery.persistent,
+            folding = folding,
+            towerCut = towerCut,
+            imageURL = url.persistent,
+            imageComment = imageComment,
+            checked = checked,
+            designsNumberForSheet = designsNumberForSheet,
+            completionDate = completionDate,
+            withdrawalDate = withdrawalDate,
+            comment = comment,
+            calculationCard = null
+        )
+    )
     override var orderid: Int? by persistent::id
     override var name: String by persistent::name
     override var comment: String? by persistent::comment
