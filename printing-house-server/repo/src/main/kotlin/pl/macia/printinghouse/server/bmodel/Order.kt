@@ -25,4 +25,5 @@ sealed interface Order {
     var bindingForm: BindingForm
     var calculationCard: CalculationCard?
     var netSize: Size
+    var client: Client
 }
