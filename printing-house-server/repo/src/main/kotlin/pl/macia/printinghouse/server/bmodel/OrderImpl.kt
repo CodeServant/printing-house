@@ -18,14 +18,12 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var realizationDate: LocalDateTime by persistent::realizationDate
     override var caretionDate: LocalDateTime by persistent::creationDate
     override var pages: Int by persistent::pages
-    override var paperOrderTypes: MutableList<PaperOrderType> = toBizPaperOrderType(persistent.paperOrderTypes)
-    override var orderEnoblings: MutableList<OrderEnobling>
-        get() = TODO("Not yet implemented")
-        set(value) {}
+    override val paperOrderTypes: MutableList<PaperOrderType> = toBizPaperOrderType(persistent.paperOrderTypes)
+    override val orderEnoblings: MutableList<OrderEnobling> = toBizOrderEnobling(persistent.orderEnoblings)
     override var url: URL? by delegate(persistent.imageURL, ::URLImpl, URL::class.java)
     override var bindery: Bindery by delegate(persistent.bindery, ::BinderyImpl, Bindery::class.java)
     override var salesman: Salesman by delegate(persistent.supervisor, ::SalesmanImpl, Salesman::class.java)
-    override var workflowStageStops: MutableList<WorkflowStageStop> = toBizWorkflowStageStop(persistent.workflowStageStops)
+    override val workflowStageStops: MutableList<WorkflowStageStop> = toBizWorkflowStageStop(persistent.workflowStageStops)
     override var bindingForm: BindingForm by delegate(
         persistent.bindingForm,
         ::BindingFormImpl,
