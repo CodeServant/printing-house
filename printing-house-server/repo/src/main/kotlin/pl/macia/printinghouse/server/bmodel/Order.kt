@@ -13,6 +13,10 @@ sealed interface Order {
     var imageComment: String?
     var towerCut: Boolean
     var folding: Boolean
+
+    /**
+     * Expected realization date.
+     */
     var realizationDate: LocalDateTime
     var caretionDate: LocalDateTime
     var pages: Int
