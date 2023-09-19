@@ -162,3 +162,10 @@ sealed interface OrderEnoblingRepo {
 }
 
 internal sealed interface OrderEnoblingIntRepo : OrderEnoblingRepo, SingleIdRepo<OrderEnobling, Int>
+
+sealed interface OrderRepo {
+    fun save(obj: Order): Order
+    fun findById(id: Int): Order?
+}
+
+internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>
