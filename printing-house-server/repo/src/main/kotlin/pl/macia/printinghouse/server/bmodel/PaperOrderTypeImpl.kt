@@ -3,7 +3,38 @@ package pl.macia.printinghouse.server.bmodel
 import pl.macia.printinghouse.server.dto.PaperOrderType as PPaperOrderType
 
 internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, BusinessBase<PPaperOrderType>(p) {
-    //TODO constructor
+    constructor(
+        paperType: PaperTypeImpl,
+        grammage: Double,
+        colours: ColouringImpl,
+        circulation: Int,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        printer: PrinterImpl,
+        platesQuantityForPrinter: Int,
+        imposition: ImpositionTypeImpl,
+        size: SizeImpl,
+        productionSize: SizeImpl,
+        order: OrderImpl
+    ) : this(
+        PPaperOrderType(
+            paperType.persistent,
+            grammage,
+            colours.persistent,
+            circulation,
+            stockCirculation,
+            sheetNumber,
+            comment,
+            printer.persistent,
+            platesQuantityForPrinter,
+            imposition.persistent,
+            size.persistent,
+            productionSize.persistent,
+            order.persistent
+        )
+    )
+
     override var papOrdTypid: Int? by persistent::id
     override var grammage: Double by persistent::grammage
     override var stockCirculation: Int by persistent::stockCirculation
@@ -19,9 +50,7 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
         ::ImpositionTypeImpl,
         ImpositionType::class.java
     )
-    override var order: Order
-        get() = TODO("Not yet implemented")
-        set(value) {}
+    override var order: Order by delegate(persistent.order, ::OrderImpl, Order::class.java)
     override var size: Size by delegate(persistent.size, ::SizeImpl, Size::class.java)
     override var productionSize: Size by delegate(persistent.productionSize, ::SizeImpl, Size::class.java)
 

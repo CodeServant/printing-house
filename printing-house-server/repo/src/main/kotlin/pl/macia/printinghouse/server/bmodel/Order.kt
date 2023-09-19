@@ -40,4 +40,20 @@ sealed interface Order {
         enobling: Enobling,
         bindery: Bindery
     ): OrderEnobling
+
+    fun addPaperOrderType(
+        grammage: Double,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        circulation: Int,
+        platesQuantityForPrinter: Int,
+        paperType: PaperType,
+        printer: Printer,
+        colouring: Colouring,
+        impositionType: ImpositionType,
+        order: Order,
+        size: Size,
+        productionSize: Size
+    ): PaperOrderType
 }

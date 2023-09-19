@@ -106,6 +106,38 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             annotation
         )
     }
+
+    override fun addPaperOrderType(
+        grammage: Double,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        circulation: Int,
+        platesQuantityForPrinter: Int,
+        paperType: PaperType,
+        printer: Printer,
+        colouring: Colouring,
+        impositionType: ImpositionType,
+        order: Order,
+        size: Size,
+        productionSize: Size
+    ): PaperOrderType {
+        return PaperOrderTypeImpl(
+            grammage = grammage,
+            stockCirculation = stockCirculation,
+            sheetNumber = sheetNumber,
+            comment = comment,
+            circulation = circulation,
+            platesQuantityForPrinter = platesQuantityForPrinter,
+            paperType = paperType as PaperTypeImpl,
+            printer = printer as PrinterImpl,
+            colours = colouring as ColouringImpl,
+            imposition = impositionType as ImpositionTypeImpl,
+            order = this,
+            size = size as SizeImpl,
+            productionSize = productionSize as SizeImpl,
+        )
+    }
 }
 
 fun Order(
