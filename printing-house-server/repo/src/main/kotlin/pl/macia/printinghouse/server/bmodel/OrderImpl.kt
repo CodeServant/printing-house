@@ -97,6 +97,15 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         workflowStageStops.add(wss)
         return wss
     }
+
+    override fun addOrderEnobling(annotation: String?, enobling: Enobling, bindery: Bindery): OrderEnobling {
+        return OrderEnoblingImpl(
+            enobling as EnoblingImpl,
+            bindery as BinderyImpl,
+            this,
+            annotation
+        )
+    }
 }
 
 fun Order(

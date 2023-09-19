@@ -34,4 +34,10 @@ sealed interface Order {
         worker: Worker?,
         workflowStage: WorkflowStage
     ): WorkflowStageStop
+
+    fun addOrderEnobling(
+        annotation: String?,
+        enobling: Enobling,
+        bindery: Bindery
+    ): OrderEnobling
 }

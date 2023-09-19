@@ -3,6 +3,15 @@ package pl.macia.printinghouse.server.bmodel
 import pl.macia.printinghouse.server.dto.OrderEnobling as POrderEnobling
 
 internal class OrderEnoblingImpl(p: POrderEnobling) : OrderEnobling, BusinessBase<POrderEnobling>(p) {
+    constructor(enobling: EnoblingImpl, bindery: BinderyImpl, order: OrderImpl, annotation: String?) : this(
+        POrderEnobling(
+            enobling = enobling.persistent,
+            bindery = bindery.persistent,
+            order = order.persistent,
+            annotation = annotation
+        )
+    )
+
     override var orderEnobid: Int? by persistent::id
     override var annotation: String? by persistent::annotation
     override var enobling: Enobling by delegate(persistent.enobling, ::EnoblingImpl, Enobling::class.java)
