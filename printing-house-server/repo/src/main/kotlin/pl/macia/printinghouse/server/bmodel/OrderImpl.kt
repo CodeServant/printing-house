@@ -90,7 +90,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             lastWorkflowStage,
             assignTime,
             createTime,
-            worker as WorkerImpl,
+            worker as WorkerImpl?,
             workflowStage as WorkflowStageImpl,
             this
         )
