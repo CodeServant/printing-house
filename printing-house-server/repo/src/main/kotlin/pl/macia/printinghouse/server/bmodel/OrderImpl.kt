@@ -121,7 +121,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         size: Size,
         productionSize: Size
     ): PaperOrderType {
-        return PaperOrderTypeImpl(
+        val new = PaperOrderTypeImpl(
             grammage = grammage.toDouble(),
             stockCirculation = stockCirculation,
             sheetNumber = sheetNumber,
@@ -136,6 +136,8 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             size = size as SizeImpl,
             productionSize = productionSize as SizeImpl,
         )
+        this.paperOrderTypes.add(new)
+        return new
     }
 }
 
