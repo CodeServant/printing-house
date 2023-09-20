@@ -3,7 +3,7 @@ package pl.macia.printinghouse.server.bmodel
 import pl.macia.printinghouse.server.dto.OrderEnobling as POrderEnobling
 
 internal class OrderEnoblingImpl(p: POrderEnobling) : OrderEnobling, BusinessBase<POrderEnobling>(p) {
-    constructor(enobling: EnoblingImpl, bindery: BinderyImpl, order: OrderImpl, annotation: String?) : this(
+    constructor(enobling: EnoblingInt, bindery: BinderyImpl, order: OrderImpl, annotation: String?) : this(
         POrderEnobling(
             enobling = enobling.persistent,
             bindery = bindery.persistent,

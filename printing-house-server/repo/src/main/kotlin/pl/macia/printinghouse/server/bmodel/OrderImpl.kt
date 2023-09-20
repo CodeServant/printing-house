@@ -100,7 +100,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
 
     override fun addOrderEnobling(annotation: String?, enobling: Enobling, bindery: Bindery): OrderEnobling {
         return OrderEnoblingImpl(
-            enobling as EnoblingImpl,
+            enobling as EnoblingInt,
             bindery as BinderyImpl,
             this,
             annotation
