@@ -108,7 +108,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     }
 
     override fun addPaperOrderType(
-        grammage: Double,
+        grammage: Number,
         stockCirculation: Int,
         sheetNumber: Int,
         comment: String?,
@@ -123,7 +123,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         productionSize: Size
     ): PaperOrderType {
         return PaperOrderTypeImpl(
-            grammage = grammage,
+            grammage = grammage.toDouble(),
             stockCirculation = stockCirculation,
             sheetNumber = sheetNumber,
             comment = comment,

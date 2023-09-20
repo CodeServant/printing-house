@@ -46,7 +46,7 @@ sealed interface Order {
     ): OrderEnobling
 
     fun addPaperOrderType(
-        grammage: Double,
+        grammage: Number,
         stockCirculation: Int,
         sheetNumber: Int,
         comment: String?,
