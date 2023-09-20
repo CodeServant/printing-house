@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import pl.macia.printinghouse.server.dto.Order as POrder
 
@@ -72,9 +73,11 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         ::BindingFormImpl,
         BindingForm::class.java
     )
-    override var calculationCard: CalculationCard?
-        get() = TODO("Not yet implemented")
-        set(value) {}
+    override var calculationCard: CalculationCard? by delegate(
+        persistent.calculationCard,
+        ::CalculationCardImpl,
+        CalculationCard::class.java
+    )
     override var netSize: Size by delegate(persistent.netSize, ::SizeImpl, Size::class.java)
     override var client: Client by delegate(persistent.client, ::ClientImpl, Client::class.java)
     override fun addWorkflowStageStop(
@@ -141,6 +144,23 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         this.paperOrderTypes.add(new)
         return new
     }
+
+    override fun setCalculationCard(
+        transport: BigDecimal,
+        otherCosts: BigDecimal,
+        enoblingCost: BigDecimal,
+        bindingCost: BigDecimal
+    ): CalculationCard {
+        calculationCard = CalculationCardImpl(
+            bindingCost,
+            enoblingCost,
+            otherCosts,
+            transport,
+            this
+        )
+        return calculationCard!!
+    }
+
 }
 
 fun Order(

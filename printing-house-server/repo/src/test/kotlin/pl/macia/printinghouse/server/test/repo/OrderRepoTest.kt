@@ -9,6 +9,7 @@ import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.*
 import pl.macia.printinghouse.server.repository.*
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -145,7 +146,7 @@ internal class OrderRepoTest {
     fun `association with PaperOrderType test`() {
         val found = repo.findById(1)!!
         assertEquals(2, found.paperOrderTypes.size)
-        val papOType = found.paperOrderTypes.find { it.papOrdTypid==1 }!!
+        val papOType = found.paperOrderTypes.find { it.papOrdTypid == 1 }!!
         assertEquals(70.toDouble(), papOType.grammage)
         assertEquals("Papier Offsetowy", papOType.paperType.name)
         assertEquals("duża komori", papOType.printer.name)
@@ -176,5 +177,16 @@ internal class OrderRepoTest {
         assertEquals("Naświetlarnia", workflStStop.workflowStage.name)
         assertEquals("marianmieszka@wp.pl", workflStStop.worker?.email?.email)
         assertEquals(found.orderid, workflStStop.order.orderid)
+    }
+
+    @Test
+    @Transactional
+    fun `association with CalculationCard test`() {
+        val found = repo.findById(1)!!
+        assertNotNull(found.calculationCard)
+        assertTrue(BigDecimal(1000.00).compareTo(found.calculationCard?.bindingCost) == 0)
+        assertEquals(found.orderid, found.calculationCard?.order?.orderid)
+        assertEquals(3, found.calculationCard?.printCosts?.size)
+        assertEquals("DK", found.calculationCard?.printCosts?.first()?.printer?.digest)
     }
 }

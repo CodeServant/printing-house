@@ -9,5 +9,11 @@ sealed interface CalculationCard {
     var enoblingCost: BigDecimal
     var bindingCost: BigDecimal
     var order: Order
-    var printCosts: List<PrintCost>
+    val printCosts: MutableList<PrintCost>
+
+    fun addPrintCost(
+        printCost: BigDecimal,
+        matrixCost: BigDecimal,
+        printer: Printer
+    ): PrintCost
 }

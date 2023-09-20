@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 sealed interface Order {
@@ -59,4 +60,11 @@ sealed interface Order {
         size: Size,
         productionSize: Size
     ): PaperOrderType
+
+    fun setCalculationCard(
+        transport: BigDecimal,
+        otherCosts: BigDecimal,
+        enoblingCost: BigDecimal,
+        bindingCost: BigDecimal
+    ): CalculationCard
 }
