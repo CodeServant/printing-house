@@ -185,8 +185,14 @@ internal class OrderRepoTest {
         val found = repo.findById(1)!!
         assertNotNull(found.calculationCard)
         assertTrue(BigDecimal(1000.00).compareTo(found.calculationCard?.bindingCost) == 0)
+        assertTrue(BigDecimal(1245.00).compareTo(found.calculationCard?.enoblingCost) == 0)
+        assertTrue(BigDecimal(1251.00).compareTo(found.calculationCard?.otherCosts) == 0)
+        assertTrue(BigDecimal(1516.00).compareTo(found.calculationCard?.transport) == 0)
         assertEquals(found.orderid, found.calculationCard?.order?.orderid)
         assertEquals(3, found.calculationCard?.printCosts?.size)
-        assertEquals("DK", found.calculationCard?.printCosts?.first()?.printer?.digest)
+        val printCost = found.calculationCard?.printCosts?.first()!!
+        assertEquals("DK", printCost.printer.digest)
+        assertTrue(printCost.printCost.compareTo(BigDecimal(12)) == 0)
+        assertTrue(printCost.matrixCost.compareTo(BigDecimal(13)) == 0)
     }
 }
