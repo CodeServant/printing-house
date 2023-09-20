@@ -99,12 +99,14 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     }
 
     override fun addOrderEnobling(annotation: String?, enobling: Enobling, bindery: Bindery): OrderEnobling {
-        return OrderEnoblingImpl(
+        val new = OrderEnoblingImpl(
             enobling as EnoblingInt,
             bindery as BinderyImpl,
             this,
             annotation
         )
+        orderEnoblings.add(new)
+        return new
     }
 
     override fun addPaperOrderType(
