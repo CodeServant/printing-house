@@ -174,7 +174,7 @@ fun Order(
         realizationDate = realizationDate,
         caretionDate = caretionDate,
         pages = pages,
-        url = url as URLImpl,
+        url = url as URLImpl?,
         bindery = bindery as BinderyImpl,
         salesman = salesman as SalesmanImpl,
         bindingForm = bindingForm as BindingFormImpl
