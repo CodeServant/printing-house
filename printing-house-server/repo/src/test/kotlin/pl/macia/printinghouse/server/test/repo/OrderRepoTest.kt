@@ -139,4 +139,42 @@ internal class OrderRepoTest {
         assertEquals(true, workflStStop.lastWorkflowStage)
         assertEquals("Introligatornia", workflStStop.workflowStage.name)
     }
+
+    @Test
+    @Transactional
+    fun `association with PaperOrderType test`() {
+        val found = repo.findById(1)!!
+        assertEquals(2, found.paperOrderTypes.size)
+        val papOType = found.paperOrderTypes.find { it.papOrdTypid==1 }!!
+        assertEquals(70.toDouble(), papOType.grammage)
+        assertEquals("Papier Offsetowy", papOType.paperType.name)
+        assertEquals("duża komori", papOType.printer.name)
+        assertEquals(1, papOType.colouring.firstSide)
+        assertEquals("f/f", papOType.impositionType.name)
+        assertEquals(420.toDouble(), papOType.size.width)
+    }
+
+    @Test
+    @Transactional
+    fun `association with OrderEnobling test`() {
+        val found = repo.findById(1)!!
+        assertEquals(2, found.orderEnoblings.size)
+        val orderEnobs = found.orderEnoblings.first()
+        assertEquals("szalony wykrojnik", orderEnobs.enobling.name)
+        assertEquals("A2", orderEnobs.bindery.name)
+        assertEquals(found.orderid, orderEnobs.order.orderid)
+    }
+
+    @Test
+    @Transactional
+    fun `association with WorkflowStageStop test`() {
+        val found = repo.findById(1)!!
+        assertEquals(2, found.workflowStageStops.size)
+        val workflStStop = found.workflowStageStops.first()
+        assertNotNull(workflStStop.comment)
+        assertEquals(false, workflStStop.lastWorkflowStage)
+        assertEquals("Naświetlarnia", workflStStop.workflowStage.name)
+        assertEquals("marianmieszka@wp.pl", workflStStop.worker?.email?.email)
+        assertEquals(found.orderid, workflStStop.order.orderid)
+    }
 }
