@@ -56,7 +56,6 @@ sealed interface Order {
         printer: Printer,
         colouring: Colouring,
         impositionType: ImpositionType,
-        order: Order,
         size: Size,
         productionSize: Size
     ): PaperOrderType

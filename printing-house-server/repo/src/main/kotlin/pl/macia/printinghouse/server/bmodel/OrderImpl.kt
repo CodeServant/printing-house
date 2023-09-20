@@ -118,7 +118,6 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         printer: Printer,
         colouring: Colouring,
         impositionType: ImpositionType,
-        order: Order,
         size: Size,
         productionSize: Size
     ): PaperOrderType {
