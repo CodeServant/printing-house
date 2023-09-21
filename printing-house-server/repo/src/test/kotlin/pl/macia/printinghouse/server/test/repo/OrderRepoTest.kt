@@ -33,6 +33,21 @@ internal class OrderRepoTest {
     @Autowired
     lateinit var workflowStageRepo: WorkflowStageIntRepo
 
+    @Autowired
+    lateinit var uvVarnishRepo: UVVarnishIntRepo
+
+    @Autowired
+    lateinit var printerRepo: PrinterIntRepo
+
+    @Autowired
+    lateinit var paperTypeRepo: PaperTypeIntRepo
+
+    @Autowired
+    lateinit var colouringRepo: ColouringIntRepo
+
+    @Autowired
+    lateinit var impositionTypeRepo: ImpositionTypeIntRepo
+
     @Test
     fun `find by id test`() {
         val found = repo.findById(1)!!
@@ -79,10 +94,12 @@ internal class OrderRepoTest {
             salesmanRepo.findById(1)!!,
             bindingFormRepo.findById(1)!!
         )
+        val varn = UVVarnish("addOrderEnobling", null)
+        uvVarnishRepo.save(varn)
         new.addOrderEnobling(
             null,
-            UVVarnish("addOrderEnobling", null),
-            Bindery("A1")
+            varn,
+            binderyRepo.findByName("A1")!!
         )
         new.addPaperOrderType(
             grammage = 10,
@@ -91,10 +108,10 @@ internal class OrderRepoTest {
             comment = null,
             circulation = 1,
             platesQuantityForPrinter = 1,
-            PaperType("Papier Błysk", "Pap Błysk"),
-            Printer("duża komori", "DK"),
-            Colouring(1, 0),
-            ImpositionType("f/f"),
+            paperTypeRepo.findById(2)!!,
+            printerRepo.findByDigest("DK")!!,
+            colouringRepo.save(Colouring(1, 0)),
+            impositionTypeRepo.findByName("f/f")!!,
             size = Size(10, 10),
             productionSize = Size(11, 11)
         )
@@ -105,6 +122,18 @@ internal class OrderRepoTest {
             createTime = LocalDateTime.now(),
             worker = null,
             workflowStage = workflowStageRepo.findById(1)!!
+        )
+        repo.save(new)
+        new.setCalculationCard(
+            transport = BigDecimal(10),
+            otherCosts = BigDecimal(20),
+            enoblingCost = BigDecimal(30),
+            bindingCost = BigDecimal(40)
+        )
+        new.calculationCard?.addPrintCost(
+            printCost = BigDecimal(100),
+            matrixCost = BigDecimal(200),
+            printer = printerRepo.findByDigest("DK")!!
         )
         assertEquals(1, new.paperOrderTypes.size)
         repo.save(new)
@@ -123,6 +152,7 @@ internal class OrderRepoTest {
         assertEquals(1, found.orderEnoblings.size)
         assertEquals(1, found.paperOrderTypes.size)
         assertEquals(1, found.workflowStageStops.size)
+        assertNotNull(found.calculationCard)
 
         // checking collections
         val orderEnobs = found.orderEnoblings.first()
@@ -130,7 +160,7 @@ internal class OrderRepoTest {
         assertEquals("A1", orderEnobs.bindery.name)
         val papOTypes = found.paperOrderTypes.first()
         assertEquals(10.toDouble(), papOTypes.grammage)
-        assertEquals("Papier Błysk", papOTypes.paperType.name)
+        assertEquals("Papier Offsetowy", papOTypes.paperType.name)
         assertEquals("duża komori", papOTypes.printer.name)
         assertEquals(1, papOTypes.colouring.firstSide)
         assertEquals("f/f", papOTypes.impositionType.name)
@@ -139,6 +169,9 @@ internal class OrderRepoTest {
         assertNull(workflStStop.comment)
         assertEquals(true, workflStStop.lastWorkflowStage)
         assertEquals("Introligatornia", workflStStop.workflowStage.name)
+        // calculation checks
+        assertTrue(found.calculationCard?.bindingCost?.compareTo(BigDecimal(40)) == 0)
+        assertEquals(1, found.calculationCard?.printCosts?.size)
     }
 
     @Test
