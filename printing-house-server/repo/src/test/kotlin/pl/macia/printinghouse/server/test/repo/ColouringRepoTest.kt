@@ -29,4 +29,13 @@ internal class ColouringRepoTest {
         val new = Colouring(1, 0)
         SingleIdTests<Colouring, Byte>(repo).createNew(new, new::colouringId, repo::findById)
     }
+
+    @Test
+    @Transactional
+    fun `find by palette test`() {
+        val found = repo.findByPalette(2, 0)!!
+        assertEquals(2, found.colouringId)
+        val notFound = repo.findByPalette(1, 0)
+        assertNull(notFound)
+    }
 }

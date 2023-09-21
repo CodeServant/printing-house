@@ -52,6 +52,7 @@ internal sealed interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<Bin
 sealed interface ColouringRepo {
     fun findById(id: Byte): Colouring?
     fun save(obj: Colouring): Colouring
+    fun findByPalette(firstSide: Byte, secondSide: Byte): Colouring?
 }
 
 internal sealed interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
