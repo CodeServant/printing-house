@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.bmodel
 
 import pl.macia.printinghouse.server.dto.UVVarnish as PUVVarnish
 
-internal class UVVarnishImpl(p: PUVVarnish) : UVVarnish, BusinessBase<PUVVarnish>(p) {
+internal class UVVarnishImpl(p: PUVVarnish) : UVVarnish, BusinessBase<PUVVarnish>(p), EnoblingInt {
     constructor(name: String, description: String?) : this(
         PUVVarnish(name, description)
     )

@@ -39,6 +39,7 @@ internal sealed interface IndividualClientIntRepo : IndividualClientRepo, BaseRe
 sealed interface BinderyRepo {
     fun findById(id: Int): Bindery?
     fun save(obj: Bindery): Bindery
+    fun findByName(name: String): Bindery?
 }
 
 internal sealed interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, Int>
@@ -51,6 +52,7 @@ internal sealed interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<Bin
 sealed interface ColouringRepo {
     fun findById(id: Byte): Colouring?
     fun save(obj: Colouring): Colouring
+    fun findByPalette(firstSide: Byte, secondSide: Byte): Colouring?
 }
 
 internal sealed interface ColouringIntRepo : ColouringRepo, SingleIdRepo<Colouring, Byte>
@@ -97,12 +99,14 @@ internal sealed interface ClientIntRepo : ClientRepo
 sealed interface ImpositionTypeRepo {
     fun findById(id: Int): ImpositionType?
     fun save(obj: ImpositionType): ImpositionType
+    fun findByName(name: String): ImpositionType?
 }
 
 internal sealed interface ImpositionTypeIntRepo : ImpositionTypeRepo, SingleIdRepo<ImpositionType, Int>
 sealed interface PrinterRepo {
     fun save(obj: Printer): Printer
     fun findById(id: Int): Printer?
+    fun findByDigest(digest: String): Printer?
 }
 
 internal sealed interface PrinterIntRepo : PrinterRepo, SingleIdRepo<Printer, Int>
@@ -155,3 +159,17 @@ sealed interface SalesmanRepo {
 }
 
 internal sealed interface SalesmanIntRepo : SalesmanRepo, SingleIdRepo<Salesman, Int>
+
+sealed interface OrderEnoblingRepo {
+    fun save(obj: OrderEnobling): OrderEnobling
+    fun findById(id: Int): OrderEnobling?
+}
+
+internal sealed interface OrderEnoblingIntRepo : OrderEnoblingRepo, SingleIdRepo<OrderEnobling, Int>
+
+sealed interface OrderRepo {
+    fun save(obj: Order): Order
+    fun findById(id: Int): Order?
+}
+
+internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>

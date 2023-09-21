@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.repository.PrinterIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-class PrinterRepoImplTest {
+internal class PrinterRepoTest {
 
     @Autowired
     private lateinit var repo: PrinterIntRepo
@@ -34,5 +34,14 @@ class PrinterRepoImplTest {
     fun `create new`() {
         val new = Printer("wielka komorii", "WK")
         SingleIdTests<Printer, Int>(repo).createNew(new, new::printerId, repo::findById)
+    }
+
+    @Test
+    @Transactional
+    fun `find by digest test`() {
+        val found = repo.findByDigest("DK")!!
+        assertEquals(1, found.printerId)
+        val notFound = repo.findByDigest("nonExistent")
+        assertNull(notFound)
     }
 }

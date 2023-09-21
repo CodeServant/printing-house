@@ -5,3 +5,12 @@ sealed interface Enobling {
     var name: String
     var description: String?
 }
+
+internal interface EnoblingBusinessBase {
+    val persistent: pl.macia.printinghouse.server.dto.Enobling
+}
+
+/**
+ * Interface to enable type casting to internal [Enobling] from its subtypes.
+ */
+internal sealed interface EnoblingInt : Enobling, EnoblingBusinessBase

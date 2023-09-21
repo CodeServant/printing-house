@@ -28,4 +28,13 @@ internal class BinderyRepoTest {
         val new = Bindery("B2")
         SingleIdTests<Bindery, Int>(repo).createNew(new, new::binderyId, repo::findById)
     }
+
+    @Test
+    @Transactional
+    fun `find by name`() {
+        val found = repo.findByName("A1")!!
+        assertEquals(1, found.binderyId)
+        val notFound = repo.findByName("notExistingName")
+        assertNull(notFound)
+    }
 }

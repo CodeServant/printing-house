@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.repo
 
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,5 +30,14 @@ internal class ImpositionTypeRepoTest {
     fun `create new`() {
         val new = ImpositionType("s/s")
         SingleIdTests<ImpositionType, Int>(repo).createNew(new, new::impTypId, repo::findById)
+    }
+
+    @Test
+    @Transactional
+    fun `find by name test`() {
+        val found = repo.findByName("f/f")
+        assertEquals(1, found?.impTypId)
+        val notFound = repo.findByName("nonExistent")
+        assertNull(notFound)
     }
 }

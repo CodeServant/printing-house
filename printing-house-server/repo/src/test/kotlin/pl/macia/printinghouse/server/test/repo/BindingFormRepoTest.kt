@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.repository.BindingFormIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-internal class BindingFormRepoImplTest {
+internal class BindingFormRepoTest {
     @Autowired
     lateinit var repo: BindingFormIntRepo
 

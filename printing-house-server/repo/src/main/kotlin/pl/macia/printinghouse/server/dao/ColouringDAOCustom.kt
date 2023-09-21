@@ -1,3 +1,7 @@
 package pl.macia.printinghouse.server.dao
 
-internal interface ColouringDAOCustom
+import pl.macia.printinghouse.server.dto.Colouring
+
+internal interface ColouringDAOCustom {
+    fun findByPalette(firstSide: Byte, secondSide: Byte): Colouring?
+}

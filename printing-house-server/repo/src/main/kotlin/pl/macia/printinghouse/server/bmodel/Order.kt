@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.bmodel
 
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 sealed interface Order {
@@ -20,13 +21,50 @@ sealed interface Order {
     var realizationDate: LocalDateTime
     var caretionDate: LocalDateTime
     var pages: Int
-    var paperOrderTypes: List<PaperOrderType>
-    var orderEnoblings: List<OrderEnobling>
+    val paperOrderTypes: MutableList<PaperOrderType>
+    val orderEnoblings: MutableList<OrderEnobling>
     var url: URL?
     var bindery: Bindery
     var salesman: Salesman
-    var workflowStageStops: List<WorkflowStageStop>
+    val workflowStageStops: MutableList<WorkflowStageStop>
     var bindingForm: BindingForm
     var calculationCard: CalculationCard?
     var netSize: Size
+    var client: Client
+    fun addWorkflowStageStop(
+        comment: String?,
+        lastWorkflowStage: Boolean,
+        assignTime: LocalDateTime?,
+        createTime: LocalDateTime,
+        worker: Worker?,
+        workflowStage: WorkflowStage
+    ): WorkflowStageStop
+
+    fun addOrderEnobling(
+        annotation: String?,
+        enobling: Enobling,
+        bindery: Bindery
+    ): OrderEnobling
+
+    fun addPaperOrderType(
+        grammage: Number,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        circulation: Int,
+        platesQuantityForPrinter: Int,
+        paperType: PaperType,
+        printer: Printer,
+        colouring: Colouring,
+        impositionType: ImpositionType,
+        size: Size,
+        productionSize: Size
+    ): PaperOrderType
+
+    fun setCalculationCard(
+        transport: BigDecimal,
+        otherCosts: BigDecimal,
+        enoblingCost: BigDecimal,
+        bindingCost: BigDecimal
+    ): CalculationCard
 }
