@@ -151,13 +151,14 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         enoblingCost: BigDecimal,
         bindingCost: BigDecimal
     ): CalculationCard {
-        calculationCard = CalculationCardImpl(
+        this.persistent.setCalculationCard(
             bindingCost,
             enoblingCost,
             otherCosts,
-            transport,
-            this
+            transport
         )
+        val calc = CalculationCardImpl(persistent.calculationCard!!)
+        calculationCard = calc
         return calculationCard!!
     }
 
