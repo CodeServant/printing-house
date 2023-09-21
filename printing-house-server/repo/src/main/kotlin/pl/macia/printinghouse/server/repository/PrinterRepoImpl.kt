@@ -13,16 +13,20 @@ internal class PrinterRepoImpl : PrinterIntRepo {
 
     @Autowired
     private lateinit var dao: PrinterDAO
-    private fun PPrinter.toBus(): Printer {
+    private fun PPrinter.toBiz(): Printer {
         return PrinterImpl(this)
     }
 
     override fun save(obj: Printer): Printer {
         obj as PrinterImpl
-        return dao.save(obj.persistent).toBus()
+        return dao.save(obj.persistent).toBiz()
     }
 
     override fun findById(id: Int): Printer? {
-        return dao.findByIdOrNull(id)?.toBus()
+        return dao.findByIdOrNull(id)?.toBiz()
+    }
+
+    override fun findByDigest(digest: String): Printer? {
+        return dao.findByDigest(digest)?.toBiz()
     }
 }

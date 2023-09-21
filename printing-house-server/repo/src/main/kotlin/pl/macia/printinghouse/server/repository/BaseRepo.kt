@@ -104,6 +104,7 @@ internal sealed interface ImpositionTypeIntRepo : ImpositionTypeRepo, SingleIdRe
 sealed interface PrinterRepo {
     fun save(obj: Printer): Printer
     fun findById(id: Int): Printer?
+    fun findByDigest(digest: String): Printer?
 }
 
 internal sealed interface PrinterIntRepo : PrinterRepo, SingleIdRepo<Printer, Int>
