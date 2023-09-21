@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -5,6 +6,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.dokka)
 }
 
 group = "pl.macia"
@@ -12,6 +14,7 @@ version = libs.versions.app.get()
 
 allprojects {
     apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
+    apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 
     dependencies {
         implementation(rootProject.libs.spring.boot.web)
@@ -40,4 +43,8 @@ allprojects {
 }
 dependencies {
     implementation(project("repo"))
+}
+
+tasks.withType<DokkaMultiModuleTask>().configureEach {
+    includes.from("packages.md")
 }

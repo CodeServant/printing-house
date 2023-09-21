@@ -1,3 +1,5 @@
+import org.jetbrains.dokka.DokkaConfiguration
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
@@ -24,6 +26,24 @@ allOpen {
     annotation("jakarta.persistence.Table")
 }
 
-tasks.named<BootJar>("bootJar"){
+tasks.named<BootJar>("bootJar") {
     enabled = false
+}
+
+tasks.withType<DokkaTaskPartial>().configureEach {
+    dokkaSourceSets.configureEach {
+        includes.from("packages.md")
+    }
+}
+tasks.dokkaHtml {
+    dokkaSourceSets {
+        configureEach {
+            documentedVisibilities.set(
+                setOf(
+                    DokkaConfiguration.Visibility.INTERNAL
+                )
+            )
+            includes.from("packages.md")
+        }
+    }
 }
