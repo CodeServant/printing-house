@@ -12,7 +12,7 @@ plugins {
 group = "pl.macia"
 version = libs.versions.app.get()
 
-allprojects {
+subprojects {
     apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
     apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 
