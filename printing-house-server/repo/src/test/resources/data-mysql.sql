@@ -12,8 +12,9 @@ VALUES ('A1'),
        ('A3'),
        ('A4'),
        ('A5');
-INSERT INTO URL (url)
-VALUES ('https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Diagram%20bez%20tytu%C5%82u.drawio#RzZXRjqMgFIafhstNFGrrXk51djoXk0zSSfaayhklRTCIo%2FbpFyrWWneSnWST6ZXwn8MPfAcBkaTsnjStihfFQCAcsA6RFGEcrsjKfpzSD8omxoOQa8580iTs%2BQm8GHi14QzqWaJRShhezcVMSQmZmWlUa9XO096VmM9a0RwWwj6jYqn%2B5swUgxrjzaTvgOfFOHO4%2FjlESjom%2B53UBWWqvZLIIyKJVsoMrbJLQDh4I5dh3K9PopeFaZDmXwa8vqVV%2F3J4o1H6%2FBC0h0x0ux%2Fe5YOKxm%2FYL9b0IwGtGsnAmQSIbNuCG9hXNHPR1tbcaoUphe2FtuntQBvoPl1neNm9PTagSjC6tynjgNgD8ycGb3y%2FnfiHI9Tiiv3aa9SXPL9YT1Rsw4P5AiR8f5BIeG%2BQyP1Buj1JZPXdkFb3B%2Bn2JH0%2FpGgBqdKn%2FoiSCMXY3aFu9bo%2FNRKOC3wWhJkzooLn0rYzCwS0FRwubm%2F4Bx8oOWNu%2BFZDzU%2F0cLZy8CvFpTnvLtqiKHVejVH18EY569podYRECWV9U6mkc3nnQtxI%2F6FMmETzHz6Il2UifykT%2BXqZbHd6ls6xq8edPP4B');
+INSERT INTO Image (url, imageComment)
+VALUES ('https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Diagram%20bez%20tytu%C5%82u.drawio#RzZXRjqMgFIafhstNFGrrXk51djoXk0zSSfaayhklRTCIo%2FbpFyrWWneSnWST6ZXwn8MPfAcBkaTsnjStihfFQCAcsA6RFGEcrsjKfpzSD8omxoOQa8580iTs%2BQm8GHi14QzqWaJRShhezcVMSQmZmWlUa9XO096VmM9a0RwWwj6jYqn%2B5swUgxrjzaTvgOfFOHO4%2FjlESjom%2B53UBWWqvZLIIyKJVsoMrbJLQDh4I5dh3K9PopeFaZDmXwa8vqVV%2F3J4o1H6%2FBC0h0x0ux%2Fe5YOKxm%2FYL9b0IwGtGsnAmQSIbNuCG9hXNHPR1tbcaoUphe2FtuntQBvoPl1neNm9PTagSjC6tynjgNgD8ycGb3y%2FnfiHI9Tiiv3aa9SXPL9YT1Rsw4P5AiR8f5BIeG%2BQyP1Buj1JZPXdkFb3B%2Bn2JH0%2FpGgBqdKn%2FoiSCMXY3aFu9bo%2FNRKOC3wWhJkzooLn0rYzCwS0FRwubm%2F4Bx8oOWNu%2BFZDzU%2F0cLZy8CvFpTnvLtqiKHVejVH18EY569podYRECWV9U6mkc3nnQtxI%2F6FMmETzHz6Il2UifykT%2BXqZbHd6ls6xq8edPP4B',
+        'draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek');
 INSERT INTO Enobling (name, description)
 VALUES ('farba kolorowa', 'to jest farba kolorowa'),
        ('karton aksamitny', NULL),
@@ -107,10 +108,9 @@ INSERT INTO WorkflowStageManager (workflowStage, employeeId)
 VALUES (1, 2),
        (2, 4);
 INSERT INTO `Order` (name, netSize, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
-                     folding, towerCut, imageURL, imageComment, checked, designsNumberForSheet, completionDate,
+                     folding, towerCut, imageURL, checked, designsNumberForSheet, completionDate,
                      withdrawalDate, comment)
 VALUES ('gorzelska', 7, 8, 1, 3, '2022-10-21 00:00:00', '2022-10-26 00:00:00', 3, 3, 0, 1, 1,
-        'draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek',
         1, 4, NULL, NULL, NULL);
 INSERT INTO CalculationCard (orderId, bindingCost, enobling, otherCosts, transport)
 VALUES (1, 1000.00, 1245.00, 1251.00, 1516.00);

@@ -15,7 +15,7 @@ import pl.macia.printinghouse.server.dto.Colouring
 import pl.macia.printinghouse.server.dto.Order
 import pl.macia.printinghouse.server.dto.PaperType
 import pl.macia.printinghouse.server.dto.Size
-import pl.macia.printinghouse.server.dto.URL
+import pl.macia.printinghouse.server.dto.Image
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -99,8 +99,7 @@ internal class OrderDAOTest {
             bindery = binderyDAO.findByName("A1")!!,
             folding = true,
             towerCut = true,
-            imageURL = URL("https://www.example.com"),
-            imageComment = "some comment",
+            imageURL = Image("https://www.example.com", "some comment"),
             checked = true,
             designsNumberForSheet = 2,
             completionDate = LocalDateTime.now(),

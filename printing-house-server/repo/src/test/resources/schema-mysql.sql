@@ -28,15 +28,15 @@ DROP TABLE If EXISTS
     PlatePrice,
     CalculationCard,
     PrintCost,
-    URL;
+    Image;
 
 -- size teble is like A2, A3 etc.
 CREATE TABLE Size
 (
-    id   INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NULL UNIQUE,
-    width DOUBLE NOT NULL,
-    heigth DOUBLE NOT NULL,
+    id     INT PRIMARY KEY AUTO_INCREMENT,
+    name   VARCHAR(50) NULL UNIQUE,
+    width  DOUBLE      NOT NULL,
+    heigth DOUBLE      NOT NULL,
     UNIQUE `formatSize`(`width`, `heigth`)
 );
 
@@ -63,18 +63,19 @@ CREATE TABLE PaperType
     shortName VARCHAR(30)  NOT NULL UNIQUE
 );
 
--- URL Type f. eg URL's
-CREATE TABLE URL
+-- Image is the url pointing to image
+CREATE TABLE Image
 (
-    id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    url TEXT NOT NULL
+    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    url          TEXT NOT NULL,
+    imageComment VARCHAR(1000) NULL
 );
 
 -- Some additional atribute to the final product
 CREATE TABLE Enobling
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    name       VARCHAR(100) NOT NULL UNIQUE,
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(500) NULL
 );
 
@@ -100,8 +101,8 @@ CREATE TABLE UVVarnish
 -- todo create trigger on insert, update to check id fistSide>secondSide
 CREATE TABLE Colouring
 (
-    id          TINYINT PRIMARY KEY AUTO_INCREMENT,
-    firstSide   TINYINT NOT NULL,
+    id         TINYINT PRIMARY KEY AUTO_INCREMENT,
+    firstSide  TINYINT NOT NULL,
     secondSide TINYINT NOT NULL,
     UNIQUE `bothSides`(`firstSide`, `secondSide`)
 );
@@ -176,7 +177,7 @@ CREATE TABLE Salesman
 CREATE TABLE Client
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
-    email       INT NULL UNIQUE,
+    email       INT         NULL UNIQUE,
     phoneNumber VARCHAR(15) NULL UNIQUE,
     INDEX       cliEmail_ind (email),
     FOREIGN KEY (email)
@@ -205,7 +206,7 @@ CREATE TABLE Company
     id       INT PRIMARY KEY AUTO_INCREMENT,
     name     VARCHAR(500) NOT NULL,
     NIP      CHAR(10)     NOT NULL UNIQUE, -- pl.wikipedia.org/wiki/Numer_identyfikacji_podatkowej
-    clientId int NULL UNIQUE,
+    clientId int          NULL UNIQUE,
     INDEX    compCliId_ind (clientId),
     FOREIGN KEY (clientId)
         REFERENCES Client (id)
@@ -228,13 +229,12 @@ CREATE TABLE `Order`
     bindery               INT          NOT NULL,
     folding               BOOL         NOT NULL,
     towerCut              BOOL         NOT NULL,
-    imageURL              BIGINT NULL,
-    imageComment          TEXT NULL,
+    imageURL              BIGINT       NULL,
     checked               BOOL         NOT NULL,
     designsNumberForSheet INT          NOT NULL,
-    completionDate        TIMESTAMP NULL, -- this is completion date of the last WorkflowStageStop
-    withdrawalDate        TIMESTAMP NULL,
-    comment               TEXT NULL,
+    completionDate        TIMESTAMP    NULL,     -- this is completion date of the last WorkflowStageStop
+    withdrawalDate        TIMESTAMP    NULL,
+    comment               TEXT         NULL,
 
     INDEX                 netSize_ind (netSize),
     FOREIGN KEY (netSize)
@@ -258,16 +258,16 @@ CREATE TABLE `Order`
         REFERENCES Bindery (id),
     INDEX                 ordURLImg_ind (imageURL),
     FOREIGN KEY (imageURL)
-        REFERENCES URL (id)
+        REFERENCES Image (id)
 );
 
 
 CREATE TABLE OrderEnobling
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    enobling   INT NOT NULL,
-    `order`    INT NOT NULL,
-    bindery    INT NOT NULL,
+    enobling   INT  NOT NULL,
+    `order`    INT  NOT NULL,
+    bindery    INT  NOT NULL,
     annotation TEXT NULL,
 
     INDEX      ordEnEn_ind (enobling),
@@ -286,19 +286,19 @@ CREATE TABLE OrderEnobling
 CREATE TABLE PaperOrderType
 (
     id                       INT PRIMARY KEY AUTO_INCREMENT,
-    typeId                   INT     NOT NULL,
-    orderId                  INT     NOT NULL,
-    grammage DOUBLE NOT NULL,
-    colours                  TINYINT NOT NULL,
-    circulation              INT     NOT NULL,
-    stockCirculation         INT     NOT NULL,
-    sheetNumber              INT     NOT NULL,
+    typeId                   INT           NOT NULL,
+    orderId                  INT           NOT NULL,
+    grammage                 DOUBLE        NOT NULL,
+    colours                  TINYINT       NOT NULL,
+    circulation              INT           NOT NULL,
+    stockCirculation         INT           NOT NULL,
+    sheetNumber              INT           NOT NULL,
     comment                  VARCHAR(1000) NULL,
-    printer                  INT     NOT NULL,
-    platesQuantityForPrinter INT     NOT NULL,
-    imposition               int     NOT NULL,
-    size                     int     NOT NULL,
-    productionSize           int     NOT NULL,
+    printer                  INT           NOT NULL,
+    platesQuantityForPrinter INT           NOT NULL,
+    imposition               int           NOT NULL,
+    size                     int           NOT NULL,
+    productionSize           int           NOT NULL,
 
 
     INDEX                    potPaperType_ind (typeId),
@@ -381,12 +381,12 @@ CREATE TABLE WorkflowStageStop
 (
     id                INT PRIMARY KEY AUTO_INCREMENT,
     comment           VARCHAR(500) NULL,
-    createTime        TIMESTAMP NOT NULL,
-    assignTime        TIMESTAMP NULL,
-    worker            INT NULL,
-    `order`           INT       NOT NULL,
-    workflowStage     INT       NOT NULL,
-    lastWorkflowStage BOOL      NOT NULL,
+    createTime        TIMESTAMP    NOT NULL,
+    assignTime        TIMESTAMP    NULL,
+    worker            INT          NULL,
+    `order`           INT          NOT NULL,
+    workflowStage     INT          NOT NULL,
+    lastWorkflowStage BOOL         NOT NULL,
 
     INDEX             wssWorker_ind (worker),
     FOREIGN KEY (worker)

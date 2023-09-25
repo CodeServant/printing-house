@@ -13,14 +13,13 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         completionDate: LocalDateTime?,
         designsNumberForSheet: Int,
         checked: Boolean,
-        imageComment: String?,
         towerCut: Boolean,
         folding: Boolean,
         client: ClientImpl,
         realizationDate: LocalDateTime,
         caretionDate: LocalDateTime,
         pages: Int,
-        url: URLImpl?,
+        imageUrl: ImageImpl?,
         bindery: BinderyImpl,
         salesman: SalesmanImpl,
         bindingForm: BindingFormImpl
@@ -37,8 +36,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             bindery = bindery.persistent,
             folding = folding,
             towerCut = towerCut,
-            imageURL = url?.persistent,
-            imageComment = imageComment,
+            imageURL = imageUrl?.persistent,
             checked = checked,
             designsNumberForSheet = designsNumberForSheet,
             completionDate = completionDate,
@@ -55,7 +53,6 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var completionDate: LocalDateTime? by persistent::completionDate
     override var designsNumberForSheet: Int by persistent::designsNumberForSheet
     override var checked: Boolean by persistent::checked
-    override var imageComment: String? by persistent::imageComment
     override var towerCut: Boolean by persistent::towerCut
     override var folding: Boolean by persistent::folding
     override var realizationDate: LocalDateTime by persistent::realizationDate
@@ -63,7 +60,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var pages: Int by persistent::pages
     override val paperOrderTypes: MutableList<PaperOrderType> = toBizPaperOrderType(persistent.paperOrderTypes)
     override val orderEnoblings: MutableList<OrderEnobling> = toBizOrderEnobling(persistent.orderEnoblings)
-    override var url: URL? by delegate(persistent.imageURL, ::URLImpl, URL::class.java)
+    override var imageUrl: Image? by delegate(persistent.imageURL, ::ImageImpl, Image::class.java)
     override var bindery: Bindery by delegate(persistent.bindery, ::BinderyImpl, Bindery::class.java)
     override var salesman: Salesman by delegate(persistent.supervisor, ::SalesmanImpl, Salesman::class.java)
     override val workflowStageStops: MutableList<WorkflowStageStop> =
@@ -172,14 +169,13 @@ fun Order(
     completionDate: LocalDateTime?,
     designsNumberForSheet: Int,
     checked: Boolean,
-    imageComment: String?,
     towerCut: Boolean,
     folding: Boolean,
     client: Client,
     realizationDate: LocalDateTime,
     caretionDate: LocalDateTime,
     pages: Int,
-    url: URL?,
+    url: Image?,
     bindery: Bindery,
     salesman: Salesman,
     bindingForm: BindingForm
@@ -192,14 +188,13 @@ fun Order(
         completionDate = completionDate,
         designsNumberForSheet = designsNumberForSheet,
         checked = checked,
-        imageComment = imageComment,
         towerCut = towerCut,
         folding = folding,
         client = client as ClientImpl,
         realizationDate = realizationDate,
         caretionDate = caretionDate,
         pages = pages,
-        url = url as URLImpl?,
+        imageUrl = url as ImageImpl?,
         bindery = bindery as BinderyImpl,
         salesman = salesman as SalesmanImpl,
         bindingForm = bindingForm as BindingFormImpl

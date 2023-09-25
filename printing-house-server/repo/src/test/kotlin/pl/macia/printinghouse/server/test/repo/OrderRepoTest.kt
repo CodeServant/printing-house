@@ -60,10 +60,10 @@ internal class OrderRepoTest {
         assertEquals("A3", found.bindery.name)
         assertEquals(false, found.folding)
         assertEquals(true, found.towerCut)
-        assertTrue(found.url?.url?.isNotEmpty() ?: false)
+        assertTrue(found.imageUrl?.url?.isNotEmpty() ?: false)
         assertEquals(
             "draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek",
-            found.imageComment
+            found.imageUrl?.imageComment
         )
         assertEquals(true, found.checked)
         assertEquals(4, found.designsNumberForSheet)
@@ -82,7 +82,6 @@ internal class OrderRepoTest {
             completionDate = LocalDateTime.now(),
             designsNumberForSheet = 4,
             checked = true,
-            imageComment = null,
             towerCut = true,
             folding = true,
             clientRepo.findById(1)!!,

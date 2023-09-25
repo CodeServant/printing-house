@@ -8,14 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
-import pl.macia.printinghouse.server.dao.UrlDAO
-import pl.macia.printinghouse.server.dto.URL
+import pl.macia.printinghouse.server.dao.ImageDAO
+import pl.macia.printinghouse.server.dto.Image
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-internal class UrlDAOTest {
+internal class ImageDAOTest {
     @Autowired
-    lateinit var dao: UrlDAO
+    lateinit var dao: ImageDAO
 
     @Test
     fun `find by id test`() {
@@ -23,13 +23,17 @@ internal class UrlDAOTest {
         assertTrue(
             found.url.contains("FRwubm%2F4Bx8oOWNu%2BFZDzU%2F0cLZy8CvFpTnvLtqiKHVejVH18EY569podYRECWV9U6mkc3nnQtxI%2F6FMmETzHz6Il2Uify")
         )
+        assertEquals(
+            "draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek",
+            found.imageComment
+        )
     }
 
     @Test
     @Transactional
     fun `insert one`() {
         assertDoesNotThrow {
-            val inserted = dao.save(URL("https://www.wikipedia.org"))
+            val inserted = dao.save(Image("https://www.wikipedia.org", "some comment"))
             assertNotNull(inserted.id)
         }
     }
@@ -38,7 +42,7 @@ internal class UrlDAOTest {
     @Transactional
     fun `delete one test`() {
         assertEquals(1, dao.count())
-        val id = dao.save(URL("https://wikipedia.org")).id!!
+        val id = dao.save(Image("https://wikipedia.org", "some comment")).id!!
         assertEquals(2, dao.count())
         dao.deleteById(id)
         assertEquals(1, dao.count())

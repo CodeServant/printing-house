@@ -8,20 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
-import pl.macia.printinghouse.server.bmodel.URL
-import pl.macia.printinghouse.server.repository.URLIntRepo
+import pl.macia.printinghouse.server.bmodel.Image
+import pl.macia.printinghouse.server.repository.ImageIntRepo
 import org.junit.jupiter.api.*
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @TestPropertySource("classpath:inMemDB.properties")
-internal class URLRepoTest {
+internal class ImageRepoTest {
     @Autowired
-    lateinit var repo: URLIntRepo
+    lateinit var repo: ImageIntRepo
 
     @Test
+    @Transactional
     fun `find by id test`() {
         var found = repo.findById(1)
         assertNotNull(found)
+        assertEquals(
+            "draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek",
+            found?.imageComment
+        )
+        found?.imageComment = "changed comment"
+        found = repo.findById(1)
+        assertEquals("changed comment", found?.imageComment)
         found = repo.findById(100)
         assertNull(found)
     }
@@ -29,16 +37,16 @@ internal class URLRepoTest {
     @Test
     @Transactional
     fun `create new`() {
-        val new = URL("https://example.com")
-        SingleIdTests<URL, Long>(repo).createNew(new, new::urlId, repo::findById)
+        val new = Image("https://example.com", "some comment")
+        SingleIdTests<Image, Long>(repo).createNew(new, new::impImgId, repo::findById)
     }
 
     @Test
     @Transactional
     fun `constraint test`() {
-        val new = URL("https")
+        val new = Image("https", null)
         assertThrows<ConstraintViolationException> {
-            SingleIdTests<URL, Long>(repo).createNew(new, new::urlId, repo::findById)
+            SingleIdTests<Image, Long>(repo).createNew(new, new::impImgId, repo::findById)
         }
     }
 }

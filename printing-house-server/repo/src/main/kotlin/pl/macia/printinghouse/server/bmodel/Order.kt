@@ -11,7 +11,6 @@ sealed interface Order {
     var completionDate: LocalDateTime?
     var designsNumberForSheet: Int
     var checked: Boolean
-    var imageComment: String?
     var towerCut: Boolean
     var folding: Boolean
 
@@ -23,7 +22,7 @@ sealed interface Order {
     var pages: Int
     val paperOrderTypes: MutableList<PaperOrderType>
     val orderEnoblings: MutableList<OrderEnobling>
-    var url: URL?
+    var imageUrl: Image?
     var bindery: Bindery
     var salesman: Salesman
     val workflowStageStops: MutableList<WorkflowStageStop>

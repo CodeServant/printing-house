@@ -132,12 +132,12 @@ sealed interface SizeRepo {
 
 internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>
 
-sealed interface URLRepo {
-    fun save(obj: URL): URL
-    fun findById(id: Long): URL?
+sealed interface ImageRepo {
+    fun save(obj: Image): Image
+    fun findById(id: Long): Image?
 }
 
-internal sealed interface URLIntRepo : URLRepo, SingleIdRepo<URL, Long>
+internal sealed interface ImageIntRepo : ImageRepo, SingleIdRepo<Image, Long>
 
 sealed interface WorkflowStageRepo {
     fun save(obj: WorkflowStage): WorkflowStage

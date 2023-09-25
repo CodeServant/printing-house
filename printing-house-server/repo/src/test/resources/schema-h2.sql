@@ -28,10 +28,11 @@ CREATE TABLE PaperType
     shortName VARCHAR(30)  NOT NULL UNIQUE
 );
 
-CREATE TABLE URL
+CREATE TABLE Image
 (
-    id  BIGINT PRIMARY KEY AUTO_INCREMENT,
-    url TEXT NOT NULL
+    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    url          TEXT NOT NULL,
+    imageComment VARCHAR(1000) NULL
 );
 
 CREATE TABLE Enobling
@@ -197,7 +198,6 @@ CREATE TABLE `Order`
     folding               BOOL         NOT NULL,
     towerCut              BOOL         NOT NULL,
     imageURL              BIGINT       NULL,
-    imageComment          TEXT         NULL,
     checked               BOOL         NOT NULL,
     designsNumberForSheet INT          NOT NULL,
     completionDate        TIMESTAMP    NULL,     -- this is completion date of the last WorkflowStageStop
@@ -217,7 +217,7 @@ CREATE TABLE `Order`
     FOREIGN KEY (bindery)
         REFERENCES Bindery (id),
     FOREIGN KEY (imageURL)
-        REFERENCES URL (id)
+        REFERENCES Image (id)
 );
 create index netSize_ind
     on `Order` (netSize);
@@ -362,12 +362,12 @@ CREATE TABLE WorkflowStageStop
 (
     id                INT PRIMARY KEY AUTO_INCREMENT,
     comment           VARCHAR(500) NULL,
-    createTime        TIMESTAMP NOT NULL,
-    assignTime        TIMESTAMP NULL,
-    worker            INT NULL,
-    `order`           INT       NOT NULL,
-    workflowStage     INT       NOT NULL,
-    lastWorkflowStage BOOL      NOT NULL,
+    createTime        TIMESTAMP    NOT NULL,
+    assignTime        TIMESTAMP    NULL,
+    worker            INT          NULL,
+    `order`           INT          NOT NULL,
+    workflowStage     INT          NOT NULL,
+    lastWorkflowStage BOOL         NOT NULL,
     FOREIGN KEY (worker)
         REFERENCES Worker (personId)
         ON DELETE SET NULL,

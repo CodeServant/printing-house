@@ -12,8 +12,9 @@ VALUES ('A1'),
        ('A3'),
        ('A4'),
        ('A5');
-INSERT INTO URL (url)
-VALUES ('https://diagrams.net');
+INSERT INTO Image (url, imageComment)
+VALUES ('https://diagrams.net',
+        'draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek');
 INSERT INTO Enobling (name, description)
 VALUES ('farba kolorowa', 'to jest farba kolorowa'),
        ('karton aksamitny', NULL),
@@ -107,10 +108,9 @@ INSERT INTO WorkflowStageManager (workflowStage, employeeId)
 VALUES (1, 2),
        (2, 4);
 INSERT INTO `Order` (name, netSize, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
-                     folding, towerCut, imageURL, imageComment, checked, designsNumberForSheet, completionDate,
+                     folding, towerCut, imageURL, checked, designsNumberForSheet, completionDate,
                      withdrawalDate, comment)
 VALUES ('gorzelska', 7, 8, 1, 3, '2022-10-21 00:00:00', '2022-10-26 00:00:00', 3, 3, 0, 1, 1,
-        'draw.io to fajna strona do rysowania diagramów, tego linka można potem odtworzyć i podejrzeć a nawet pozmieniać obrazek',
         1, 4, NULL, NULL, NULL);
 INSERT INTO CalculationCard (orderId, bindingCost, enobling, otherCosts, transport)
 VALUES (1, 1000.00, 1245.00, 1251.00, 1516.00);

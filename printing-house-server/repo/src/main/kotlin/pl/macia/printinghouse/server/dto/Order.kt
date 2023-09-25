@@ -52,10 +52,7 @@ internal class Order private constructor(
         cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH]
     )
     @JoinColumn(name = IMAGE_URL, nullable = true)
-    var imageURL: URL?,
-    @Column(name = IMAGE_COMMENT, nullable = true)
-    @field:JpaSize(min = 1)
-    var imageComment: String?,
+    var imageURL: Image?,
     @Column(name = CHECKED, nullable = false)
     var checked: Boolean,
     @Column(name = DESIGNS_NUMBER_FOR_SHEET, nullable = false)
@@ -106,7 +103,6 @@ internal class Order private constructor(
         const val FOLDING = "folding"
         const val TOWER_CUT = "towerCut"
         const val IMAGE_URL = "imageURL"
-        const val IMAGE_COMMENT = "imageComment"
         const val CHECKED = "checked"
         const val DESIGNS_NUMBER_FOR_SHEET = "designsNumberForSheet"
         const val COMPLETION_DATE = "completionDate"
@@ -126,8 +122,7 @@ internal class Order private constructor(
         bindery: Bindery,
         folding: Boolean,
         towerCut: Boolean,
-        imageURL: URL?,
-        imageComment: String?,
+        imageURL: Image?,
         checked: Boolean,
         designsNumberForSheet: Int,
         completionDate: LocalDateTime?,
@@ -148,7 +143,6 @@ internal class Order private constructor(
         folding,
         towerCut,
         imageURL,
-        imageComment,
         checked,
         designsNumberForSheet,
         completionDate,
