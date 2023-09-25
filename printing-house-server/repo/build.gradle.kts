@@ -17,8 +17,8 @@ version = libs.versions.app.get()
 dependencies {
     runtimeOnly(libs.db.mysql)
     implementation(libs.poko)
-    implementation(libs.spring.boot.jpa)
-    implementation(libs.spring.boot.validation)
+    api(libs.spring.boot.jpa)
+    api(libs.spring.boot.validation)
     testImplementation(libs.db.h2)
 }
 
