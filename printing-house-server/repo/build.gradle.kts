@@ -10,10 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.allopen)
 }
 
-group = "pl.macia"
-version = libs.versions.app.get()
-
-
 dependencies {
     runtimeOnly(libs.db.mysql)
     implementation(libs.poko)

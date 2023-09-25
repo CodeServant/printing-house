@@ -9,10 +9,10 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-group = "pl.macia"
-version = libs.versions.app.get()
-
 allprojects {
+    group = "pl.macia"
+    version = rootProject.libs.versions.app.get()
+
     apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
     apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
 
@@ -41,6 +41,7 @@ allprojects {
         useJUnitPlatform()
     }
 }
+
 dependencies {
     implementation(project("repo"))
 }
