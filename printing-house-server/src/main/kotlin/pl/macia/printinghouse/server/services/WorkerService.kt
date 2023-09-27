@@ -44,7 +44,6 @@ private fun Worker.toTransport(): WorkerResp {
         },
         employed,
         activeAccount,
-        password,
         email.email,
         psudoPESEL,
         surname,
