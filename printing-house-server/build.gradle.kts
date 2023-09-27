@@ -29,10 +29,6 @@ allprojects {
         }
     }
 
-    repositories {
-        mavenCentral()
-    }
-
     java {
         sourceCompatibility = JavaVersion.VERSION_21
     }
@@ -44,6 +40,7 @@ allprojects {
 
 dependencies {
     implementation(project("repo"))
+    implementation(project(":transport"))
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {
