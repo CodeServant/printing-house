@@ -10,7 +10,7 @@ plugins {
 }
 
 allprojects {
-    group = "pl.macia.printing-house"
+    group = "pl.macia.printinghouse"
     version = rootProject.libs.versions.app.get()
 
     apply(plugin = rootProject.libs.plugins.kotlin.jvm.get().pluginId)
