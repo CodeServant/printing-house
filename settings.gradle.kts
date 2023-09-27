@@ -11,3 +11,4 @@
 rootProject.name = "printing-house"
 include("printing-house-server")
 include("printing-house-server:repo")
+include("transport")
