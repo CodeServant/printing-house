@@ -4,7 +4,9 @@ plugins {
 }
 
 kotlin {
-    jvm {}
+    jvm {
+        jvmToolchain(libs.versions.java.get().toInt())
+    }
     sourceSets {
         val commonMain by getting {
             dependencies {

@@ -1,5 +1,4 @@
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.spring.depManagement)
@@ -22,15 +21,8 @@ allprojects {
         testImplementation(rootProject.libs.spring.boot.test)
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "21"
-        }
-    }
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_21
+    kotlin {
+        jvmToolchain(rootProject.libs.versions.java.get().toInt())
     }
 
     tasks.withType<Test> {
