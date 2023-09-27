@@ -21,4 +21,8 @@ internal class WorkerRepoImpl : WorkerIntRepo {
     override fun findById(id: Int): Worker? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun findAll(): List<Worker> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }
