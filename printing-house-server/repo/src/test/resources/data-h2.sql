@@ -67,11 +67,11 @@ INSERT INTO PlatePrice (`date`, price, printer)
 VALUES ('2022-10-21 10:58:49', 10.00, 1),
        ('2022-10-21 08:56:52', 17.00, 2);
 INSERT INTO Employee (personId, email, password, activeAccount, employed)
-VALUES (1, 3, '$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
-       (2, 5, '$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
-       (3, 4, '$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
-       (4, 8, '$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
-       (7, 7, '$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1);
+VALUES (1, 3, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
+       (2, 5, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
+       (3, 4, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
+       (4, 8, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
+       (7, 7, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1);
 INSERT INTO EmploeeRole (empId, roleId)
 VALUES (1, 1),
        (2, 3),
