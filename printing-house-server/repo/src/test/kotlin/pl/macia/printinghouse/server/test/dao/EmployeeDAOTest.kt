@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.dao
 
+import jakarta.transaction.Transactional
 import jakarta.validation.ConstraintViolationException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.*
@@ -26,6 +27,14 @@ internal class EmployeeDAOTest {
     fun `find by id test`() {
         val emp = dao.findByIdOrNull(1)
 
+        assertEquals("Jan", emp?.name)
+        assertEquals("evilcorp@example.com", emp?.email?.email)
+    }
+
+    @Test
+    @Transactional
+    fun `find by email`() {
+        val emp = dao.findByEmail("evilcorp@example.com")
         assertEquals("Jan", emp?.name)
     }
 
@@ -65,7 +74,7 @@ internal class EmployeeDAOTest {
         val passwordLengthConstr = 68
         var email = Email("newEmp@constraints.test.pl")
         val legalPassword = "{bcrypt}\$2a\$12\$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W."
-        var passwd = legalPassword
+        val passwd = legalPassword
         var emp = Employee(
             email,
             passwd,
@@ -76,17 +85,17 @@ internal class EmployeeDAOTest {
             "999gb399997"
         )
         dao.saveAndFlush(emp)
-        emp.password="a".repeat(passwordLengthConstr)
+        emp.password = "a".repeat(passwordLengthConstr)
 
-        assertDoesNotThrow{
+        assertDoesNotThrow {
             dao.saveAndFlush(emp)
         }
         //checking if passworf is fixed length
-        emp.password="a".repeat(passwordLengthConstr+1)
+        emp.password = "a".repeat(passwordLengthConstr + 1)
         assertThrows<ConstraintViolationException> {
             dao.saveAndFlush(emp)
         }
-        emp.password="a".repeat(passwordLengthConstr-1)
+        emp.password = "a".repeat(passwordLengthConstr - 1)
         assertThrows<ConstraintViolationException> {
             dao.saveAndFlush(emp)
         }

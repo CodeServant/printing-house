@@ -33,6 +33,12 @@ sealed interface IndividualClientRepo {
     fun Client.isIndividualClient(): Boolean
 }
 
+sealed interface EmployeeRepo {
+    fun findByEmail(email: String): Employee?
+}
+
+internal sealed interface EmployeeIntRepo : EmployeeRepo
+
 internal sealed interface IndividualClientIntRepo : IndividualClientRepo, BaseRepo<IndividualClient>, PersonRepos,
     ClientRepos
 
