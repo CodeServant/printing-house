@@ -33,6 +33,7 @@ allprojects {
 dependencies {
     implementation(project("repo"))
     implementation(project(":transport"))
+    implementation(libs.jgrapht)
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {
