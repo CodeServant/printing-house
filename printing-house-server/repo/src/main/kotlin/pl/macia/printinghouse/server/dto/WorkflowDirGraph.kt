@@ -41,4 +41,11 @@ internal class WorkflowDirGraph(
         const val NAME = "name"
         const val CHANGED_TIME = "changedTime"
     }
+
+    fun addEdge(
+        v1: WorkflowStage,
+        v2: WorkflowStage
+    ): WorkflowDirEdge {
+        return WorkflowDirEdge(null, this, v1, v2).apply(edges::add)
+    }
 }
