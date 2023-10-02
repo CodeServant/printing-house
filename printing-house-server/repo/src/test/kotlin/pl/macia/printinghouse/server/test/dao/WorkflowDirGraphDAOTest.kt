@@ -21,7 +21,7 @@ internal class WorkflowDirGraphDAOTest {
         val found = dao.findByIdOrNull(1)!!
         assertEquals("typical flow", found.name)
         assertNull(found.comment)
-        assertEquals(3, found.edges.size)
+        assertEquals(4, found.edges.size)
         val edge = found.edges.find {
             it.id == 1
         }!!
