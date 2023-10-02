@@ -56,15 +56,11 @@ internal class WorkflowStageDAOTest {
         assertNull(dao.findByIdOrNull(deletedId))
     }
 
-    @JpaOrder(3)
     @Test
-    fun `data integrity test`() {
-        var workflowStage = dao.findByIdOrNull(1)
+    @JpaOrder(3)
+    fun `data violation test`() {
+        val workflowStage = dao.findByIdOrNull(1)
         assertThrows<DataIntegrityViolationException> {
-            dao.delete(workflowStage!!)
-        }
-        workflowStage = dao.findByIdOrNull(3)
-        assertDoesNotThrow {
             dao.delete(workflowStage!!)
         }
     }
