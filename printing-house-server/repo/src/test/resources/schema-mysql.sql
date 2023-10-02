@@ -1,6 +1,8 @@
 DROP TABLE If EXISTS
     OrderEnobling,
     PaperOrderType,
+    WorkflowDirEdge,
+    WorkflowDirGraph,
     WorkflowStageStop,
     `Order`,
     WorkflowStageManager,
@@ -398,6 +400,36 @@ CREATE TABLE WorkflowStageStop
     INDEX         wssWorkStage_ind (workflowStage),
     FOREIGN KEY (workflowStage)
         REFERENCES WorkflowStage (id)
+);
+
+CREATE TABLE WorkflowDirGraph
+(
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    creationTime TIMESTAMP    NOT NULL,
+    changedTime  TIMESTAMP    NULL,
+    name         VARCHAR(300) NOT NULL,
+    comment      VARCHAR(300) NULL
+);
+
+CREATE TABLE WorkflowDirEdge
+(
+    id      INT PRIMARY KEY AUTO_INCREMENT,
+    V1      INT NOT NULL,
+    V2      INT NOT NULL,
+    graphId INT NOT NULL,
+
+    INDEX   v1WorkFlowSt_ind (V1),
+    FOREIGN KEY (V1)
+        REFERENCES WorkflowStage (id)
+        ON DELETE CASCADE,
+    INDEX   v2WorkFlowSt_ind (V2),
+    FOREIGN KEY (V2)
+        REFERENCES WorkflowStage (id)
+        ON DELETE CASCADE,
+    INDEX   graphId_ind (graphId),
+    FOREIGN KEY (graphId)
+        REFERENCES WorkflowDirGraph (id)
+        ON DELETE CASCADE
 );
 
 -- PlatePrice prices for disks to specific printer

@@ -31,7 +31,7 @@ CREATE TABLE PaperType
 CREATE TABLE Image
 (
     id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    url          TEXT NOT NULL,
+    url          TEXT          NOT NULL,
     imageComment VARCHAR(1000) NULL
 );
 
@@ -360,13 +360,13 @@ CREATE TABLE WorkflowStageManager
 
 CREATE TABLE WorkflowStageStop
 (
-    id                INT PRIMARY KEY AUTO_INCREMENT,
-    comment           VARCHAR(500) NULL,
-    createTime        TIMESTAMP    NOT NULL,
-    assignTime        TIMESTAMP    NULL,
-    worker            INT          NULL,
-    `order`           INT          NOT NULL,
-    workflowStage     INT          NOT NULL,
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    comment       VARCHAR(500) NULL,
+    createTime    TIMESTAMP    NOT NULL,
+    assignTime    TIMESTAMP    NULL,
+    worker        INT          NULL,
+    `order`       INT          NOT NULL,
+    workflowStage INT          NOT NULL,
     FOREIGN KEY (worker)
         REFERENCES Worker (personId)
         ON DELETE SET NULL,
@@ -383,6 +383,43 @@ create index wssOrder_ind
     on WorkflowStageStop (`order`);
 create index wssWorkStage_ind
     on WorkflowStageStop (workflowStage);
+
+CREATE TABLE WorkflowDirGraph
+(
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    creationTime TIMESTAMP    NOT NULL,
+    changedTime  TIMESTAMP    NULL,
+    name         VARCHAR(300) NOT NULL,
+    comment      VARCHAR(300) NULL
+);
+
+CREATE TABLE WorkflowDirEdge
+(
+    id      INT PRIMARY KEY AUTO_INCREMENT,
+    V1      INT NOT NULL,
+    V2      INT NOT NULL,
+    graphId INT NOT NULL,
+
+
+    FOREIGN KEY (V1)
+        REFERENCES WorkflowStage (id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (V2)
+        REFERENCES WorkflowStage (id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (graphId)
+        REFERENCES WorkflowDirGraph (id)
+        ON DELETE CASCADE
+);
+
+create index v1WorkFlowSt_ind
+    on WorkflowDirEdge (V1);
+create index v2WorkFlowSt_ind
+    on WorkflowDirEdge (V2);
+create index graphId_ind
+    on WorkflowDirEdge (graphId);
 
 CREATE TABLE PlatePrice
 (
