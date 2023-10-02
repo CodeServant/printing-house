@@ -5,7 +5,6 @@ import java.time.LocalDateTime
 sealed interface WorkflowStageStop {
     var wfssId: Int?
     var comment: String?
-    var lastWorkflowStage: Boolean
     var assignTime: LocalDateTime?
     var createTime: LocalDateTime
     var worker: Worker?

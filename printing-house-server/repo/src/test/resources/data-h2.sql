@@ -125,6 +125,6 @@ INSERT INTO PrintCost (orderId, printer, printCost, matrixCost)
 VALUES (1, 1, 12.00, 13.00),
        (1, 1, 13.00, 14.00),
        (1, 2, 1.00, 2.00);
-INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowStage, lastWorkflowStage)
-VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 2, 0),
-       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 1, 1);
+INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowStage)
+VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 2),
+       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 1);

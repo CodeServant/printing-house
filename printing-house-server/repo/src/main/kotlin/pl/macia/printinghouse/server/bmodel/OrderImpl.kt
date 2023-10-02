@@ -79,7 +79,6 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var client: Client by delegate(persistent.client, ::ClientImpl, Client::class.java)
     override fun addWorkflowStageStop(
         comment: String?,
-        lastWorkflowStage: Boolean,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: Worker?,
@@ -87,7 +86,6 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     ): WorkflowStageStop {
         val wss = WorkflowStageStopImpl(
             comment,
-            lastWorkflowStage,
             assignTime,
             createTime,
             worker as WorkerImpl?,

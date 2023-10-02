@@ -6,7 +6,6 @@ import pl.macia.printinghouse.server.dto.WorkflowStageStop as PWorkflowStageStop
 internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop, BusinessBase<PWorkflowStageStop>(p) {
     constructor(
         comment: String?,
-        lastWorkflowStage: Boolean,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: WorkerImpl?,
@@ -19,14 +18,12 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
             assignTime,
             worker?.persistent,
             workflowStage.persistent,
-            lastWorkflowStage,
             order.persistent
         )
     )
 
     override var wfssId: Int? by persistent::id
     override var comment: String? by persistent::comment
-    override var lastWorkflowStage: Boolean by persistent::lastWorkflowStage
     override var assignTime: LocalDateTime? by persistent::assignTime
     override var createTime: LocalDateTime by persistent::createTime
     override var worker: Worker? by delegate(persistent.worker, ::WorkerImpl, Worker::class.java)

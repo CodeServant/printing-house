@@ -367,7 +367,6 @@ CREATE TABLE WorkflowStageStop
     worker            INT          NULL,
     `order`           INT          NOT NULL,
     workflowStage     INT          NOT NULL,
-    lastWorkflowStage BOOL         NOT NULL,
     FOREIGN KEY (worker)
         REFERENCES Worker (personId)
         ON DELETE SET NULL,

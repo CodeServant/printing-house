@@ -36,7 +36,6 @@ internal class WorkflowStageStopDAOTest {
         assertEquals(date, found.createTime)
         assertEquals("Anna", found.worker?.name)
         assertEquals("Naświetlarnia", found.workflowStage.name)
-        assertEquals(false, found.lastWorkflowStage)
     }
 
     @Test
@@ -71,8 +70,7 @@ internal class WorkflowStageStopDAOTest {
             LocalDateTime.now(),
             null,
             null,
-            workflowStage,
-            false
+            workflowStage
         )
         assertNull(workflowStageStop.id)
         dao.save(workflowStageStop)

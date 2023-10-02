@@ -32,7 +32,6 @@ sealed interface Order {
     var client: Client
     fun addWorkflowStageStop(
         comment: String?,
-        lastWorkflowStage: Boolean,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: Worker?,

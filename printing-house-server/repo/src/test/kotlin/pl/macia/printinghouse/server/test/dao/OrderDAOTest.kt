@@ -112,8 +112,7 @@ internal class OrderDAOTest {
             createTime = LocalDateTime.now(),
             assignTime = LocalDateTime.now(),
             worker = workerDAO.findByIdOrNull(2)!!,
-            workflowStage = workflowStageDAO.findByIdOrNull(1)!!,
-            lastWorkflowStage = false
+            workflowStage = workflowStageDAO.findByIdOrNull(1)!!
         )
         ord.addPaperOrderType(
             paperType = PaperType(

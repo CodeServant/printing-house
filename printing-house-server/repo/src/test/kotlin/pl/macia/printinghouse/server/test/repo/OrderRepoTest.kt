@@ -116,7 +116,6 @@ internal class OrderRepoTest {
         )
         new.addWorkflowStageStop(
             comment = null,
-            lastWorkflowStage = true,
             assignTime = null,
             createTime = LocalDateTime.now(),
             worker = null,
@@ -166,7 +165,6 @@ internal class OrderRepoTest {
         assertEquals(10.toDouble(), papOTypes.size.width)
         val workflStStop = found.workflowStageStops.first()
         assertNull(workflStStop.comment)
-        assertEquals(true, workflStStop.lastWorkflowStage)
         assertEquals("Introligatornia", workflStStop.workflowStage.name)
         // calculation checks
         assertTrue(found.calculationCard?.bindingCost?.compareTo(BigDecimal(40)) == 0)
@@ -205,7 +203,6 @@ internal class OrderRepoTest {
         assertEquals(2, found.workflowStageStops.size)
         val workflStStop = found.workflowStageStops.first()
         assertNotNull(workflStStop.comment)
-        assertEquals(false, workflStStop.lastWorkflowStage)
         assertEquals("Naświetlarnia", workflStStop.workflowStage.name)
         assertEquals("marianmieszka@wp.pl", workflStStop.worker?.email?.email)
         assertEquals(found.orderid, workflStStop.order.orderid)
