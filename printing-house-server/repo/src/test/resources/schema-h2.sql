@@ -390,7 +390,7 @@ CREATE TABLE WorkflowDirGraph
     creationTime TIMESTAMP    NOT NULL,
     changedTime  TIMESTAMP    NULL,
     name         VARCHAR(300) NOT NULL,
-    comment      VARCHAR(300) NULL
+    comment      VARCHAR(500) NULL
 );
 
 CREATE TABLE WorkflowDirEdge
