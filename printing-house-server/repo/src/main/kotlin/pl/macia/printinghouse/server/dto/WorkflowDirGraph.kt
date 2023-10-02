@@ -25,7 +25,13 @@ internal class WorkflowDirGraph(
     @NotBlank
     var name: String,
     @Column(name = CHANGED_TIME, nullable = true)
-    var changedTime: LocalDateTime?
+    var changedTime: LocalDateTime?,
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = WorkflowDirEdge.GRAPH_FIELD,
+        cascade = [CascadeType.ALL]
+    )
+    val edges: MutableList<WorkflowDirEdge>
 ) {
     companion object {
         const val TAB_NAME = "WorkflowDirGraph"
