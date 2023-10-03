@@ -31,6 +31,7 @@ internal class WorkflowDirGraph(
         mappedBy = WorkflowDirEdge.GRAPH_FIELD,
         cascade = [CascadeType.ALL]
     )
+    @Size(min = 1)
     val edges: MutableList<WorkflowDirEdge>
 ) {
     companion object {
