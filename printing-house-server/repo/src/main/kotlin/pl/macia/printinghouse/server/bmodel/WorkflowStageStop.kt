@@ -8,6 +8,5 @@ sealed interface WorkflowStageStop {
     var assignTime: LocalDateTime?
     var createTime: LocalDateTime
     var worker: Worker?
-    var workflowStage: WorkflowStage
     val order: Order
 }

@@ -165,7 +165,6 @@ internal class OrderRepoTest {
         assertEquals(10.toDouble(), papOTypes.size.width)
         val workflStStop = found.workflowStageStops.first()
         assertNull(workflStStop.comment)
-        assertEquals("Introligatornia", workflStStop.workflowStage.name)
         // calculation checks
         assertTrue(found.calculationCard?.bindingCost?.compareTo(BigDecimal(40)) == 0)
         assertEquals(1, found.calculationCard?.printCosts?.size)
@@ -203,7 +202,6 @@ internal class OrderRepoTest {
         assertEquals(2, found.workflowStageStops.size)
         val workflStStop = found.workflowStageStops.first()
         assertNotNull(workflStStop.comment)
-        assertEquals("Naświetlarnia", workflStStop.workflowStage.name)
         assertEquals("marianmieszka@wp.pl", workflStStop.worker?.email?.email)
         assertEquals(found.orderid, workflStStop.order.orderid)
     }
