@@ -22,6 +22,7 @@ internal class WorkflowDirGraphDAOTest {
     private lateinit var workflowStageDAO: WorkflowStageDAO
 
     @Test
+    @Transactional
     fun findById() {
         val found = dao.findByIdOrNull(1)!!
         assertEquals("typical flow", found.name)
