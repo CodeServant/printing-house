@@ -27,7 +27,6 @@ internal class WorkflowDirGraph(
     @Column(name = CHANGED_TIME, nullable = true)
     var changedTime: LocalDateTime?,
     @OneToMany(
-        fetch = FetchType.EAGER,
         mappedBy = WorkflowDirEdge.GRAPH_FIELD,
         cascade = [CascadeType.ALL]
     )
