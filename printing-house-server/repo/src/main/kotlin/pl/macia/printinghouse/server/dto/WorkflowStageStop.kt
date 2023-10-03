@@ -26,9 +26,6 @@ internal class WorkflowStageStop(
     @JoinColumn(name = WORKER, referencedColumnName = Worker.ID)
     @field:Nullable
     var worker: Worker?,
-    @OneToOne
-    @JoinColumn(name = WORKFLOW_STAGE, referencedColumnName = WorkflowStage.ID)
-    var workflowStage: WorkflowStage,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER, nullable = false)
     val order: Order,
@@ -44,7 +41,6 @@ internal class WorkflowStageStop(
         const val ASSIGN_TIME = "assignTime"
         const val WORKER = "worker"
         const val ORDER = "`order`"
-        const val WORKFLOW_STAGE = "workflowStage"
         const val ORDER_FIELD = "order"
         const val WORKFLOW_EDGE_ID = "workflowEdgeId"
     }
@@ -54,10 +50,9 @@ internal class WorkflowStageStop(
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,
         worker: Worker?,
-        workflowStage: WorkflowStage,
         wrkflowDirEdge: WorkflowDirEdge,
         order: Order
     ) : this(
-        null, comment, createTime, assignTime, worker, workflowStage, order, wrkflowDirEdge
+        null, comment, createTime, assignTime, worker, order, wrkflowDirEdge
     )
 }

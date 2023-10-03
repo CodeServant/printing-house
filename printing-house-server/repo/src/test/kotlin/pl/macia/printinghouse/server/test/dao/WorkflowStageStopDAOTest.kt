@@ -39,7 +39,7 @@ internal class WorkflowStageStopDAOTest {
         val date = LocalDateTime.of(2022, 10, 21, 15, 0)
         assertEquals(date, found.createTime)
         assertEquals("Anna", found.worker?.name)
-        assertEquals("Naświetlarnia", found.workflowStage.name)
+        assertEquals("Handlowiec", found.workflowGraphEdge.v1.name)
     }
 
     @Test
@@ -54,13 +54,13 @@ internal class WorkflowStageStopDAOTest {
     fun `test not changing the dependants`() {
         val found = dao.findByIdOrNull(1)!!
         found.worker?.name = "Anna2"
-        found.workflowStage.name = "Naświetlarnia2"
+        found.workflowGraphEdge.v1.name = "Handlowiec2"
         dao.saveAndFlush(found)
         val actualWorker = daoWorker.findByIdOrNull(found.worker?.id)!!
-        val actualWorkflowStage = daoWorkflowStage.findByIdOrNull(found.workflowStage.id)!!
+        val actualWorkflowStage = daoWorkflowStage.findByIdOrNull(found.workflowGraphEdge.v1.id)!!
         // names should remain the same
         assertEquals("Anna", actualWorker.name)
-        assertEquals("Naświetlarnia", actualWorkflowStage.name)
+        assertEquals("Handlowiec", actualWorkflowStage.name)
     }
 
     @Test

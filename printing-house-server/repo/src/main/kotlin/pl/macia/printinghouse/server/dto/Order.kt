@@ -167,7 +167,6 @@ internal class Order private constructor(
             createTime,
             assignTime,
             worker,
-            workflowStage,
             workflowDirEdge,
             this
         )
