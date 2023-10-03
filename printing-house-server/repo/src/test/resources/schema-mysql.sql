@@ -378,30 +378,6 @@ CREATE TABLE WorkflowStageManager
     UNIQUE `workflowStageMgrUnique`(`workflowStage`, `employeeId`)
 );
 
--- WorkflowStageStop is kind of sequential task that is going to be completed by worker
-CREATE TABLE WorkflowStageStop
-(
-    id            INT PRIMARY KEY AUTO_INCREMENT,
-    comment       VARCHAR(500) NULL,
-    createTime    TIMESTAMP    NOT NULL,
-    assignTime    TIMESTAMP    NULL,
-    worker        INT          NULL,
-    `order`       INT          NOT NULL,
-    workflowStage INT          NOT NULL,
-
-    INDEX         wssWorker_ind (worker),
-    FOREIGN KEY (worker)
-        REFERENCES Worker (personId)
-        ON DELETE SET NULL,
-    INDEX         wssOrder_ind (`order`),
-    FOREIGN KEY (`order`)
-        REFERENCES `Order` (id)
-        ON DELETE CASCADE,
-    INDEX         wssWorkStage_ind (workflowStage),
-    FOREIGN KEY (workflowStage)
-        REFERENCES WorkflowStage (id)
-);
-
 CREATE TABLE WorkflowDirGraph
 (
     id           INT PRIMARY KEY AUTO_INCREMENT,
@@ -430,6 +406,30 @@ CREATE TABLE WorkflowDirEdge
     FOREIGN KEY (graphId)
         REFERENCES WorkflowDirGraph (id)
         ON DELETE CASCADE
+);
+
+-- WorkflowStageStop is kind of sequential task that is going to be completed by worker
+CREATE TABLE WorkflowStageStop
+(
+    id             INT PRIMARY KEY AUTO_INCREMENT,
+    comment        VARCHAR(500) NULL,
+    createTime     TIMESTAMP    NOT NULL,
+    assignTime     TIMESTAMP    NULL,
+    worker         INT          NULL,
+    `order`        INT          NOT NULL,
+    workflowEdgeId INT          NOT NULL,
+
+    INDEX          wssWorker_ind (worker),
+    FOREIGN KEY (worker)
+        REFERENCES Worker (personId)
+        ON DELETE SET NULL,
+    INDEX          wssOrder_ind (`order`),
+    FOREIGN KEY (`order`)
+        REFERENCES `Order` (id)
+        ON DELETE CASCADE,
+    INDEX          wssWorkDEdge_ind (workflowEdgeId),
+    FOREIGN KEY (workflowEdgeId)
+        REFERENCES WorkflowDirEdge (id)
 );
 
 -- PlatePrice prices for disks to specific printer

@@ -31,8 +31,10 @@ internal class WorkflowStageStop(
     var workflowStage: WorkflowStage,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER, nullable = false)
-    val order: Order
-
+    val order: Order,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = WORKFLOW_EDGE_ID, nullable = false)
+    var workflowGraphEdge: WorkflowDirEdge
 ) {
     companion object {
         const val TABLE_NAME = "WorkflowStageStop"
@@ -44,6 +46,7 @@ internal class WorkflowStageStop(
         const val ORDER = "`order`"
         const val WORKFLOW_STAGE = "workflowStage"
         const val ORDER_FIELD = "order"
+        const val WORKFLOW_EDGE_ID = "workflowEdgeId"
     }
 
     constructor(
@@ -52,8 +55,9 @@ internal class WorkflowStageStop(
         assignTime: LocalDateTime?,
         worker: Worker?,
         workflowStage: WorkflowStage,
+        wrkflowDirEdge: WorkflowDirEdge,
         order: Order
     ) : this(
-        null, comment, createTime, assignTime, worker, workflowStage, order
+        null, comment, createTime, assignTime, worker, workflowStage, order, wrkflowDirEdge
     )
 }

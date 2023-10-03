@@ -126,9 +126,6 @@ INSERT INTO PrintCost (orderId, printer, printCost, matrixCost)
 VALUES (1, 1, 12.00, 13.00),
        (1, 1, 13.00, 14.00),
        (1, 2, 1.00, 2.00);
-INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowStage)
-VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 2),
-       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 1);
 INSERT INTO WorkflowDirGraph (creationTime, changedTime, name, comment)
 VALUES ('2023-10-01 10:11:00', '2023-10-01 11:00:00', 'typical flow', NULL);
 INSERT INTO WorkflowDirEdge (V1, V2, graphId)
@@ -136,3 +133,6 @@ VALUES (3, 1, 1),
        (3, 2, 1),
        (1, 4, 1),
        (2, 4, 1);
+INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowEdgeId)
+VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 1),
+       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 2);

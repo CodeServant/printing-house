@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import pl.macia.printinghouse.server.dao.*
 import pl.macia.printinghouse.server.dao.OrderDAO
 import pl.macia.printinghouse.server.dao.WorkerDAO
 import pl.macia.printinghouse.server.dao.WorkflowStageDAO
@@ -27,6 +28,9 @@ internal class WorkflowStageStopDAOTest {
 
     @Autowired
     private lateinit var daoOrder: OrderDAO
+
+    @Autowired
+    private lateinit var graphDAO: WorkflowDirGraphDAO
 
     @Test
     fun `find by id test`() {
@@ -65,15 +69,19 @@ internal class WorkflowStageStopDAOTest {
         val order = daoOrder.findByIdOrNull(1)!!
         val workflowStage = daoWorkflowStage.findByIdOrNull(2)!!
 
+        val graph = graphDAO.findByIdOrNull(1)!!
+        val edge = graph.edges.find { it.id == 1 }!!
         val workflowStageStop = order.addWorkflowStageStop(
             null,
             LocalDateTime.now(),
             null,
             null,
-            workflowStage
+            workflowStage,
+            edge
         )
         assertNull(workflowStageStop.id)
         dao.save(workflowStageStop)
         assertNotNull(workflowStageStop.id)
+        assertEquals("Handlowiec", edge.v1.name)
     }
 }

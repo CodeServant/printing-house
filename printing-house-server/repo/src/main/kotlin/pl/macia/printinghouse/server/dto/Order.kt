@@ -160,6 +160,7 @@ internal class Order private constructor(
         assignTime: LocalDateTime?,
         worker: Worker?,
         workflowStage: WorkflowStage,
+        workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop {
         val workflowStageStop = WorkflowStageStop(
             comment,
@@ -167,6 +168,7 @@ internal class Order private constructor(
             assignTime,
             worker,
             workflowStage,
+            workflowDirEdge,
             this
         )
         workflowStageStops.add(workflowStageStop)

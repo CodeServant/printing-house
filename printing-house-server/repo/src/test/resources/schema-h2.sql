@@ -358,32 +358,6 @@ CREATE TABLE WorkflowStageManager
         unique (workflowStage, employeeId)
 );
 
-CREATE TABLE WorkflowStageStop
-(
-    id            INT PRIMARY KEY AUTO_INCREMENT,
-    comment       VARCHAR(500) NULL,
-    createTime    TIMESTAMP    NOT NULL,
-    assignTime    TIMESTAMP    NULL,
-    worker        INT          NULL,
-    `order`       INT          NOT NULL,
-    workflowStage INT          NOT NULL,
-    FOREIGN KEY (worker)
-        REFERENCES Worker (personId)
-        ON DELETE SET NULL,
-    FOREIGN KEY (`order`)
-        REFERENCES `Order` (id)
-        ON DELETE CASCADE,
-    FOREIGN KEY (workflowStage)
-        REFERENCES WorkflowStage (id)
-);
-
-create index wssWorker_ind
-    on WorkflowStageStop (worker);
-create index wssOrder_ind
-    on WorkflowStageStop (`order`);
-create index wssWorkStage_ind
-    on WorkflowStageStop (workflowStage);
-
 CREATE TABLE WorkflowDirGraph
 (
     id           INT PRIMARY KEY AUTO_INCREMENT,
@@ -420,6 +394,32 @@ create index v2WorkFlowSt_ind
     on WorkflowDirEdge (V2);
 create index graphId_ind
     on WorkflowDirEdge (graphId);
+
+CREATE TABLE WorkflowStageStop
+(
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    comment       VARCHAR(500) NULL,
+    createTime    TIMESTAMP    NOT NULL,
+    assignTime    TIMESTAMP    NULL,
+    worker        INT          NULL,
+    `order`       INT          NOT NULL,
+    workflowEdgeId INT          NOT NULL,
+    FOREIGN KEY (worker)
+        REFERENCES Worker (personId)
+        ON DELETE SET NULL,
+    FOREIGN KEY (`order`)
+        REFERENCES `Order` (id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (workflowEdgeId)
+        REFERENCES WorkflowDirEdge (id)
+);
+
+create index wssWorker_ind
+    on WorkflowStageStop (worker);
+create index wssOrder_ind
+    on WorkflowStageStop (`order`);
+create index wssWorkDEdge_ind
+    on WorkflowStageStop (workflowEdgeId);
 
 CREATE TABLE PlatePrice
 (

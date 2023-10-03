@@ -11,11 +11,6 @@ import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.dao.*
 import pl.macia.printinghouse.server.dto.*
-import pl.macia.printinghouse.server.dto.Colouring
-import pl.macia.printinghouse.server.dto.Order
-import pl.macia.printinghouse.server.dto.PaperType
-import pl.macia.printinghouse.server.dto.Size
-import pl.macia.printinghouse.server.dto.Image
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -51,6 +46,9 @@ internal class OrderDAOTest {
 
     @Autowired
     private lateinit var workflowStageDAO: WorkflowStageDAO
+
+    @Autowired
+    private lateinit var workflowDirGraphDAO: WorkflowDirGraphDAO
 
     @Test
     fun `find single by id`() {
@@ -112,7 +110,8 @@ internal class OrderDAOTest {
             createTime = LocalDateTime.now(),
             assignTime = LocalDateTime.now(),
             worker = workerDAO.findByIdOrNull(2)!!,
-            workflowStage = workflowStageDAO.findByIdOrNull(1)!!
+            workflowStage = workflowStageDAO.findByIdOrNull(1)!!,
+            workflowDirEdge = workflowDirGraphDAO.findByIdOrNull(1)!!.edges[0]
         )
         ord.addPaperOrderType(
             paperType = PaperType(
