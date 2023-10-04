@@ -35,7 +35,7 @@ sealed interface Order {
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: Worker?,
-        workflowStage: WorkflowStage
+        workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop
 
     fun addOrderEnobling(

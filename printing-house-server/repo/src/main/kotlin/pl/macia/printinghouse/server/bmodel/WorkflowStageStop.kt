@@ -9,5 +9,5 @@ sealed interface WorkflowStageStop {
     var createTime: LocalDateTime
     var worker: Worker?
     val order: Order
-    // todo var graphEdge: WorkflowDirEdge
+    var graphEdge: WorkflowDirEdge
 }

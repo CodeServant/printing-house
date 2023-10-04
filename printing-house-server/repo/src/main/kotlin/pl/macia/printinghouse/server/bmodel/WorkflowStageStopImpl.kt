@@ -9,7 +9,7 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: WorkerImpl?,
-        workflowStage: WorkflowStageImpl,
+        workflowDirEdge: WorkflowDirEdgeImpl,
         order: OrderImpl
     ) : this(
         PWorkflowStageStop(
@@ -17,7 +17,7 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
             createTime,
             assignTime,
             worker?.persistent,
-            workflowStage.persistent,
+            workflowDirEdge.persistent,
             order.persistent
         )
     )
@@ -28,6 +28,11 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
     override var createTime: LocalDateTime by persistent::createTime
     override var worker: Worker? by delegate(persistent.worker, ::WorkerImpl, Worker::class.java)
     override var order: Order by delegate(persistent.order, ::OrderImpl, Order::class.java)
+    override var graphEdge: WorkflowDirEdge by delegate(
+        persistent.workflowGraphEdge,
+        ::WorkflowDirEdgeImpl,
+        WorkflowDirEdge::class.java
+    )
 }
 
 internal fun toBizWorkflowStageStop(wss: MutableList<PWorkflowStageStop>): BMutableList<WorkflowStageStop, PWorkflowStageStop> {

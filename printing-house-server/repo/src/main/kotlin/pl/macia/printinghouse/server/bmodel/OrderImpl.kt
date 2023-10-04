@@ -82,14 +82,14 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
         worker: Worker?,
-        workflowStage: WorkflowStage
+        workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop {
         val wss = WorkflowStageStopImpl(
             comment,
             assignTime,
             createTime,
             worker as WorkerImpl?,
-            workflowStage as WorkflowStageImpl,
+            workflowDirEdge as WorkflowDirEdgeImpl,
             this
         )
         workflowStageStops.add(wss)
