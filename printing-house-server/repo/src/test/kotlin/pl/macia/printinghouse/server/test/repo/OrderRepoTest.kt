@@ -48,6 +48,9 @@ internal class OrderRepoTest {
     @Autowired
     lateinit var impositionTypeRepo: ImpositionTypeIntRepo
 
+    @Autowired
+    lateinit var workflowDirGraphRepo: WorkflowDirGraphIntRepo
+
     @Test
     fun `find by id test`() {
         val found = repo.findById(1)!!
@@ -119,7 +122,7 @@ internal class OrderRepoTest {
             assignTime = null,
             createTime = LocalDateTime.now(),
             worker = null,
-            workflowStage = workflowStageRepo.findById(1)!!
+            workflowDirEdge = workflowDirGraphRepo.findById(1)!!.edge.find { it.wEdgeId == 1 }!!
         )
         repo.save(new)
         new.setCalculationCard(

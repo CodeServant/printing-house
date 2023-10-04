@@ -180,3 +180,9 @@ sealed interface OrderRepo {
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>
+sealed interface WorkflowDirGraphRepo {
+    fun save(obj: WorkflowDirGraph): WorkflowDirGraph
+    fun findById(id: Int): WorkflowDirGraph?
+}
+
+internal sealed interface WorkflowDirGraphIntRepo : WorkflowDirGraphRepo, SingleIdRepo<WorkflowDirGraph, Int>
