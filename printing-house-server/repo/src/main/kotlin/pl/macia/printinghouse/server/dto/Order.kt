@@ -159,7 +159,6 @@ internal class Order private constructor(
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,
         worker: Worker?,
-        workflowStage: WorkflowStage,
         workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop {
         val workflowStageStop = WorkflowStageStop(

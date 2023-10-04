@@ -31,9 +31,6 @@ internal class OrderRepoTest {
     lateinit var bindingFormRepo: BindingFormIntRepo
 
     @Autowired
-    lateinit var workflowStageRepo: WorkflowStageIntRepo
-
-    @Autowired
     lateinit var uvVarnishRepo: UVVarnishIntRepo
 
     @Autowired

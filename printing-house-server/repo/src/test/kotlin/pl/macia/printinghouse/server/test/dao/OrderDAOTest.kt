@@ -45,9 +45,6 @@ internal class OrderDAOTest {
     private lateinit var workerDAO: WorkerDAO
 
     @Autowired
-    private lateinit var workflowStageDAO: WorkflowStageDAO
-
-    @Autowired
     private lateinit var workflowDirGraphDAO: WorkflowDirGraphDAO
 
     @Test
@@ -110,7 +107,6 @@ internal class OrderDAOTest {
             createTime = LocalDateTime.now(),
             assignTime = LocalDateTime.now(),
             worker = workerDAO.findByIdOrNull(2)!!,
-            workflowStage = workflowStageDAO.findByIdOrNull(1)!!,
             workflowDirEdge = workflowDirGraphDAO.findByIdOrNull(1)!!.edges[0]
         )
         ord.addPaperOrderType(

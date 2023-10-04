@@ -67,7 +67,6 @@ internal class WorkflowStageStopDAOTest {
     @Transactional
     fun `insert single`() {
         val order = daoOrder.findByIdOrNull(1)!!
-        val workflowStage = daoWorkflowStage.findByIdOrNull(2)!!
 
         val graph = graphDAO.findByIdOrNull(1)!!
         val edge = graph.edges.find { it.id == 1 }!!
@@ -76,7 +75,6 @@ internal class WorkflowStageStopDAOTest {
             LocalDateTime.now(),
             null,
             null,
-            workflowStage,
             edge
         )
         assertNull(workflowStageStop.id)
