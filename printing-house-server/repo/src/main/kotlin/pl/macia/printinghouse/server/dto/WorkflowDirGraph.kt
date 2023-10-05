@@ -31,7 +31,7 @@ internal class WorkflowDirGraph(
         cascade = [CascadeType.ALL]
     )
     @field:Size(min = 1)
-    val edges: MutableList<WorkflowDirEdge>
+    val edges: MutableList<WorkflowDirEdge> = mutableListOf()
 ) {
     companion object {
         const val TAB_NAME = "WorkflowDirGraph"
