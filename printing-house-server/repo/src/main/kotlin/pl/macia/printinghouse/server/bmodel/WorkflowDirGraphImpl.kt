@@ -25,6 +25,12 @@ internal class WorkflowDirGraphImpl(p: PWorkflowDirGraph) : WorkflowDirGraph, Bu
     override var name: String by persistent::name
     override var changedTime: LocalDateTime? by persistent::changedTime
     override val edge: MutableList<WorkflowDirEdge> = toBizWorkflowDirEdge(persistent.edges)
+    override fun addEdge(v1: WorkflowStage, v2: WorkflowStage): WorkflowDirEdge {
+        v1 as WorkflowStageImpl
+        v2 as WorkflowStageImpl
+        return WorkflowDirEdgeImpl(persistent.addEdge(v1.persistent, v2.persistent))
+    }
+}
 
 fun WorkflowDirGraph(
     creationTime: LocalDateTime,
