@@ -17,12 +17,12 @@ internal class WorkflowDirGraph(
     @Column(name = CREATION_TIME, nullable = false)
     var creationTime: LocalDateTime,
     @Column(name = COMMENT, nullable = true)
-    @NotBlank
-    @Size(max = 500)
+    @field:NotBlank
+    @field:Size(max = 500)
     var comment: String?,
     @Column(name = NAME, nullable = false)
-    @Size(max = 300)
-    @NotBlank
+    @field:Size(max = 300)
+    @field:NotBlank
     var name: String,
     @Column(name = CHANGED_TIME, nullable = true)
     var changedTime: LocalDateTime?,
@@ -30,7 +30,7 @@ internal class WorkflowDirGraph(
         mappedBy = WorkflowDirEdge.GRAPH_FIELD,
         cascade = [CascadeType.ALL]
     )
-    @Size(min = 1)
+    @field:Size(min = 1)
     val edges: MutableList<WorkflowDirEdge>
 ) {
     companion object {
