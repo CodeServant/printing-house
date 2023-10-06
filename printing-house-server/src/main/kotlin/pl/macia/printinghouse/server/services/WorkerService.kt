@@ -22,9 +22,12 @@ class WorkerService {
     }
 }
 
+/**
+ * @throws ConversionException
+ */
 private fun Worker.toTransport(): WorkerResp {
     return WorkerResp(
-        id = if (personId == null) throw ConversionException() else personId!!,
+        id = if (personId == null) throw ConversionException("${this::personId.name} cannot be null") else personId!!,
         isManagerOf.map {
             if (it.workflowStageid == null ||
                 it.role.roleId == null
