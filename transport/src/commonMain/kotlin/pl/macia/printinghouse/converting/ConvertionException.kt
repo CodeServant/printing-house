@@ -1,3 +1,3 @@
 package pl.macia.printinghouse.converting
 
-class ConvertionException : Exception()
+class ConvertionException(msg: String? = null) : Exception(msg)
