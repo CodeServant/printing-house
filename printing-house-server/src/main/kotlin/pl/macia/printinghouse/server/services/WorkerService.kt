@@ -24,6 +24,7 @@ class WorkerService {
 
 private fun Worker.toTransport(): WorkerResp {
     return WorkerResp(
+        id = if (personId == null) throw ConvertionException() else personId!!,
         isManagerOf.map {
             if (it.workflowStageid == null ||
                 it.role.roleId == null

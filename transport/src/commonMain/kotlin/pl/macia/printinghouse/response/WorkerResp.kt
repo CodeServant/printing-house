@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WorkerResp(
+    val id: Int,
     val isManagerOf: List<WorkflowStageRespEmb>,
     val roles: List<RoleResp>,
     val employed: Boolean,
