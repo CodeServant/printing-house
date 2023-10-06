@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import org.hamcrest.Matchers
+import pl.macia.printinghouse.response.WorkerResp
 
 /**
  * Constants defined to reduce redundancy in tested code. Constants defined in controllers are not defined here because api may change.
@@ -41,6 +43,7 @@ internal class WorkerCTest {
             .andExpectAll(
                 jsonPath("$[1].name").value("Jiliusz"),
                 jsonPath("$[1].id").value(3),
+                jsonPath("$.*").value(Matchers.hasSize<List<WorkerResp>>(4))
             )
     }
 }
