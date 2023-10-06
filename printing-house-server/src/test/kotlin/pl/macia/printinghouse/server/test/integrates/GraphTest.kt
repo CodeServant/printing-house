@@ -1,4 +1,4 @@
-package pl.macia.printinghouse.server
+package pl.macia.printinghouse.server.test.integrates
 
 import org.jgrapht.graph.DirectedAcyclicGraph
 import org.junit.jupiter.api.Test
