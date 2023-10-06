@@ -8,17 +8,18 @@ import pl.macia.printinghouse.server.services.WorkerService
 
 
 @RestController
-@RequestMapping("api")
+@RequestMapping(WorkerController.CONTEXT)
 class WorkerController {
     @Autowired
     private lateinit var serv: WorkerService
 
-    @GetMapping(value = ["/${WORKERS}/"], produces = ["application/json"])
+    @GetMapping(value = [WORKERS], produces = ["application/json"])
     fun getAllWorkers(): ResponseEntity<List<WorkerResp>> {
         return ResponseEntity.ok(serv.listWorkers())
     }
 
     companion object {
+        const val CONTEXT = "api"
         const val WORKERS = "workers"
     }
 }
