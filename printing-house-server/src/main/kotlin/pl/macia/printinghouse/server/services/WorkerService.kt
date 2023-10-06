@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.services
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import pl.macia.printinghouse.converting.ConvertionException
+import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.WorkflowStageRespEmb
@@ -24,12 +24,12 @@ class WorkerService {
 
 private fun Worker.toTransport(): WorkerResp {
     return WorkerResp(
-        id = if (personId == null) throw ConvertionException() else personId!!,
+        id = if (personId == null) throw ConversionException() else personId!!,
         isManagerOf.map {
             if (it.workflowStageid == null ||
                 it.role.roleId == null
             )
-                throw ConvertionException()
+                throw ConversionException()
             WorkflowStageRespEmb(
                 it.workflowStageid!!,
                 it.name,
@@ -37,7 +37,7 @@ private fun Worker.toTransport(): WorkerResp {
             )
         },
         roles.map {
-            if (it.roleId == null) throw ConvertionException()
+            if (it.roleId == null) throw ConversionException()
             RoleResp(
                 it.roleId!!,
                 it.name
