@@ -17,7 +17,7 @@ import pl.macia.printinghouse.response.WorkerResp
 /**
  * Constants defined to reduce redundancy in tested code. Constants defined in controllers are not defined here because api may change.
  */
-object paths {
+object Paths {
     const val WORKERS = "workers"
     const val CONTEXT = "api"
 }
@@ -37,7 +37,7 @@ internal class WorkerCTest {
 
     @Test
     fun `example test`() {
-        mvc.perform(MockMvcRequestBuilders.get("/${paths.CONTEXT}/${paths.WORKERS}"))
+        mvc.perform(MockMvcRequestBuilders.get("/${Paths.CONTEXT}/${Paths.WORKERS}"))
             .andDo(::print)
             .andExpect(status().isOk)
             .andExpectAll(
