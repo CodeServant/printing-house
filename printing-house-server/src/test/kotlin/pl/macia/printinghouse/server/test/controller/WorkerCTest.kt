@@ -46,4 +46,18 @@ internal class WorkerCTest {
                 jsonPath("$.*").value(Matchers.hasSize<List<WorkerResp>>(4))
             )
     }
+
+    @Test
+    fun `find one test`() {
+        val uri = "/${Paths.CONTEXT}/${Paths.WORKERS}/{id}"
+        fun perform(id: Int) = mvc.perform(MockMvcRequestBuilders.get(uri, id))
+        perform(3)
+            .andExpect(status().isOk)
+            .andExpectAll(
+                jsonPath("$.name").value("Jiliusz"),
+                jsonPath("$.id").value(3)
+            )
+        perform(1)
+            .andExpect(status().isNotFound)
+    }
 }

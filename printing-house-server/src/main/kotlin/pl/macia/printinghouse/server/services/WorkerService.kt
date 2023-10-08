@@ -20,6 +20,10 @@ class WorkerService {
     fun listWorkers(): List<WorkerResp> {
         return repo.findAll().map { it.toTransport() }
     }
+
+    fun findById(id: Int): WorkerResp? {
+        return repo.findById(id)?.toTransport()
+    }
 }
 
 /**
