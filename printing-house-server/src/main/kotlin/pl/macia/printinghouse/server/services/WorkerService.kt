@@ -3,9 +3,12 @@ package pl.macia.printinghouse.server.services
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.WorkerReq
+import pl.macia.printinghouse.response.NewRecID
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.WorkflowStageRespEmb
+import pl.macia.printinghouse.server.bmodel.Email
 import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.repository.WorkerRepo
 
@@ -23,6 +26,21 @@ class WorkerService {
 
     fun findById(id: Int): WorkerResp? {
         return repo.findById(id)?.toTransport()
+    }
+
+    fun insertNew(worker: WorkerReq): NewRecID {
+        val work = repo.save(
+            Worker(
+                Email(worker.email),
+                worker.password, // todo encrypt password with bcrypt
+                worker.activeAccount,
+                worker.employed,
+                worker.name,
+                worker.surname,
+                worker.psudoPESEL
+            )
+        )
+        return NewRecID(work.personId!!.toLong())
     }
 }
 

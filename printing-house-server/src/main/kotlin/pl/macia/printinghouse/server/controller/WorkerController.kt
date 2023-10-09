@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.WorkerReq
+import pl.macia.printinghouse.response.NewRecID
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.server.services.WorkerService
 
@@ -26,6 +28,12 @@ class WorkerController {
             return ResponseEntity.ok(worker)
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
+    }
+
+    @PostMapping(value = [WORKERS], produces = ["application/json"])
+    fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<NewRecID> {
+        val resp = serv.insertNew(req)
+        return ResponseEntity.ok(resp)
     }
 
     companion object {
