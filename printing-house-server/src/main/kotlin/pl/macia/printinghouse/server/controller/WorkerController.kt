@@ -8,10 +8,10 @@ import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.NewRecID
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.server.services.WorkerService
-
+import pl.macia.printinghouse.server.controller.EndpNames.Worker.WORKERS
 
 @RestController
-@RequestMapping(WorkerController.CONTEXT)
+@RequestMapping(EndpNames.API_CONTEXT)
 class WorkerController {
     @Autowired
     private lateinit var serv: WorkerService
@@ -21,7 +21,7 @@ class WorkerController {
         return ResponseEntity.ok(serv.listWorkers())
     }
 
-    @GetMapping(value = ["$WORKERS/{id}"], produces = ["application/json"])
+    @GetMapping(value = ["${WORKERS}/{id}"], produces = ["application/json"])
     fun getWorker(@PathVariable id: Int): ResponseEntity<WorkerResp> {
         val worker = serv.findById(id)
         if (worker != null) {
@@ -34,10 +34,5 @@ class WorkerController {
     fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<NewRecID> {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
-    }
-
-    companion object {
-        const val CONTEXT = "api"
-        const val WORKERS = "workers"
     }
 }
