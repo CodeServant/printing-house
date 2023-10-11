@@ -39,3 +39,9 @@ dependencies {
 tasks.withType<DokkaMultiModuleTask>().configureEach {
     includes.from("packages.md")
 }
+
+tasks.bootRun{
+    dependencies{
+        implementation(libs.springdoc.openapi.webmvc.ui)
+    }
+}

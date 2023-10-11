@@ -10,6 +10,7 @@ h2db = "2.2.224" # https://mvnrepository.com/artifact/com.h2database/h2
 dokka = "1.9.0" # https://mvnrepository.com/artifact/org.jetbrains.dokka/dokka-gradle-plugin
 java = "21"
 jgrapht = "1.5.2"
+springdoc = "2.2.0" # https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
@@ -33,3 +34,4 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json ", version.ref = "kotlin-serialization" }
 spring-boot-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
 jgrapht = { module = "org.jgrapht:jgrapht-core", version.ref = "jgrapht" }
+springdoc-openapi-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
