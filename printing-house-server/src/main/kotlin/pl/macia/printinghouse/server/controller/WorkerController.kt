@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.server.services.WorkerService
-
+import pl.macia.printinghouse.server.controller.EndpNames.Worker.WORKERS
 
 @RestController
-@RequestMapping(WorkerController.CONTEXT)
+@RequestMapping(EndpNames.API_CONTEXT)
 class WorkerController {
     @Autowired
     private lateinit var serv: WorkerService
@@ -19,17 +19,12 @@ class WorkerController {
         return ResponseEntity.ok(serv.listWorkers())
     }
 
-    @GetMapping(value = ["$WORKERS/{id}"], produces = ["application/json"])
+    @GetMapping(value = ["${WORKERS}/{id}"], produces = ["application/json"])
     fun getWorker(@PathVariable id: Int): ResponseEntity<WorkerResp> {
         val worker = serv.findById(id)
         if (worker != null) {
             return ResponseEntity.ok(worker)
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
-    }
-
-    companion object {
-        const val CONTEXT = "api"
-        const val WORKERS = "workers"
     }
 }
