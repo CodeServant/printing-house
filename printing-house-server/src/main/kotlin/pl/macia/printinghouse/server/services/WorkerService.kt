@@ -1,6 +1,7 @@
 package pl.macia.printinghouse.server.services
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.WorkerReq
@@ -17,6 +18,9 @@ class WorkerService {
     @Autowired
     private lateinit var repo: WorkerRepo
 
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
+
     /**
      * Lists all workers that are hired in the Printing House
      */
@@ -32,7 +36,7 @@ class WorkerService {
         val work = repo.save(
             Worker(
                 Email(worker.email),
-                worker.password, // todo encrypt password with bcrypt
+                passwordEncoder.encode(worker.password),
                 worker.activeAccount,
                 worker.employed,
                 worker.name,
