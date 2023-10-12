@@ -32,7 +32,7 @@ internal class WorkflowDirGraphRepoTest {
         assertNull(found.comment)
         val edge = found.edge.find { it.wEdgeId == 1 }!!
         assertEquals("Handlowiec", edge.v1.name)
-        assertEquals("handlowiec", edge.v1.role.name)
+        assertEquals("SALESMAN", edge.v1.role.name)
         assertEquals("Introligatornia", edge.v2.name)
         assertEquals("introligatornia", edge.v2.role.name)
         assertEquals(found.name, edge.grapf.name)
