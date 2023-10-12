@@ -34,7 +34,8 @@ VALUES ('SALESMAN'),
        ('ADMIN'),
        ('EMPLOYEE'),
        ('OWNER'),
-       ('WORKER');
+       ('WORKER'),
+       ('WORKFLOW_STAGE_MANAGER');
 INSERT INTO BindingForm (name)
 VALUES ('Papier'),
        ('Folia'),

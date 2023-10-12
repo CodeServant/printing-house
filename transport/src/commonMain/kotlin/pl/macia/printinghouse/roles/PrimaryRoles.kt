@@ -9,5 +9,6 @@ enum class PrimaryRoles {
     MANAGER,
     SALESMAN,
     OWNER,
-    WORKER
+    WORKER,
+    WORKFLOW_STAGE_MANAGER
 }
