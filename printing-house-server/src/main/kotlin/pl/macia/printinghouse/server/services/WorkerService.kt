@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.WorkerReq
-import pl.macia.printinghouse.response.NewRecID
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.WorkflowStageRespEmb
@@ -32,7 +32,7 @@ class WorkerService {
         return repo.findById(id)?.toTransport()
     }
 
-    fun insertNew(worker: WorkerReq): NewRecID {
+    fun insertNew(worker: WorkerReq): RecID {
         val work = repo.save(
             Worker(
                 Email(worker.email),
@@ -44,7 +44,7 @@ class WorkerService {
                 worker.psudoPESEL
             )
         )
-        return NewRecID(work.personId!!.toLong())
+        return RecID(work.personId!!.toLong())
     }
 }
 

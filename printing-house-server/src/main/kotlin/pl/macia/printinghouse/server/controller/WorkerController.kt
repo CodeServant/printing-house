@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
 import pl.macia.printinghouse.request.WorkerReq
-import pl.macia.printinghouse.response.NewRecID
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.WorkerService
@@ -38,7 +38,7 @@ class WorkerController {
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}', '${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
     @PostMapping(value = [WORKERS], produces = ["application/json"])
-    fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<NewRecID> {
+    fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
     }
