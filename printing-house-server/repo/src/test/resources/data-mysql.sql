@@ -26,11 +26,16 @@ VALUES ('f/f'),
        ('f/o'),
        ('f/g');
 INSERT INTO `Role` (name)
-VALUES ('handlowiec'),
+VALUES ('SALESMAN'),
        ('introligatornia'),
        ('krajalnia'),
-       ('manager'),
-       ('naświetlarnia');
+       ('MANAGER'),
+       ('naświetlarnia'),
+       ('ADMIN'),
+       ('EMPLOYEE'),
+       ('OWNER'),
+       ('WORKER'),
+       ('WORKFLOW_STAGE_MANAGER');
 INSERT INTO BindingForm (name)
 VALUES ('Papier'),
        ('Folia'),

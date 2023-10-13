@@ -20,7 +20,7 @@ internal class RoleRepoTest {
     @Test
     fun `find by id test`() {
         var role = repo.findById(1)
-        assertEquals("handlowiec", role?.name)
+        assertEquals("SALESMAN", role?.name)
         role = repo.findById(2)
         assertEquals("introligatornia", role?.name)
         role = repo.findById(100)

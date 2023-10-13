@@ -31,7 +31,7 @@ internal class SalesmanRepoTest {
         assertEquals(true, salm.activeAccount)
         assertEquals(true, salm.employed)
         assertEquals(1, salm.roles.size)
-        assertEquals("handlowiec", salm.roles.first().name)
+        assertEquals("SALESMAN", salm.roles.first().name)
     }
 
     @Test

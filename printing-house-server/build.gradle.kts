@@ -34,6 +34,8 @@ dependencies {
     implementation(project("repo"))
     implementation(project(":transport"))
     implementation(libs.jgrapht)
+    implementation(libs.spring.boot.security)
+    testImplementation(libs.spring.security.test)
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {

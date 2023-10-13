@@ -23,7 +23,7 @@ internal class RoleDAOTest {
     @Test
     fun `find by id test`() {
         val role = rDao.findByIdOrNull(1)
-        assertEquals("handlowiec", role?.name)
+        assertEquals("SALESMAN", role?.name)
     }
 
     @Test
@@ -36,7 +36,7 @@ internal class RoleDAOTest {
                 ?.map {
                     it.name
                 }!!
-                .contains("handlowiec")
+                .contains("SALESMAN")
         )
         assertEquals("Kowalski-Salesman", rDao.findByIdOrNull(1)?.employees?.get(0)?.surname)
     }
