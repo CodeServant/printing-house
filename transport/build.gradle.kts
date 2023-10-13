@@ -10,7 +10,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlin.serialization.json)
+                api(libs.kotlin.serialization.json)
             }
         }
         val commonTest by getting
