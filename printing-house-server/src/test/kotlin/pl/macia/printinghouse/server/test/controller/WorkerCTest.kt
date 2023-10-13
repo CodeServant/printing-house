@@ -44,7 +44,7 @@ internal class WorkerCTest {
 
     @Test
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
-    fun `example test`() {
+    fun `get all workers test`() {
         mvc.perform(MockMvcRequestBuilders.get("/${Paths.CONTEXT}/${Paths.WORKERS}"))
             .andExpect { status().isOk }
             .andExpectAll (
