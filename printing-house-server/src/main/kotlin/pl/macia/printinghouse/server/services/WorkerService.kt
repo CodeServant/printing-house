@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.services
 
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -45,6 +46,10 @@ class WorkerService {
             )
         )
         return RecID(work.personId!!.toLong())
+    }
+    @Transactional
+    fun delete(id:RecID){
+        repo.delete(id.asInt())
     }
 }
 

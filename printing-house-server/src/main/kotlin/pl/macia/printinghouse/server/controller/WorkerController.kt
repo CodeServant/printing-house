@@ -42,4 +42,10 @@ class WorkerController {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @DeleteMapping(value = ["$WORKERS/{id}"], produces = ["application/json"])
+    fun deleteWorker(@PathVariable id: Int) {
+        return serv.delete(RecID(id.toLong()))
+    }
 }
