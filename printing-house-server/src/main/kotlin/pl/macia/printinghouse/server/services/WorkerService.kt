@@ -121,7 +121,6 @@ class WorkerService {
         simpleChange(workerChange.psudoPESEL, found.psudoPESEL) { found.psudoPESEL = it!! }
         simpleChange(workerChange.surname, found.surname) { found.surname = it!! }
         simpleChange(workerChange.name, found.name) { found.name = it!! }
-        found.psudoPESEL = found.psudoPESEL.padEnd(11, ' ') //todo delete this
         return workerChanged
     }
 
