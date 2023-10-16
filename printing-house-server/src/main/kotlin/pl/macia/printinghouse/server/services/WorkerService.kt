@@ -34,7 +34,7 @@ class WorkerService {
      * Lists all workers that are hired in the Printing House
      */
     fun listWorkers(): List<WorkerResp> {
-        return repo.findAll().map { it.toTransport() }
+        return repo.findAll().map { it.toTransport() } //todo change to hired workers
     }
 
     fun findById(id: Int): WorkerResp? {
