@@ -33,6 +33,7 @@ import pl.macia.printinghouse.server.PrintingHouseServerApplication
 object Paths {
     const val WORKERS = "workers"
     const val CONTEXT = "api"
+    const val SALESMANS = "salesmans"
 }
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])

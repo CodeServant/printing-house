@@ -6,4 +6,8 @@ object EndpNames {
     object Worker {
         const val WORKERS = "workers"
     }
+
+    object Salesman {
+        const val SALESMANS = "salesmans"
+    }
 }
