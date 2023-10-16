@@ -1,6 +1,7 @@
 package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -17,6 +18,7 @@ import java.util.*
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
+@Tag(name = "salesman", description = "salesman controller")
 class SalesmanController {
     @Autowired
     private lateinit var serv: SalesmanService
