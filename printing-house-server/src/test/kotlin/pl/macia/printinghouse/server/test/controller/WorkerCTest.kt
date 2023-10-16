@@ -19,8 +19,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.WorkerChangeReq
 import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -122,5 +124,46 @@ internal class WorkerCTest {
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
     fun `insert one test`() {
         insertTravolta()
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `change worker data`() {
+        val annaId = 7
+        var change = WorkerChangeReq(
+            isManagerOf = listOf(1, 2),
+            roles = listOf(1, 2),
+            name = "Zofia"
+        )
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", annaId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpect(status().isOk)
+        mvc.perform(
+            MockMvcRequestBuilders.get("$uri/{id}", annaId)
+        ).andExpectAll(
+            status().isOk,
+            jsonPath("$.name").value("Zofia"),
+            jsonPath("$.surname").value("Nadstawna-Naświetlarnia"),
+            jsonPath("$.roles.*").value(Matchers.hasSize<List<RoleResp>>(2)),
+            jsonPath("$.roles[*].name").value(Matchers.hasItem("SALESMAN")),
+            jsonPath("$.isManagerOf.*").value(Matchers.hasSize<List<RoleResp>>(2)),
+            jsonPath("$.isManagerOf[*].name").value(Matchers.hasItem("Introligatornia"))
+        )
+
+        change = WorkerChangeReq(
+            isManagerOf = listOf(1, 2),
+            roles = listOf(1, 2),
+            surname = "Nadstawna-Naświetlarnia"
+        )
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", annaId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.changed").value(false))
     }
 }
