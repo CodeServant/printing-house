@@ -3,7 +3,7 @@ package pl.macia.printinghouse.response
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SalesmanResp(
+data class SalesmanResp(
     val id: Int,
     val employed: Boolean,
     val activeAccount: Boolean,
