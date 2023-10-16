@@ -21,4 +21,8 @@ internal class RoleRepoImpl : RoleIntRepo {
     override fun findById(id: Int): Role? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun findAllById(roleIds: Iterable<Int>): Set<Role> {
+        return dao.findAllById(roleIds).map { it.toBiz() }.toSet()
+    }
 }
