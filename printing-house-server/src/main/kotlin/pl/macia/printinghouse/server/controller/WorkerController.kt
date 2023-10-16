@@ -36,7 +36,7 @@ class WorkerController {
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}', '${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @PostMapping(value = [WORKERS], produces = ["application/json"])
     fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
