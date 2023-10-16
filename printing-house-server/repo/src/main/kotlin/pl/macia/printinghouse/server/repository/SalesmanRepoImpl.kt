@@ -21,4 +21,8 @@ internal class SalesmanRepoImpl : SalesmanIntRepo {
     override fun findById(id: Int): Salesman? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun findAllHired(): List<Salesman> {
+        return dao.findByEmployed(true).map { it.toBiz() }
+    }
 }

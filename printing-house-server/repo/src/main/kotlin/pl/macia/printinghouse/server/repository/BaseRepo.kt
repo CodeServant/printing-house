@@ -166,6 +166,7 @@ internal sealed interface WorkerIntRepo : WorkerRepo, SingleIdRepo<Worker, Int>
 sealed interface SalesmanRepo {
     fun save(obj: Salesman): Salesman
     fun findById(id: Int): Salesman?
+    fun findAllHired(): List<Salesman>
 }
 
 internal sealed interface SalesmanIntRepo : SalesmanRepo, SingleIdRepo<Salesman, Int>
