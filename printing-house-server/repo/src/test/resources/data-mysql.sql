@@ -1,11 +1,11 @@
 INSERT INTO Person (name, surname, pseudoPESEL)
-VALUES ('Jan', 'Kowalski-Salesman', '451254785'),
-       ('Marian', 'Rokita-IntroligManager', '548746687'),
-       ('Jiliusz', 'Szymański-Introligatornia', '911234144'),
-       ('Robert', 'Makłowisz-NaśwManager', '42389285u'),
-       ('Brad', 'PittIndividualCli', '013503592'),
-       ('Rick', 'SanchesIndividualCli', '913582395'),
-       ('Anna', 'Nadstawna-Naświetlarnia', '423523523');
+VALUES ('Jan', 'Kowalski-Salesman', '45125478527'),
+       ('Marian', 'Rokita-IntroligManager', '54874668723'),
+       ('Jiliusz', 'Szymański-Introligatornia', '91123414471'),
+       ('Robert', 'Makłowisz-NaśwManager', '42389285u78'),
+       ('Brad', 'PittIndividualCli', '01350359272'),
+       ('Rick', 'SanchesIndividualCli', '91357482395'),
+       ('Anna', 'Nadstawna-Naświetlarnia', '43823523523');
 INSERT INTO Bindery (name)
 VALUES ('A1'),
        ('A2'),

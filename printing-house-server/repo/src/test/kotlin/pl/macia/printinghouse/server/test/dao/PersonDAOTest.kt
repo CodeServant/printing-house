@@ -25,7 +25,7 @@ internal class PersonDAOTest {
         }
         assertEquals("Robert", person?.name)
         assertEquals("Makłowisz-NaśwManager", person?.surname)
-        assertEquals("42389285u", person?.pseudoPESEL)
+        assertEquals("42389285u78", person?.pseudoPESEL)
     }
 
     @Test

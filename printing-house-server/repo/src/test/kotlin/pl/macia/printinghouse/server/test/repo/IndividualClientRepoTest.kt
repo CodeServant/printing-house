@@ -30,7 +30,7 @@ internal class IndividualClientRepoTest {
             assertEquals("Rick", found?.name)
             assertEquals("SanchesIndividualCli", found?.surname)
             assertEquals(
-                "913582395",
+                "91357482395",
                 found?.psudoPESEL?.trim()
             ) // h2 database does not auto trim fixed char values unlike mysql
             assertEquals("julek@wp.pl", found?.email?.email)

@@ -26,7 +26,7 @@ internal class SalesmanRepoTest {
         val salm = repo.findById(1)!!
         assertEquals("Jan", salm.name)
         assertEquals("Kowalski-Salesman", salm.surname)
-        assertEquals("451254785", salm.psudoPESEL.trim())
+        assertEquals("45125478527", salm.psudoPESEL.trim())
         assertEquals("evilcorp@example.com", salm.email.email)
         assertEquals(true, salm.activeAccount)
         assertEquals(true, salm.employed)

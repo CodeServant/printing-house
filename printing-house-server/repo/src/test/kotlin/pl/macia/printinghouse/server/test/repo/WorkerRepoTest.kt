@@ -31,7 +31,7 @@ internal class WorkerRepoTest {
         val found = repo.findById(2)!!
         assertEquals(found.name, "Marian")
         assertEquals(found.surname, "Rokita-IntroligManager")
-        assertEquals(found.psudoPESEL.trim(), "548746687")
+        assertEquals("54874668723", found.psudoPESEL.trim())
         assertTrue(found.isManagerOf.isNotEmpty())
         assertEquals(found.isManagerOf.first().name, "Introligatornia")
         assertNotNull(found.roles.find { it.name == "krajalnia" })
