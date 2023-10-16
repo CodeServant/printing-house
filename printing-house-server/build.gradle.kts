@@ -36,14 +36,15 @@ dependencies {
     implementation(libs.jgrapht)
     implementation(libs.spring.boot.security)
     testImplementation(libs.spring.security.test)
+    implementation(libs.springdoc.openapi.common)
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {
     includes.from("packages.md")
 }
 
-tasks.bootRun{
-    dependencies{
+tasks.bootRun {
+    dependencies {
         implementation(libs.springdoc.openapi.webmvc.ui)
     }
 }

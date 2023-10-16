@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -18,6 +19,7 @@ class SalesmanController {
     @Autowired
     private lateinit var serv: SalesmanService
 
+    @Operation(summary = "get all hired salesmans")
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @GetMapping(value = [EndpNames.Salesman.SALESMANS], produces = ["application/json"])
     fun getHiredSalesmans(): ResponseEntity<List<SalesmanResp>> {
