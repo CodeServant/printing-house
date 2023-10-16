@@ -40,7 +40,7 @@ class SalesmanController {
     @PostMapping(value = [EndpNames.Salesman.SALESMANS], produces = ["application/json"])
     fun newSalesman(@RequestBody req: SalesmanReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
-        return ResponseEntity.ok(resp)
+        return ResponseEntity.ok(resp) // todo add SALESMAN role automatically
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")

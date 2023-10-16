@@ -44,7 +44,7 @@ class WorkerController {
     @PostMapping(value = [WORKERS], produces = ["application/json"])
     fun newWorker(@RequestBody req: WorkerReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
-        return ResponseEntity.ok(resp)
+        return ResponseEntity.ok(resp) // todo add WORKER role automatically
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")

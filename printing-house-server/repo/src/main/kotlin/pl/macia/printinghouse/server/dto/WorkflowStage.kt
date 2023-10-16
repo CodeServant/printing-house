@@ -17,7 +17,7 @@ internal class WorkflowStage(
     var id: Int?,
     @OneToOne(cascade = [CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST])
     @JoinColumn(name = ROLE_ID, referencedColumnName = Role.ID)
-    var role: Role,
+    var role: Role, // todo remove role from workflow stage
     @field:Size(max = 100)
     @field:NotBlank
     @field:NotNull
