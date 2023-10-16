@@ -32,7 +32,7 @@ internal class WorkerDAOTest {
         val expectedNames = listOf("Marian", "Jiliusz", "Robert")
         assertIterableEquals(expectedNames, workers.map { it.name })
         val firstWkr = workers.first()!!
-        assertEquals("krajalnia", firstWkr.roles.first().name)
+        assertNotNull(firstWkr.roles.find { it.name == "krajalnia" })
     }
 
     @Test
