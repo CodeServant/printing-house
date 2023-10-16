@@ -101,4 +101,19 @@ class SalesmanCTest {
     fun `insert one test`() {
         insertJackson()
     }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `delete worker test`() {
+        val newRecId = insertJackson()
+
+        mvc.perform(
+            MockMvcRequestBuilders.delete("$uri/{id}", newRecId.asInt())
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+
+        mvc.perform(
+            MockMvcRequestBuilders.get("$uri/{id}", newRecId.asInt())
+        ).andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
 }

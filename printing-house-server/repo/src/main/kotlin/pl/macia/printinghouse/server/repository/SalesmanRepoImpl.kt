@@ -25,4 +25,8 @@ internal class SalesmanRepoImpl : SalesmanIntRepo {
     override fun findAllHired(): List<Salesman> {
         return dao.findByEmployed(true).map { it.toBiz() }
     }
+
+    override fun deleteById(id: Int) {
+        dao.deleteById(id)
+    }
 }

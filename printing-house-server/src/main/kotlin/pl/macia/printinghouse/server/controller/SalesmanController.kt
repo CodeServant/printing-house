@@ -42,4 +42,10 @@ class SalesmanController {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @DeleteMapping(value = ["${EndpNames.Salesman.SALESMANS}/{id}"], produces = ["application/json"])
+    fun deleteSalesman(@PathVariable id: Int) {
+        return serv.delete(RecID(id.toLong()))
+    }
 }

@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.services
 
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -26,6 +27,7 @@ class SalesmanService {
         return repo.findById(id)?.toTransport()
     }
 
+    @Transactional
     fun insertNew(salesman: SalesmanReq): RecID {
         val inserted = repo.save(
             Salesman(
@@ -39,6 +41,11 @@ class SalesmanService {
             )
         )
         return RecID(inserted.personId!!.toLong())
+    }
+
+    @Transactional
+    fun delete(id: RecID) {
+        repo.deleteById(id.asInt())
     }
 }
 
