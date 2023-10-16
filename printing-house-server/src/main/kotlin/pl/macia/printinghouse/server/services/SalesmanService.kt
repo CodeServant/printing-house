@@ -15,6 +15,11 @@ class SalesmanService {
     fun listSalesmans(): List<SalesmanResp> {
         return repo.findAllHired().map { it.toTransport() }
     }
+
+    fun findById(id: Int): SalesmanResp? {
+        return repo.findById(id)?.toTransport()
+    }
+
 }
 
 /**

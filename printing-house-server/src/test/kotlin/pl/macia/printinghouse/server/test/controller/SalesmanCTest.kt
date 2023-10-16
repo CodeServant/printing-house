@@ -27,12 +27,14 @@ class SalesmanCTest {
     private lateinit var webApplicationContext: WebApplicationContext
 
     private val uri = "/${Paths.CONTEXT}/${Paths.SALESMANS}"
+
     @BeforeEach
     fun beforeEach() {
         mvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext)
             .apply<DefaultMockMvcBuilder>(SecurityMockMvcConfigurers.springSecurity())
             .build()
     }
+
     @Test
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
     fun `find hired salesmans`() {
@@ -43,5 +45,21 @@ class SalesmanCTest {
                 MockMvcResultMatchers.jsonPath("$[0].id").value(1),
                 MockMvcResultMatchers.jsonPath("$.*").value(Matchers.hasSize<List<WorkerResp>>(1))
             )
+    }
+
+    @Test
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `find one test`() {
+        fun perform(id: Int) = mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
+        perform(1)
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpectAll(
+                MockMvcResultMatchers.jsonPath("$.name").value("Jan"),
+                MockMvcResultMatchers.jsonPath("$.email").value("evilcorp@example.com"),
+                MockMvcResultMatchers.jsonPath("$.roles[0].name").value("SALESMAN"),
+                MockMvcResultMatchers.jsonPath("$.id").value(1)
+            )
+        perform(2)
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 }

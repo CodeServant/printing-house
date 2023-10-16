@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.SalesmanService
+import java.util.*
 
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
@@ -24,5 +26,12 @@ class SalesmanController {
     @GetMapping(value = [EndpNames.Salesman.SALESMANS], produces = ["application/json"])
     fun getHiredSalesmans(): ResponseEntity<List<SalesmanResp>> {
         return ResponseEntity.ok(serv.listSalesmans())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @GetMapping(value = ["${EndpNames.Salesman.SALESMANS}/{id}"], produces = ["application/json"])
+    fun findById(@PathVariable id: Int): ResponseEntity<SalesmanResp> {
+        val found = Optional.ofNullable(serv.findById(id))
+        return ResponseEntity.of(found)
     }
 }
