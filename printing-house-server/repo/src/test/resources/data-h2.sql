@@ -80,7 +80,9 @@ VALUES (1, 3, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r2
 INSERT INTO EmploeeRole (empId, roleId)
 VALUES (1, 1),
        (2, 3),
-       (3, 4);
+       (3, 4),
+       (2, 10),
+       (4, 10);
 INSERT INTO IndividualClient (personId, clientId)
 VALUES (6, 1),
        (5, 2);
