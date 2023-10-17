@@ -49,7 +49,6 @@ internal class WorkerCTest {
     fun dummyWorkerTravolta(pesel: String, email: String): WorkerReq {
         return WorkerReq(
             isManagerOf = listOf(),
-            roles = listOf(),
             employed = true,
             activeAccount = true,
             password = "123",

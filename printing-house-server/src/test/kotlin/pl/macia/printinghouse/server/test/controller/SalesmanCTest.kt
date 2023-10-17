@@ -72,7 +72,6 @@ class SalesmanCTest {
 
     fun dummyJackson(pesel: String, email: String): SalesmanReq {
         return SalesmanReq(
-            roles = listOf(),
             employed = true,
             activeAccount = true,
             password = "123",
