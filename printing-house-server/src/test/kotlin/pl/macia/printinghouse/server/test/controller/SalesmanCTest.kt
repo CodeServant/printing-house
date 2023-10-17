@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
 import pl.macia.printinghouse.response.RecID
-import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -126,7 +125,6 @@ class SalesmanCTest {
         // this code is similar to WorkerCTest change test and maybe can be refactored
         val janId = 1
         var change = SalesmanChangeReq(
-            roles = listOf(1, 2),
             name = "Zofia"
         )
         mvc.perform(
@@ -139,13 +137,10 @@ class SalesmanCTest {
         ).andExpectAll(
             MockMvcResultMatchers.status().isOk,
             MockMvcResultMatchers.jsonPath("$.name").value("Zofia"),
-            MockMvcResultMatchers.jsonPath("$.surname").value("Kowalski-Salesman"),
-            MockMvcResultMatchers.jsonPath("$.roles.*").value(Matchers.hasSize<List<RoleResp>>(2)),
-            MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem("SALESMAN"))
+            MockMvcResultMatchers.jsonPath("$.surname").value("Kowalski-Salesman")
         )
 
         change = SalesmanChangeReq(
-            roles = listOf(2, 1),
             surname = "Kowalski-Salesman"
         )
 

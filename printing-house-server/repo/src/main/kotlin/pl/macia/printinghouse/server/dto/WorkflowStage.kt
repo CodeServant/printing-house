@@ -15,9 +15,6 @@ internal class WorkflowStage(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
     var id: Int?,
-    @OneToOne(cascade = [CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST])
-    @JoinColumn(name = ROLE_ID, referencedColumnName = Role.ID)
-    var role: Role, // todo remove role from workflow stage
     @field:Size(max = 100)
     @field:NotBlank
     @field:NotNull
@@ -35,16 +32,14 @@ internal class WorkflowStage(
     companion object {
         const val TABLE_NAME = "WorkflowStage"
         const val ID = "id"
-        const val ROLE_ID = "roleId"
         const val NAME = "name"
         const val MANAGER = "WorkflowStageManager"
         const val MANAGER_WORKFLOW_STAGE_ID = "workflowStage"
         const val MANAGER_EMPLOYEE_ID = "employeeId"
     }
 
-    constructor(role: Role, name: String, workflowStageManagers: MutableList<Worker>) : this(
+    constructor(name: String, workflowStageManagers: MutableList<Worker>) : this(
         null,
-        role,
         name,
         workflowStageManagers
     )

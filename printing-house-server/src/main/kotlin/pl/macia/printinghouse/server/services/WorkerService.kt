@@ -12,7 +12,6 @@ import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.WorkflowStageRespEmb
 import pl.macia.printinghouse.server.bmodel.*
-import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.WorkerRepo
 import pl.macia.printinghouse.server.repository.WorkflowStageRepo
 
@@ -23,9 +22,6 @@ class WorkerService {
 
     @Autowired
     private lateinit var workflowStageRepo: WorkflowStageRepo
-
-    @Autowired
-    private lateinit var roleRepo: RoleRepo
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
@@ -88,20 +84,6 @@ class WorkerService {
             workerChanged = true
         }
 
-
-        if (workerChange.roles != null &&
-            found.roles.map { it.roleId }.toSet() != workerChange.roles!!.toSet()
-        ) {
-            found.roles.clear()
-            found.roles.addAll(
-                roleRepo.findAllById(workerChange.roles!!)
-            )
-            workerChanged = true
-        } else if (workerChange.nullingRest) {
-            found.roles.clear()
-            workerChanged = true
-        }
-
         fun <E> simpleChange(workerChange: E, found: E, setFound: (E) -> Unit) {
             workerChange?.let {
                 if (found != it) {
@@ -133,14 +115,11 @@ private fun Worker.toTransport(): WorkerResp {
     return WorkerResp(
         id = if (personId == null) throw ConversionException("${this::personId.name} cannot be null") else personId!!,
         isManagerOf.map {
-            if (it.workflowStageid == null ||
-                it.role.roleId == null
-            )
+            if (it.workflowStageid == null)
                 throw ConversionException()
             WorkflowStageRespEmb(
                 it.workflowStageid!!,
-                it.name,
-                RoleResp(it.role.roleId!!, it.role.name)
+                it.name
             )
         },
         roles.map {

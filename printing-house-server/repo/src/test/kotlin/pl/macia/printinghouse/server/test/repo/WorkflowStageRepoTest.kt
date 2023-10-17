@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
-import pl.macia.printinghouse.server.bmodel.Role
 import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.bmodel.WorkflowStage
 import pl.macia.printinghouse.server.repository.WorkerIntRepo
@@ -30,7 +29,6 @@ internal class WorkflowStageRepoTest {
     fun `find by id test`() {
         val workflowStage = repo.findById(1)!!
         assertEquals("Introligatornia", workflowStage.name)
-        assertEquals("introligatornia", workflowStage.role.name)
         assertEquals("Rokita-IntroligManager", workflowStage.workflowManagers.first().surname)
         assertEquals(
             "Introligatornia",
@@ -43,8 +41,7 @@ internal class WorkflowStageRepoTest {
     @Test
     @Transactional
     fun `create one test`() {
-        val nameRl = "newRoleCreateOneWorkflowAStage"
-        val ws = WorkflowStage(Role(nameRl), "crtOneWorkflowStage")
+        val ws = WorkflowStage("crtOneWorkflowStage")
         val mgr = Worker(
             Email("createSingleTestWorker@example.com"),
             password = simPass,

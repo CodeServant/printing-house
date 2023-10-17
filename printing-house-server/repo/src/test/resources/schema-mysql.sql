@@ -355,12 +355,7 @@ CREATE TABLE EmploeeRole
 CREATE TABLE WorkflowStage
 (
     id     INT PRIMARY KEY AUTO_INCREMENT,
-    roleId INT          NOT NULL,
-    name   VARCHAR(100) NOT NULL UNIQUE,
-    INDEX  wsRoleId_ind (roleId),
-    FOREIGN KEY (roleId)
-        REFERENCES Role (id)
-        ON DELETE CASCADE
+    name   VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE WorkflowStageManager

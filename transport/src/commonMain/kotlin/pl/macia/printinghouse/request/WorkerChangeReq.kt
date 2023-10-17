@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 data class WorkerChangeReq(
     val nullingRest: Boolean = false,
     val isManagerOf: List<Int>? = null,
-    val roles: List<Int>? = null,
     val employed: Boolean? = null,
     val activeAccount: Boolean? = null,
     val password: String? = null,

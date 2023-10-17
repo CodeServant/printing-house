@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SalesmanChangeReq(
     val nullingRest: Boolean = false,
-    val roles: List<Int>? = null,
     val employed: Boolean? = null,
     val activeAccount: Boolean? = null,
     val password: String? = null,

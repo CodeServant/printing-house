@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import pl.macia.printinghouse.server.bmodel.Email
-import pl.macia.printinghouse.server.bmodel.Role
 import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.bmodel.WorkflowStage
 import pl.macia.printinghouse.server.repository.WorkerIntRepo
@@ -64,8 +63,8 @@ internal class WorkerRepoTest {
             surname = "Travolta",
             pseudoPESEL = "09876543210"
         )
-        val ws1 = WorkflowStage(name = "Station1", role = Role("station1"))
-        val ws2 = WorkflowStage(name = "Station2", role = Role("station2"))
+        val ws1 = WorkflowStage(name = "Station1")
+        val ws2 = WorkflowStage(name = "Station2")
         val listOfWss = listOf(ws1, ws2)
 
         listOfWss.forEach {

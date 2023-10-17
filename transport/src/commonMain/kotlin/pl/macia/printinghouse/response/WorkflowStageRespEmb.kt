@@ -8,6 +8,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WorkflowStageRespEmb(
     val id: Int,
-    val name: String,
-    val role: RoleResp
+    val name: String
 )

@@ -11,7 +11,6 @@ import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.server.bmodel.*
-import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.SalesmanRepo
 
 @Service
@@ -22,8 +21,6 @@ class SalesmanService {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
-    @Autowired
-    private lateinit var roleRepo: RoleRepo
     fun listSalesmans(): List<SalesmanResp> {
         return repo.findAllHired().map { it.toTransport() }
     }
@@ -61,19 +58,6 @@ class SalesmanService {
 
 
         //todo this code is almost the same as code in worker and should be refactored f.e. create employee change request
-        if (salesmanChange.roles != null &&
-            found.roles.map { it.roleId }.toSet() != salesmanChange.roles!!.toSet()
-        ) {
-            found.roles.clear()
-            found.roles.addAll(
-                roleRepo.findAllById(salesmanChange.roles!!)
-            )
-            salesmanChanged = true
-        } else if (salesmanChange.nullingRest) {
-            found.roles.clear()
-            salesmanChanged = true
-        }
-
         fun <E> simpleChange(workerChange: E, found: E, setFound: (E) -> Unit) {
             workerChange?.let {
                 if (found != it) {

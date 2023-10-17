@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
-import pl.macia.printinghouse.server.dao.RoleDAO
 import pl.macia.printinghouse.server.dao.WorkerDAO
 import pl.macia.printinghouse.server.dao.WorkflowStageDAO
 import pl.macia.printinghouse.server.dto.*
@@ -22,9 +21,6 @@ internal class WorkflowStageDAOTest {
     lateinit var dao: WorkflowStageDAO
 
     @Autowired
-    lateinit var daoRole: RoleDAO
-
-    @Autowired
     lateinit var daoWorker: WorkerDAO
 
     @JpaOrder(1)
@@ -32,28 +28,6 @@ internal class WorkflowStageDAOTest {
     fun `get by id`() {
         val workflowStage = dao.findByIdOrNull(1)
         assertEquals("Introligatornia", workflowStage?.name)
-    }
-
-    @JpaOrder(2)
-    @Test
-    @Transactional
-    fun `role association test`() {
-        val workerManager = daoWorker.findByIdOrNull(4)!! // Makłowisz-NaśwManager
-        val newWorkflowStage =
-            WorkflowStage(
-                Role("newRoleToWorkflowStage role association test"),
-                "introligatorNewWorkflowStage test",
-                mutableListOf(workerManager)
-            )
-        dao.saveAndFlush(newWorkflowStage)
-        assertNotNull(newWorkflowStage.id, "${WorkflowStage.TABLE_NAME} not created")
-        assertNotNull(newWorkflowStage.role.id, "${Role.TABLE_NAME} not created")
-        newWorkflowStage.role = Role("newRoleToWorkflowStage")
-        dao.saveAndFlush(newWorkflowStage)
-        assertNotNull(newWorkflowStage.role.id)
-        val deletedId = newWorkflowStage.role.id!!
-        dao.delete(newWorkflowStage)
-        assertNull(dao.findByIdOrNull(deletedId))
     }
 
     @Test
@@ -71,10 +45,9 @@ internal class WorkflowStageDAOTest {
     fun `delete workflowstage that has role association`() {
         val workerManager = daoWorker.findByIdOrNull(4)!! // Makłowisz-NaśwManager
         val workflowStage =
-            WorkflowStage(daoRole.findByIdOrNull(5)!!, "delete role that has association", mutableListOf(workerManager))
+            WorkflowStage("delete role that has association", mutableListOf(workerManager))
         dao.saveAndFlush(workflowStage)
         assertNotNull(workflowStage.id)
-        assertEquals("naświetlarnia", workflowStage.role.name)
         assertDoesNotThrow {
             dao.delete(workflowStage)
         }

@@ -134,7 +134,6 @@ internal class WorkerCTest {
         val annaId = 7
         var change = WorkerChangeReq(
             isManagerOf = listOf(1, 2),
-            roles = listOf(1, 2),
             name = "Zofia"
         )
         mvc.perform(
@@ -148,15 +147,12 @@ internal class WorkerCTest {
             status().isOk,
             jsonPath("$.name").value("Zofia"),
             jsonPath("$.surname").value("Nadstawna-Naświetlarnia"),
-            jsonPath("$.roles.*").value(Matchers.hasSize<List<RoleResp>>(2)),
-            jsonPath("$.roles[*].name").value(Matchers.hasItem("SALESMAN")),
             jsonPath("$.isManagerOf.*").value(Matchers.hasSize<List<RoleResp>>(2)),
             jsonPath("$.isManagerOf[*].name").value(Matchers.hasItem("Introligatornia"))
         )
 
         change = WorkerChangeReq(
             isManagerOf = listOf(1, 2),
-            roles = listOf(1, 2),
             surname = "Nadstawna-Naświetlarnia"
         )
 

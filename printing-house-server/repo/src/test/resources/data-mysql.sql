@@ -107,11 +107,11 @@ VALUES (2),
        (3),
        (4),
        (7);
-INSERT INTO WorkflowStage (roleId, name)
-VALUES (2, 'Introligatornia'),
-       (5, 'Naświetlarnia'),
-       (1, 'Handlowiec'),
-       (3, 'Krajalnia');
+INSERT INTO WorkflowStage (name)
+VALUES ('Introligatornia'),
+       ('Naświetlarnia'),
+       ('Handlowiec'),
+       ('Krajalnia');
 INSERT INTO WorkflowStageManager (workflowStage, employeeId)
 VALUES (1, 2),
        (2, 4);
