@@ -17,6 +17,7 @@ import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.WorkerRepo
 import pl.macia.printinghouse.server.repository.WorkflowStageRepo
 
+//todo create employee service to abstract common tasks on Worker and Salesman
 @Service
 class WorkerService {
     @Autowired
