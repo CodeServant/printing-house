@@ -42,6 +42,24 @@ class WorkerService {
         return repo.findById(id)?.toTransport()
     }
 
+    /**
+     * Sets workflow stages that this is manager of. Finds it by id and sets it to the worker.
+     */
+    private fun Worker.setIsManagerOf(managerOf: List<Int>) {
+        this.isManagerOf.addAll(
+            workflowStageRepo.findAllById(managerOf)
+
+        )
+        this.isManagerOf.forEach {
+            it.workflowManagers.add(this)
+        }
+        if (this.isManagerOf.isNotEmpty())
+            this.onRoleWorkflowManager()
+        else
+            this.offRoleWorkflowManager()
+    }
+
+    @Transactional
     fun insertNew(worker: WorkerReq): RecID {
         val work = repo.save(
             Worker(
@@ -54,7 +72,9 @@ class WorkerService {
                 worker.psudoPESEL
             )
         )
-        work.roles.add(roleRepo.mergeName(PrimaryRoles.WORKER))
+        work.setRoleWorker()
+        work.setIsManagerOf(worker.isManagerOf)
+
         return RecID(work.personId!!.toLong())
     }
 
@@ -77,13 +97,7 @@ class WorkerService {
                 it.workflowManagers.remove(found)
             }
             found.isManagerOf.clear()
-            found.isManagerOf.addAll(
-                workflowStageRepo.findAllById(workerChange.isManagerOf!!)
-
-            )
-            found.isManagerOf.forEach {
-                it.workflowManagers.add(found)
-            }
+            found.setIsManagerOf(workerChange.isManagerOf!!)
             workerChanged = true
         } else if (workerChange.nullingRest) {
             found.isManagerOf.clear()
@@ -112,6 +126,17 @@ class WorkerService {
         return workerChanged
     }
 
+    private fun Worker.onRoleWorkflowManager() {
+        roles.add(roleRepo.mergeName(PrimaryRoles.WORKFLOW_STAGE_MANAGER))
+    }
+
+    private fun Worker.offRoleWorkflowManager() {
+        roles.removeIf { it.name == PrimaryRoles.WORKFLOW_STAGE_MANAGER }
+    }
+
+    private fun Worker.setRoleWorker() {
+        roles.add(roleRepo.mergeName(PrimaryRoles.WORKER))
+    }
 }
 
 /**

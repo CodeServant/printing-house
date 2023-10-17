@@ -155,7 +155,8 @@ internal class WorkerCTest {
             jsonPath("$.name").value("Zofia"),
             jsonPath("$.surname").value("Nadstawna-Naświetlarnia"),
             jsonPath("$.isManagerOf.*").value(Matchers.hasSize<List<RoleResp>>(2)),
-            jsonPath("$.isManagerOf[*].name").value(Matchers.hasItem("Introligatornia"))
+            jsonPath("$.isManagerOf[*].name").value(Matchers.hasItem("Introligatornia")),
+            jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKFLOW_STAGE_MANAGER))
         )
 
         change = WorkerChangeReq(
