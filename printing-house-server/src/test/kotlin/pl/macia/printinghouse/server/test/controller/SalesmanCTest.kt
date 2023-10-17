@@ -18,8 +18,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -115,5 +117,43 @@ class SalesmanCTest {
         mvc.perform(
             MockMvcRequestBuilders.get("$uri/{id}", newRecId.asInt())
         ).andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `change salesman data`() {
+        // this code is similar to WorkerCTest change test and maybe can be refactored
+        val janId = 1
+        var change = SalesmanChangeReq(
+            roles = listOf(1, 2),
+            name = "Zofia"
+        )
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", janId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+        mvc.perform(
+            MockMvcRequestBuilders.get("$uri/{id}", janId)
+        ).andExpectAll(
+            MockMvcResultMatchers.status().isOk,
+            MockMvcResultMatchers.jsonPath("$.name").value("Zofia"),
+            MockMvcResultMatchers.jsonPath("$.surname").value("Kowalski-Salesman"),
+            MockMvcResultMatchers.jsonPath("$.roles.*").value(Matchers.hasSize<List<RoleResp>>(2)),
+            MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem("SALESMAN"))
+        )
+
+        change = SalesmanChangeReq(
+            roles = listOf(2, 1),
+            surname = "Kowalski-Salesman"
+        )
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", janId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.changed").value(false))
     }
 }

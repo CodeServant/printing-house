@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -47,5 +49,15 @@ class SalesmanController {
     @DeleteMapping(value = ["${EndpNames.Salesman.SALESMANS}/{id}"], produces = ["application/json"])
     fun deleteSalesman(@PathVariable id: Int) {
         return serv.delete(RecID(id.toLong()))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.Salesman.SALESMANS}/{id}"], produces = ["application/json"])
+    fun changeSalesman(
+        @PathVariable id: Int,
+        @RequestBody salesmanChange: SalesmanChangeReq
+    ): ResponseEntity<ChangeResp> {
+        val changed = serv.change(id, salesmanChange)
+        return ResponseEntity.ok(ChangeResp(changed))
     }
 }

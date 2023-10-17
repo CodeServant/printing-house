@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.server.bmodel.*
+import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.SalesmanRepo
 
 @Service
@@ -19,6 +21,9 @@ class SalesmanService {
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
+
+    @Autowired
+    private lateinit var roleRepo: RoleRepo
     fun listSalesmans(): List<SalesmanResp> {
         return repo.findAllHired().map { it.toTransport() }
     }
@@ -46,6 +51,49 @@ class SalesmanService {
     @Transactional
     fun delete(id: RecID) {
         repo.deleteById(id.asInt())
+    }
+
+    @Transactional
+    fun change(id: Int, salesmanChange: SalesmanChangeReq): Boolean {
+
+        var salesmanChanged = false
+        val found = repo.findById(id) ?: return false
+
+
+        //todo this code is almost the same as code in worker and should be refactored f.e. create employee change request
+        if (salesmanChange.roles != null &&
+            found.roles.map { it.roleId }.toSet() != salesmanChange.roles!!.toSet()
+        ) {
+            found.roles.clear()
+            found.roles.addAll(
+                roleRepo.findAllById(salesmanChange.roles!!)
+            )
+            salesmanChanged = true
+        } else if (salesmanChange.nullingRest) {
+            found.roles.clear()
+            salesmanChanged = true
+        }
+
+        fun <E> simpleChange(workerChange: E, found: E, setFound: (E) -> Unit) {
+            workerChange?.let {
+                if (found != it) {
+                    setFound(it)
+                    salesmanChanged = true
+                }
+            }
+        }
+        simpleChange(salesmanChange.employed, found.employed) { found.employed = it!! }
+        simpleChange(salesmanChange.activeAccount, found.activeAccount) { found.activeAccount = it!! }
+        salesmanChange.password?.let {
+            //password changes allways if not null because of salt
+            found.password = passwordEncoder.encode(it)
+            salesmanChanged = true
+        }
+        simpleChange(salesmanChange.email, found.email.email) { found.email.email = it!! }
+        simpleChange(salesmanChange.psudoPESEL, found.psudoPESEL) { found.psudoPESEL = it!! }
+        simpleChange(salesmanChange.surname, found.surname) { found.surname = it!! }
+        simpleChange(salesmanChange.name, found.name) { found.name = it!! }
+        return salesmanChanged
     }
 }
 
