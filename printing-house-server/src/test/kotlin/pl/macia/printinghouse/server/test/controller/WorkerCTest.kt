@@ -104,7 +104,7 @@ internal class WorkerCTest {
             .andReturn()
 
         //chack if inserted value have specific role name
-        val response: String = res.getResponse().getContentAsString()
+        val response: String = res.response.contentAsString
         val id: Int = JsonPath.parse(response).read("$.id")
         mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
             .andExpect(jsonPath("$.roles[*].name").value(Matchers.hasItem("WORKER")))
