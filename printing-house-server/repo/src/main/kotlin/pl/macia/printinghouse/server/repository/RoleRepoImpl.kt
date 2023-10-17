@@ -25,4 +25,13 @@ internal class RoleRepoImpl : RoleIntRepo {
     override fun findAllById(roleIds: Iterable<Int>): Set<Role> {
         return dao.findAllById(roleIds).map { it.toBiz() }.toSet()
     }
+
+    override fun findByName(name: String): Role? {
+        return dao.findByName(name)?.toBiz()
+    }
+
+    override fun mergeName(name: String): Role {
+        val role = dao.findByName(name)
+        return (role ?: dao.save(RoleImpl(name).persistent)).toBiz()
+    }
 }

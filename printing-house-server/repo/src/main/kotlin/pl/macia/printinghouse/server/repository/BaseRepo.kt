@@ -121,6 +121,12 @@ sealed interface RoleRepo {
     fun save(obj: Role): Role
     fun findById(id: Int): Role?
     fun findAllById(roleIds: Iterable<Int>): Set<Role>
+    fun findByName(name: String): Role?
+
+    /**
+     * Creates of retrieves role by its name.
+     */
+    fun mergeName(name: String): Role
 }
 
 internal sealed interface RoleIntRepo : RoleRepo, SingleIdRepo<Role, Int>

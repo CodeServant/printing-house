@@ -11,7 +11,9 @@ import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.RoleResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.WorkflowStageRespEmb
+import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.bmodel.*
+import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.WorkerRepo
 import pl.macia.printinghouse.server.repository.WorkflowStageRepo
 
@@ -22,6 +24,9 @@ class WorkerService {
 
     @Autowired
     private lateinit var workflowStageRepo: WorkflowStageRepo
+
+    @Autowired
+    private lateinit var roleRepo: RoleRepo
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
@@ -49,6 +54,7 @@ class WorkerService {
                 worker.psudoPESEL
             )
         )
+        work.roles.add(roleRepo.mergeName(PrimaryRoles.WORKER))
         return RecID(work.personId!!.toLong())
     }
 

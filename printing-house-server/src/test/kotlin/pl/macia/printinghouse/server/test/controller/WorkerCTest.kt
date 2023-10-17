@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.controller
 
+import com.jayway.jsonpath.JsonPath
 import jakarta.transaction.Transactional
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -102,6 +103,13 @@ internal class WorkerCTest {
                 .content(Json.encodeToString(workerReq))
         ).andExpect(status().isOk)
             .andReturn()
+
+        //chack if inserted value have specific role name
+        val response: String = res.getResponse().getContentAsString()
+        val id: Int = JsonPath.parse(response).read("$.id")
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
+            .andExpect(jsonPath("$.roles[*].name").value(Matchers.hasItem("WORKER")))
+
         return Json.decodeFromString<RecID>(res.response.contentAsString)
     }
 
