@@ -164,7 +164,7 @@ sealed interface WorkerRepo {
     fun save(obj: Worker): Worker
     fun findById(id: Int): Worker?
     fun findAll(): List<Worker>
-    fun delete(id: Int)
+    fun deleteById(id: Int)
 }
 
 internal sealed interface WorkerIntRepo : WorkerRepo, SingleIdRepo<Worker, Int>

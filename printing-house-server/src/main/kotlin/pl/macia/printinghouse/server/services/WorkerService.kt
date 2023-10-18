@@ -83,7 +83,7 @@ class WorkerService {
 
     @Transactional
     fun delete(id: RecID) {
-        repo.delete(id.asInt())
+        repo.deleteById(id.asInt())
     }
 
     /**
