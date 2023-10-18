@@ -10,4 +10,8 @@ object EndpNames {
     object Salesman {
         const val SALESMANS = "salesmans"
     }
+
+    object Bindery {
+        const val BINDERIES = "binderies"
+    }
 }
