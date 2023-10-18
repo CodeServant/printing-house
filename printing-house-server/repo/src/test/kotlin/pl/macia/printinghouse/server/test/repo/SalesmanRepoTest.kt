@@ -30,8 +30,9 @@ internal class SalesmanRepoTest {
         assertEquals("evilcorp@example.com", salm.email.email)
         assertEquals(true, salm.activeAccount)
         assertEquals(true, salm.employed)
-        assertEquals(1, salm.roles.size)
-        assertEquals("SALESMAN", salm.roles.first().name)
+        assertEquals(2, salm.roles.size)
+        assertNotNull(salm.roles.find { it.name == "SALESMAN" })
+        assertNotNull(salm.roles.find { it.name == "EMPLOYEE" })
     }
 
     @Test

@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.controller
 
+import com.jayway.jsonpath.JsonPath
 import jakarta.transaction.Transactional
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -63,7 +64,8 @@ class SalesmanCTest {
             .andExpectAll(
                 MockMvcResultMatchers.jsonPath("$.name").value("Jan"),
                 MockMvcResultMatchers.jsonPath("$.email").value("evilcorp@example.com"),
-                MockMvcResultMatchers.jsonPath("$.roles[0].name").value("SALESMAN"),
+                MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.SALESMAN)),
+                MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE)),
                 MockMvcResultMatchers.jsonPath("$.id").value(1)
             )
         perform(2)
@@ -92,6 +94,14 @@ class SalesmanCTest {
                 .content(Json.encodeToString(workerReq))
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
+
+        //chack if inserted value have specific role name
+        val response: String = res.response.contentAsString
+        val id: Int = JsonPath.parse(response).read("$.id")
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.SALESMAN)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE)))
+
         return Json.decodeFromString<RecID>(res.response.contentAsString)
     }
 

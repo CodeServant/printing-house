@@ -86,7 +86,9 @@ internal class WorkerCTest {
             .andExpect(status().isOk)
             .andExpectAll(
                 jsonPath("$.name").value("Jiliusz"),
-                jsonPath("$.id").value(3)
+                jsonPath("$.id").value(3),
+                jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKER)),
+                jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE))
             )
         perform(1)
             .andExpect(status().isNotFound)
@@ -107,7 +109,8 @@ internal class WorkerCTest {
         val response: String = res.response.contentAsString
         val id: Int = JsonPath.parse(response).read("$.id")
         mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
-            .andExpect(jsonPath("$.roles[*].name").value(Matchers.hasItem("WORKER")))
+            .andExpect(jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKER)))
+            .andExpect(jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE)))
 
         return Json.decodeFromString<RecID>(res.response.contentAsString)
     }
@@ -156,7 +159,9 @@ internal class WorkerCTest {
             jsonPath("$.surname").value("Nadstawna-Naświetlarnia"),
             jsonPath("$.isManagerOf.*").value(Matchers.hasSize<List<RoleResp>>(2)),
             jsonPath("$.isManagerOf[*].name").value(Matchers.hasItem("Introligatornia")),
-            jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKFLOW_STAGE_MANAGER))
+            jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKFLOW_STAGE_MANAGER)),
+            jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE)),
+            jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKER))
         )
 
         change = WorkerChangeReq(
