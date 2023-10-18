@@ -17,6 +17,9 @@ class BinderyService {
         }
     }
 
+    fun findById(id: Int): BinderyResp? {
+        return repo.findById(id)?.toTransport()
+    }
 }
 
 private fun Bindery.toTransport(): BinderyResp {

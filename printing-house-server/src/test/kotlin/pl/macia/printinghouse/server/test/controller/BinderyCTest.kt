@@ -11,12 +11,12 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @WebAppConfiguration
@@ -39,10 +39,23 @@ class BinderyCTest {
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
     fun `get all binderies test`() {
         mvc.perform(MockMvcRequestBuilders.get(uri))
-            .andExpect { MockMvcResultMatchers.status().isOk }
+            .andExpect { status().isOk }
             .andExpectAll(
-                MockMvcResultMatchers.jsonPath("$[*].name").value(Matchers.hasItem("A1")),
-                MockMvcResultMatchers.jsonPath("$[*].name").value(Matchers.hasItem("A2"))
+                jsonPath("$[*].name").value(Matchers.hasItem("A1")),
+                jsonPath("$[*].name").value(Matchers.hasItem("A2"))
             )
+    }
+
+    @Test
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `get one by id`() {
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", 2))
+            .andExpect { status().isOk }
+            .andExpectAll(
+                jsonPath("$.id").value(2),
+                jsonPath("$.name").value("A2")
+            )
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", 1111))
+            .andExpect { status().isNotFound }
     }
 }
