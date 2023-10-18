@@ -27,4 +27,8 @@ internal class BinderyRepoImpl : BinderyIntRepo {
     override fun findByName(name: String): Bindery? {
         return dao.findByName(name)?.toBiz()
     }
+
+    override fun findAll(): List<Bindery> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }
