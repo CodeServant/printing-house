@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SalesmanChangeReq(
-    val nullingRest: Boolean = false,
-    val employed: Boolean? = null,
-    val activeAccount: Boolean? = null,
-    val password: String? = null,
-    val email: String? = null,
-    val psudoPESEL: String? = null,
-    val surname: String? = null,
-    val name: String? = null
-)
+    override val nullingRest: Boolean = false,
+    override val employed: Boolean? = null,
+    override val activeAccount: Boolean? = null,
+    override val password: String? = null,
+    override val email: String? = null,
+    override val psudoPESEL: String? = null,
+    override val surname: String? = null,
+    override val name: String? = null
+) : EmployeeChangeReq
