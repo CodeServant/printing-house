@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
 import pl.macia.printinghouse.response.RecID
@@ -37,6 +38,18 @@ class BinderyService {
     @Transactional
     fun delete(recID: RecID) {
         repo.deleteById(recID.asInt())
+    }
+
+    @Transactional
+    fun change(id: Int, binderyChange: BinderyChangeReq): Boolean {
+        var binderyChanged = false
+        val found = repo.findById(id) ?: return false
+
+        if (found.name != binderyChange.name) {
+            found.name = binderyChange.name
+            binderyChanged = true
+        }
+        return binderyChanged
     }
 }
 

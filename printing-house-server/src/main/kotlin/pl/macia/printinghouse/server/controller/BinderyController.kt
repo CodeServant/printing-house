@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.BinderyService
@@ -47,5 +49,12 @@ class BinderyController {
     @DeleteMapping(value = ["${EndpNames.Bindery.BINDERIES}/{id}"], produces = ["application/json"])
     fun deleteBindery(@PathVariable id: Int) {
         return serv.delete(RecID(id.toLong()))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.Bindery.BINDERIES}/{id}"], produces = ["application/json"])
+    fun changeBindery(@PathVariable id: Int, @RequestBody binderyChange: BinderyChangeReq): ResponseEntity<ChangeResp> {
+        val changed = serv.change(id, binderyChange)
+        return ResponseEntity.ok(ChangeResp(changed))
     }
 }

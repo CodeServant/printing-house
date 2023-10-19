@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.RecID
 
@@ -79,7 +80,7 @@ class BinderyCTest {
         ).andExpect(status().isOk)
             .andReturn()
 
-        //chack if inserted value have specific role name
+        //check if inserted value have specific role name
         val response: String = res.response.contentAsString
         val id: Int = JsonPath.parse(response).read("$.id")
         mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
@@ -99,7 +100,7 @@ class BinderyCTest {
     @Test
     @Transactional
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
-    fun `delete worker test`() {
+    fun `delete bindery test`() {
         val newRecId = insertBindery("bindery1")
 
         mvc.perform(
@@ -109,5 +110,36 @@ class BinderyCTest {
         mvc.perform(
             MockMvcRequestBuilders.get("$uri/{id}", newRecId.asInt())
         ).andExpect(status().isNotFound)
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `change bindery data`() {
+        val binderyId = 1
+        val change = BinderyChangeReq(
+            name = "A66"
+        )
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", binderyId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpectAll(
+            status().isOk,
+            jsonPath("$.changed").value(true)
+        )
+        mvc.perform(
+            MockMvcRequestBuilders.get("$uri/{id}", binderyId)
+        ).andExpectAll(
+            status().isOk,
+            jsonPath("$.name").value("A66")
+        )
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("$uri/{id}", binderyId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Json.encodeToString(change))
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.changed").value(false))
     }
 }
