@@ -36,7 +36,7 @@ class BindingFormController {
         return ResponseEntity.of(found)
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PostMapping(value = [EndpNames.BindingForm.BINDING_FORMS], produces = ["application/json"])
     fun newBindingForm(@RequestBody req: BindingFormReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
