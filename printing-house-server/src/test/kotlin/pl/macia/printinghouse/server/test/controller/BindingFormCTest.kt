@@ -46,4 +46,16 @@ class BindingFormCTest {
                 jsonPath("$.*").value(Matchers.hasSize<List<WorkerResp>>(4))
             )
     }
+    @Test
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `get one by id`() {
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", 2))
+            .andExpect { status().isOk }
+            .andExpectAll(
+                jsonPath("$.id").value(2),
+                jsonPath("$.name").value("Folia")
+            )
+        mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", 1111))
+            .andExpect { status().isNotFound }
+    }
 }

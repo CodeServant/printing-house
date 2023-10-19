@@ -16,6 +16,10 @@ class BindingFormService {
             it.toTransport()
         }
     }
+
+    fun findById(id: Int): BindingFormResp? {
+        return repo.findById(id)?.toTransport()
+    }
 }
 
 private fun BindingForm.toTransport(): BindingFormResp {
