@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.BindingFormService
 import java.util.*
@@ -35,5 +34,12 @@ class BindingFormController {
     fun findById(@PathVariable id: Int): ResponseEntity<BindingFormResp> {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PostMapping(value = [EndpNames.BindingForm.BINDING_FORMS], produces = ["application/json"])
+    fun newBindingForm(@RequestBody req: BindingFormReq): ResponseEntity<RecID> {
+        val resp = serv.insertNew(req)
+        return ResponseEntity.ok(resp)
     }
 }
