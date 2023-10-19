@@ -80,7 +80,6 @@ class BinderyCTest {
         ).andExpect(status().isOk)
             .andReturn()
 
-        //check if inserted value have specific role name
         val response: String = res.response.contentAsString
         val id: Int = JsonPath.parse(response).read("$.id")
         mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
