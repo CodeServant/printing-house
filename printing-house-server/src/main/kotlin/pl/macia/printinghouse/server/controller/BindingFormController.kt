@@ -29,7 +29,7 @@ class BindingFormController {
         return ResponseEntity.ok(serv.listAllBindingForms())
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = ["${EndpNames.BindingForm.BINDING_FORMS}/{id}"], produces = ["application/json"])
     fun findById(@PathVariable id: Int): ResponseEntity<BindingFormResp> {
         val found = Optional.ofNullable(serv.findById(id))
