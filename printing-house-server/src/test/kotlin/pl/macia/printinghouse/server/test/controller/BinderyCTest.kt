@@ -95,4 +95,19 @@ class BinderyCTest {
     fun `insert one test`() {
         insertBindery("insertOneTestController")
     }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `delete worker test`() {
+        val newRecId = insertBindery("bindery1")
+
+        mvc.perform(
+            MockMvcRequestBuilders.delete("$uri/{id}", newRecId.asInt())
+        ).andExpect(status().isOk)
+
+        mvc.perform(
+            MockMvcRequestBuilders.get("$uri/{id}", newRecId.asInt())
+        ).andExpect(status().isNotFound)
+    }
 }

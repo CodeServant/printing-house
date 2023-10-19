@@ -47,6 +47,7 @@ sealed interface BinderyRepo {
     fun save(obj: Bindery): Bindery
     fun findByName(name: String): Bindery?
     fun findAll(): List<Bindery>
+    fun deleteById(id: Int)
 }
 
 internal sealed interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, Int>

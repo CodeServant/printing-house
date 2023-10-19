@@ -30,8 +30,13 @@ class BinderyService {
     @Transactional
     fun insertNew(req: BinderyReq): RecID {
         val saved = repo.save(Bindery(req.name))
-        val s:Int = saved.binderyId ?: throw ConversionException()
+        val s: Int = saved.binderyId ?: throw ConversionException()
         return RecID(s.toLong())
+    }
+
+    @Transactional
+    fun delete(recID: RecID) {
+        repo.deleteById(recID.asInt())
     }
 }
 

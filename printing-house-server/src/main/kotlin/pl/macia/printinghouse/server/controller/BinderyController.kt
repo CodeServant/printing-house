@@ -42,4 +42,10 @@ class BinderyController {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @DeleteMapping(value = ["${EndpNames.Bindery.BINDERIES}/{id}"], produces = ["application/json"])
+    fun deleteBindery(@PathVariable id: Int) {
+        return serv.delete(RecID(id.toLong()))
+    }
 }
