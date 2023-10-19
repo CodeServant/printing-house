@@ -28,6 +28,7 @@ import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 
+// todo there lost of duplicated and almost the same code in each test it is good idea to create some common tools
 /**
  * Constants defined to reduce redundancy in tested code. Constants defined in controllers are not defined here because api may change.
  */
