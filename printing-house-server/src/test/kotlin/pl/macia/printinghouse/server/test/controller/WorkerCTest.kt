@@ -33,6 +33,7 @@ import pl.macia.printinghouse.server.PrintingHouseServerApplication
  * Constants defined to reduce redundancy in tested code. Constants defined in controllers are not defined here because api may change.
  */
 object Paths {
+    const val BINDING_FORMS = "binding-forms"
     const val WORKERS = "workers"
     const val CONTEXT = "api"
     const val SALESMANS = "salesmans"

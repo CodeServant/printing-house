@@ -54,6 +54,7 @@ internal sealed interface BinderyIntRepo : BinderyRepo, SingleIdRepo<Bindery, In
 sealed interface BindingFormRepo {
     fun findById(id: Int): BindingForm?
     fun save(obj: BindingForm): BindingForm
+    fun findAll(): List<BindingForm>
 }
 
 internal sealed interface BindingFormIntRepo : BindingFormRepo, SingleIdRepo<BindingForm, Int>

@@ -16,7 +16,11 @@ internal class BindingFormRepoImpl : BindingFormIntRepo {
         return BindingFormImpl(dao.save(obj.persistent))
     }
 
+    override fun findAll(): List<BindingForm> {
+        return dao.findAll().map(::BindingFormImpl)
+    }
+
     override fun findById(id: Int): BindingForm? {
-        return dao.findByIdOrNull(id)?.let { BindingFormImpl(it) }
+        return dao.findByIdOrNull(id)?.let(::BindingFormImpl)
     }
 }

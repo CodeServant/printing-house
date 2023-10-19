@@ -14,4 +14,8 @@ object EndpNames {
     object Bindery {
         const val BINDERIES = "binderies"
     }
+
+    object BindingForm {
+        const val BINDING_FORMS = "binding-forms"
+    }
 }
