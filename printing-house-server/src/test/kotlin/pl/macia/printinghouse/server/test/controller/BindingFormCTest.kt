@@ -96,4 +96,13 @@ class BindingFormCTest {
             jsonPath("$.id").value(2)
         )
     }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
+    fun `delete one test`() {
+        standardTest.checkDeleteObjTest(
+            insertBindingForm("insertOneTestController")
+        )
+    }
 }

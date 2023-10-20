@@ -46,6 +46,12 @@ class BindingFormController {
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @DeleteMapping(value = ["${EndpNames.BindingForm.BINDING_FORMS}/{id}"], produces = ["application/json"])
+    fun deleteBindingForm(@PathVariable id: Int) {
+        return serv.delete(RecID(id.toLong()))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PutMapping(value = ["${EndpNames.BindingForm.BINDING_FORMS}/{id}"], produces = ["application/json"])
     fun changeBindingForm(
         @PathVariable id: Int,

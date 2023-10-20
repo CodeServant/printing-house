@@ -20,6 +20,10 @@ internal class BindingFormRepoImpl : BindingFormIntRepo {
         return dao.findAll().map(::BindingFormImpl)
     }
 
+    override fun deleteById(id: Int) {
+        dao.deleteById(id)
+    }
+
     override fun findById(id: Int): BindingForm? {
         return dao.findByIdOrNull(id)?.let(::BindingFormImpl)
     }

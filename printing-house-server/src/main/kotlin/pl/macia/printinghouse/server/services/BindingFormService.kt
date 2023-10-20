@@ -44,6 +44,11 @@ class BindingFormService {
         }
         return binndFormChanged
     }
+
+    @Transactional
+    fun delete(recID: RecID) {
+        repo.deleteById(recID.asInt())
+    }
 }
 
 private fun BindingForm.toTransport(): BindingFormResp {
