@@ -160,6 +160,7 @@ sealed interface WorkflowStageRepo {
     fun save(obj: WorkflowStage): WorkflowStage
     fun findById(id: Int): WorkflowStage?
     fun findAllById(ids: Iterable<Int>): List<WorkflowStage>
+    fun findAll(): List<WorkflowStage>
 }
 
 internal sealed interface WorkflowStageIntRepo : WorkflowStageRepo, SingleIdRepo<WorkflowStage, Int>

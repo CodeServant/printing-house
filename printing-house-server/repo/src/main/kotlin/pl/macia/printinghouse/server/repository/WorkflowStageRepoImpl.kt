@@ -26,4 +26,8 @@ internal class WorkflowStageRepoImpl : WorkflowStageIntRepo {
     override fun findAllById(ids: Iterable<Int>): List<WorkflowStage> {
         return dao.findAllById(ids).map { it.toBiz() }
     }
+
+    override fun findAll(): List<WorkflowStage> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }

@@ -18,4 +18,8 @@ object EndpNames {
     object BindingForm {
         const val BINDING_FORMS = "binding-forms"
     }
+
+    object WorkflowStage {
+        const val WORKFLOW_STAGES = "workflow-stages"
+    }
 }
