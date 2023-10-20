@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.BindingFormChangeReq
 import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.BindingFormService
@@ -41,5 +43,15 @@ class BindingFormController {
     fun newBindingForm(@RequestBody req: BindingFormReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PutMapping(value = ["${EndpNames.BindingForm.BINDING_FORMS}/{id}"], produces = ["application/json"])
+    fun changeBindingForm(
+        @PathVariable id: Int,
+        @RequestBody bindFormChange: BindingFormChangeReq
+    ): ResponseEntity<ChangeResp> {
+        val changed = serv.change(id, bindFormChange)
+        return ResponseEntity.ok(ChangeResp(changed))
     }
 }

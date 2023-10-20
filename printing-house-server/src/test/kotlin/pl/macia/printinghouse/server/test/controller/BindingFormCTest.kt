@@ -14,6 +14,7 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.BindingFormChangeReq
 import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkerResp
@@ -79,5 +80,20 @@ class BindingFormCTest {
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
     fun `insert one test`() {
         insertBindingForm("insertOneTestController")
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
+    fun `change one test`() {
+        val bindFormChangeReq = BindingFormChangeReq(
+            name = "More Paper"
+        )
+        standardTest.checkChangeObjTest(
+            2,
+            Json.encodeToString(bindFormChangeReq),
+            jsonPath("$.name").value("More Paper"),
+            jsonPath("$.id").value(2)
+        )
     }
 }

@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.BindingFormChangeReq
 import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
 import pl.macia.printinghouse.response.RecID
@@ -30,6 +31,18 @@ class BindingFormService {
             BindingForm(newBindForm.name)
         ).bindingFormId!!
         return RecID(insertedId.toLong())
+    }
+
+    @Transactional
+    fun change(id: Int, bindFormChange: BindingFormChangeReq): Boolean {
+        var binndFormChanged = false
+        val found = repo.findById(id) ?: return false
+
+        if (found.name != bindFormChange.name) {
+            found.name = bindFormChange.name
+            binndFormChanged = true
+        }
+        return binndFormChanged
     }
 }
 
