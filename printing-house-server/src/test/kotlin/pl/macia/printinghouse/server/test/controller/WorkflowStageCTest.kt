@@ -55,6 +55,8 @@ class WorkflowStageCTest {
         standardTest.checkFindOneById(
             2,
             jsonPath("$.id").value(2),
+            jsonPath("$.managers[0].name").value("Robert"),
+            jsonPath("$.managers[0].id").value(4),
             jsonPath("$.name").value("Naświetlarnia")
         )
     }
