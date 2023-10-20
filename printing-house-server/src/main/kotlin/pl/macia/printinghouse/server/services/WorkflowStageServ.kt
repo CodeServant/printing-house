@@ -14,6 +14,10 @@ class WorkflowStageServ {
     fun listWorkflowStages(): List<WorkflowStageResp>? {
         return repo.findAll().map { it.toTransport() }
     }
+
+    fun findById(id: Int): WorkflowStageResp? {
+        return repo.findById(id)?.toTransport()
+    }
 }
 
 private fun WorkflowStage.toTransport(): WorkflowStageResp {
