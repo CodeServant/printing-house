@@ -19,7 +19,7 @@ import java.util.*
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
-@Tag(name = "BindingForm", description = "binding form controller")
+@Tag(name = "binding form", description = "binding form controller")
 class BindingFormController {
     @Autowired
     private lateinit var serv: BindingFormService
