@@ -111,6 +111,7 @@ class WorkflowStageCTest {
     @Transactional
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
     fun `change workflow stage data`() {
+        //todo check the change of roles and workflowstage managers
         val workflowStageId = 1
         val change = WorkflowStageChangeReq(
             name = "NameChanged"
