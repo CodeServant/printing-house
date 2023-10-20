@@ -65,6 +65,7 @@ class StdCTest(
         val id: Int = JsonPath.parse(response).read("$.$idJName")
         mvc.perform(MockMvcRequestBuilders.get("$url/$idTempl", id))
             .andExpectAll(
+                status().isOk,
                 jsonPath("$.$idJName").value(id),
                 *moreMatchers
             )
