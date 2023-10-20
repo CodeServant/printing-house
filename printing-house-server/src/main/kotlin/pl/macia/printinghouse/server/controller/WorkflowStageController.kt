@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.WorkflowStageReq
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowStageResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.WorkflowStageServ
@@ -33,5 +32,12 @@ class WorkflowStageController {
     fun getWorkflowStage(@PathVariable id: Int): ResponseEntity<WorkflowStageResp> {
         val workflowStage = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(workflowStage)
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PostMapping(value = [EndpNames.WorkflowStage.WORKFLOW_STAGES], produces = ["application/json"])
+    fun newWorkflowStage(@RequestBody req: WorkflowStageReq): ResponseEntity<RecID> {
+        val resp = serv.insertNew(req)
+        return ResponseEntity.ok(resp)
     }
 }

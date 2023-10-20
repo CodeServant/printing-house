@@ -29,4 +29,8 @@ internal class WorkerRepoImpl : WorkerIntRepo {
     override fun deleteById(id: Int) {
         dao.deleteById(id)
     }
+
+    override fun findAllById(ids: Iterable<Int>): List<Worker> {
+        return dao.findAllById(ids).map { it.toBiz() }
+    }
 }

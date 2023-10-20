@@ -3,11 +3,11 @@ package pl.macia.printinghouse.response
 import kotlinx.serialization.Serializable
 
 /**
- * Is embedded object of some other transport type.
+ * This is data for human to identify the person which we're talking about.
  */
 @Serializable
-data class WorkflowStageResp(
+data class PersonsIdentityResp(
     val id: Int,
     val name: String,
-    val managers: List<PersonsIdentityResp>
+    val surname: String
 )
