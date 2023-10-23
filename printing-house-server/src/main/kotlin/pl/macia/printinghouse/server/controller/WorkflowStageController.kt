@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.WorkflowStageChangeReq
 import pl.macia.printinghouse.request.WorkflowStageReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowStageResp
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -45,5 +47,15 @@ class WorkflowStageController {
     @DeleteMapping(value = ["${EndpNames.WorkflowStage.WORKFLOW_STAGES}/{id}"], produces = ["application/json"])
     fun deleteWorkflowStage(@PathVariable id: Int): ResponseEntity<RecID> {
         return ResponseEntity.ok(serv.deleteWithId(id))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PutMapping(value = ["${EndpNames.WorkflowStage.WORKFLOW_STAGES}/{id}"], produces = ["application/json"])
+    fun changeWorkflowStage(
+        @PathVariable id: Int,
+        @RequestBody changeReq: WorkflowStageChangeReq
+    ): ResponseEntity<ChangeResp> {
+        val resp = Optional.ofNullable(serv.changeWorkflowStage(id, changeReq))
+        return ResponseEntity.of(resp)
     }
 }

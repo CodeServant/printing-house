@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.WorkflowStageChangeReq
 import pl.macia.printinghouse.request.WorkflowStageReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.PersonsIdentityResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowStageResp
@@ -72,6 +74,17 @@ class WorkflowStageServ {
         roles.removeIf {
             it.name == role
         }
+    }
+
+    @Transactional
+    fun changeWorkflowStage(id: Int, wcr: WorkflowStageChangeReq): ChangeResp? {
+        val found = repo.findById(id) ?: return null
+        var changed = false
+        if (wcr.name != found.name) {
+            found.name = wcr.name
+            changed = true
+        }
+        return ChangeResp(changed)
     }
 }
 
