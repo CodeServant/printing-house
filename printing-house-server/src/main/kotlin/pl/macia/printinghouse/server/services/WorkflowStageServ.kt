@@ -9,6 +9,7 @@ import pl.macia.printinghouse.response.PersonsIdentityResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowStageResp
 import pl.macia.printinghouse.roles.PrimaryRoles
+import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.bmodel.WorkflowStage
 import pl.macia.printinghouse.server.repository.RoleRepo
 import pl.macia.printinghouse.server.repository.WorkerRepo
@@ -45,6 +46,32 @@ class WorkflowStageServ {
         }
         workflowStage = repo.save(workflowStage)
         return RecID(workflowStage.workflowStageid!!.toLong())
+    }
+
+    @Transactional
+    fun deleteWithId(id: Int): RecID {
+        val found = repo.findById(id) ?: return RecID(id.toLong())
+        found.workflowManagers.forEach {
+            it.isManagerOf.remove(found)
+            if (it.hasNoWorkflowDuty()) {
+                it.removeRole(PrimaryRoles.WORKFLOW_STAGE_MANAGER)
+            }
+        }
+        repo.deleteById(id)
+        return RecID(id.toLong())
+    }
+
+    private fun Worker.hasNoWorkflowDuty(): Boolean {
+        return isManagerOf.isEmpty()
+    }
+
+    /**
+     * Remove [PrimaryRoles] from worker roles.
+     */
+    private fun Worker.removeRole(role: String) {
+        roles.removeIf {
+            it.name == role
+        }
     }
 }
 

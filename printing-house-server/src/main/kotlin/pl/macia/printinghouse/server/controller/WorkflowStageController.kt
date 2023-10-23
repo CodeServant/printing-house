@@ -40,4 +40,10 @@ class WorkflowStageController {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @DeleteMapping(value = ["${EndpNames.WorkflowStage.WORKFLOW_STAGES}/{id}"], produces = ["application/json"])
+    fun deleteWorkflowStage(@PathVariable id: Int): ResponseEntity<RecID> {
+        return ResponseEntity.ok(serv.deleteWithId(id))
+    }
 }

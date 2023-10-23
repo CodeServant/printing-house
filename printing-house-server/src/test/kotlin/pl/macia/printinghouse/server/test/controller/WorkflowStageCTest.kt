@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -100,10 +101,34 @@ class WorkflowStageCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `delete workflow stage test`() {
-        standardTest.checkDeleteObjTest(
-            insertWorkflowStageChecks("insertedValue")
+        val newId = insertWorkflowStageChecks("insertedValue")
+        val workerURL = "/${Paths.CONTEXT}/${Paths.WORKERS}/{id}"
+        standardTest.checkDeleteObjTest(newId)
+
+        fun checkWorkerRoles(id: Int, vararg matchers: ResultMatcher) {
+            standardTest.mvc
+                .perform(MockMvcRequestBuilders.get(workerURL, id))
+                .andExpectAll(
+                    status().isOk,
+                    *matchers
+                )
+        }
+        checkWorkerRoles(
+            3,
+            jsonPath("$.roles[*].name").value(Matchers.not(Matchers.hasItems(PrimaryRoles.WORKFLOW_STAGE_MANAGER))),
+            jsonPath("$.roles[*].name").value(Matchers.hasItems(PrimaryRoles.EMPLOYEE, PrimaryRoles.WORKER))
+        )
+        checkWorkerRoles(
+            4,
+            jsonPath("$.roles[*].name").value(
+                Matchers.hasItems(
+                    PrimaryRoles.WORKFLOW_STAGE_MANAGER,
+                    PrimaryRoles.EMPLOYEE,
+                    PrimaryRoles.WORKER
+                )
+            )
         )
     }
 

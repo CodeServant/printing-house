@@ -30,4 +30,8 @@ internal class WorkflowStageRepoImpl : WorkflowStageIntRepo {
     override fun findAll(): List<WorkflowStage> {
         return dao.findAll().map { it.toBiz() }
     }
+
+    override fun deleteById(id: Int) {
+        dao.deleteById(id)
+    }
 }
