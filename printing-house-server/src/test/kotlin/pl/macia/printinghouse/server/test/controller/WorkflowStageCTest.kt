@@ -134,7 +134,7 @@ class WorkflowStageCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `change workflow stage data`() {
         //todo check the change of roles and workflowstage managers
         val workflowStageId = 1
