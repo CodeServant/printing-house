@@ -39,6 +39,7 @@ object Paths {
     const val SALESMANS = "salesmans"
     const val BINDERIES = "binderies"
     const val WORKFLOW_STAGES = "workflow-stages"
+    const val CLIENTS = "clients"
 }
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])

@@ -22,4 +22,8 @@ object EndpNames {
     object WorkflowStage {
         const val WORKFLOW_STAGES = "workflow-stages"
     }
+
+    object Clients {
+        const val CLIENTS = "clients"
+    }
 }
