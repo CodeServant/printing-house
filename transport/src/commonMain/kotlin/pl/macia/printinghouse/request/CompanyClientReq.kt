@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("CompanyClient")
+@SerialName(SerialNames.COMPANY_CLIENT)
 data class CompanyClientReq(
     override val phoneNumber: String? = null,
     override val email: String? = null,
