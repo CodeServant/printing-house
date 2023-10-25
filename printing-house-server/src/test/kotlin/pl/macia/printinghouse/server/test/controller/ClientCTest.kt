@@ -1,5 +1,8 @@
 package pl.macia.printinghouse.server.test.controller
 
+import jakarta.transaction.Transactional
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -10,6 +13,9 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.ClientReq
+import pl.macia.printinghouse.request.CompanyClientReq
+import pl.macia.printinghouse.request.IndividualClientReq
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 
@@ -55,6 +61,44 @@ class ClientCTest {
             jsonPath("$.companyId").value(1),
             jsonPath("$.personId").doesNotExist(),
             jsonPath("$.surname").doesNotExist()
+        )
+    }
+
+    @Test
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @Transactional
+    fun `insert one test`() {
+        val dummyIndCliReq = IndividualClientReq(
+            phoneNumber = "949257122",
+            psudoPESEL = "25478541254",
+            surname = "Winnicka",
+            name = "Magda"
+        )
+        val dummyCompCliReq = CompanyClientReq(
+            email = "653753625@example.com",
+            nip = "9669696969",
+            name = "FaceNotebook",
+            phoneNumber = "154735326"
+        )
+        standardTest.checkInsertOneObj(
+            Json.encodeToString(
+                dummyIndCliReq as ClientReq
+            ), "clientId",
+            jsonPath("$.email").doesNotExist(),
+            jsonPath("$.type").value("IndividualClient"),
+            jsonPath("$.name").value("Magda"),
+            jsonPath("$.surname").value("Winnicka"),
+            jsonPath("$.phoneNumber").value("949257122")
+        )
+        standardTest.checkInsertOneObj(
+            Json.encodeToString(
+                dummyCompCliReq as ClientReq
+            ), "clientId",
+            jsonPath("$.email").value("653753625@example.com"),
+            jsonPath("$.type").value("CompanyClient"),
+            jsonPath("$.name").value("FaceNotebook"),
+            jsonPath("$.phoneNumber").value("154735326"),
+            jsonPath("$.nip").value("9669696969")
         )
     }
 }

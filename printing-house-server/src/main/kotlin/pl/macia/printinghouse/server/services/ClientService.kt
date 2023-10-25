@@ -4,14 +4,19 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.ClientReq
+import pl.macia.printinghouse.request.CompanyClientReq
+import pl.macia.printinghouse.request.IndividualClientReq
 import pl.macia.printinghouse.response.ClientResp
 import pl.macia.printinghouse.response.CompanyClientResp
 import pl.macia.printinghouse.response.IndividualClientResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.CompanyClient
 import pl.macia.printinghouse.server.bmodel.IndividualClient
 import pl.macia.printinghouse.server.repository.CompanyClientRepo
 import pl.macia.printinghouse.server.repository.IndividualClientRepo
 import pl.macia.printinghouse.server.bmodel.Client
+import pl.macia.printinghouse.server.bmodel.Email
 
 @Service
 class ClientService {
@@ -35,6 +40,36 @@ class ClientService {
             return this
         }
         return null
+    }
+
+    @Transactional
+    fun createNew(newClient: ClientReq): RecID {
+        val clientId: Int
+        when (newClient) {
+            is CompanyClientReq -> {
+                clientId = compCliRepo.save(
+                    CompanyClient(
+                        name = newClient.name,
+                        nip = newClient.nip,
+                        email = newClient.email?.let { Email(it) },
+                        phoneNumber = newClient.phoneNumber
+                    )
+                ).clientId!!
+            }
+
+            is IndividualClientReq -> {
+                clientId = indCliRepo.save(
+                    IndividualClient(
+                        email = newClient.email?.let { Email(it) },
+                        phoneNumber = newClient.phoneNumber,
+                        psudoPESEL = newClient.psudoPESEL,
+                        surname = newClient.surname,
+                        name = newClient.name
+                    )
+                ).clientId!!
+            }
+        }
+        return RecID(clientId.toLong())
     }
 }
 

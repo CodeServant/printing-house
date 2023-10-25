@@ -7,9 +7,13 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.macia.printinghouse.request.ClientReq
 import pl.macia.printinghouse.response.ClientResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.ClientService
 import java.util.Optional
@@ -27,5 +31,12 @@ class ClientController {
     fun getClientById(@PathVariable id: Int): ResponseEntity<ClientResp> {
         val cli = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(cli)
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PostMapping(value = [EndpNames.Clients.CLIENTS], produces = ["application/json"])
+    fun newClient(@RequestBody newClient: ClientReq): ResponseEntity<RecID> {
+        val id = serv.createNew(newClient)
+        return ResponseEntity.ok(id)
     }
 }
