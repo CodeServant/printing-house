@@ -45,6 +45,7 @@ class ClientService {
     @Transactional
     fun createNew(newClient: ClientReq): RecID {
         val clientId: Int
+        // todo add individual client of existing person
         when (newClient) {
             is CompanyClientReq -> {
                 clientId = compCliRepo.save(
