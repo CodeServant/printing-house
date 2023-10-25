@@ -40,14 +40,13 @@ fun IndividualClient(
     surname: String,
     name: String
 ): IndividualClient {
-    email as EmailImpl
     return IndividualClientImpl(
         PInCli(
             name = name,
             surname = surname,
             pseudoPESEL = psudoPESEL,
             client = Client(
-                email = email.persistent,
+                email = (email as? EmailImpl)?.persistent,
                 phoneNumber = phoneNumber
             )
         )
