@@ -55,6 +55,7 @@ class StdCTest(
         vararg moreMatchers: ResultMatcher,
         idTempl: String = "{id}"
     ): RecID {
+        val respIdField = RecID::id.name
         val res = mvc.perform(
             MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON)
                 .content(encodedJson)
@@ -62,7 +63,7 @@ class StdCTest(
             .andReturn()
 
         val response: String = res.response.contentAsString
-        val id: Int = JsonPath.parse(response).read("$.$idJName")
+        val id: Int = JsonPath.parse(response).read("$.$respIdField")
         mvc.perform(MockMvcRequestBuilders.get("$url/$idTempl", id))
             .andExpectAll(
                 status().isOk,
