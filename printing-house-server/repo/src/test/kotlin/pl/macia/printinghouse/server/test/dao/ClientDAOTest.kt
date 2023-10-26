@@ -33,10 +33,10 @@ internal class ClientDAOTest {
 
     @Test
     fun `insert new test`() {
-        var client =  Client(Email("insertNewTestClientDAO@gmail.com"), null)
+        var client = Client(Email("insertNewTestClientDAO@gmail.com"), null)
         dao.saveAndFlush(client)
         client = dao.findByIdOrNull(client.id)!!
-        assertEquals("insertNewTestClientDAO@gmail.com",client.email?.email)
+        assertEquals("insertNewTestClientDAO@gmail.com", client.email?.email)
         assertNull(client.phoneNumber)
     }
 }
