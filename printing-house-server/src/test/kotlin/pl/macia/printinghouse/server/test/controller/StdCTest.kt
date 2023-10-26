@@ -111,5 +111,11 @@ class StdCTest(
                 .content(jsonChangeReq)
         ).andExpect(status().isOk)
             .andExpect(jsonPath("$.changed").value(false))
+
+        mvc.perform(
+            MockMvcRequestBuilders.put("$url/$idTempl", nonExistingId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonChangeReq)
+        ).andExpect(status().isNotFound)
     }
 }
