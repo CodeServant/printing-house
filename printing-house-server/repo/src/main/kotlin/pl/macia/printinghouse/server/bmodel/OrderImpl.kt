@@ -60,23 +60,23 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var pages: Int by persistent::pages
     override val paperOrderTypes: MutableList<PaperOrderType> = toBizPaperOrderType(persistent.paperOrderTypes)
     override val orderEnoblings: MutableList<OrderEnobling> = toBizOrderEnobling(persistent.orderEnoblings)
-    override var imageUrl: Image? by delegate(persistent.imageURL, ::ImageImpl, Image::class.java)
-    override var bindery: Bindery by delegate(persistent.bindery, ::BinderyImpl, Bindery::class.java)
-    override var salesman: Salesman by delegate(persistent.supervisor, ::SalesmanImpl, Salesman::class.java)
+    override var imageUrl: Image? by delegate(persistent::imageURL, ::ImageImpl, Image::class.java)
+    override var bindery: Bindery by delegate(persistent::bindery, ::BinderyImpl, Bindery::class.java)
+    override var salesman: Salesman by delegate(persistent::supervisor, ::SalesmanImpl, Salesman::class.java)
     override val workflowStageStops: MutableList<WorkflowStageStop> =
         toBizWorkflowStageStop(persistent.workflowStageStops)
     override var bindingForm: BindingForm by delegate(
-        persistent.bindingForm,
+        persistent::bindingForm,
         ::BindingFormImpl,
         BindingForm::class.java
     )
     override var calculationCard: CalculationCard? by delegate(
-        persistent.calculationCard,
+        persistent::calculationCard,
         ::CalculationCardImpl,
         CalculationCard::class.java
     )
-    override var netSize: Size by delegate(persistent.netSize, ::SizeImpl, Size::class.java)
-    override var client: Client by delegate(persistent.client, ::ClientImpl, Client::class.java)
+    override var netSize: Size by delegate(persistent::netSize, ::SizeImpl, Size::class.java)
+    override var client: Client by delegate(persistent::client, ::ClientImpl, Client::class.java)
     override fun addWorkflowStageStop(
         comment: String?,
         assignTime: LocalDateTime?,

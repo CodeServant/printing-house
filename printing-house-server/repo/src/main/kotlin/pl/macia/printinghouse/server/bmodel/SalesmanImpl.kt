@@ -27,7 +27,7 @@ internal class SalesmanImpl(p: PSalesman) : Salesman, BusinessBase<PSalesman>(p)
     override var activeAccount: Boolean by persistent::activeAccount
     override var password: String by persistent::password
     override val roles: MutableSet<Role> = toBizRoleSet(persistent.roles)
-    override var email: Email by delegate(persistent.email, ::EmailImpl, Email::class.java)
+    override var email: Email by delegate(persistent::email, ::EmailImpl, Email::class.java)
     override var personId: Int? by persistent::id
     override var psudoPESEL: String by persistent::pseudoPESEL
     override var surname: String by persistent::surname

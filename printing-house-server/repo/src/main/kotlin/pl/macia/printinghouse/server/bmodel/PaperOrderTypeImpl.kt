@@ -42,17 +42,17 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
     override var comment: String? by persistent::comment
     override var circulation: Int by persistent::circulation
     override var platesQuantityForPrinter: Int by persistent::platesQuantityForPrinter
-    override var paperType: PaperType by delegate(persistent.paperType, ::PaperTypeImpl, PaperType::class.java)
-    override var printer: Printer by delegate(persistent.printer, ::PrinterImpl, Printer::class.java)
-    override var colouring: Colouring by delegate(persistent.colours, ::ColouringImpl, Colouring::class.java)
+    override var paperType: PaperType by delegate(persistent::paperType, ::PaperTypeImpl, PaperType::class.java)
+    override var printer: Printer by delegate(persistent::printer, ::PrinterImpl, Printer::class.java)
+    override var colouring: Colouring by delegate(persistent::colours, ::ColouringImpl, Colouring::class.java)
     override var impositionType: ImpositionType by delegate(
-        persistent.imposition,
+        persistent::imposition,
         ::ImpositionTypeImpl,
         ImpositionType::class.java
     )
-    override var order: Order by delegate(persistent.order, ::OrderImpl, Order::class.java)
-    override var size: Size by delegate(persistent.size, ::SizeImpl, Size::class.java)
-    override var productionSize: Size by delegate(persistent.productionSize, ::SizeImpl, Size::class.java)
+    override val order: Order by delegate(persistent::order, ::OrderImpl, Order::class.java)
+    override var size: Size by delegate(persistent::size, ::SizeImpl, Size::class.java)
+    override var productionSize: Size by delegate(persistent::productionSize, ::SizeImpl, Size::class.java)
 
 }
 

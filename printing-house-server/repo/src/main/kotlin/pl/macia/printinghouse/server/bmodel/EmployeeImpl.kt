@@ -11,7 +11,7 @@ internal class EmployeeImpl(p: PEmployee) : Employee, BusinessBase<PEmployee>(p)
         it as RoleImpl
         it.persistent
     }, persistent.roles)
-    override var email: Email by delegate(persistent.email, ::EmailImpl, Email::class.java)
+    override var email: Email by delegate(persistent::email, ::EmailImpl, Email::class.java)
     override var personId: Int? by persistent::id
     override var psudoPESEL: String by persistent::pseudoPESEL
     override var surname: String by persistent::surname

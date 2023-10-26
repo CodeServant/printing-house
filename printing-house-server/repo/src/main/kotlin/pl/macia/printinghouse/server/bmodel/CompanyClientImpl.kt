@@ -23,7 +23,7 @@ internal class CompanyClientImpl(persistent: Company) : CompanyClient, BusinessB
     override var name: String by persistent::name
     override var clientId: Int? by persistent.client!!::id
     override var phoneNumber: String? by persistent.client!!::phoneNumber
-    override var email: Email? by Delegate(persistent.client?.email, ::EmailImpl, Email::class.java)
+    override var email: Email? by delegate(persistent.client!!::email, ::EmailImpl, Email::class.java)
 }
 
 fun CompanyClient(name: String, nip: String, email: Email?, phoneNumber: String?): CompanyClient {

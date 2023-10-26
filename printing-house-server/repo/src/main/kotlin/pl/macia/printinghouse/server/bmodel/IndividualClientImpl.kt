@@ -26,7 +26,7 @@ internal class IndividualClientImpl(persistent: PInCli) : IndividualClient,
 
     override var clientId: Int? by persistent.client::id
     override var phoneNumber: String? by persistent.client::phoneNumber
-    override var email: Email? by delegate(persistent.client.email, ::EmailImpl, Email::class.java)
+    override var email: Email? by delegate(persistent.client::email, ::EmailImpl, Email::class.java)
     override var personId: Int? by persistent::id
     override var psudoPESEL: String by persistent::pseudoPESEL
     override var surname: String by persistent::surname

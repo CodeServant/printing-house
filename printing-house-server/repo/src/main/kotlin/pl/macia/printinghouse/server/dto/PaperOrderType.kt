@@ -46,7 +46,7 @@ internal class PaperOrderType(
     var productionSize: Size,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER_ID, nullable = false)
-    val order: Order
+    var order: Order
 ) {
     companion object {
         const val TABLE_NAME = "PaperOrderType"

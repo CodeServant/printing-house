@@ -70,4 +70,19 @@ internal class IndividualClientRepoTest {
             false ifIdIs 3
         }
     }
+
+    /**
+     * This test was made to check if delegator works properly.
+     */
+    @Test
+    @Transactional
+    fun `change email test`() {
+        var found = repo.findByClientId(1)!!
+        assertEquals("julek@wp.pl", found.email?.email)
+        found.email = null
+        assertNull(found.email, "check the setter")
+        repo.save(found)
+        found = repo.findByClientId(1)!!
+        assertNull(found.email, "change not saved to the database")
+    }
 }

@@ -28,7 +28,7 @@ internal class WorkflowStageStop(
     var worker: Worker?,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER, nullable = false)
-    val order: Order,
+    var order: Order,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = WORKFLOW_EDGE_ID, nullable = false)
     var workflowGraphEdge: WorkflowDirEdge

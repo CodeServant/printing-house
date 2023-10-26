@@ -37,7 +37,7 @@ internal class WorkerImpl(
     override var employed: Boolean by persistent::employed
     override var activeAccount: Boolean by persistent::activeAccount
     override var password: String by persistent::password
-    override var email: Email by delegate(persistent.email, ::EmailImpl, Email::class.java)
+    override var email: Email by delegate(persistent::email, ::EmailImpl, Email::class.java)
     override var personId: Int? by persistent::id
     override var psudoPESEL: String by persistent::pseudoPESEL
     override var surname: String by persistent::surname

@@ -25,7 +25,7 @@ internal class CalculationCardImpl(p: PCalculationCard) : CalculationCard, Busin
     override var otherCosts: BigDecimal by persistent::otherCosts
     override var enoblingCost: BigDecimal by persistent::enobling
     override var bindingCost: BigDecimal by persistent::bindingCost
-    override var order: Order by delegate(persistent.order, ::OrderImpl, Order::class.java)
+    override var order: Order by delegate(persistent::order, ::OrderImpl, Order::class.java)
     override val printCosts: MutableList<PrintCost> = toBizCalcCardList(persistent.printCosts)
     override fun addPrintCost(printCost: BigDecimal, matrixCost: BigDecimal, printer: Printer): PrintCost {
         val new = PrintCostImpl(

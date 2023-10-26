@@ -5,5 +5,5 @@ sealed interface OrderEnobling {
     var annotation: String?
     var enobling: Enobling
     var bindery: Bindery
-    var order: Order
+    val order: Order
 }

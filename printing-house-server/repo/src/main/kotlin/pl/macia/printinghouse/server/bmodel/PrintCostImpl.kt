@@ -21,7 +21,7 @@ internal class PrintCostImpl(p: PPrintCost) : PrintCost, BusinessBase<PPrintCost
     override var printCostId: Int? by persistent::id
     override var printCost: BigDecimal by persistent::printCost
     override var matrixCost: BigDecimal by persistent::matrixCost
-    override var printer: Printer by delegate(persistent.printer, ::PrinterImpl, Printer::class.java)
+    override var printer: Printer by delegate(persistent::printer, ::PrinterImpl, Printer::class.java)
 }
 
 internal fun toBizCalcCardList(printCost: MutableList<PPrintCost>): BMutableList<PrintCost, PPrintCost> {

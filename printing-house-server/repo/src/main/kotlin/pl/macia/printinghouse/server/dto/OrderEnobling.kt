@@ -21,7 +21,7 @@ internal class OrderEnobling(
     var annotation: String?,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER, nullable = false)
-    val order: Order
+    var order: Order
 ) {
     companion object {
         const val TABLE_NAME = "OrderEnobling"
