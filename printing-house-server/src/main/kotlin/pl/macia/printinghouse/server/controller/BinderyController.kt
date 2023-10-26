@@ -55,6 +55,6 @@ class BinderyController {
     @PutMapping(value = ["${EndpNames.Bindery.BINDERIES}/{id}"], produces = ["application/json"])
     fun changeBindery(@PathVariable id: Int, @RequestBody binderyChange: BinderyChangeReq): ResponseEntity<ChangeResp> {
         val changed = serv.change(id, binderyChange)
-        return ResponseEntity.ok(ChangeResp(changed))
+        return ResponseEntity.of(Optional.ofNullable(changed))
     }
 }
