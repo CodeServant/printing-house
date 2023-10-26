@@ -18,7 +18,8 @@ import pl.macia.printinghouse.response.RecID
  */
 class StdCTest(
     private val url: String,
-    private val webApplicationContext: WebApplicationContext
+    private val webApplicationContext: WebApplicationContext,
+    private val nonExistingId: Int = 9999
 ) {
     internal lateinit var mvc: MockMvc
 
@@ -37,7 +38,6 @@ class StdCTest(
     fun checkFindOneById(
         existingId: Int,
         vararg matchers: ResultMatcher,
-        nonExistingId: Int = 9999,
         idTempl: String = "{id}"
     ) {
         mvc.perform(MockMvcRequestBuilders.get("$url/$idTempl", existingId))
