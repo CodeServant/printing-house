@@ -1,13 +1,13 @@
 [versions]
 app = "0.0.1-SNAPSHOT"
-spring-boot = "3.1.4" # https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
-kotlin = "1.9.20-RC" # https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
+spring-boot = "3.1.5" # https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
+kotlin = "1.9.20-RC2" # https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
 kotlin-serialization = "1.6.0" # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-core
 mysql = "8.1.0" # https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 poko = "0.15.0" # https://mvnrepository.com/artifact/dev.drewhamilton.poko/poko-annotations
 springDependencyManagement = "1.1.3" # https://mvnrepository.com/artifact/io.spring.dependency-management/io.spring.dependency-management.gradle.plugin
 h2db = "2.2.224" # https://mvnrepository.com/artifact/com.h2database/h2
-dokka = "1.9.0" # https://mvnrepository.com/artifact/org.jetbrains.dokka/dokka-gradle-plugin
+dokka = "1.9.10" # https://mvnrepository.com/artifact/org.jetbrains.dokka/dokka-gradle-plugin
 java = "21"
 jgrapht = "1.5.2"
 springdoc = "2.2.0" # https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
