@@ -7,6 +7,7 @@ import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.BindingFormChangeReq
 import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.BindingForm
 import pl.macia.printinghouse.server.repository.BindingFormRepo
@@ -34,15 +35,15 @@ class BindingFormService {
     }
 
     @Transactional
-    fun change(id: Int, bindFormChange: BindingFormChangeReq): Boolean {
+    fun change(id: Int, bindFormChange: BindingFormChangeReq): ChangeResp? {
         var binndFormChanged = false
-        val found = repo.findById(id) ?: return false
+        val found = repo.findById(id) ?: return null
 
         if (found.name != bindFormChange.name) {
             found.name = bindFormChange.name
             binndFormChanged = true
         }
-        return binndFormChanged
+        return ChangeResp(binndFormChanged)
     }
 
     @Transactional

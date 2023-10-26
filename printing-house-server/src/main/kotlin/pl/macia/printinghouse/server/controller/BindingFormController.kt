@@ -58,6 +58,6 @@ class BindingFormController {
         @RequestBody bindFormChange: BindingFormChangeReq
     ): ResponseEntity<ChangeResp> {
         val changed = serv.change(id, bindFormChange)
-        return ResponseEntity.ok(ChangeResp(changed))
+        return ResponseEntity.of(Optional.ofNullable(changed))
     }
 }
