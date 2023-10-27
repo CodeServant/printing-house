@@ -26,4 +26,8 @@ object EndpNames {
     object Clients {
         const val CLIENTS = "clients"
     }
+
+    object WorkflowDirGraph {
+        const val WORKFLOW_GRAPHS = "workflowGraphs"
+    }
 }
