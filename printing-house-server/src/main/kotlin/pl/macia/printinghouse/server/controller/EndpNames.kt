@@ -30,4 +30,8 @@ object EndpNames {
     object WorkflowDirGraph {
         const val WORKFLOW_GRAPHS = "workflowGraphs"
     }
+
+    object Printer {
+        const val PRINTERS = "printers"
+    }
 }
