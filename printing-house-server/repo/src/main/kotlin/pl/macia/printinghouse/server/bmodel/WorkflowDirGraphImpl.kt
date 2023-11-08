@@ -35,7 +35,7 @@ internal class WorkflowDirGraphImpl(p: PWorkflowDirGraph) : WorkflowDirGraph, Bu
 fun WorkflowDirGraph(
     creationTime: LocalDateTime,
     name: String,
-    changedTime: LocalDateTime?,
+    changedTime: LocalDateTime? = null,
     comment: String?
 ): WorkflowDirGraph {
     return WorkflowDirGraphImpl(
