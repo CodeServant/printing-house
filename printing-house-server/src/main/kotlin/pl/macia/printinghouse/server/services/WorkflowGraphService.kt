@@ -52,7 +52,7 @@ class WorkflowGraphService {
 }
 
 private fun WorkflowStage.checkGraphRequirenents() {
-    TODO("check if graph properly build")
+    TODO("check if graph properly built")
 }
 
 private fun WorkflowDirGraph.toTransport(): WorkflowGraphResp {
