@@ -354,8 +354,8 @@ CREATE TABLE EmploeeRole
 
 CREATE TABLE WorkflowStage
 (
-    id     INT PRIMARY KEY AUTO_INCREMENT,
-    name   VARCHAR(100) NOT NULL UNIQUE
+    id   INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE WorkflowStageManager
@@ -378,7 +378,7 @@ CREATE TABLE WorkflowDirGraph
     id           INT PRIMARY KEY AUTO_INCREMENT,
     creationTime TIMESTAMP    NOT NULL,
     changedTime  TIMESTAMP    NULL,
-    name         VARCHAR(300) NOT NULL,
+    name         VARCHAR(300) NOT NULL UNIQUE,
     comment      VARCHAR(500) NULL
 );
 
