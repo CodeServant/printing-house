@@ -17,7 +17,6 @@ internal class WorkflowDirGraph(
     @Column(name = CREATION_TIME, nullable = false)
     var creationTime: LocalDateTime,
     @Column(name = COMMENT, nullable = true)
-    @field:NotBlank
     @field:Size(max = 500)
     var comment: String?,
     @Column(name = NAME, nullable = false)
