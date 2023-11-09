@@ -117,6 +117,7 @@ sealed interface PrinterRepo {
     fun save(obj: Printer): Printer
     fun findById(id: Int): Printer?
     fun findByDigest(digest: String): Printer?
+    fun findAll(): List<Printer>
 }
 
 internal sealed interface PrinterIntRepo : PrinterRepo, SingleIdRepo<Printer, Int>

@@ -15,6 +15,10 @@ class PrinterService {
     fun findById(id: Int): PrinterResp? {
         return repo.findById(id)?.toTransport()
     }
+
+    fun allPrinters(): List<PrinterResp> {
+        return repo.findAll().map { it.toTransport() }
+    }
 }
 
 private fun Printer.toTransport(): PrinterResp {

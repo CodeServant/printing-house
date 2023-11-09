@@ -29,4 +29,8 @@ internal class PrinterRepoImpl : PrinterIntRepo {
     override fun findByDigest(digest: String): Printer? {
         return dao.findByDigest(digest)?.toBiz()
     }
+
+    override fun findAll(): List<Printer> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }

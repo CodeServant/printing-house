@@ -28,4 +28,10 @@ class PrinterController {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @GetMapping(value = [EndpNames.Printer.PRINTERS], produces = ["application/json"])
+    fun getAllPrinters(): ResponseEntity<List<PrinterResp>> {
+        return ResponseEntity.ok(serv.allPrinters())
+    }
 }
