@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.PrinterReq
 import pl.macia.printinghouse.response.PrinterResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.PrinterService
 import java.util.*
@@ -33,5 +32,12 @@ class PrinterController {
     @GetMapping(value = [EndpNames.Printer.PRINTERS], produces = ["application/json"])
     fun getAllPrinters(): ResponseEntity<List<PrinterResp>> {
         return ResponseEntity.ok(serv.allPrinters())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PostMapping(value = [EndpNames.Printer.PRINTERS], produces = ["application/json"])
+    fun newPrinter(@RequestBody req: PrinterReq): ResponseEntity<RecID> {
+        val resp = serv.insertNew(req)
+        return ResponseEntity.ok(resp)
     }
 }

@@ -1,9 +1,12 @@
 package pl.macia.printinghouse.server.services
 
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.PrinterReq
 import pl.macia.printinghouse.response.PrinterResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.Printer
 import pl.macia.printinghouse.server.repository.PrinterRepo
 
@@ -18,6 +21,20 @@ class PrinterService {
 
     fun allPrinters(): List<PrinterResp> {
         return repo.findAll().map { it.toTransport() }
+    }
+
+    @Transactional
+    fun insertNew(req: PrinterReq): RecID? {
+        val newId = repo.save(
+            Printer(
+                name = req.name,
+                digest = req.digest
+            )
+        )
+        return RecID(
+            newId.printerId?.toLong()
+                ?: throw Exception("some error while saving ${Printer::class.simpleName} to database")
+        )
     }
 }
 
