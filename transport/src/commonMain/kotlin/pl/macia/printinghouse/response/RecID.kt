@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlin.jvm.Throws
 
 /**
- * Record ID.
+ * Record ID. Usually used as a response to new object creation.
  */
 @Serializable
 data class RecID(
