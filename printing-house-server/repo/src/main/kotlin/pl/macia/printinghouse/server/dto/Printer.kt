@@ -2,7 +2,7 @@ package pl.macia.printinghouse.server.dto
 
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
-import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Size
 
 @Poko
@@ -13,11 +13,11 @@ internal class Printer(
     @Column(name = ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int?,
-    @field:NotBlank
+    @field:NotEmpty
     @field:Size(max = 100)
     @Column(name = NAME)
     var name: String,
-    @field:NotBlank
+    @field:NotEmpty
     @field:Size(max = 4)
     @Column(name = DIGEST)
     var digest: String
