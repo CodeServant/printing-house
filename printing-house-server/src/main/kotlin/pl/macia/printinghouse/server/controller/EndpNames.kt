@@ -34,4 +34,8 @@ object EndpNames {
     object Printer {
         const val PRINTERS = "printers"
     }
+
+    object PaperType {
+        const val PAPER_TYPES = "paper-types"
+    }
 }
