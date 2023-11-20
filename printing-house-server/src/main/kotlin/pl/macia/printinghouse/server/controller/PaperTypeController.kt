@@ -28,4 +28,10 @@ class PaperTypeController {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @GetMapping(value = [EndpNames.PaperType.PAPER_TYPES], produces = ["application/json"])
+    fun getAllPapTypes(): ResponseEntity<List<PaperTypeResp>> {
+        return ResponseEntity.ok(serv.allPapTypes())
+    }
 }

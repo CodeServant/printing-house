@@ -25,4 +25,8 @@ internal class PaperTypeRepoImpl : PaperTypeIntRepo {
     override fun findById(id: Int): PaperType? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun findAll(): List<PaperType> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }

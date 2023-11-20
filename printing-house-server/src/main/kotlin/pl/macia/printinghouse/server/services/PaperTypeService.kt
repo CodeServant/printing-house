@@ -19,6 +19,14 @@ class PaperTypeService {
             null
         }
     }
+
+    fun allPapTypes(): List<PaperTypeResp> {
+        return try {
+            repo.findAll().map { it.toTransport() }
+        } catch (e: ConversionException) {
+            mutableListOf()
+        }
+    }
 }
 
 private fun PaperType.toTransport(): PaperTypeResp {
