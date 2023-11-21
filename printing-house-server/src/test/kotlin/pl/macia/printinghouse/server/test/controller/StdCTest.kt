@@ -49,6 +49,9 @@ class StdCTest(
             .andExpect { status().isNotFound }
     }
 
+    /**
+     * @param idJName id name for field to check if receiving correct object, usually it is "id"
+     */
     fun checkInsertOneObj(
         encodedJson: String,
         idJName: String,
