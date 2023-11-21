@@ -2,16 +2,24 @@ package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
+import pl.macia.printinghouse.request.PaperTypeReq
 import pl.macia.printinghouse.response.PaperTypeResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.PaperTypeService
+import java.sql.SQLException
 import java.util.*
 
 @RestController
@@ -33,5 +41,26 @@ class PaperTypeController {
     @GetMapping(value = [EndpNames.PaperType.PAPER_TYPES], produces = ["application/json"])
     fun getAllPapTypes(): ResponseEntity<List<PaperTypeResp>> {
         return ResponseEntity.ok(serv.allPapTypes())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PostMapping(value = [EndpNames.PaperType.PAPER_TYPES], produces = ["application/json"])
+    fun insertOnePapType(@RequestBody papTypeReq: PaperTypeReq): ResponseEntity<RecID> {
+        try {
+            val resp = serv.insertNew(papTypeReq)
+            return ResponseEntity.ok(resp)
+        } catch (e: DataIntegrityViolationException) {
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "possible data duplication",
+                e
+            )
+        } catch (e: SQLException) {
+            throw ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "sql exception while processing request",
+                e
+            )
+        }
     }
 }

@@ -1,9 +1,12 @@
 package pl.macia.printinghouse.server.services
 
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.PaperTypeReq
 import pl.macia.printinghouse.response.PaperTypeResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.PaperType
 import pl.macia.printinghouse.server.repository.PaperTypeRepo
 
@@ -25,6 +28,22 @@ class PaperTypeService {
             repo.findAll().map { it.toTransport() }
         } catch (e: ConversionException) {
             mutableListOf()
+        }
+    }
+
+    @Transactional
+    fun insertNew(papTypeReq: PaperTypeReq): RecID {
+        papTypeReq.apply {
+            val saved = repo.save(
+                PaperType(
+                    name,
+                    shortName
+                )
+            )
+            return RecID(
+                saved.papTypeId?.toLong()
+                    ?: throw ConversionException("there is no ${saved::papTypeId.name} field in saved entity")
+            )
         }
     }
 }
