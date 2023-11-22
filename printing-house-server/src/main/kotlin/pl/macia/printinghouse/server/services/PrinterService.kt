@@ -26,7 +26,7 @@ class PrinterService {
     }
 
     @Transactional
-    fun insertNew(req: PrinterReq): RecID? {
+    fun insertNew(req: PrinterReq): RecID {
         val newId = repo.save(
             Printer(
                 name = req.name,
