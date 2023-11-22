@@ -1,15 +1,11 @@
 package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.validation.ConstraintViolationException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.transaction.TransactionSystemException
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
 import pl.macia.printinghouse.request.PrinterChangeReq
 import pl.macia.printinghouse.request.PrinterReq
 import pl.macia.printinghouse.response.ChangeResp
@@ -17,6 +13,7 @@ import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.PrinterService
+import pl.macia.printinghouse.server.services.changeExceptionCatch
 import java.util.*
 
 @RestController
@@ -50,23 +47,9 @@ class PrinterController {
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @PutMapping(value = ["${EndpNames.Printer.PRINTERS}/{id}"], produces = ["application/json"])
     fun changePrinter(@PathVariable id: Int, @RequestBody req: PrinterChangeReq): ResponseEntity<ChangeResp> {
-        try {
+        return changeExceptionCatch {
             val changeResp: Optional<ChangeResp> = Optional.ofNullable(serv.changePrinter(id = id, changeReq = req))
-            return ResponseEntity.of(changeResp)
-        } catch (e: TransactionSystemException) {
-            val root = e.rootCause
-            var causes = ""
-            if (root is ConstraintViolationException) {
-                root.constraintViolations.forEach {
-                    causes += "${it.propertyPath} ${it.message}, "
-                }
-                causes = causes.removeSuffix(", ")
-            }
-            throw ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                causes,
-                e.rootCause
-            )
+            ResponseEntity.of(changeResp)
         }
     }
 }

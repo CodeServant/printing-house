@@ -11,7 +11,6 @@ import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.Printer
 import pl.macia.printinghouse.server.repository.PrinterRepo
-import kotlin.reflect.KMutableProperty
 
 @Service
 class PrinterService {
@@ -43,16 +42,12 @@ class PrinterService {
     @Transactional
     fun changePrinter(id: Int, changeReq: PrinterChangeReq): ChangeResp? {
         val found = repo.findById(id) ?: return null
-        var changed = false
-        fun <E> change(prop: E?, assign: KMutableProperty<E>) = prop?.let {
-            if (prop != assign.getter.call()) {
-                assign.setter.call(it)
-                changed = true
-            }
+        val changeTracker = ChangeTracker()
+        changeTracker.apply {
+            applyChange(changeReq.name, found::name)
+            applyChange(changeReq.digest, found::digest)
         }
-        change(changeReq.name, found::name)
-        change(changeReq.digest, found::digest)
-        return ChangeResp(changed)
+        return ChangeResp(changeTracker.changed)
     }
 }
 
