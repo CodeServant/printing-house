@@ -6,11 +6,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.ImpositionTypeChangeReq
 import pl.macia.printinghouse.request.ImpositionTypeReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.ImpositionTypeService
 import pl.macia.printinghouse.response.ImpositionTypeResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.server.services.changeExceptionCatch
 import java.util.*
 
 @RestController
@@ -39,5 +42,18 @@ class ImpositionTypeController {
     fun newImpositionType(@RequestBody req: ImpositionTypeReq): ResponseEntity<RecID> {
         val resp = serv.insertNew(req)
         return ResponseEntity.ok(resp)
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.ImpositionType.IMPOSITION_TYPES}/{id}"], produces = ["application/json"])
+    fun changeImpositionType(
+        @PathVariable id: Int,
+        @RequestBody req: ImpositionTypeChangeReq
+    ): ResponseEntity<ChangeResp> {
+        return changeExceptionCatch {
+            val changeResp: Optional<ChangeResp> =
+                Optional.ofNullable(serv.changeImpositionType(id = id, changeReq = req))
+            ResponseEntity.of(changeResp)
+        }
     }
 }

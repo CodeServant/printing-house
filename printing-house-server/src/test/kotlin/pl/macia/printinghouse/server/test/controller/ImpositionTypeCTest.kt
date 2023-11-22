@@ -11,6 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.ImpositionTypeChangeReq
 import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -72,6 +73,21 @@ class ImpositionTypeCTest {
             "id",
             jsonPath("$.name").value("d/r"),
             jsonPath("$.id").isNumber,
+        )
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `change ImpositionType test`() {
+        val impTypId = 1
+        val changeReq = ImpositionTypeChangeReq(
+            name = "p/tr"
+        )
+        standardTest.checkChangeObjTest(
+            impTypId,
+            Json.encodeToString(changeReq),
+            jsonPath("$.name").value("p/tr")
         )
     }
 }

@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.ImpositionTypeChangeReq
 import pl.macia.printinghouse.request.ImpositionTypeReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.ImpositionTypeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.server.bmodel.ImpositionType
@@ -28,6 +30,16 @@ class ImpositionTypeService {
         val id = repo.save(ImpositionType(req.name)).impTypId
             ?: throw Exception("some error while saving ${ImpositionType::class.simpleName} to database")
         return RecID(id.toLong())
+    }
+
+    @Transactional
+    fun changeImpositionType(id: Int, changeReq: ImpositionTypeChangeReq): ChangeResp? {
+        val found = repo.findById(id) ?: return null
+        val changeTracker = ChangeTracker()
+        changeTracker.apply {
+            applyChange(changeReq.name, found::name)
+        }
+        return ChangeResp(changeTracker.changed)
     }
 }
 
