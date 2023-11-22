@@ -110,6 +110,7 @@ sealed interface ImpositionTypeRepo {
     fun findById(id: Int): ImpositionType?
     fun save(obj: ImpositionType): ImpositionType
     fun findByName(name: String): ImpositionType?
+    fun findAll(): List<ImpositionType>
 }
 
 internal sealed interface ImpositionTypeIntRepo : ImpositionTypeRepo, SingleIdRepo<ImpositionType, Int>

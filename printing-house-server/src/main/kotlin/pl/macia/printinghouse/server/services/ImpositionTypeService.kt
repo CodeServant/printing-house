@@ -15,6 +15,10 @@ class ImpositionTypeService {
         val found = repo.findById(id) ?: return null
         return found.toTransport()
     }
+
+    fun allImpositionTypes(): List<ImpositionTypeResp> {
+        return repo.findAll().map { it.toTransport() }
+    }
 }
 
 private fun ImpositionType.toTransport(): ImpositionTypeResp {

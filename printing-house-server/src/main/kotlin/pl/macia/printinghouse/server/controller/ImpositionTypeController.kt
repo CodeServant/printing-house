@@ -28,4 +28,9 @@ class ImpositionTypeController {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @GetMapping(value = [EndpNames.ImpositionType.IMPOSITION_TYPES], produces = ["application/json"])
+    fun getAllImpositionTypes(): ResponseEntity<List<ImpositionTypeResp>> {
+        return ResponseEntity.ok(serv.allImpositionTypes())
+    }
 }

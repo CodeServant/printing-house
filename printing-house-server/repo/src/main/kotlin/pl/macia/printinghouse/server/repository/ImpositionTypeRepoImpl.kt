@@ -29,4 +29,8 @@ internal class ImpositionTypeRepoImpl : ImpositionTypeIntRepo {
     override fun findByName(name: String): ImpositionType? {
         return dao.findByName(name)?.toBiz()
     }
+
+    override fun findAll(): List<ImpositionType> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }
