@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import pl.macia.printinghouse.request.ImpositionTypeReq
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.ImpositionTypeService
 import pl.macia.printinghouse.response.ImpositionTypeResp
+import pl.macia.printinghouse.response.RecID
 import java.util.*
 
 @RestController
@@ -28,9 +27,17 @@ class ImpositionTypeController {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
+
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @GetMapping(value = [EndpNames.ImpositionType.IMPOSITION_TYPES], produces = ["application/json"])
     fun getAllImpositionTypes(): ResponseEntity<List<ImpositionTypeResp>> {
         return ResponseEntity.ok(serv.allImpositionTypes())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PostMapping(value = [EndpNames.ImpositionType.IMPOSITION_TYPES], produces = ["application/json"])
+    fun newImpositionType(@RequestBody req: ImpositionTypeReq): ResponseEntity<RecID> {
+        val resp = serv.insertNew(req)
+        return ResponseEntity.ok(resp)
     }
 }

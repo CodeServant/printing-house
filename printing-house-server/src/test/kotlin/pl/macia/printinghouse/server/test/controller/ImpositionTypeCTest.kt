@@ -1,5 +1,8 @@
 package pl.macia.printinghouse.server.test.controller
 
+import jakarta.transaction.Transactional
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import pl.macia.printinghouse.request.ImpositionTypeReq
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @WebAppConfiguration
@@ -53,6 +57,21 @@ class ImpositionTypeCTest {
                 Matchers.hasItems("f/f", "f/g", "f/o")
             ),
             jsonPath("$[*].id").value(Matchers.hasItems(1, 2, 3))
+        )
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `insert one printer`() {
+        val example = ImpositionTypeReq(
+            "d/r"
+        )
+        standardTest.checkInsertOneObj(
+            Json.encodeToString(example),
+            "id",
+            jsonPath("$.name").value("d/r"),
+            jsonPath("$.id").isNumber,
         )
     }
 }
