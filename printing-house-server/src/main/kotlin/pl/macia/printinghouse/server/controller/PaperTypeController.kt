@@ -7,18 +7,16 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import pl.macia.printinghouse.request.PaperTypeChangeReq
 import pl.macia.printinghouse.request.PaperTypeReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.PaperTypeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.PaperTypeService
+import pl.macia.printinghouse.server.services.changeExceptionCatch
 import java.sql.SQLException
 import java.util.*
 
@@ -61,6 +59,15 @@ class PaperTypeController {
                 "sql exception while processing request",
                 e
             )
+        }
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.PaperType.PAPER_TYPES}/{id}"], produces = ["application/json"])
+    fun changePaperType(@PathVariable id: Int, @RequestBody req: PaperTypeChangeReq): ResponseEntity<ChangeResp> {
+        return changeExceptionCatch {
+            val changeResp: Optional<ChangeResp> = Optional.ofNullable(serv.changePaperType(id = id, changeReq = req))
+            ResponseEntity.of(changeResp)
         }
     }
 }

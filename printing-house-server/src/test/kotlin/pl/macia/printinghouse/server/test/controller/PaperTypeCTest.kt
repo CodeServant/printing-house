@@ -11,8 +11,8 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.request.PaperTypeChangeReq
 import pl.macia.printinghouse.request.PaperTypeReq
-import pl.macia.printinghouse.request.PrinterChangeReq
 import pl.macia.printinghouse.response.PaperTypeResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -81,16 +81,16 @@ class PaperTypeCTest {
     @Test
     @Transactional
     @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
-    fun `change test printer`() {
-        val printerId = 1
-        val changeReq = PrinterChangeReq(
-            name = "some name"
+    fun `change PaperType test`() {
+        val papTypeId = 1
+        val changeReq = PaperTypeChangeReq(
+            name = "Papier Błyskk"
         )
         standardTest.checkChangeObjTest(
-            printerId,
+            papTypeId,
             Json.encodeToString(changeReq),
-            jsonPath("$.name").value("some name"),
-            jsonPath("$.digest").value("DK")
+            jsonPath("$.name").value("Papier Błyskk"),
+            jsonPath("$.shortName").value("Pap Błysk")
         )
     }
 }
