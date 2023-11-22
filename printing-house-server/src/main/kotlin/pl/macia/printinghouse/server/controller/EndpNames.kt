@@ -38,4 +38,8 @@ object EndpNames {
     object PaperType {
         const val PAPER_TYPES = "paper-types"
     }
+
+    object ImpositionType {
+        const val IMPOSITION_TYPES = "imposition-types"
+    }
 }
