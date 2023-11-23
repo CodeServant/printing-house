@@ -28,4 +28,10 @@ class EnoblingController {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @GetMapping(value = [EndpNames.Enobling.ENOBLINGS], produces = ["application/json"])
+    fun getAllEnoblings(): ResponseEntity<List<EnoblingResp>> {
+        return ResponseEntity.ok(serv.allEnoblings())
+    }
 }

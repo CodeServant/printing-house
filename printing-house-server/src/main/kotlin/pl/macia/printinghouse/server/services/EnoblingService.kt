@@ -20,6 +20,10 @@ class EnoblingService {
     fun findById(id: Int): EnoblingResp? {
         return repo.findByIdTyped(id)?.toTransport()
     }
+
+    fun allEnoblings(): List<EnoblingResp> {
+        return repo.findAllTyped().map { it.toTransport() }
+    }
 }
 
 private fun Enobling.toTransport(): EnoblingResp {

@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.test.controller
 
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -10,6 +11,7 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.web.context.WebApplicationContext
+import pl.macia.printinghouse.response.EnoblingResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 
@@ -48,5 +50,34 @@ class EnoblingCTest {
         }
         testId(1, "farba kolorowa", "to jest farba kolorowa", "UVVarnish")
         testId(4, "szalony wykrojnik", null, "Punch")
+    }
+
+    @Test
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    fun `get all test`() {
+        standardTest.checkGetAllFromPath(
+            MockMvcResultMatchers.jsonPath("$").value(Matchers.hasSize<EnoblingResp>(5)),
+            MockMvcResultMatchers.jsonPath("$[*].name").value(
+                Matchers.hasItems(
+                    "farba kolorowa",
+                    "karton aksamitny",
+                    "papier błysk",
+                    "szalony wykrojnik",
+                    "wykrojnik zwyczajny"
+                )
+            ),
+            MockMvcResultMatchers.jsonPath("$[*].description").value(
+                Matchers.hasItems(
+                    "to jest farba kolorowa",
+                    "taki sobie oto wykrojnik zwyczajny"
+                )
+            ),
+            MockMvcResultMatchers.jsonPath("$[?(@.description!==null)]").value(
+                Matchers.hasSize<String>(2)
+            ),
+            MockMvcResultMatchers.jsonPath("$[?(@.type == 'UVVarnish')]").value(Matchers.hasSize<String>(1)),
+            MockMvcResultMatchers.jsonPath("$[?(@.type == 'Punch')]").value(Matchers.hasSize<String>(2)),
+            MockMvcResultMatchers.jsonPath("$[?(@.type == 'Enobling')]").value(Matchers.hasSize<String>(2))
+        )
     }
 }
