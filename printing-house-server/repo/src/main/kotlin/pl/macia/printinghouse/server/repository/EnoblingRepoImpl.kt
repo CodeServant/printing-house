@@ -11,6 +11,14 @@ import pl.macia.printinghouse.server.dao.EnoblingDAO
 internal class EnoblingRepoImpl : EnoblingIntRepo {
     @Autowired
     lateinit var dao: EnoblingDAO
+
+    @Autowired
+    private lateinit var repoPunch: PunchRepo
+
+    @Autowired
+    private lateinit var repoUVVarnish: UVVarnishRepo
+
+
     override fun findById(id: Int): Enobling? {
         return dao.findByIdOrNull(id)?.let { EnoblingImpl(it) }
     }
@@ -18,5 +26,15 @@ internal class EnoblingRepoImpl : EnoblingIntRepo {
     override fun save(obj: Enobling): Enobling {
         obj as EnoblingImpl
         return EnoblingImpl(dao.save(obj.persistent))
+    }
+
+    override fun findByIdTyped(id: Int): Enobling? {
+        val en = findById(id) ?: return null
+        sequenceOf(
+            repoUVVarnish.findById(id),
+            repoPunch.findById(id)
+        ).firstOrNull { it != null }
+            ?.apply { return this }
+        return en
     }
 }

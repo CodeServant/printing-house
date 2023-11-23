@@ -26,13 +26,7 @@ class EnoblingService {
     private lateinit var repoPunch: PunchRepo
 
     fun findById(id: Int): EnoblingResp? {
-        val en = repo.findById(id) ?: return null
-        sequenceOf(
-            repoUVVarnish.findById(id),
-            repoPunch.findById(id)
-        ).firstOrNull { it != null }
-            ?.apply { return toTransport() }
-        return en.toTransport()
+        return repo.findByIdTyped(id)?.toTransport()
     }
 }
 
