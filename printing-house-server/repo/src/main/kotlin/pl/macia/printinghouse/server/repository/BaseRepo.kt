@@ -83,6 +83,8 @@ sealed interface EnoblingRepo {
      * Looks for [Enobling] and its subtypes. Returned values are instances of [Enobling] subtypes.
      */
     fun findByIdTyped(id: Int): Enobling?
+    fun findAllTyped(): List<Enobling>
+    fun findAll(): List<Enobling>
 }
 
 internal sealed interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>
@@ -90,12 +92,14 @@ internal sealed interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling,
 sealed interface PunchRepo {
     fun findById(id: Int): Punch?
     fun save(obj: Punch): Punch
+    fun findAll(): List<Punch>
 }
 
 internal sealed interface PunchIntRepo : PunchRepo, SingleIdRepo<Punch, Int>
 sealed interface UVVarnishRepo {
     fun findById(id: Int): UVVarnish?
     fun save(obj: UVVarnish): UVVarnish
+    fun findAll(): List<UVVarnish>
 }
 
 internal sealed interface UVVarnishIntRepo : UVVarnishRepo, SingleIdRepo<UVVarnish, Int>

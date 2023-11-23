@@ -37,4 +37,25 @@ internal class EnoblingRepoImpl : EnoblingIntRepo {
             ?.apply { return this }
         return en
     }
+
+    override fun findAll(): List<Enobling> {
+        return dao.findAll().map { EnoblingImpl(it) }
+    }
+
+    override fun findAllTyped(): List<Enobling> {
+        val found = mutableListOf<Enobling>()
+        found.addAll(repoPunch.findAll())
+        found.addAll(repoUVVarnish.findAll())
+
+        val allMap: Map<Int, Enobling> = findAll().associateBy {
+            it.enoblingId ?: throw Exception("data from database with null ${Enobling::enoblingId.name}")
+        }
+
+        val valuesLeft = allMap
+            .minus(
+                found.map { it.enoblingId!! }
+            ).values
+        found.addAll(valuesLeft)
+        return found
+    }
 }

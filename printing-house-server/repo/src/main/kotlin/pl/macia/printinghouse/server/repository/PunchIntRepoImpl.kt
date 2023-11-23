@@ -19,4 +19,8 @@ internal class PunchIntRepoImpl : PunchIntRepo {
         obj as PunchImpl
         return PunchImpl(dao.save(obj.persistent))
     }
+
+    override fun findAll(): List<Punch> {
+        return dao.findAll().map { PunchImpl(it) }
+    }
 }

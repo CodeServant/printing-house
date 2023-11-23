@@ -19,4 +19,8 @@ internal class UVVarnishRepoImpl : UVVarnishIntRepo {
         obj as UVVarnishImpl
         return UVVarnishImpl(dao.save(obj.persistent))
     }
+
+    override fun findAll(): List<UVVarnish> {
+        return dao.findAll().map { UVVarnishImpl(it) }
+    }
 }
