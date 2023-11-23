@@ -52,7 +52,7 @@ class WorkflowGraphService {
     }
 }
 
-private fun WorkflowStage.checkGraphRequirenents() {
+private fun WorkflowStage.checkGraphRequirements() {
     TODO("check if graph properly built")
 }
 
