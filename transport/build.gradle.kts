@@ -11,6 +11,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlin.serialization.json)
+                api(libs.kotlin.datetime)
             }
         }
         val commonTest by getting
