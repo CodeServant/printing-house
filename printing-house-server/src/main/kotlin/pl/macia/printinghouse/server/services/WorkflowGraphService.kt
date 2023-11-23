@@ -1,6 +1,7 @@
 package pl.macia.printinghouse.server.services
 
 import jakarta.transaction.Transactional
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
@@ -60,7 +61,11 @@ private fun WorkflowDirGraph.toTransport(): WorkflowGraphResp {
         id = wGraphId ?: throw ConversionException(),
         edges = edge.map {
             it.toEmbTransport()
-        }
+        },
+        creationTime = creationTime.toKotlinLocalDateTime(),
+        changedTime = changedTime?.toKotlinLocalDateTime(),
+        name = name,
+        comment = comment
     )
 }
 

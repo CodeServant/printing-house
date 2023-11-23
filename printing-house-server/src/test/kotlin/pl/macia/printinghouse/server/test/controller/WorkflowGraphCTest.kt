@@ -48,11 +48,15 @@ class WorkflowGraphCTest {
         standardTest.checkFindOneById(
             1,
             jsonPath("$.id").value(1),
+            jsonPath("$.name").value("typical flow"),
+            jsonPath("$.comment").doesNotExist(),
             jsonPath("$.edges").value(Matchers.hasSize<WorkflowStageRespEmb>(4)),
             jsonPath("$.edges[?(@.edgeId == 2)].v1.id").value(3),
             jsonPath("$.edges[?(@.edgeId == 2)].v1.name").value("Handlowiec"),
             jsonPath("$.edges[?(@.edgeId == 2)].v2.id").value(2),
             jsonPath("$.edges[?(@.edgeId == 2)].v2.name").value("Naświetlarnia"),
+            jsonPath("$.creationTime").value("2023-10-01T10:11"),
+            jsonPath("$.changedTime").value("2023-10-01T11:00"),
         )
     }
 
@@ -80,8 +84,9 @@ class WorkflowGraphCTest {
             jsonPath("$.edges[0].v2.name").value("Naświetlarnia"),
             jsonPath("$.edges[1].v2.name").value("Handlowiec"),
             jsonPath("$.edges[*].['v1','v2'].id").value(Matchers.hasSize<Int>(4)),
-
-            )
+            jsonPath("$.creationTime").exists(),
+            jsonPath("$.changedTime").doesNotExist()
+        )
     }
 
     @Test
