@@ -11,19 +11,11 @@ import pl.macia.printinghouse.server.bmodel.Enobling
 import pl.macia.printinghouse.server.bmodel.Punch
 import pl.macia.printinghouse.server.bmodel.UVVarnish
 import pl.macia.printinghouse.server.repository.EnoblingRepo
-import pl.macia.printinghouse.server.repository.PunchRepo
-import pl.macia.printinghouse.server.repository.UVVarnishRepo
 
 @Service
 class EnoblingService {
     @Autowired
     private lateinit var repo: EnoblingRepo
-
-    @Autowired
-    private lateinit var repoUVVarnish: UVVarnishRepo
-
-    @Autowired
-    private lateinit var repoPunch: PunchRepo
 
     fun findById(id: Int): EnoblingResp? {
         return repo.findByIdTyped(id)?.toTransport()
