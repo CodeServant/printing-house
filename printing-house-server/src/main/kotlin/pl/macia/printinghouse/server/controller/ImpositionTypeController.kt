@@ -19,7 +19,7 @@ import java.util.*
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
-@Tag(name = "printer", description = "controller for managing imposition types")
+@Tag(name = "Imposition Type", description = "controller for managing imposition types")
 class ImpositionTypeController {
     @Autowired
     private lateinit var serv: ImpositionTypeService
