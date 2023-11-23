@@ -75,6 +75,7 @@ sealed interface CompanyClientRepo {
 
 internal sealed interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>, ClientRepos
 
+// todo maby something like findWithPolimorphic to look for enobling in its subclasses
 sealed interface EnoblingRepo {
     fun findById(id: Int): Enobling?
     fun save(obj: Enobling): Enobling

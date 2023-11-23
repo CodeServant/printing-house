@@ -42,4 +42,8 @@ object EndpNames {
     object ImpositionType {
         const val IMPOSITION_TYPES = "imposition-types"
     }
+
+    object Enobling {
+        const val ENOBLINGS = "enoblings"
+    }
 }

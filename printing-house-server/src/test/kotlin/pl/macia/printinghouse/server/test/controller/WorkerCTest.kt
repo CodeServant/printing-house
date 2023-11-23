@@ -44,6 +44,7 @@ object Paths {
     const val PRINTERS = "printers"
     const val PAPER_TYPES = "paper-types"
     const val IMPOSITION_TYPES = "imposition-types"
+    const val ENOBLINGS = "enoblings"
 }
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
