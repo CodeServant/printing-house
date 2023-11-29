@@ -1,15 +1,17 @@
 package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.transaction.TransactionalException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
+import pl.macia.printinghouse.request.IEnoblingReq
 import pl.macia.printinghouse.response.EnoblingResp
+import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.EnoblingService
 import java.util.*
@@ -33,5 +35,20 @@ class EnoblingController {
     @GetMapping(value = [EndpNames.Enobling.ENOBLINGS], produces = ["application/json"])
     fun getAllEnoblings(): ResponseEntity<List<EnoblingResp>> {
         return ResponseEntity.ok(serv.allEnoblings())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PostMapping(value = [EndpNames.Enobling.ENOBLINGS], produces = ["application/json"])
+    fun newEnobling(@RequestBody req: IEnoblingReq): ResponseEntity<RecID> {
+        try {
+            val resp = serv.insertNew(req)
+            return ResponseEntity.ok(resp)
+        } catch (e: TransactionalException) {
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                e.message,
+                e
+            )
+        }
     }
 }
