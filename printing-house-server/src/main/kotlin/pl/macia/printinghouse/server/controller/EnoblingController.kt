@@ -9,11 +9,14 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import pl.macia.printinghouse.request.IEnoblingChangeReq
 import pl.macia.printinghouse.request.IEnoblingReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.EnoblingResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.EnoblingService
+import pl.macia.printinghouse.server.services.changeExceptionCatch
 import java.util.*
 
 @RestController
@@ -49,6 +52,15 @@ class EnoblingController {
                 e.message,
                 e
             )
+        }
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.Enobling.ENOBLINGS}/{id}"], produces = ["application/json"])
+    fun changeEnobling(@PathVariable id: Int, @RequestBody req: IEnoblingChangeReq): ResponseEntity<ChangeResp> {
+        return changeExceptionCatch {
+            val changeResp: Optional<ChangeResp> = Optional.ofNullable(serv.changeEnobling(id = id, changeReq = req))
+            ResponseEntity.of(changeResp)
         }
     }
 }

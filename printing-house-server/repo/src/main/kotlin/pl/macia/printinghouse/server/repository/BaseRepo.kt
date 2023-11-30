@@ -85,6 +85,11 @@ sealed interface EnoblingRepo {
     fun findByIdTyped(id: Int): Enobling?
     fun findAllTyped(): List<Enobling>
     fun findAll(): List<Enobling>
+
+    /**
+     * Saves [Enobling] object of a specific [Enobling] subtype.
+     */
+    fun saveTyped(enobling: Enobling)
 }
 
 internal sealed interface EnoblingIntRepo : EnoblingRepo, SingleIdRepo<Enobling, Int>

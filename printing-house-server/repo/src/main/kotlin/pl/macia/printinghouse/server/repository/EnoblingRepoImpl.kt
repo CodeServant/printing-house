@@ -3,7 +3,7 @@ package pl.macia.printinghouse.server.repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
-import pl.macia.printinghouse.server.bmodel.Enobling
+import pl.macia.printinghouse.server.bmodel.*
 import pl.macia.printinghouse.server.bmodel.EnoblingImpl
 import pl.macia.printinghouse.server.dao.EnoblingDAO
 
@@ -40,6 +40,14 @@ internal class EnoblingRepoImpl : EnoblingIntRepo {
 
     override fun findAll(): List<Enobling> {
         return dao.findAll().map { EnoblingImpl(it) }
+    }
+
+    override fun saveTyped(enobling: Enobling) {
+        when (enobling) {
+            is Punch -> repoPunch.save(enobling)
+            is UVVarnish -> repoUVVarnish.save(enobling)
+            is Enobling -> save(enobling)
+        }
     }
 
     override fun findAllTyped(): List<Enobling> {

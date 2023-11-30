@@ -1,17 +1,13 @@
 package pl.macia.printinghouse.server.services
 
 import jakarta.transaction.Transactional
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
-import pl.macia.printinghouse.request.EnoblingReq
-import pl.macia.printinghouse.request.IEnoblingReq
-import pl.macia.printinghouse.request.PunchReq
-import pl.macia.printinghouse.request.UVVarnishReq
+import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.*
-import pl.macia.printinghouse.server.bmodel.Enobling
-import pl.macia.printinghouse.server.bmodel.Punch
-import pl.macia.printinghouse.server.bmodel.UVVarnish
+import pl.macia.printinghouse.server.bmodel.*
 import pl.macia.printinghouse.server.repository.EnoblingRepo
 import pl.macia.printinghouse.server.repository.PunchRepo
 import pl.macia.printinghouse.server.repository.UVVarnishRepo
@@ -45,6 +41,28 @@ class EnoblingService {
             enobling.enoblingId?.toLong()
                 ?: throw ConversionException("${Enobling::class.qualifiedName} with ${Enobling::enoblingId.name} not saved properly")
         )
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Transactional
+    fun changeEnobling(id: Int, changeReq: IEnoblingChangeReq): ChangeResp? {
+        val enobling = repo.findByIdTyped(id) ?: return null
+        val changeTracker = ChangeTracker(changeReq.nullingRest)
+
+        val typesMatch = when (enobling) {
+            is Punch -> PunchChangeReq.serializer().descriptor.serialName == Punch::class.simpleName
+            is UVVarnish -> UVVarnishChangeReq.serializer().descriptor.serialName == UVVarnish::class.simpleName
+            is Enobling -> EnoblingChangeReq.serializer().descriptor.serialName == Enobling::class.simpleName
+        }
+        //if the user requested change for different enobling type that the found one
+        if (!typesMatch) return null
+
+        changeTracker.applyChange(changeReq.name, enobling::name)
+        changeTracker.applyChange(changeReq.description, enobling::description)
+
+        repo.saveTyped(enobling)
+
+        return ChangeResp(changeTracker.changed)
     }
 }
 

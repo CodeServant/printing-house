@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.web.context.WebApplicationContext
-import pl.macia.printinghouse.request.EnoblingReq
-import pl.macia.printinghouse.request.IEnoblingReq
-import pl.macia.printinghouse.request.PunchReq
-import pl.macia.printinghouse.request.UVVarnishReq
+import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.EnoblingResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
@@ -103,5 +101,37 @@ class EnoblingCTest {
         checkEnobling("RegularEnobling", "some regular enobling", "Enobling", ::EnoblingReq)
         checkEnobling("RegularEnobling2", "some regular enobling2", "UVVarnish", ::UVVarnishReq)
         checkEnobling("RegularEnobling3", "some regular enobling3", "Punch", ::PunchReq)
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
+    fun `change one test`() {
+        var req: IEnoblingChangeReq = PunchChangeReq(
+            name = "somename"
+        )
+        val type = MockMvcResultMatchers.jsonPath("$.type")
+        val name = MockMvcResultMatchers.jsonPath("$.name")
+        val description = MockMvcResultMatchers.jsonPath("$.description")
+        fun standardTest(id: Int, typeName: String, nameName: String, resultMatch: ResultMatcher) {
+            standardTest.checkChangeObjTest(
+                id,
+                Json.encodeToString(req),
+                type.value(typeName),
+                name.value(nameName),
+                resultMatch
+            )
+        }
+        standardTest(4, "Punch", "somename", description.doesNotExist())
+        req = UVVarnishChangeReq(
+            description = "some description",
+            nullingRest = true
+        )
+        standardTest(1, "UVVarnish", "farba kolorowa", description.value("some description"))
+        req = EnoblingChangeReq(
+            description = "some description",
+            nullingRest = true
+        )
+        standardTest(2, "Enobling", "karton aksamitny", description.value("some description"))
     }
 }
