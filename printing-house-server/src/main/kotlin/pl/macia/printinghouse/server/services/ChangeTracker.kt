@@ -13,11 +13,12 @@ class ChangeTracker(val nullingRest: Boolean = false) {
      * Changes [assignTo] property with the [value] value if it exists.
      */
     fun <E> applyChange(value: E?, assignTo: KMutableProperty<E>) {
+        val areEquals = value == assignTo.getter.call()
+        val norNullingRestNotNullable = (!nullingRest || !assignTo.returnType.isMarkedNullable)
         if (
-            value == assignTo.getter.call() ||
-            value == null && !nullingRest
+            areEquals ||
+            value == null && norNullingRestNotNullable
         ) return
-
         assignTo.setter.call(value)
         changed = true
     }
