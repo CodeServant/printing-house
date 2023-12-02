@@ -24,6 +24,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "paper type", description = "controller for managing paper types")
+@CrossOrigin
 class PaperTypeController {
     @Autowired
     private lateinit var serv: PaperTypeService

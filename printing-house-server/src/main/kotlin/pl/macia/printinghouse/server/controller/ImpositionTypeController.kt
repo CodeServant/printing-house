@@ -20,6 +20,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "Imposition Type", description = "controller for managing imposition types")
+@CrossOrigin
 class ImpositionTypeController {
     @Autowired
     private lateinit var serv: ImpositionTypeService

@@ -20,6 +20,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "binding form", description = "binding form controller")
+@CrossOrigin
 class BindingFormController {
     @Autowired
     private lateinit var serv: BindingFormService

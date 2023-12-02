@@ -20,6 +20,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "printer", description = "controller for managing printers")
+@CrossOrigin
 class PrinterController {
     @Autowired
     private lateinit var serv: PrinterService

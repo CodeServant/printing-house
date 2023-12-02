@@ -20,6 +20,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "bindery", description = "binderies controller")
+@CrossOrigin
 class BinderyController {
     @Autowired
     private lateinit var serv: BinderyService

@@ -20,6 +20,7 @@ import pl.macia.printinghouse.server.controller.EndpNames.Worker.WORKERS
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "worker", description = "worker controller")
+@CrossOrigin
 class WorkerController {
     @Autowired
     private lateinit var serv: WorkerService

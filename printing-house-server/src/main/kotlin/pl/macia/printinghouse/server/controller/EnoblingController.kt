@@ -23,6 +23,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "Enobling", description = "controller for managing general enoblings")
+@CrossOrigin
 class EnoblingController {
     @Autowired
     private lateinit var serv: EnoblingService

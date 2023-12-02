@@ -19,6 +19,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "client controller", description = "helps to add, delete and change data of clients")
+@CrossOrigin
 class ClientController {
     @Autowired
     private lateinit var serv: ClientService

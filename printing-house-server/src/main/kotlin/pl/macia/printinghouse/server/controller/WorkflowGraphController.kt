@@ -23,6 +23,7 @@ import java.util.*
     name = "workflow graph",
     description = "workflow graph which holds a WorkflowStages template to for typical use cases"
 )
+@CrossOrigin
 class WorkflowGraphController {
     @Autowired
     private lateinit var serv: WorkflowGraphService

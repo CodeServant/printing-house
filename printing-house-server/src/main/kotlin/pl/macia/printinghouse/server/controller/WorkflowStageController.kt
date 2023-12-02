@@ -19,6 +19,7 @@ import java.util.*
 @RequestMapping(EndpNames.API_CONTEXT)
 @EnableMethodSecurity(prePostEnabled = true)
 @Tag(name = "workflow stage", description = "workflow stage controller")
+@CrossOrigin
 class WorkflowStageController {
     @Autowired
     private lateinit var serv: WorkflowStageServ
