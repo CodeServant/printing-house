@@ -18,7 +18,7 @@ sealed interface Order {
      * Expected realization date.
      */
     var realizationDate: LocalDateTime
-    var caretionDate: LocalDateTime
+    var creationDate: LocalDateTime
     var pages: Int
     val paperOrderTypes: MutableList<PaperOrderType>
     val orderEnoblings: MutableList<OrderEnobling>

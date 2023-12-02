@@ -56,7 +56,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
     override var towerCut: Boolean by persistent::towerCut
     override var folding: Boolean by persistent::folding
     override var realizationDate: LocalDateTime by persistent::realizationDate
-    override var caretionDate: LocalDateTime by persistent::creationDate
+    override var creationDate: LocalDateTime by persistent::creationDate
     override var pages: Int by persistent::pages
     override val paperOrderTypes: MutableList<PaperOrderType> = toBizPaperOrderType(persistent.paperOrderTypes)
     override val orderEnoblings: MutableList<OrderEnobling> = toBizOrderEnobling(persistent.orderEnoblings)
