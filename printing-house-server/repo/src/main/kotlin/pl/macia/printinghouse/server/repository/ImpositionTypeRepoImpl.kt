@@ -21,9 +21,8 @@ internal class ImpositionTypeRepoImpl : ImpositionTypeIntRepo {
     }
 
     override fun save(obj: ImpositionType): ImpositionType {
-        return when (obj) {
-            is ImpositionTypeImpl -> ImpositionTypeImpl(dao.save(obj.persistent))
-        }
+        obj as ImpositionTypeImpl
+        return ImpositionTypeImpl(dao.save(obj.persistent))
     }
 
     override fun findByName(name: String): ImpositionType? {
