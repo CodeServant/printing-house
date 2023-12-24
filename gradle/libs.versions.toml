@@ -1,7 +1,7 @@
 [versions]
 app = "0.0.1-SNAPSHOT"
 spring-boot = "3.2.1"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 kotlin-serialization = "1.6.2"
 mysql = "8.2.0"
 poko = "0.15.1"
