@@ -117,6 +117,11 @@ internal sealed interface ClientRepos {
  */
 sealed interface ClientRepo {
     fun findById(id: Int): Client?
+
+    /**
+     * like [findById] but you can cast it to subtype of [Client]
+     */
+    fun findTypedById(id: Int): Client?
 }
 
 internal sealed interface ClientIntRepo : ClientRepo

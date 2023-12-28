@@ -11,8 +11,22 @@ import pl.macia.printinghouse.server.dao.ClientDAO
 internal class ClientRepoImpl : ClientIntRepo {
     @Autowired
     lateinit var dao: ClientDAO
+
+    @Autowired
+    private lateinit var indCliRepo: IndividualClientRepo
+
+    @Autowired
+    private lateinit var companyClientRepo: CompanyClientRepo
     override fun findById(id: Int): Client? {
         return dao.findByIdOrNull(id)?.let(::ClientImpl)
+    }
+
+    override fun findTypedById(id: Int): Client? {
+        val possibilities = listOfNotNull(
+            indCliRepo.findByClientId(id),
+            companyClientRepo.findByClientId(id)
+        )
+        return possibilities.firstOrNull()
     }
 
 }
