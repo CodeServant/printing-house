@@ -7,6 +7,7 @@ import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.*
 import pl.macia.printinghouse.server.bmodel.*
+import pl.macia.printinghouse.server.repository.ClientRepo
 import pl.macia.printinghouse.server.repository.CompanyClientRepo
 import pl.macia.printinghouse.server.repository.IndividualClientRepo
 
@@ -139,9 +140,31 @@ class ClientService {
 }
 
 /**
+ * Converts [Client] to [ClientResp]. "Note that you can only
+ * convert instances of [Client] and not [Client] itself."
  * @throws ConversionException
  */
-internal fun CompanyClient.toTransport(): CompanyClientResp {
+internal fun Client.toTransport(repo: ClientRepo): ClientResp {
+    return when (this) {
+        is CompanyClient -> this.toTransport()
+        is IndividualClient -> this.toTransport()
+        else -> {
+            val typed = repo.findTypedById(
+                this.clientId ?: throw ConversionException("${this::clientId.name} not provided")
+            )
+            typed?.toTransport(repo)
+                ?: throw ConversionException(
+                    """can't convert ${Client::class.qualifiedName} to any 
+                    |subtype of ${ClientResp::class.qualifiedName}""".trimMargin()
+                )
+        }
+    }
+}
+
+/**
+ * @throws ConversionException
+ */
+private fun CompanyClient.toTransport(): CompanyClientResp {
     return CompanyClientResp(
         clientId ?: throw ConversionException(),
         phoneNumber,
@@ -155,7 +178,7 @@ internal fun CompanyClient.toTransport(): CompanyClientResp {
 /**
  * @throws ConversionException
  */
-internal fun IndividualClient.toTransport(): IndividualClientResp {
+private fun IndividualClient.toTransport(): IndividualClientResp {
     return IndividualClientResp(
         clientId ?: throw ConversionException(),
         phoneNumber,
