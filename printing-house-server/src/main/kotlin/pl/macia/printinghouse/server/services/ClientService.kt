@@ -74,7 +74,7 @@ class ClientService {
          * be set to null if [cliChange] is null.
          */
         fun <E> simpleChangeNullable(cliChange: E?, found: E?, setNull: () -> Unit, setFound: (E) -> Unit) {
-            if(found == cliChange) return
+            if (found == cliChange) return
             if (cliChange != null) {
                 setFound(cliChange)
                 changed = true
