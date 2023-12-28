@@ -81,7 +81,7 @@ class SalesmanService {
 /**
  * @throws ConversionException
  */
-private fun Salesman.toTransport(): SalesmanResp {
+internal fun Salesman.toTransport(): SalesmanResp {
     return SalesmanResp(
         id = personId ?: throw ConversionException(),
         employed = employed,

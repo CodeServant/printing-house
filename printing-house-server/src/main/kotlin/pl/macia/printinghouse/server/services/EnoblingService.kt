@@ -66,7 +66,10 @@ class EnoblingService {
     }
 }
 
-private fun Enobling.toTransport(): EnoblingResp {
+/**
+ * @throws ConversionException
+ */
+internal fun Enobling.toTransport(): EnoblingResp {
     val c = when (this) {
         is Punch -> ::PunchResp
         is UVVarnish -> ::UVVarnishResp

@@ -59,7 +59,10 @@ class PaperTypeService {
     }
 }
 
-private fun PaperType.toTransport(): PaperTypeResp {
+/**
+ * @throws ConversionException
+ */
+internal fun PaperType.toTransport(): PaperTypeResp {
     return PaperTypeResp(
         papTypeId
             ?: throw ConversionException("${PaperType::class.simpleName} can't be converted the ${PaperType::papTypeId.name} is null"),

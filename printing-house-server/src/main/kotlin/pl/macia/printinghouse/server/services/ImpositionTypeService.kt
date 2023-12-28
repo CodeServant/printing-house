@@ -43,7 +43,10 @@ class ImpositionTypeService {
     }
 }
 
-private fun ImpositionType.toTransport(): ImpositionTypeResp {
+/**
+ * @throws ConversionException
+ */
+internal fun ImpositionType.toTransport(): ImpositionTypeResp {
     return ImpositionTypeResp(
         impTypId
             ?: throw ConversionException("${ImpositionType::class.qualifiedName} does not have ${ImpositionType::impTypId.name} defined"),

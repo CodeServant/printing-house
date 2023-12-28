@@ -141,7 +141,7 @@ class ClientService {
 /**
  * @throws ConversionException
  */
-private fun CompanyClient.toTransport(): CompanyClientResp {
+internal fun CompanyClient.toTransport(): CompanyClientResp {
     return CompanyClientResp(
         clientId ?: throw ConversionException(),
         phoneNumber,
@@ -155,7 +155,7 @@ private fun CompanyClient.toTransport(): CompanyClientResp {
 /**
  * @throws ConversionException
  */
-private fun IndividualClient.toTransport(): IndividualClientResp {
+internal fun IndividualClient.toTransport(): IndividualClientResp {
     return IndividualClientResp(
         clientId ?: throw ConversionException(),
         phoneNumber,

@@ -51,7 +51,11 @@ class PrinterService {
     }
 }
 
-private fun Printer.toTransport(): PrinterResp {
+
+/**
+ * @throws ConversionException
+ */
+internal fun Printer.toTransport(): PrinterResp {
     return PrinterResp(
         id = printerId
             ?: throw ConversionException("${Printer::class.simpleName} can't be converted the ${Printer::printerId.name} is null"),

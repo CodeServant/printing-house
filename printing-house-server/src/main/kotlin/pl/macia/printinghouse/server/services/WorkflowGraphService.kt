@@ -69,7 +69,10 @@ private fun WorkflowDirGraph.toTransport(): WorkflowGraphResp {
     )
 }
 
-private fun WorkflowDirEdge.toEmbTransport(): WorkflowEdgeEmb {
+/**
+ * @throws ConversionException
+ */
+internal fun WorkflowDirEdge.toEmbTransport(): WorkflowEdgeEmb {
     return WorkflowEdgeEmb(
         edgeId = wEdgeId ?: throw ConversionException(),
         v1 = WorkflowStageRespEmb(
