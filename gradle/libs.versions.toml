@@ -3,6 +3,7 @@ app = "0.0.1-SNAPSHOT"
 spring-boot = "3.2.1"
 kotlin = "1.9.22"
 kotlin-serialization = "1.6.2"
+kvision = "7.2.0"
 mysql = "8.2.0"
 poko = "0.15.1"
 kotlinx-datetime = "0.5.0"
@@ -25,6 +26,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 spring-depManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
+kvision = { id = "io.kvision", version.ref = "kvision" }
 
 [libraries]
 spring-boot-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "spring-boot" }
@@ -42,3 +44,6 @@ kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.r
 jgrapht = { module = "org.jgrapht:jgrapht-core", version.ref = "jgrapht" }
 springdoc-openapi-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 springdoc-openapi-common = { module = "org.springdoc:springdoc-openapi-starter-common", version.ref = "springdoc" }
+kvision = { module = "io.kvision:kvision", version.ref = "kvision" }
+kvision-bootstrap = { module = "io.kvision:kvision-bootstrap", version.ref = "kvision" }
+kvision-testutils = { module = "io.kvision:kvision-testutils", version.ref = "kvision" }

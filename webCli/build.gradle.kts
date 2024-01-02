@@ -1,0 +1,49 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
+plugins {
+    alias(libs.plugins.kotlin.kmm)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kvision)
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+kotlin {
+    js(IR) {
+        browser {
+            commonWebpackConfig {
+                outputFileName = "main.bundle.js"
+            }
+            runTask {
+                sourceMaps = false
+                devServer = KotlinWebpackConfig.DevServer(
+                    open = false,
+                    port = 3000,
+                    proxy = mutableMapOf(
+                        "/kv/*" to "http://localhost:8080",
+                        "/kvsse/*" to "http://localhost:8080",
+                        "/kvws/*" to mapOf("target" to "ws://localhost:8080", "ws" to true)
+                    ),
+                    static = mutableListOf("${layout.buildDirectory.asFile.get()}/processedResources/js/main")
+                )
+            }
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
+        binaries.executable()
+    }
+    sourceSets["jsMain"].dependencies {
+        implementation(libs.kvision)
+        implementation(libs.kvision.bootstrap)
+    }
+    sourceSets["jsTest"].dependencies {
+        implementation(kotlin("test-js"))
+        implementation(libs.kvision.testutils)
+    }
+}
