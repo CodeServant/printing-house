@@ -18,7 +18,7 @@ data class OrderReq(
     val pages: Int,
     val paperOrderTypes: List<PaperOrderTypeReq>,
     val orderEnoblings: List<OrderEnoblingReq>,
-    val imageUrl: String?,
+    val imageUrl: ImageReq?,
     val binderyId: Int,
     val salesmanId: Int,
     val workflowStageStops: List<WorkflowStageStopReq>,
