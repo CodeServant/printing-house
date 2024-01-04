@@ -24,4 +24,8 @@ internal class SizeRepoImpl : SizeIntRepo {
     override fun findById(id: Int): Size? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun createByParameters(width: Double, heigth: Double): Size {
+        return dao.findOrCreate(width, heigth).toBiz()
+    }
 }
