@@ -173,7 +173,7 @@ fun Order(
     realizationDate: LocalDateTime,
     caretionDate: LocalDateTime,
     pages: Int,
-    url: Image?,
+    imageUrl: Image?,
     bindery: Bindery,
     salesman: Salesman,
     bindingForm: BindingForm
@@ -192,7 +192,7 @@ fun Order(
         realizationDate = realizationDate,
         caretionDate = caretionDate,
         pages = pages,
-        imageUrl = url as ImageImpl?,
+        imageUrl = imageUrl as ImageImpl?,
         bindery = bindery as BinderyImpl,
         salesman = salesman as SalesmanImpl,
         bindingForm = bindingForm as BindingFormImpl
