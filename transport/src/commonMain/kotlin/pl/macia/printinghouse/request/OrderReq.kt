@@ -17,7 +17,7 @@ data class OrderReq(
     val creationDate: LocalDateTime,
     val pages: Int,
     val paperOrderTypes: List<PaperOrderTypeReq>,
-    val orderEnoblings: List<OrderEnoblingReq>,
+    val orderEnoblings: List<OrderEnoblingReq>?,
     val imageUrl: ImageReq?,
     val binderyId: Int,
     val salesmanId: Int,
