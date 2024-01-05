@@ -21,7 +21,7 @@ data class OrderReq(
     val imageUrl: ImageReq?,
     val binderyId: Int,
     val salesmanId: Int,
-    val workflowStageStops: List<WorkflowStageStopReq>,
+    val workflowDirGraphId: Int,
     val bindingFormId: Int,
     val calculationCard: CalculationCardReq?,
     val netSize: SizeReq,
