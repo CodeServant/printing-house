@@ -77,4 +77,33 @@ internal class WorkflowDirGraphRepoTest {
             repo.save(graph)
         }
     }
+
+    @Test
+    fun `start edges test`() {
+        val graph = WorkflowDirGraph(
+            creationTime = LocalDateTime.now().minusHours(2),
+            name = "insertOnenameTest",
+            changedTime = LocalDateTime.now(),
+            comment = "insert on test comment"
+        )
+
+        val first = workflowStageRepo.findById(3)!!
+        val second = workflowStageRepo.findById(1)!!
+        val third = workflowStageRepo.findById(2)!!
+        val fourth = workflowStageRepo.findById(2)!!
+
+        graph.addEdge(first, second)
+        graph.addEdge(second, third)
+        assertEquals(1, graph.startEdges.size)
+        assertEquals("Handlowiec", graph.startEdges.first().v1.name)
+        assertEquals("Introligatornia", graph.startEdges.first().v2.name)
+        graph.addEdge(first, third)
+        assertEquals(2, graph.startEdges.size)
+        graph.addEdge(third, fourth)
+        graph.addEdge(second, fourth)
+        assertEquals(2, graph.startEdges.size)
+        graph.addEdge(first, fourth)
+        assertEquals(3, graph.startEdges.size)
+        assertEquals(3, graph.startEdges.filter { it.v1.name == "Handlowiec" }.size)
+    }
 }
