@@ -11,6 +11,16 @@ internal class WorkflowDirEdgeImpl(p: PWorkflowDirEdge) : WorkflowDirEdge, Busin
     )
     override var v1: WorkflowStage by delegate(persistent::v1, ::WorkflowStageImpl, WorkflowStage::class.java)
     override var v2: WorkflowStage by delegate(persistent::v2, ::WorkflowStageImpl, WorkflowStage::class.java)
+    override fun equals(other: Any?): Boolean {
+        if (other is WorkflowDirEdgeImpl)
+            return persistent.equals(other.persistent)
+        else
+            return super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        return persistent.hashCode()
+    }
 }
 
 internal fun toBizWorkflowDirEdge(list: MutableList<PWorkflowDirEdge>): BMutableList<WorkflowDirEdge, PWorkflowDirEdge> {
