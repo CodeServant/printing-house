@@ -52,7 +52,10 @@ class BindingFormService {
     }
 }
 
-private fun BindingForm.toTransport(): BindingFormResp {
+/**
+ * @throws ConversionException
+ */
+internal fun BindingForm.toTransport(): BindingFormResp {
     return BindingFormResp(
         id = bindingFormId ?: throw ConversionException(),
         name = name

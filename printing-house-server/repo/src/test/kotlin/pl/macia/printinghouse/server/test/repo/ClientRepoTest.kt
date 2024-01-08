@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
+import pl.macia.printinghouse.server.bmodel.CompanyClient
+import pl.macia.printinghouse.server.bmodel.IndividualClient
 import pl.macia.printinghouse.server.repository.ClientIntRepo
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
@@ -23,5 +25,13 @@ internal class ClientRepoTest {
         assertEquals("984324654", found?.phoneNumber)
         found = repo.findById(3)
         assertEquals("152358752", found?.phoneNumber)
+    }
+
+    @Test
+    fun `find typed by id`() {
+        var found = repo.findTypedById(3)
+        assertTrue(found is CompanyClient)
+        found = repo.findTypedById(1)
+        assertTrue(found is IndividualClient)
     }
 }

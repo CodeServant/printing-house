@@ -130,7 +130,7 @@ class WorkerService {
 /**
  * @throws ConversionException
  */
-private fun Worker.toTransport(): WorkerResp {
+internal fun Worker.toTransport(): WorkerResp {
     return WorkerResp(
         id = if (personId == null) throw ConversionException("${this::personId.name} cannot be null") else personId!!,
         isManagerOf.map {

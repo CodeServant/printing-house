@@ -57,7 +57,7 @@ class BinderyService {
 /**
  * @throws ConversionException
  */
-private fun Bindery.toTransport(): BinderyResp {
+internal fun Bindery.toTransport(): BinderyResp {
     return BinderyResp(
         id = binderyId ?: throw ConversionException(),
         name = name

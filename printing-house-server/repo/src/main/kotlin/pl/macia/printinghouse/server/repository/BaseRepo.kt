@@ -117,6 +117,11 @@ internal sealed interface ClientRepos {
  */
 sealed interface ClientRepo {
     fun findById(id: Int): Client?
+
+    /**
+     * like [findById] but you can cast it to subtype of [Client]
+     */
+    fun findTypedById(id: Int): Client?
 }
 
 internal sealed interface ClientIntRepo : ClientRepo
@@ -162,6 +167,11 @@ internal sealed interface PaperTypeIntRepo : PaperTypeRepo, SingleIdRepo<PaperTy
 sealed interface SizeRepo {
     fun save(obj: Size): Size
     fun findById(id: Int): Size?
+
+    /**
+     * Fetch from database or create [Size] object with provided parameters.
+     */
+    fun createByParameters(width: Double, heigth: Double): Size
 }
 
 internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>

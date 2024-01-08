@@ -46,4 +46,8 @@ object EndpNames {
     object Enobling {
         const val ENOBLINGS = "enoblings"
     }
+
+    object Order {
+        const val ORDERS = "orders"
+    }
 }

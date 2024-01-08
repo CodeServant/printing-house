@@ -7,6 +7,7 @@ import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.*
 import pl.macia.printinghouse.server.bmodel.*
+import pl.macia.printinghouse.server.repository.ClientRepo
 import pl.macia.printinghouse.server.repository.CompanyClientRepo
 import pl.macia.printinghouse.server.repository.IndividualClientRepo
 
@@ -74,7 +75,7 @@ class ClientService {
          * be set to null if [cliChange] is null.
          */
         fun <E> simpleChangeNullable(cliChange: E?, found: E?, setNull: () -> Unit, setFound: (E) -> Unit) {
-            if(found == cliChange) return
+            if (found == cliChange) return
             if (cliChange != null) {
                 setFound(cliChange)
                 changed = true
@@ -135,6 +136,28 @@ class ClientService {
             }
         }
         return ChangeResp(changed)
+    }
+}
+
+/**
+ * Converts [Client] to [ClientResp]. "Note that you can only
+ * convert instances of [Client] and not [Client] itself."
+ * @throws ConversionException
+ */
+internal fun Client.toTransport(repo: ClientRepo): ClientResp {
+    return when (this) {
+        is CompanyClient -> this.toTransport()
+        is IndividualClient -> this.toTransport()
+        else -> {
+            val typed = repo.findTypedById(
+                this.clientId ?: throw ConversionException("${this::clientId.name} not provided")
+            )
+            typed?.toTransport(repo)
+                ?: throw ConversionException(
+                    """can't convert ${Client::class.qualifiedName} to any 
+                    |subtype of ${ClientResp::class.qualifiedName}""".trimMargin()
+                )
+        }
     }
 }
 

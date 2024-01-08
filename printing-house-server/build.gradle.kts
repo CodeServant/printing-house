@@ -19,6 +19,7 @@ allprojects {
         implementation(rootProject.libs.spring.boot.web)
         implementation(rootProject.libs.kotlin.reflect)
         testImplementation(rootProject.libs.spring.boot.test)
+        implementation(rootProject.libs.jgrapht)
     }
 
     kotlin {
@@ -33,7 +34,6 @@ allprojects {
 dependencies {
     implementation(project("repo"))
     implementation(project(":transport"))
-    implementation(libs.jgrapht)
     implementation(libs.spring.boot.security)
     testImplementation(libs.spring.security.test)
     implementation(libs.springdoc.openapi.common)

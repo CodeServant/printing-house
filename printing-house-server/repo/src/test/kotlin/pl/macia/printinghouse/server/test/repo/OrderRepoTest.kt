@@ -145,8 +145,8 @@ internal class OrderRepoTest {
         assertEquals("A1", found.bindery.name)
         assertEquals("Jan", found.salesman.name)
         assertEquals("Papier", found.bindingForm.name)
-        assertEquals("Handlowiec", found.workflowStageStops.first.graphEdge.v1.name)
-        assertEquals("typical flow", found.workflowStageStops.first.graphEdge.grapf.name)
+        assertEquals("Handlowiec", found.workflowStageStops.first().graphEdge.v1.name)
+        assertEquals("typical flow", found.workflowStageStops.first().graphEdge.grapf.name)
         // size of new collections should by 1
         assertEquals(1, found.orderEnoblings.size)
         assertEquals(1, found.paperOrderTypes.size)
