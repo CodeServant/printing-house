@@ -7,6 +7,9 @@ kotlin {
     jvm {
         jvmToolchain(libs.versions.java.get().toInt())
     }
+    js(IR) {
+        browser()
+    }
     sourceSets {
         val commonMain by getting {
             dependencies {
