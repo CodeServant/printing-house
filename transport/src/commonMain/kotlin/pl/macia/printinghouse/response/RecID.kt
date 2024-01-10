@@ -1,7 +1,6 @@
 package pl.macia.printinghouse.response
 
 import kotlinx.serialization.Serializable
-import kotlin.jvm.Throws
 
 /**
  * Record ID. Usually used as a response to new object creation.
