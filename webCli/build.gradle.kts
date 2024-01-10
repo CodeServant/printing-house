@@ -38,12 +38,20 @@ kotlin {
         }
         binaries.executable()
     }
-    sourceSets["jsMain"].dependencies {
-        implementation(libs.kvision)
-        implementation(libs.kvision.bootstrap)
-    }
-    sourceSets["jsTest"].dependencies {
-        implementation(kotlin("test-js"))
-        implementation(libs.kvision.testutils)
+    sourceSets{
+        val jsMain by getting{
+            dependencies{
+                implementation(libs.kvision)
+                implementation(libs.kvision.bootstrap)
+                implementation(libs.kvision.rest)
+                implementation(project(":transport"))
+            }
+        }
+        val jsTest by getting{
+            dependencies{
+                implementation(kotlin("test-js"))
+                implementation(libs.kvision.testutils)
+            }
+        }
     }
 }
