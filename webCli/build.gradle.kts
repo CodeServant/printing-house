@@ -45,6 +45,7 @@ kotlin {
                 implementation(libs.kvision.bootstrap)
                 implementation(libs.kvision.rest)
                 implementation(project(":transport"))
+                implementation(libs.kvision.state)
             }
         }
         val jsTest by getting{

@@ -48,3 +48,4 @@ kvision = { module = "io.kvision:kvision", version.ref = "kvision" }
 kvision-bootstrap = { module = "io.kvision:kvision-bootstrap", version.ref = "kvision" }
 kvision-testutils = { module = "io.kvision:kvision-testutils", version.ref = "kvision" }
 kvision-rest = { module = "io.kvision:kvision-rest", version.ref = "kvision" }
+kvision-state = { module = "io.kvision:kvision-state", version.ref = "kvision" }
