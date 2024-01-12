@@ -1,4 +1,4 @@
-package com.example.project
+package pl.macia.printinghouse.web.cli
 
 import io.kvision.Application
 import io.kvision.CoreModule
