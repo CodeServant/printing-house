@@ -13,7 +13,7 @@ dokka = "1.9.10"
 java = "21"
 jgrapht = "1.5.2"
 springdoc = "2.3.0"
-gradle-versions = "0.50.0"
+gradle-versions = "0.51.0"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
