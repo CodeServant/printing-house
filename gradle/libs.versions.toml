@@ -49,3 +49,8 @@ kvision-bootstrap = { module = "io.kvision:kvision-bootstrap", version.ref = "kv
 kvision-testutils = { module = "io.kvision:kvision-testutils", version.ref = "kvision" }
 kvision-rest = { module = "io.kvision:kvision-rest", version.ref = "kvision" }
 kvision-state = { module = "io.kvision:kvision-state", version.ref = "kvision" }
+kvision-tabulator = { module = "io.kvision:kvision-tabulator", version.ref = "kvision" }
+kvision-fontawesome = { module = "io.kvision:kvision-fontawesome", version.ref = "kvision" }
+kvision-tom-select = { module = "io.kvision:kvision-tom-select", version.ref = "kvision" }
+kvision-i18n = { module = "io.kvision:kvision-i18n", version.ref = "kvision" }
+kvision-datetime = { module = "io.kvision:kvision-datetime", version.ref = "kvision" }
