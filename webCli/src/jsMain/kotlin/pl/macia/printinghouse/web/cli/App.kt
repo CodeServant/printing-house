@@ -1,13 +1,8 @@
 package pl.macia.printinghouse.web.cli
 
-import io.kvision.Application
-import io.kvision.CoreModule
-import io.kvision.BootstrapModule
-import io.kvision.BootstrapCssModule
+import io.kvision.*
 import io.kvision.html.div
-import io.kvision.module
 import io.kvision.panel.root
-import io.kvision.startApplication
 
 class App : Application() {
     override fun start() {
@@ -24,6 +19,11 @@ fun main() {
         module.hot,
         BootstrapModule,
         BootstrapCssModule,
-        CoreModule
+        CoreModule,
+        TabulatorModule,
+        TabulatorCssBootstrapModule,
+        FontAwesomeModule,
+        TomSelectModule,
+        DatetimeModule
     )
 }
