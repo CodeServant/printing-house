@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: English\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:89
+msgid "log in"
+msgstr "log in"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:78
+msgid "login"
+msgstr "login"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:85
+msgid "password"
+msgstr "password"

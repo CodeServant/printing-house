@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: Polish\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:89
+msgid "log in"
+msgstr "zaloguj"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:78
+msgid "login"
+msgstr "login"
+
+#: src/jsMain/kotlin/com/example/project/App.kt:85
+msgid "password"
+msgstr "hasło"
