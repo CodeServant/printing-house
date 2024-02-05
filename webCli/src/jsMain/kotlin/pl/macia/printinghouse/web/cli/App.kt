@@ -8,7 +8,7 @@ import io.kvision.panel.root
 
 class App : Application() {
     init {
-        if (!(I18n.language in listOf("en", "pl"))) {
+        if (I18n.language !in listOf("en", "pl")) {
             I18n.language = "en"
         }
     }
