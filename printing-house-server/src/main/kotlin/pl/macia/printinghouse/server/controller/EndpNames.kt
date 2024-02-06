@@ -50,4 +50,8 @@ object EndpNames {
     object Order {
         const val ORDERS = "orders"
     }
+
+    object Login {
+        const val LOGIN = "signin"
+    }
 }
