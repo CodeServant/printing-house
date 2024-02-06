@@ -95,7 +95,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     crossinline onSelected: (T?) -> Unit,
     crossinline formPanel: () -> Component? = { null }
 ) {
-    var buttonType = ObservableValue(ButtonType.ADD)
+    val buttonType = ObservableValue(ButtonType.ADD)
 
     simplePanel {
         tabulator(
