@@ -46,8 +46,8 @@ fun Container.editButton(): EditButton {
     return EditButton().apply(::add)
 }
 
-fun Container.acceptButton() {
-    button("accept", style = ButtonStyle.SUCCESS)
+fun Container.acceptButton(init: (Button.() -> Unit)? = null) {
+    button("accept", style = ButtonStyle.SUCCESS, init = init)
 }
 
 fun Container.detailsButton() {
