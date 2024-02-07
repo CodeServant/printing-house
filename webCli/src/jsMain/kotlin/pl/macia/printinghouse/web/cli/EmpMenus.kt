@@ -20,15 +20,27 @@ class ManagerMenu : EmpMenu() {
     }
 }
 
+class SalesmanMenu : EmpMenu() {
+    init {
+        document.title = gettext("Salesman Menu")
+        vPanel {
+            button("first link")
+            button("second link")
+            button("third link")
+        }
+    }
+}
+
 open class EmpMenu : SimplePanel()
 
 class Menu : SimplePanel() {
     init {
         val storage = StorageInfo(localStorage)
+        val roles = storage.userRoles ?: listOf()
         when {
-            PrimaryRoles.MANAGER in (storage.userRoles ?: listOf()) -> {
-                add(ManagerMenu())
-            }
+            PrimaryRoles.MANAGER in roles -> add(ManagerMenu())
+
+            PrimaryRoles.SALESMAN in roles -> add(SalesmanMenu())
         }
     }
 }
