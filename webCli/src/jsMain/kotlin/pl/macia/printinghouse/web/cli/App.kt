@@ -4,7 +4,6 @@ import io.kvision.*
 import io.kvision.core.onClickLaunch
 import io.kvision.form.formPanel
 import io.kvision.form.text.Password
-import io.kvision.html.div
 import io.kvision.html.p
 import io.kvision.i18n.DefaultI18nManager
 import io.kvision.i18n.I18n
@@ -43,7 +42,7 @@ class App : Application() {
             when (it) {
                 Screens.MENU -> {
                     if (storage.logged()) {
-                        div("you are logged")
+                        add(Menu())
                     }
                 }
 
