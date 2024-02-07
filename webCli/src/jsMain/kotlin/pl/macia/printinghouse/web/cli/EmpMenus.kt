@@ -13,9 +13,16 @@ class ManagerMenu : EmpMenu() {
     init {
         document.title = gettext("Managers Menu")
         vPanel {
-            button("first link")
-            button("second link")
-            button("third link")
+            button("binderies")
+            button("binding forms")
+            button("colourings")
+            button("employees")
+            button("enoblings")
+            button("paper types")
+            button("printers")
+            button("size")
+            button("workflow stages")
+            button("workflow dir graph")
         }
     }
 }
