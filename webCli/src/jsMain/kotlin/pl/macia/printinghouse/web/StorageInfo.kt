@@ -7,6 +7,9 @@ import org.w3c.dom.get
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
+/**
+ * This is helper class to access storage like [kotlinx.browser.localStorage], to save user preferences.
+ */
 class StorageInfo(private val storage: Storage) {
     var username: String?
         get() {
