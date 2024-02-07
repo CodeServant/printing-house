@@ -14,7 +14,7 @@ class LoginDao {
      * @param login identity of a user (for employee it is email)
      * @param onException what to do when exception happens while signing in
      */
-    fun signIn(login: String, password: String, onException: (Throwable) -> Unit) {
+    fun signIn(login: String, password: String, onSuccess: () -> Unit, onException: (Throwable) -> Unit) {
         val restClient = RestClient()
         val premise = restClient.request<BasicLoginResp, LoginReq>(
             "http://localhost:8080/api/signin",
@@ -29,6 +29,7 @@ class LoginDao {
                 storage.username = login
                 storage.userpass = password
                 storage.userRoles = it.data.roles
+                onSuccess()
             }
         }, onException)
     }

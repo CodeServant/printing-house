@@ -13,8 +13,15 @@ import io.kvision.panel.SimplePanel
 import io.kvision.panel.root
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
+import kotlinx.browser.localStorage
 import pl.macia.printinghouse.request.LoginReq
+import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.LoginDao
+import pl.macia.printinghouse.web.logged
+
+enum class Screens {
+    LOGIN, MENU
+}
 
 class App : Application() {
     init {
@@ -30,9 +37,28 @@ class App : Application() {
                 "pl" to require("./i18n/messages-pl.json"),
             )
         )
-        root("kvapp") {
-            div("Hello world")
-            // TODO
+        val storage = StorageInfo(localStorage)
+        val screen = ObservableValue<Screens?>(null)
+        root("kvapp").bind(screen) {
+            when (it) {
+                Screens.MENU -> {
+                    if (storage.logged()) {
+                        div("you are logged")
+                    }
+                }
+
+                Screens.LOGIN -> {
+                    add(SignInForm {
+                        screen.value = Screens.MENU
+                    })
+                }
+
+                null -> {
+                    if (storage.logged()) screen.value = Screens.MENU
+                    else
+                        screen.value = Screens.LOGIN
+                }
+            }
         }
     }
 }
@@ -52,7 +78,7 @@ fun main() {
     )
 }
 
-class SignInForm : SimplePanel() {
+class SignInForm(onSignIn: () -> Unit) : SimplePanel() {
     init {
         val message = ObservableValue<String?>(null)
         val logForm = formPanel<LoginReq> {
@@ -71,10 +97,10 @@ class SignInForm : SimplePanel() {
                 requiredMessage = tr("the field is required")
             )
         }
-        acceptButton() {
+        acceptButton {
             onClickLaunch {
                 if (logForm.validate()) {
-                    LoginDao().signIn(logForm[LoginReq::login]!!, logForm[LoginReq::password]!!) {
+                    LoginDao().signIn(logForm[LoginReq::login]!!, logForm[LoginReq::password]!!, onSignIn) {
                         message.value = tr("wrong credentials")
                     }
                 }

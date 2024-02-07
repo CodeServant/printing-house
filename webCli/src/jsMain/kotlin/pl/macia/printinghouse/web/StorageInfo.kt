@@ -49,3 +49,19 @@ fun StorageInfo.basicAuthToken(): String {
     val message = "$username:$userpass"
     return Base64.encode(message.encodeToByteArray())
 }
+
+/**
+ * Checks if user is logged.
+ */
+fun StorageInfo.logged(): Boolean {
+    return username != null
+}
+
+/**
+ * Log out the current user.
+ */
+fun StorageInfo.logout() {
+    username = null
+    userpass = null
+    userRoles = null
+}
