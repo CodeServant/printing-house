@@ -31,6 +31,18 @@ class SalesmanMenu : EmpMenu() {
     }
 }
 
+class WorkerMenu : EmpMenu() {
+    init {
+        document.title = gettext("Worker Menu")
+    }
+}
+
+class WorkflowManagerMenu : EmpMenu() {
+    init {
+        document.title = gettext("Workflow Manager Menu")
+    }
+}
+
 open class EmpMenu : SimplePanel()
 
 class Menu : SimplePanel() {
@@ -39,8 +51,9 @@ class Menu : SimplePanel() {
         val roles = storage.userRoles ?: listOf()
         when {
             PrimaryRoles.MANAGER in roles -> add(ManagerMenu())
-
             PrimaryRoles.SALESMAN in roles -> add(SalesmanMenu())
+            PrimaryRoles.WORKER in roles -> add(WorkerMenu())
+            PrimaryRoles.WORKFLOW_STAGE_MANAGER in roles -> add(WorkflowManagerMenu())
         }
     }
 }
