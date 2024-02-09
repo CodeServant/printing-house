@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.dao
 
+import io.kvision.rest.HttpMethod
 import io.kvision.rest.RestClient
 import io.kvision.rest.call
 import pl.macia.printinghouse.web.authorize
@@ -30,6 +31,21 @@ class DullDao(val url: String) {
         val premise = restClient.call<DullResp>(
             url = "$url/$id"
         ) {
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
+
+    internal inline fun <reified IDResp : Any, reified DullObjReq : Any> newDullObj(
+        dullObjReq: DullObjReq,
+        noinline onFulfilled: (IDResp) -> Unit,
+        noinline onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<IDResp, DullObjReq>(
+            url, data = dullObjReq
+        ) {
+            method = HttpMethod.POST
             authorize()
         }
         premise.then(onFulfilled, onRejected)
