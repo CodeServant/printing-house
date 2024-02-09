@@ -57,4 +57,15 @@ class BinderyDao {
         }
         premise.then(onFulfilled, onRejected)
     }
+
+    fun delBindery(id: Int, onFulfilled: (RestResponse<dynamic>) -> Unit, onRejected: (Throwable) -> Unit) {
+        val restClient = RestClient()
+        val premise = restClient.requestDynamic(
+            url = "$url/$id"
+        ) {
+            method = HttpMethod.DELETE
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
