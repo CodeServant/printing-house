@@ -1,25 +1,15 @@
 package pl.macia.printinghouse.web.dao
 
 import io.kvision.rest.*
-import kotlinx.browser.localStorage
 import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
-import pl.macia.printinghouse.web.StorageInfo
-import pl.macia.printinghouse.web.basicAuthToken
+import pl.macia.printinghouse.web.authorize
 
 class BinderyDao {
     private val url = "http://localhost:8080/api/binderies"
-    private fun RestRequestConfig<dynamic, dynamic>.authorize() {
-        val storage = StorageInfo(localStorage)
-        headers = {
-            listOf(
-                Pair("Authorization", "Basic ${storage.basicAuthToken()}")
-            )
-        }
-    }
 
     fun allBinderies(onFulfilled: (List<BinderyResp>) -> Unit, onRejected: (Throwable) -> Unit) {
         val restClient = RestClient()
