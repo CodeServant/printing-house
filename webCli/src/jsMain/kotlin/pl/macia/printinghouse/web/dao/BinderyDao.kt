@@ -18,16 +18,7 @@ class BinderyDao {
         binderyReq: BinderyReq,
         onFulfilled: (RecID) -> Unit,
         onRejected: (Throwable) -> Unit
-    ) {
-        val restClient = RestClient()
-        val premise = restClient.call<RecID, BinderyReq>(
-            url, data = binderyReq
-        ) {
-            method = HttpMethod.POST
-            authorize()
-        }
-        premise.then(onFulfilled, onRejected)
-    }
+    ) = dullDao.newDullObj(binderyReq, onFulfilled, onRejected)
 
     fun getBindery(
         id: Int,
