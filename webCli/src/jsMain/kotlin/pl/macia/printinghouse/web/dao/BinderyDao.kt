@@ -16,7 +16,7 @@ class BinderyDao {
             val storage = StorageInfo(localStorage)
             headers = {
                 listOf(
-                    Pair("Authorizatsion","Basic ${storage.basicAuthToken()}")
+                    Pair("Authorization", "Basic ${storage.basicAuthToken()}")
                 )
             }
         }
