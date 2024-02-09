@@ -20,4 +20,18 @@ class DullDao(val url: String) {
         }
         premise.then(onFulfilled, onRejected)
     }
+
+    internal inline fun <reified DullResp : Any> getOneDull(
+        id: Int,
+        noinline onFulfilled: (DullResp) -> Unit,
+        noinline onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<DullResp>(
+            url = "$url/$id"
+        ) {
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
