@@ -2,8 +2,10 @@ package pl.macia.printinghouse.web.dao
 
 import io.kvision.rest.*
 import kotlinx.browser.localStorage
+import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.basicAuthToken
@@ -64,6 +66,23 @@ class BinderyDao {
             url = "$url/$id"
         ) {
             method = HttpMethod.DELETE
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
+
+    fun changeBindery(
+        id: Int,
+        changeReq: BinderyChangeReq,
+        onFulfilled: (ChangeResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<ChangeResp, BinderyChangeReq>(
+            url = "$url/$id",
+            data = changeReq
+        ) {
+            method = HttpMethod.PUT
             authorize()
         }
         premise.then(onFulfilled, onRejected)
