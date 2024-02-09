@@ -10,16 +10,9 @@ import pl.macia.printinghouse.web.authorize
 
 class BinderyDao {
     private val url = "http://localhost:8080/api/binderies"
-
-    fun allBinderies(onFulfilled: (List<BinderyResp>) -> Unit, onRejected: (Throwable) -> Unit) {
-        val restClient = RestClient()
-        val premise = restClient.call<List<BinderyResp>>(
-            url = url,
-        ) {
-            authorize()
-        }
-        premise.then(onFulfilled, onRejected)
-    }
+    private val dullDao = DullDao(url)
+    fun allBinderies(onFulfilled: (List<BinderyResp>) -> Unit, onRejected: (Throwable) -> Unit) =
+        dullDao.getAllDull<BinderyResp>(onFulfilled, onRejected)
 
     fun newBinderyReq(
         binderyReq: BinderyReq,
