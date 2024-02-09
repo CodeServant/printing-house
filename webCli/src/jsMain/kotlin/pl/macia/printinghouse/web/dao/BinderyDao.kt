@@ -43,4 +43,18 @@ class BinderyDao {
         }
         premise.then(onFulfilled, onRejected)
     }
+
+    fun getBindery(
+        id: Int,
+        onFulfilled: (BinderyResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<BinderyResp>(
+            url = "$url/$id"
+        ) {
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
