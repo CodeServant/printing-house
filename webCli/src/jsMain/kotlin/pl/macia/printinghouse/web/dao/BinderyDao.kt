@@ -12,7 +12,7 @@ class BinderyDao {
     private val url = "http://localhost:8080/api/binderies"
     private val dullDao = DullDao(url)
     fun allBinderies(onFulfilled: (List<BinderyResp>) -> Unit, onRejected: (Throwable) -> Unit) =
-        dullDao.getAllDull<BinderyResp>(onFulfilled, onRejected)
+        dullDao.getAllDull(onFulfilled, onRejected)
 
     fun newBinderyReq(
         binderyReq: BinderyReq,
