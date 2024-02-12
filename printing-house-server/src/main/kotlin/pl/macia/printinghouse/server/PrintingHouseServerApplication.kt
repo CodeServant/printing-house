@@ -7,7 +7,7 @@ import org.springframework.boot.runApplication
 class PrintingHouseServerApplication
 
 //todo add some controller to edit colourings
-
+//todo add size controller
 fun main(args: Array<String>) {
     runApplication<PrintingHouseServerApplication>(*args)
 }
