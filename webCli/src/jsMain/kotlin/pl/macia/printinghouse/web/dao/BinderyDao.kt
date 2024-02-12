@@ -26,16 +26,12 @@ class BinderyDao {
         onRejected: (Throwable) -> Unit
     ) = dullDao.getOneDull<BinderyResp>(id, onFulfilled, onRejected)
 
-    fun delBindery(id: Int, onFulfilled: (RestResponse<dynamic>) -> Unit, onRejected: (Throwable) -> Unit) {
-        val restClient = RestClient()
-        val premise = restClient.requestDynamic(
-            url = "$url/$id"
-        ) {
-            method = HttpMethod.DELETE
-            authorize()
-        }
-        premise.then(onFulfilled, onRejected)
-    }
+    fun delBindery(
+        id: Int,
+        onFulfilled: (RestResponse<dynamic>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) = dullDao.delDullObj(id, onFulfilled, onRejected)
+
 
     fun changeBindery(
         id: Int,

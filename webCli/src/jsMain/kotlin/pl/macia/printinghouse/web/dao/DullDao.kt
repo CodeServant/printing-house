@@ -1,8 +1,6 @@
 package pl.macia.printinghouse.web.dao
 
-import io.kvision.rest.HttpMethod
-import io.kvision.rest.RestClient
-import io.kvision.rest.call
+import io.kvision.rest.*
 import pl.macia.printinghouse.web.authorize
 
 /**
@@ -46,6 +44,17 @@ class DullDao(val url: String) {
             url, data = dullObjReq
         ) {
             method = HttpMethod.POST
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
+
+    internal fun delDullObj(id: Int, onFulfilled: (RestResponse<dynamic>) -> Unit, onRejected: (Throwable) -> Unit) {
+        val restClient = RestClient()
+        val premise = restClient.requestDynamic(
+            url = "$url/$id"
+        ) {
+            method = HttpMethod.DELETE
             authorize()
         }
         premise.then(onFulfilled, onRejected)
