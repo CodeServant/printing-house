@@ -6,7 +6,6 @@ import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
-import pl.macia.printinghouse.web.authorize
 
 class BinderyDao {
     private val url = "http://localhost:8080/api/binderies"
@@ -32,21 +31,15 @@ class BinderyDao {
         onRejected: (Throwable) -> Unit
     ) = dullDao.delDullObj(id, onFulfilled, onRejected)
 
-
     fun changeBindery(
         id: Int,
         changeReq: BinderyChangeReq,
         onFulfilled: (ChangeResp) -> Unit,
         onRejected: (Throwable) -> Unit
-    ) {
-        val restClient = RestClient()
-        val premise = restClient.call<ChangeResp, BinderyChangeReq>(
-            url = "$url/$id",
-            data = changeReq
-        ) {
-            method = HttpMethod.PUT
-            authorize()
-        }
-        premise.then(onFulfilled, onRejected)
-    }
+    ) = dullDao.changeDullObj(
+        id,
+        changeReq,
+        onFulfilled,
+        onRejected
+    )
 }

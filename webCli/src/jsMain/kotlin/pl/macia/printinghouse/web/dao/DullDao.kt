@@ -59,4 +59,21 @@ class DullDao(val url: String) {
         }
         premise.then(onFulfilled, onRejected)
     }
+
+    internal inline fun <reified DullChangeReq : Any, reified ChangeResp : Any> changeDullObj(
+        id: Int,
+        changeReq: DullChangeReq,
+        noinline onFulfilled: (ChangeResp) -> Unit,
+        noinline onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<ChangeResp, DullChangeReq>(
+            url = "$url/$id",
+            data = changeReq
+        ) {
+            method = HttpMethod.PUT
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
