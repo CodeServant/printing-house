@@ -17,7 +17,7 @@ class BinderiesTab(binderies: List<BinderyResp>) : SimplePanel() {
         binderies.forEach {
             summaryList.add(BinderySummary(it.id, it.name))
         }
-        var textFormContent = ObservableValue<String?>(null)
+        val textFormContent = ObservableValue<String?>(null)
 
         insertUpdateTable(
             summaryList = summaryList,
