@@ -18,7 +18,11 @@ class BinderiesTab(binderies: List<BinderyResp>) : SimplePanel() {
             summaryList.add(BinderySummary(it.id, it.name))
         }
         val textFormContent = ObservableValue<String?>(null)
-
+        val binderyFormpanel = BinderyFormPanel {
+            textFormContent.subscribe {
+                txt.value = it
+            }
+        }
         insertUpdateTable(
             summaryList = summaryList,
             columnsDef = listOf(
@@ -28,11 +32,7 @@ class BinderiesTab(binderies: List<BinderyResp>) : SimplePanel() {
                 textFormContent.value = it?.name
             },
             formPanel = {
-                BinderyFormPanel {
-                    textFormContent.subscribe {
-                        txt.value = it
-                    }
-                }
+                binderyFormpanel
             }
         )
     }

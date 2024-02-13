@@ -16,15 +16,16 @@ enum class ButtonType {
     ADD, EDIT
 }
 
-class AddButton(init: (Button.() -> Unit)? = null) : Button("dodaj", init = init) {
+class AddButton(init: (AddButton.() -> Unit)? = null) : Button("dodaj") {
     init {
         background = Background(
             color = Color.name(Col.FORESTGREEN)
         )
+        init?.invoke(this)
     }
 }
 
-class EditButton() : SimplePanel() {
+class EditButton : SimplePanel() {
     init {
         button("edytuj") {
 
@@ -38,8 +39,8 @@ class DetailsButton(text: String = "details") : Button(text = text) {
     }
 }
 
-fun Container.addButton(): AddButton {
-    return AddButton({}).apply(::add)
+fun Container.addButton(init: (AddButton.() -> Unit)? = null): AddButton {
+    return AddButton(init).apply(::add)
 }
 
 fun Container.editButton(): EditButton {
@@ -93,7 +94,9 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     summaryList: List<T>,
     columnsDef: List<ColumnDefinition<T>>,
     crossinline onSelected: (T?) -> Unit,
-    crossinline formPanel: () -> Component? = { null }
+    crossinline formPanel: () -> Component? = { null },
+    crossinline onInsert: (() -> Unit) = {  },
+    onUpdate: (() -> Unit) = {  }
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
 
@@ -116,7 +119,11 @@ inline fun <reified T : Any> Container.insertUpdateTable(
         hPanel(useWrappers = true).bind(buttonType) {
             simplePanel {
                 if (it == ButtonType.ADD)
-                    addButton()
+                    addButton {
+                        onClick {
+                            onInsert()
+                        }
+                    }
                 else {
                     editButton()
                 }
