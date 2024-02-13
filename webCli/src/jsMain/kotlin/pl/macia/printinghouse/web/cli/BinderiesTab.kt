@@ -6,18 +6,17 @@ import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.BinderyResp
 
 @Serializable
-data class BinderySummary(val name: String)
+data class BinderySummary(val id: Int, val name: String)
 
-class BinderiesTab() : SimplePanel() {
+class BinderiesTab(binderies: List<BinderyResp>) : SimplePanel() {
     init {
-        val summaryList = listOf(
-            BinderySummary("A1"),
-            BinderySummary("A2"),
-            BinderySummary("B1"),
-            BinderySummary("C2"),
-        )
+        val summaryList = mutableListOf<BinderySummary>()
+        binderies.forEach {
+            summaryList.add(BinderySummary(it.id, it.name))
+        }
         var textFormContent = ObservableValue<String?>(null)
 
         insertUpdateTable(
