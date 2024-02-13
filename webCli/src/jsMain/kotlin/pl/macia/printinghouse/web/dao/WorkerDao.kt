@@ -1,8 +1,6 @@
 package pl.macia.printinghouse.web.dao
 
 import io.kvision.rest.RestResponse
-import pl.macia.printinghouse.request.BinderyChangeReq
-import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.request.WorkerChangeReq
 import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.ChangeResp
