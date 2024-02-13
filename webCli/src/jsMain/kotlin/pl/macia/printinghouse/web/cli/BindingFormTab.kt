@@ -39,7 +39,7 @@ class BindingFormTab(bindingForms: List<BindingFormResp>, dao: BindingFormDao) :
                 ColumnDefinition("Name", "name")
             ),
             onSelected = {
-                chosenValue.value = it //todo every time i create the same value maby move it somewhere else
+                chosenValue.value = it //todo every time i create the same value maybe move it somewhere else
             },
             formPanel = {
                 bindingFormPanel = BindingFormFormPanel {
