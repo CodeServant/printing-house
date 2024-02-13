@@ -1,12 +1,13 @@
 package pl.macia.printinghouse.web.cli
 
-import io.kvision.core.*
+import io.kvision.core.Container
 import io.kvision.form.text.Text
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
 import pl.macia.printinghouse.web.dao.BinderyDao
@@ -20,10 +21,11 @@ class BinderiesTab(binderies: List<BinderyResp>, dao: BinderyDao) : SimplePanel(
         binderies.forEach {
             summaryList.add(BinderySummary(it.id, it.name))
         }
-        val textFormContent = ObservableValue<String?>(null)
+        val chosenBindery = ObservableValue<BinderySummary?>(null)
+
         var binderyFormpanel = BinderyFormPanel {
-            textFormContent.subscribe {
-                txt.value = it
+            chosenBindery.subscribe {
+                txt.value = it?.name
             }
         }
 
@@ -33,12 +35,12 @@ class BinderiesTab(binderies: List<BinderyResp>, dao: BinderyDao) : SimplePanel(
                 ColumnDefinition("Name", "name")
             ),
             onSelected = {
-                textFormContent.value = it?.name
+                chosenBindery.value = it
             },
             formPanel = {
                 binderyFormpanel = BinderyFormPanel {
-                    textFormContent.subscribe {
-                        txt.value = it
+                    chosenBindery.subscribe {
+                        txt.value = it?.name
                     }
                 }
                 binderyFormpanel
@@ -54,7 +56,21 @@ class BinderiesTab(binderies: List<BinderyResp>, dao: BinderyDao) : SimplePanel(
                         {}
                     )
                 }
-
+            },
+            onUpdate = {
+                val formValue = chosenBindery.value
+                if (formValue != null) {
+                    val newName = binderyFormpanel.txt.value!!
+                    dao.changeBindery(
+                        formValue.id,
+                        BinderyChangeReq(newName),
+                        {
+                            val selectedIndex = summaryList.indexOf(formValue)
+                            summaryList[selectedIndex] = BinderySummary(formValue.id, newName)
+                        },
+                        {}
+                    )
+                }
             }
         )
     }

@@ -25,11 +25,10 @@ class AddButton(init: (AddButton.() -> Unit)? = null) : Button("dodaj") {
     }
 }
 
-class EditButton : SimplePanel() {
+class EditButton(init: (EditButton.() -> Unit)? = null) : Button("edit") {
     init {
-        button("edytuj") {
 
-        }
+        init?.invoke(this)
     }
 }
 
@@ -43,8 +42,8 @@ fun Container.addButton(init: (AddButton.() -> Unit)? = null): AddButton {
     return AddButton(init).apply(::add)
 }
 
-fun Container.editButton(): EditButton {
-    return EditButton().apply(::add)
+fun Container.editButton(init: (EditButton.() -> Unit)? = null): EditButton {
+    return EditButton(init).apply(::add)
 }
 
 fun Container.acceptButton(init: (Button.() -> Unit)? = null) {
@@ -95,8 +94,8 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     columnsDef: List<ColumnDefinition<T>>,
     crossinline onSelected: (T?) -> Unit,
     crossinline formPanel: () -> Component? = { null },
-    crossinline onInsert: (() -> Unit) = {  },
-    onUpdate: (() -> Unit) = {  }
+    crossinline onInsert: (() -> Unit) = { },
+    crossinline onUpdate: (() -> Unit) = { }
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
 
@@ -125,7 +124,11 @@ inline fun <reified T : Any> Container.insertUpdateTable(
                         }
                     }
                 else {
-                    editButton()
+                    editButton() {
+                        onClick {
+                            onUpdate()
+                        }
+                    }
                 }
             }
             formPanel()?.let(::add)
