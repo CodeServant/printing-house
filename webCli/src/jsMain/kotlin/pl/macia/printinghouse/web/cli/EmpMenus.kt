@@ -12,6 +12,7 @@ import kotlinx.browser.localStorage
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BinderyDao
+import pl.macia.printinghouse.web.dao.BindingFormDao
 
 enum class ManagerMenuScreen {
     BINDERIES,
@@ -56,11 +57,21 @@ class ManagerMenu : EmpMenu() {
                         { binderiesResp ->
                             add(BinderiesTab(binderiesResp, binderyDao))
                         },
-                        {/* todo initiate */}
+                        {/* todo initiate */ }
                     )
                 }
 
-                ManagerMenuScreen.BINDING_FORMS -> add(BindingFormTab())
+                ManagerMenuScreen.BINDING_FORMS -> {
+                    val bindingFormDao = BindingFormDao()
+                    bindingFormDao.allBindingForms(
+                        {
+                            add(BindingFormTab(it, bindingFormDao))
+                        },
+                        {}
+                    )
+
+                }
+
                 ManagerMenuScreen.COLOURINGS -> add(ColouringTab())
                 ManagerMenuScreen.EMPLOYEES -> add(EmployeeTab())
                 ManagerMenuScreen.PAPER_TYPES -> add(PaperTypeTab())
