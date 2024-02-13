@@ -51,15 +51,15 @@ class ManagerMenu : EmpMenu() {
                 }
 
                 ManagerMenuScreen.BINDERIES -> {
-
-                    BinderyDao().allBinderies(
-                        {
-                            add(BinderiesTab(it))
+                    val binderyDao = BinderyDao()
+                    binderyDao.allBinderies(
+                        { binderiesResp ->
+                            add(BinderiesTab(binderiesResp, binderyDao))
                         },
-                        {}
+                        {/* todo initiate */}
                     )
-
                 }
+
                 ManagerMenuScreen.BINDING_FORMS -> add(BindingFormTab())
                 ManagerMenuScreen.COLOURINGS -> add(ColouringTab())
                 ManagerMenuScreen.EMPLOYEES -> add(EmployeeTab())
