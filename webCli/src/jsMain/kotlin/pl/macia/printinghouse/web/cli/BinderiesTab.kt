@@ -62,10 +62,9 @@ class BinderiesTab(binderies: List<BinderyResp>, dao: BinderyDao) : SimplePanel(
 
 class BinderyFormPanel(init: (BinderyFormPanel.() -> Unit)? = null) : SimplePanel() {
     var value: String? = null
-    var txt: Text
+    var txt: Text = textInput("nazwa")
 
     init {
-        txt = textInput("nazwa")
         init?.invoke(this)
     }
 }
