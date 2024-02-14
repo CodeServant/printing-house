@@ -104,7 +104,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
             summaryList, options = TabulatorOptions(
                 layout = Layout.FITCOLUMNS,
                 columns = columnsDef,
-                selectable = 1,
+                selectableRows = 1,
             )
         ) {
             onEvent {
