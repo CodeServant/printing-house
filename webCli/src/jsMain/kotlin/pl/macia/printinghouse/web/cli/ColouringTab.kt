@@ -44,14 +44,12 @@ class ColouringTab : SimplePanel() {
 }
 
 class ColourInput(init: (ColourInput.() -> Unit)? = null) : HPanel() {
-    lateinit var firstSide: Numeric
-    lateinit var secondSide: Numeric
+    var firstSide: Numeric
+    var secondSide: Numeric
 
     init {
-        if (init != null) {
-            init()
-        }
-        val firstSide = numeric(min = 0, max = 4, decimals = 0, label = "first side")
-        val secondSide = numeric(min = 0, max = 4, decimals = 0, label = "second side")
+        firstSide = numeric(min = 0, max = 4, decimals = 0, label = "first side")
+        secondSide = numeric(min = 0, max = 4, decimals = 0, label = "second side")
+        init?.invoke(this)
     }
 }
