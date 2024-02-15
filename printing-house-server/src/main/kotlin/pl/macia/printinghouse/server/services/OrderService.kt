@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.OrderReq
@@ -171,6 +172,12 @@ class OrderService {
             orderCreated.orderid?.toLong()
                 ?: throw ConversionException("something went wrong with saving ${OrderReq::class.simpleName} to the database")
         )
+    }
+
+    fun getOrdersForAssignee(lastAssignee: Int, authentication: Authentication) {
+        // download worker for the given id and check email equality auth.name
+        // download orders with assignee worker provided
+        TODO("implement")
     }
 }
 

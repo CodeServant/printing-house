@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.macia.printinghouse.request.OrderReq
@@ -51,7 +52,8 @@ class OrderController {
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
     @Operation(description = "fetches order with such workflow stage stops that the last one has the provided worker as a assignee")
     @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
-    fun getOrders(@RequestParam lastAssignee: Int) {
+    fun getOrders(@RequestParam lastAssignee: Int, authentication: Authentication): ResponseEntity<OrderResp> {
+        serv.getOrdersForAssignee(lastAssignee, authentication)
         TODO("implement")
     }
 }
