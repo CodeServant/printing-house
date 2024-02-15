@@ -124,7 +124,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
                         }
                     }
                 else {
-                    editButton() {
+                    editButton {
                         onClick {
                             onUpdate()
                         }
