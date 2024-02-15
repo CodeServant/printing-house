@@ -117,8 +117,8 @@ class Menu : SimplePanel() {
         when {
             PrimaryRoles.MANAGER in roles -> add(ManagerMenu())
             PrimaryRoles.SALESMAN in roles -> add(SalesmanMenu())
-            PrimaryRoles.WORKER in roles -> add(WorkerMenu())
             PrimaryRoles.WORKFLOW_STAGE_MANAGER in roles -> add(WorkflowManagerMenu())
+            PrimaryRoles.WORKER in roles -> add(WorkerMenu())
         }
     }
 }
