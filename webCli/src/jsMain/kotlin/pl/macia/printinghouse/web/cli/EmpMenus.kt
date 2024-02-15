@@ -99,6 +99,7 @@ class SalesmanMenu : EmpMenu() {
 class WorkerMenu : EmpMenu() {
     init {
         document.title = gettext("Worker Menu")
+        add(WorkerTasksList())
     }
 }
 
