@@ -209,4 +209,10 @@ class OrderCTest {
             jsonPath("$.client.companyId").value(1)
         )
     }
+
+    @Test
+    @WithMockUser("janworker@example.pl", authorities = [PrimaryRoles.MANAGER])
+    fun getOrdersForWorkerTest() {
+        TODO("Not yet implemented")
+    }
 }

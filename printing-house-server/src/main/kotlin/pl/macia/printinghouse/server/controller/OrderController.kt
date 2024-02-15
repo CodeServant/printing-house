@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.TransactionalException
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,5 +46,12 @@ class OrderController {
                 e
             )
         }
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
+    @Operation(description = "fetches order with such workflow stage stops that the last one has provided worker as a assignee")
+    @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
+    fun getOrders(@RequestParam lastAssignee: Int) {
+        TODO("implement")
     }
 }
