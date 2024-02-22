@@ -8,7 +8,6 @@ import pl.macia.printinghouse.server.bmodel.OrderImpl
 import pl.macia.printinghouse.server.dao.OrderDAO
 import pl.macia.printinghouse.server.dto.Order as POrder
 
-
 @Repository
 internal class OrderRepoImpl : OrderIntRepo {
     @Autowired
@@ -24,5 +23,12 @@ internal class OrderRepoImpl : OrderIntRepo {
 
     override fun findById(id: Int): Order? {
         return dao.findByIdOrNull(id)?.toBiz()
+    }
+
+    override fun findByLastAssignee(lastAssignee: Int): List<Order> {
+        val orders = dao.findCurrentByLastAssignee(lastAssignee)
+        return orders.map {
+            it.toBiz()
+        }
     }
 }

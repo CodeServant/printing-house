@@ -222,6 +222,11 @@ internal sealed interface OrderEnoblingIntRepo : OrderEnoblingRepo, SingleIdRepo
 sealed interface OrderRepo {
     fun save(obj: Order): Order
     fun findById(id: Int): Order?
+
+    /**
+     * Find all orders that this assignee is assigned as last.
+     */
+    fun findByLastAssignee(lastAssignee: Int): List<Order>
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>
