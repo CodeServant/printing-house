@@ -174,10 +174,10 @@ class OrderService {
         )
     }
 
-    fun getOrdersForAssignee(lastAssignee: Int, authentication: Authentication) {
-        // download worker for the given id and check email equality auth.name
-        // download orders with assignee worker provided
-        TODO("implement")
+    fun getOrdersForAssignee(lastAssignee: Int, authentication: Authentication): List<OrderResp> {
+        // todo download worker for the given id and check email equality auth.name and eventually throw AccessDeniedException("User is not authorized.");
+        val orders = repo.findByLastAssignee(lastAssignee)
+        return orders.toTransport(clientRepo)
     }
 }
 
@@ -212,6 +212,12 @@ private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {
         netSize = netSize.toTransport(),
         client = client.toTransport(clientRepo)
     )
+}
+
+private fun Collection<Order>.toTransport(clientRepo: ClientRepo): List<OrderResp> {
+    return map {
+        it.toTransport(clientRepo)
+    }
 }
 
 private fun PaperOrderType.toTransport(): PaperOrderTypeResp {
