@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.repository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
+import pl.macia.printinghouse.server.dto.Email as PEmail
 import pl.macia.printinghouse.server.bmodel.Worker
 import pl.macia.printinghouse.server.dto.Worker as PWorker
 import pl.macia.printinghouse.server.bmodel.WorkerImpl
@@ -32,5 +33,9 @@ internal class WorkerRepoImpl : WorkerIntRepo {
 
     override fun findAllById(ids: Iterable<Int>): List<Worker> {
         return dao.findAllById(ids).map { it.toBiz() }
+    }
+
+    override fun findByEmail(email: String): Worker? {
+        return dao.findByEmail(PEmail(email))?.toBiz()
     }
 }
