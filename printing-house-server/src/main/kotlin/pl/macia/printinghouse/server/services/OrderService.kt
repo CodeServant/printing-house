@@ -176,6 +176,10 @@ class OrderService {
 
     fun getOrdersForAssignee(lastAssignee: Int, authentication: Authentication): List<OrderResp> {
         // todo download worker for the given id and check email equality auth.name and eventually throw AccessDeniedException("User is not authorized.");
+        return getOrdersForAssignee(lastAssignee)
+    }
+
+    fun getOrdersForAssignee(lastAssignee: Int): List<OrderResp> {
         val orders = repo.findByLastAssignee(lastAssignee)
         return orders.toTransport(clientRepo)
     }
