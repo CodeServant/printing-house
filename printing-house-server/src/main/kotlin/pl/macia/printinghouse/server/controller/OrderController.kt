@@ -49,7 +49,7 @@ class OrderController {
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @Operation(description = "fetches order with such workflow stage stops that the last one has the provided worker as a assignee")
     @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
     fun getOrders(@RequestParam lastAssignee: Int, authentication: Authentication): ResponseEntity<List<OrderResp>> {
