@@ -212,7 +212,7 @@ class OrderCTest {
 
     @Test
     @WithMockUser("janworker@example.pl", authorities = [PrimaryRoles.MANAGER])
-    fun getOrdersForWorkerTest() {
+    fun getOrdersForAssigneeTest() {
         TODO("Not yet implemented")
     }
 }
