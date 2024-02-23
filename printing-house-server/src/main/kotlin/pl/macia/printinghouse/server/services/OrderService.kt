@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
@@ -49,6 +50,9 @@ class OrderService {
 
     @Autowired
     private lateinit var impositionTypeRepo: ImpositionTypeRepo
+
+    @Autowired
+    private lateinit var workerRepo: WorkerRepo
 
     fun findById(id: Int): OrderResp? {
         val found = repo.findById(id)
@@ -174,14 +178,23 @@ class OrderService {
         )
     }
 
-    fun getOrdersForAssignee(lastAssignee: Int, authentication: Authentication): List<OrderResp> {
-        // todo download worker for the given id and check email equality auth.name and eventually throw AccessDeniedException("User is not authorized.");
-        return getOrdersForAssignee(lastAssignee)
-    }
-
     fun getOrdersForAssignee(lastAssignee: Int): List<OrderResp> {
         val orders = repo.findByLastAssignee(lastAssignee)
         return orders.toTransport(clientRepo)
+    }
+
+    /**
+     * gets assigned orders (tasks) for the currently authenticated user
+     * @throws AccessDeniedException when authenticated use not features in database of workers
+     */
+    fun getOrdersForAssignee(authentication: Authentication): List<OrderResp> {
+        val worker = workerRepo.findByEmail(authentication.name)
+        if (worker == null) {
+            throw AccessDeniedException("permission denied")
+        }
+        return getOrdersForAssignee(
+            worker.personId ?: throw Exception("fetched object from database does not have ${worker::personId.name}")
+        )
     }
 }
 

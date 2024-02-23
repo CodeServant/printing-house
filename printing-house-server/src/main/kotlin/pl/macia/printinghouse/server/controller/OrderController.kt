@@ -1,6 +1,7 @@
 package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.TransactionalException
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,10 +51,26 @@ class OrderController {
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
-    @Operation(description = "fetches order with such workflow stage stops that the last one has the provided worker as a assignee")
+    @Operation(description = "fetches order that are currently assigned for the worker")
     @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
-    fun getOrders(@RequestParam lastAssignee: Int, authentication: Authentication): ResponseEntity<List<OrderResp>> {
-        val ordResp = serv.getOrdersForAssignee(lastAssignee, authentication)
+    fun getOrders(
+        @Parameter(required = false, description = "fetches order that are currently assigned for the worker")
+        @RequestParam lastAssignee: Int
+    ): ResponseEntity<List<OrderResp>> {
+        val ordResp = serv.getOrdersForAssignee(lastAssignee)
+        return ResponseEntity.of(Optional.of(ordResp))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
+    @GetMapping(params = ["currentWorker"], value = [EndpNames.Order.ORDERS], produces = ["application/json"])
+    fun getAUthWorkerOrders(
+        @Parameter(
+            required = false,
+            description = "fetches order that are currently assigned for the currently authenticated worker, doesn't matter if true or false"
+        )
+        @RequestParam currentWorker: Boolean, authentication: Authentication
+    ): ResponseEntity<List<OrderResp>> {
+        val ordResp = serv.getOrdersForAssignee(authentication)
         return ResponseEntity.of(Optional.of(ordResp))
     }
 }
