@@ -1,3 +1,7 @@
 package pl.macia.printinghouse.server.dao
 
-internal interface WorkerDAOCustom
+import pl.macia.printinghouse.server.dto.Worker
+
+internal interface WorkerDAOCustom {
+    fun findByEmail(email: String): Worker?
+}
