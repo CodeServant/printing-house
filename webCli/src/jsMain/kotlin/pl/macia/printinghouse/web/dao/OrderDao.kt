@@ -8,12 +8,12 @@ import pl.macia.printinghouse.web.authorize
 
 class OrderDao {
     private val url = "http://localhost:8080/api/orders"
-    fun getAssigneeseOrders(assignId: Int, onFulfilled: (List<OrderResp>) -> Unit, onRejected: (Throwable) -> Unit) {
+    fun getAssigneeseOrders(onFulfilled: (List<OrderResp>) -> Unit, onRejected: (Throwable) -> Unit) {
         val restClient = RestClient()
         val premise = restClient.call<List<OrderResp>>(url) {
             authorize()
             data = obj {
-                lastAssignee = assignId
+                currentWorker = true
             }
         }
         premise.then(onFulfilled, onRejected)
