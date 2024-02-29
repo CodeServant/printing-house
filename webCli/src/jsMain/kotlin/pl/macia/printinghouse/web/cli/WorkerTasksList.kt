@@ -4,6 +4,7 @@ import io.kvision.core.Component
 import io.kvision.core.onEvent
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
+import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
@@ -12,6 +13,10 @@ import io.kvision.tabulator.TabulatorOptions
 import io.kvision.tabulator.tabulator
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.ClientResp
+import pl.macia.printinghouse.response.CompanyClientResp
+import pl.macia.printinghouse.response.IndividualClientResp
+import pl.macia.printinghouse.response.OrderResp
 
 @Serializable
 data class TaskSummary(
@@ -20,12 +25,12 @@ data class TaskSummary(
     var orderName: String
 )
 
-class WorkerTasksList : SimplePanel() {
+class WorkerTasksList(initialList: List<OrderResp>) : SimplePanel() {
     init {
-        val summaryList = listOf(
-            TaskSummary(LocalDateTime(2023, 12, 12, 12, 12), "Jan Kowalski", "burleska"),
-            TaskSummary(LocalDateTime(2023, 11, 11, 11, 11), "Evil Corp sp. z ł.o.o.", "francheska"),
-        )
+        val summaryList = ObservableListWrapper<TaskSummary>()
+        initialList.forEach {
+            summaryList.add(it.toTaskSummary())
+        }
         val formData = ObservableValue<TaskSummary?>(null)
         val table = WorkerTaskTable(
             summaryList = summaryList,
@@ -52,6 +57,39 @@ class WorkerTasksList : SimplePanel() {
         )
         add(table)
     }
+}
+
+private fun OrderResp.toTaskSummary(): TaskSummary {
+    val assignedTime = workflowStageStops.filter {
+        it.assignTime != null
+    }.maxBy {
+        it.assignTime!!
+    }.assignTime!!
+
+    val clientLabel: String =
+        when (client) {
+            is CompanyClientResp -> {
+                val client = client as CompanyClientResp
+                client.name
+            }
+
+            is IndividualClientResp -> {
+                val client = client as IndividualClientResp
+                "${client.name} ${client.surname}"
+            }
+
+            else -> {
+                throw Exception("not properly formatted ${ClientResp::class.simpleName}")
+            }
+        }
+
+
+
+    return TaskSummary(
+        assignedTime,
+        orderName = name,
+        client = clientLabel
+    )
 }
 
 private class WorkerTaskTable(

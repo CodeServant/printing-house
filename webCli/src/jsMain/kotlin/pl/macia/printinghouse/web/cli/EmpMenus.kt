@@ -13,6 +13,7 @@ import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BinderyDao
 import pl.macia.printinghouse.web.dao.BindingFormDao
+import pl.macia.printinghouse.web.dao.OrderDao
 
 enum class ManagerMenuScreen {
     BINDERIES,
@@ -99,7 +100,15 @@ class SalesmanMenu : EmpMenu() {
 class WorkerMenu : EmpMenu() {
     init {
         document.title = gettext("Worker Menu")
-        add(WorkerTasksList())
+        val orderDao = OrderDao()
+        orderDao.getAssigneeseOrders(
+            onFulfilled = {
+                add(WorkerTasksList(it))
+            },
+            onRejected = {
+                /* todo initialize */
+            }
+        )
     }
 }
 
