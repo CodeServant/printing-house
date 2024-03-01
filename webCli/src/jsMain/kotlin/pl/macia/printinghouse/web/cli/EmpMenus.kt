@@ -107,12 +107,12 @@ class WorkerMenu : EmpMenu() {
         this.bind(orderResp) { resp ->
             if (resp == null) {
                 orderDao.getAssigneeseOrders(
-                    onFulfilled = {
+                    onFulfilled = { orResList ->
                         add(
                             WorkerTasksList(
-                                it,
-                                onOrderPick = {
-                                    orderResp.value = it
+                                orResList,
+                                onOrderPick = { orRes ->
+                                    orderResp.value = orRes
                                 }
                             )
                         )
