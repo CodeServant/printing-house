@@ -32,9 +32,10 @@ class EditButton(init: (EditButton.() -> Unit)? = null) : Button("edit") {
     }
 }
 
-class DetailsButton(text: String = "details") : Button(text = text) {
+class DetailsButton(text: String = "details", init: (DetailsButton.() -> Unit)? = null) : Button(text = text) {
     init {
 
+        init?.invoke(this)
     }
 }
 
@@ -50,8 +51,8 @@ fun Container.acceptButton(init: (Button.() -> Unit)? = null) {
     button("accept", style = ButtonStyle.SUCCESS, init = init)
 }
 
-fun Container.detailsButton() {
-    add(DetailsButton())
+fun Container.detailsButton(text: String = "details", init: (DetailsButton.() -> Unit)? = null) {
+    add(DetailsButton(text, init))
 }
 
 fun Container.cancelButton(onClick: () -> Unit) {
