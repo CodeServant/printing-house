@@ -6,7 +6,6 @@ import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
-import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.tabulator.Layout
 import io.kvision.tabulator.TabulatorOptions
@@ -99,8 +98,6 @@ private class WorkerTaskTable(
     formPanel: () -> Component? = { null }
 ) : SimplePanel() {
     init {
-        val buttonType = ObservableValue(ButtonType.ADD)
-
         tabulator(
             summaryList, options = TabulatorOptions(
                 layout = Layout.FITCOLUMNS,
@@ -110,13 +107,11 @@ private class WorkerTaskTable(
         ) {
             onEvent {
                 rowSelectionChangedTabulator = {
-                    buttonType.value =
-                        if (getSelectedRows().size == 1) ButtonType.EDIT else ButtonType.ADD
                     onSelected(getSelectedData().firstOrNull())
                 }
             }
         }
-        hPanel(useWrappers = true).bind(buttonType) {
+        hPanel(useWrappers = true) {
             detailsButton()
         }
     }
