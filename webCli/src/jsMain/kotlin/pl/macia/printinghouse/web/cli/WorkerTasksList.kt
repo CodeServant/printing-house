@@ -19,9 +19,10 @@ import pl.macia.printinghouse.response.OrderResp
 
 @Serializable
 data class TaskSummary(
-    var assignedTime: LocalDateTime,
-    var client: String,
-    var orderName: String
+    val orderId: Int,
+    val assignedTime: LocalDateTime,
+    val client: String,
+    val orderName: String
 )
 
 class WorkerTasksList(initialList: List<OrderResp>) : SimplePanel() {
@@ -85,6 +86,7 @@ private fun OrderResp.toTaskSummary(): TaskSummary {
 
 
     return TaskSummary(
+        orderId = id,
         assignedTime,
         orderName = name,
         client = clientLabel
