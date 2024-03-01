@@ -1,11 +1,9 @@
 package pl.macia.printinghouse.web.cli
 
-import io.kvision.core.Component
 import io.kvision.core.onEvent
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.ObservableListWrapper
-import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.tabulator.Layout
 import io.kvision.tabulator.TabulatorOptions
@@ -25,13 +23,12 @@ data class TaskSummary(
     val orderName: String
 )
 
-class WorkerTasksList(initialList: List<OrderResp>) : SimplePanel() {
+class WorkerTasksList(initialList: List<OrderResp>, onOrderPick: (OrderResp) -> Unit) : SimplePanel() {
     init {
         val summaryList = ObservableListWrapper<TaskSummary>()
         initialList.forEach {
             summaryList.add(it.toTaskSummary())
         }
-        val formData = ObservableValue<TaskSummary?>(null)
         val table = WorkerTaskTable(
             summaryList = summaryList,
             columnsDef = listOf(
@@ -39,20 +36,13 @@ class WorkerTasksList(initialList: List<OrderResp>) : SimplePanel() {
                 ColumnDefinition("client", "client"),
                 ColumnDefinition("orderName", "orderName"),
             ),
-            onSelected = {
-                formData.value = it
-            },
-            formPanel = {
-                SimplePanel {
-                    val assignedTime = textInput("assignedTime")
-                    val client = textInput("client")
-                    val orderName = textInput("orderName")
-                    formData.subscribe {
-                        assignedTime.value = it?.assignedTime.toString()
-                        client.value = it?.client
-                        orderName.value = it?.orderName
-                    }
+            onOrderPick = {
+                val id = it.orderId
+                val pickedResp = initialList.find {
+                    it.id == id
                 }
+                    ?: throw Exception("there was no such ${OrderResp::class.simpleName} in provided list with the given id")
+                onOrderPick(pickedResp)
             }
         )
         add(table)
@@ -96,10 +86,10 @@ private fun OrderResp.toTaskSummary(): TaskSummary {
 private class WorkerTaskTable(
     summaryList: List<TaskSummary>,
     columnsDef: List<ColumnDefinition<TaskSummary>>,
-    onSelected: (TaskSummary?) -> Unit,
-    formPanel: () -> Component? = { null }
+    onOrderPick: (TaskSummary) -> Unit
 ) : SimplePanel() {
     init {
+        var picked: TaskSummary? = null
         tabulator(
             summaryList, options = TabulatorOptions(
                 layout = Layout.FITCOLUMNS,
@@ -109,12 +99,17 @@ private class WorkerTaskTable(
         ) {
             onEvent {
                 rowSelectionChangedTabulator = {
-                    onSelected(getSelectedData().firstOrNull())
+                    picked = getSelectedData().firstOrNull()
                 }
             }
         }
         hPanel(useWrappers = true) {
-            detailsButton()
+            detailsButton {
+                onClick {
+                    if (picked != null)
+                        onOrderPick(picked!!)
+                }
+            }
         }
     }
 }

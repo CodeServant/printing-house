@@ -103,7 +103,14 @@ class WorkerMenu : EmpMenu() {
         val orderDao = OrderDao()
         orderDao.getAssigneeseOrders(
             onFulfilled = {
-                add(WorkerTasksList(it))
+                add(
+                    WorkerTasksList(
+                        it,
+                        onOrderPick = {
+                            // todo definition of the Order panel
+                        }
+                    )
+                )
             },
             onRejected = {
                 /* todo initialize */
