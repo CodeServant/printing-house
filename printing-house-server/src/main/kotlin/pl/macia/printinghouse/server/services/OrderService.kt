@@ -188,10 +188,7 @@ class OrderService {
      * @throws AccessDeniedException when authenticated use not features in database of workers
      */
     fun getOrdersForAssignee(authentication: Authentication): List<OrderResp> {
-        val worker = workerRepo.findByEmail(authentication.name)
-        if (worker == null) {
-            throw AccessDeniedException("permission denied")
-        }
+        val worker = workerRepo.findByEmail(authentication.name) ?: throw AccessDeniedException("permission denied")
         return getOrdersForAssignee(
             worker.personId ?: throw Exception("fetched object from database does not have ${worker::personId.name}")
         )
