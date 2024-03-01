@@ -9,6 +9,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
+import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BinderyDao
@@ -98,24 +99,32 @@ class SalesmanMenu : EmpMenu() {
 }
 
 class WorkerMenu : EmpMenu() {
+    private val orderResp = ObservableValue<OrderResp?>(null)
+
     init {
         document.title = gettext("Worker Menu")
         val orderDao = OrderDao()
-        orderDao.getAssigneeseOrders(
-            onFulfilled = {
-                add(
-                    WorkerTasksList(
-                        it,
-                        onOrderPick = {
-                            // todo definition of the Order panel
-                        }
-                    )
+        this.bind(orderResp) { resp ->
+            if (resp == null) {
+                orderDao.getAssigneeseOrders(
+                    onFulfilled = {
+                        add(
+                            WorkerTasksList(
+                                it,
+                                onOrderPick = {
+                                    orderResp.value = it
+                                }
+                            )
+                        )
+                    },
+                    onRejected = {
+                        /* todo initialize */
+                    }
                 )
-            },
-            onRejected = {
-                /* todo initialize */
+            } else {
+                // todo define here a panel for displaying order information
             }
-        )
+        }
     }
 }
 
