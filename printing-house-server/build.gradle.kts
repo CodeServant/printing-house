@@ -48,3 +48,7 @@ tasks.bootRun {
         implementation(libs.springdoc.openapi.webmvc.ui)
     }
 }
+
+tasks.test {
+    systemProperty("spring.profiles.active", "dev")
+}
