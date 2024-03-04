@@ -122,7 +122,7 @@ class WorkerMenu : EmpMenu() {
                     }
                 )
             } else {
-                // todo define here a panel for displaying order information
+                add(WorkerOrderDisplay(resp))
             }
         }
     }
