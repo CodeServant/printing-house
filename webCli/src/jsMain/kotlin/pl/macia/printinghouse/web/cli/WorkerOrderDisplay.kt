@@ -1,19 +1,30 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.html.button
 import io.kvision.html.link
 import io.kvision.html.p
 import io.kvision.panel.SimplePanel
 import pl.macia.printinghouse.response.*
 
-class WorkerOrderDisplay(orderResp: OrderResp) : SimplePanel() {
+class WorkerOrderDisplay(orderResp: OrderResp, onBack: () -> Unit, onDone: () -> Unit) : SimplePanel() {
     init {
         add(DisplayOrder(orderResp))
+        button("confirm done") {
+            onClick {
+                onDone()
+                onBack()
+            }
+        }
+        button("cancel") {
+            onClick {
+                onBack()
+            }
+        }
     }
 }
 
 private class DisplayOrder(orderResp: OrderResp) : SimplePanel() {
     init {
-
         p {
             +orderResp.name
         }

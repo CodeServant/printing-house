@@ -122,7 +122,15 @@ class WorkerMenu : EmpMenu() {
                     }
                 )
             } else {
-                add(WorkerOrderDisplay(resp))
+                add(WorkerOrderDisplay(
+                    resp,
+                    onBack = {
+                        orderResp.value = null
+                    },
+                    onDone = {
+                        TODO("mark current unfinished workflow stage stop as completed")
+                    }
+                ))
             }
         }
     }
