@@ -66,8 +66,8 @@ class ManagerMenu : EmpMenu() {
                 ManagerMenuScreen.BINDING_FORMS -> {
                     val bindingFormDao = BindingFormDao()
                     bindingFormDao.allBindingForms(
-                        {
-                            add(BindingFormTab(it, bindingFormDao))
+                        { responses ->
+                            add(BindingFormTab(responses, bindingFormDao))
                         },
                         {}
                     )
