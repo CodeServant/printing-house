@@ -394,6 +394,7 @@ CREATE TABLE WorkflowStageStop
     comment        VARCHAR(500) NULL,
     createTime     TIMESTAMP    NOT NULL,
     assignTime     TIMESTAMP    NULL,
+    completionTime TIMESTAMP    NULL,
     worker         INT          NULL,
     `order`        INT          NOT NULL,
     workflowEdgeId INT          NOT NULL,

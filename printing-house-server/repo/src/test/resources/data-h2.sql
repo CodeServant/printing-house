@@ -149,6 +149,6 @@ VALUES (3, 1, 1),
        (3, 2, 1),
        (1, 4, 1),
        (2, 4, 1);
-INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowEdgeId)
-VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 1),
-       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 2);
+INSERT INTO WorkflowStageStop (comment, createTime, assignTime, worker, `order`, workflowEdgeId, completionTime)
+VALUES ('coś zrobiłam i nawet dobrze', '2022-10-21 15:00:00', '2022-10-21 15:00:00', 7, 1, 1, '2022-10-21 16:00:00'),
+       (NULL, '2022-10-21 16:00:00', NULL, NULL, 1, 2, null);
