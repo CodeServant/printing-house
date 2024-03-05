@@ -38,6 +38,7 @@ internal class WorkflowStageStopDAOTest {
         assertEquals("coś zrobiłam i nawet dobrze", found.comment)
         val date = LocalDateTime.of(2022, 10, 21, 15, 0)
         assertEquals(date, found.createTime)
+        assertEquals(date.plusHours(1), found.completionTime)
         assertEquals("Anna", found.worker?.name)
         assertEquals("Handlowiec", found.workflowGraphEdge.v1.name)
     }

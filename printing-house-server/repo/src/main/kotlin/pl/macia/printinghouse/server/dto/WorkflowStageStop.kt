@@ -22,6 +22,9 @@ internal class WorkflowStageStop(
     @Column(name = ASSIGN_TIME)
     @field:Nullable
     var assignTime: LocalDateTime?,
+    @Column(name = COMPLETION_TIME)
+    @field:Nullable
+    var completionTime: LocalDateTime?,
     @OneToOne
     @JoinColumn(name = WORKER, referencedColumnName = Worker.ID)
     @field:Nullable
@@ -39,6 +42,7 @@ internal class WorkflowStageStop(
         const val COMMENT = "comment"
         const val CREATION_TIME = "createTime"
         const val ASSIGN_TIME = "assignTime"
+        const val COMPLETION_TIME = "completionTime"
         const val WORKER = "worker"
         const val ORDER = "`order`"
         const val ORDER_FIELD = "order"
@@ -53,6 +57,18 @@ internal class WorkflowStageStop(
         wrkflowDirEdge: WorkflowDirEdge,
         order: Order
     ) : this(
-        null, comment, createTime, assignTime, worker, order, wrkflowDirEdge
+        null, comment, createTime, assignTime, null, worker, order, wrkflowDirEdge
+    )
+
+    constructor(
+        comment: String?,
+        createTime: LocalDateTime,
+        assignTime: LocalDateTime?,
+        completionTime: LocalDateTime?,
+        worker: Worker?,
+        wrkflowDirEdge: WorkflowDirEdge,
+        order: Order
+    ) : this(
+        null, comment, createTime, assignTime, completionTime, worker, order, wrkflowDirEdge
     )
 }
