@@ -49,6 +49,7 @@ internal class WorkflowStageStop(
         const val WORKFLOW_EDGE_ID = "workflowEdgeId"
     }
 
+    @Deprecated("use constructor with completionTime instead")
     constructor(
         comment: String?,
         createTime: LocalDateTime,
