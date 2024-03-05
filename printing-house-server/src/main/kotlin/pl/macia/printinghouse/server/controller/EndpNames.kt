@@ -54,4 +54,8 @@ object EndpNames {
     object Login {
         const val LOGIN = "signin"
     }
+
+    object WorkflowStageStop {
+        const val WORKFLOW_STAGE_STOP = "workflow-stage-stop"
+    }
 }

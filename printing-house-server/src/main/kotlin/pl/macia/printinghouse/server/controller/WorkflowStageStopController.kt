@@ -2,10 +2,12 @@ package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
 import pl.macia.printinghouse.roles.PrimaryRoles
+import pl.macia.printinghouse.server.services.OrderService
 
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
@@ -21,19 +23,19 @@ class WorkflowStageStopController {
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
     @PutMapping(
-        params = ["wwsIdDone"],
-        value = ["${EndpNames.Order.ORDERS}/{orderId}"],
+        params = ["wwsDone"],
+        value = ["${EndpNames.WorkflowStageStop.WORKFLOW_STAGE_STOP}/{wssId}"],
         produces = ["application/json"]
     )
     fun taskDone(
         @PathVariable
-        orderId: Int,
+        wssId: Int,
         @RequestParam
         @Parameter(
             required = false,
-            description = "task id to mark as done"
+            description = "mark task as done"
         )
-        wwsIdDone: Int
+        wwsDone: Boolean
     ) {
         TODO("mark workflowStageStop as done, creates next wss's if all required tasks are done")
         //todo workflowStageStop should have the date time field done to indicate when wss was done
