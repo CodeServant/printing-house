@@ -129,6 +129,7 @@ class OrderService {
                 comment = null,
                 assignTime = null,
                 createTime = java.time.LocalDateTime.now(),
+                completionTime = null,
                 worker = null,
                 workflowDirEdge = it
             )
