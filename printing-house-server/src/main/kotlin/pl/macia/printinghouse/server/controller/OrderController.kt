@@ -73,26 +73,4 @@ class OrderController {
         val ordResp = serv.getOrdersForAssignee(authentication)
         return ResponseEntity.of(Optional.of(ordResp))
     }
-
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
-    @PutMapping(
-        params = ["wwsIdDone"],
-        value = ["${EndpNames.Order.ORDERS}/{orderId}"],
-        produces = ["application/json"]
-    )
-    fun taskDone(
-        @PathVariable
-        orderId: Int,
-        @RequestParam
-        @Parameter(
-            required = false,
-            description = "task id to mark as done"
-        )
-        wwsIdDone: Int
-    ) {
-        TODO("mark workflowStageStop as done, creates next wss's if all required tasks are done")
-        //todo workflowStageStop should have the date time field done to indicate when wss was done
-        // otherwise we can't determine if wss is done other than to check the existence of next wss
-        // but this means creating new wss marks as done all previous wss
-    }
 }
