@@ -55,10 +55,10 @@ internal class WorkflowStageStop(
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,
         worker: Worker?,
-        wrkflowDirEdge: WorkflowDirEdge,
+        workflowDirEdge: WorkflowDirEdge,
         order: Order
     ) : this(
-        null, comment, createTime, assignTime, null, worker, order, wrkflowDirEdge
+        null, comment, createTime, assignTime, null, worker, order, workflowDirEdge
     )
 
     constructor(
@@ -67,9 +67,9 @@ internal class WorkflowStageStop(
         assignTime: LocalDateTime?,
         completionTime: LocalDateTime?,
         worker: Worker?,
-        wrkflowDirEdge: WorkflowDirEdge,
+        workflowDirEdge: WorkflowDirEdge,
         order: Order
     ) : this(
-        null, comment, createTime, assignTime, completionTime, worker, order, wrkflowDirEdge
+        null, comment, createTime, assignTime, completionTime, worker, order, workflowDirEdge
     )
 }
