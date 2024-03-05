@@ -16,6 +16,9 @@ import pl.macia.printinghouse.roles.PrimaryRoles
 )
 @CrossOrigin
 class WorkflowStageStopController {
+    @Autowired
+    private lateinit var serv: OrderService
+
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKER}')")
     @PutMapping(
         params = ["wwsIdDone"],
