@@ -76,6 +76,7 @@ internal class WorkflowStageStopDAOTest {
             LocalDateTime.now(),
             null,
             null,
+            null,
             edge
         )
         assertNull(workflowStageStop.id)

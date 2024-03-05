@@ -34,6 +34,7 @@ sealed interface Order {
         comment: String?,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
+        completionTime: LocalDateTime?,
         worker: Worker?,
         workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop

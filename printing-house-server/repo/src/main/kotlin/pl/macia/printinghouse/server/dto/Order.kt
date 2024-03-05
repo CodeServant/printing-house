@@ -158,6 +158,7 @@ internal class Order private constructor(
         comment: String?,
         createTime: LocalDateTime,
         assignTime: LocalDateTime?,
+        completionTime: LocalDateTime?,
         worker: Worker?,
         workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop {
@@ -165,6 +166,7 @@ internal class Order private constructor(
             comment,
             createTime,
             assignTime,
+            completionTime,
             worker,
             workflowDirEdge,
             this

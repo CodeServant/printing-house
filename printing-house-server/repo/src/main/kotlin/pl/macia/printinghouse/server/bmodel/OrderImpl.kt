@@ -81,6 +81,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         comment: String?,
         assignTime: LocalDateTime?,
         createTime: LocalDateTime,
+        completionTime: LocalDateTime?,
         worker: Worker?,
         workflowDirEdge: WorkflowDirEdge
     ): WorkflowStageStop {
@@ -88,6 +89,7 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
             comment,
             assignTime,
             createTime,
+            completionTime,
             worker as WorkerImpl?,
             workflowDirEdge as WorkflowDirEdgeImpl,
             this

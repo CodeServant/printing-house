@@ -118,6 +118,7 @@ internal class OrderRepoTest {
             comment = null,
             assignTime = null,
             createTime = LocalDateTime.now(),
+            completionTime = null,
             worker = null,
             workflowDirEdge = workflowDirGraphRepo.findById(1)!!.edge.find { it.wEdgeId == 1 }!!
         )

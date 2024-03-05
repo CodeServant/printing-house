@@ -106,6 +106,7 @@ internal class OrderDAOTest {
             comment = null,
             createTime = LocalDateTime.now(),
             assignTime = LocalDateTime.now(),
+            null,
             worker = workerDAO.findByIdOrNull(2)!!,
             workflowDirEdge = workflowDirGraphDAO.findByIdOrNull(1)!!.edges[0]
         )
