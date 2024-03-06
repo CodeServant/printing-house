@@ -28,6 +28,7 @@ internal class WorkflowStageStopImpl(p: PWorkflowStageStop) : WorkflowStageStop,
     override var comment: String? by persistent::comment
     override var assignTime: LocalDateTime? by persistent::assignTime
     override var createTime: LocalDateTime by persistent::createTime
+    override var completionTime: LocalDateTime? by persistent::completionTime
     override var worker: Worker? by delegate(persistent::worker, ::WorkerImpl, Worker::class.java)
     override val order: Order by delegate(persistent::order, ::OrderImpl, Order::class.java)
     override var graphEdge: WorkflowDirEdge by delegate(

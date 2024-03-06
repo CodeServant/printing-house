@@ -7,6 +7,7 @@ sealed interface WorkflowStageStop {
     var comment: String?
     var assignTime: LocalDateTime?
     var createTime: LocalDateTime
+    var completionTime: LocalDateTime?
     var worker: Worker?
     val order: Order
     var graphEdge: WorkflowDirEdge
