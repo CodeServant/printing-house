@@ -189,7 +189,7 @@ class OrderService {
     }
 
     fun getOrdersForAssignee(lastAssignee: Int): List<OrderResp> {
-        val orders = repo.findByLastAssignee(lastAssignee)
+        val orders = repo.findNotCompletedByLastAssignee(lastAssignee)
         return orders.toTransport(clientRepo)
     }
 

@@ -225,9 +225,9 @@ sealed interface OrderRepo {
     fun findById(id: Int): Order?
 
     /**
-     * Find all orders that this assignee is assigned as last.
+     * Find all orders, that this assignee is last assigned, and are not completed nor their [WorkflowStageStop]'s.
      */
-    fun findByLastAssignee(lastAssignee: Int): List<Order>
+    fun findNotCompletedByLastAssignee(lastAssignee: Int): List<Order>
 
     fun findByWssId(wssId: Int): Order?
 }

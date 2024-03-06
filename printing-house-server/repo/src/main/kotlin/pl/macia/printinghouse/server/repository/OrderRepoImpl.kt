@@ -25,8 +25,8 @@ internal class OrderRepoImpl : OrderIntRepo {
         return dao.findByIdOrNull(id)?.toBiz()
     }
 
-    override fun findByLastAssignee(lastAssignee: Int): List<Order> {
-        val orders = dao.findCurrentByLastAssignee(lastAssignee)
+    override fun findNotCompletedByLastAssignee(lastAssignee: Int): List<Order> {
+        val orders = dao.findNotCompletedByLastAssignee(lastAssignee)
         return orders.map {
             it.toBiz()
         }
