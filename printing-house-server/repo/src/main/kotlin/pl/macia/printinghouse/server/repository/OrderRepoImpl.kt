@@ -31,4 +31,8 @@ internal class OrderRepoImpl : OrderIntRepo {
             it.toBiz()
         }
     }
+
+    override fun findByWssId(wssId: Int): Order? {
+        return dao.findByWorkflowStageStopId(wssId)?.toBiz()
+    }
 }

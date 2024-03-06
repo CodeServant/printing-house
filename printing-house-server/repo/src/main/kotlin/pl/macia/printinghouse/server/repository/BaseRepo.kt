@@ -228,6 +228,8 @@ sealed interface OrderRepo {
      * Find all orders that this assignee is assigned as last.
      */
     fun findByLastAssignee(lastAssignee: Int): List<Order>
+
+    fun findByWssId(wssId: Int): Order?
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>

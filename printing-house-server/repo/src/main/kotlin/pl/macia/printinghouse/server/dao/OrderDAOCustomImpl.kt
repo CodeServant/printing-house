@@ -1,6 +1,8 @@
 package pl.macia.printinghouse.server.dao
 
 import jakarta.persistence.EntityManager
+import jakarta.persistence.NoResultException
+import jakarta.persistence.TypedQuery
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import pl.macia.printinghouse.server.dto.Order
@@ -17,5 +19,18 @@ internal class OrderDAOCustomImpl : OrderDAOCustom {
             )
         query.setParameter("workerId", lastAssignee)
         return query.resultList
+    }
+
+    override fun findByWorkflowStageStopId(wssId: Int): Order? {
+        val q: TypedQuery<Order?> = em.createQuery(
+            """SELECT wss.order FROM WorkflowStageStop as wss WHERE wss.id=:wssId """, // the most recent assigns in orders
+            Order::class.java
+        )
+        q.setParameter("wssId", wssId)
+        return try {
+            q.singleResult
+        } catch (e: NoResultException) {
+            null
+        }
     }
 }
