@@ -11,4 +11,6 @@ sealed interface WorkflowStageStop {
     var worker: Worker?
     val order: Order
     var graphEdge: WorkflowDirEdge
+    val completed: Boolean
+        get() = completionTime != null
 }
