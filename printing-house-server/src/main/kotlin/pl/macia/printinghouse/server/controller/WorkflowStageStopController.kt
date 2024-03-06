@@ -3,10 +3,13 @@ package pl.macia.printinghouse.server.controller
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import pl.macia.printinghouse.roles.PrimaryRoles
+import pl.macia.printinghouse.server.repository.ObjectNotFoundException
 import pl.macia.printinghouse.server.services.OrderService
 
 @RestController
@@ -35,11 +38,15 @@ class WorkflowStageStopController {
             required = false,
             description = "mark task as done"
         )
-        wwsDone: Boolean
-    ) {
-        TODO("mark workflowStageStop as done, creates next wss's if all required tasks are done")
-        //todo workflowStageStop should have the date time field done to indicate when wss was done
-        // otherwise we can't determine if wss is done other than to check the existence of next wss
-        // but this means creating new wss marks as done all previous wss
+        wwsDone: Boolean,
+        authentication: Authentication
+    ): ResponseEntity<Unit> {
+        try {
+            if (wwsDone)
+                serv.markTaskAsDone(wssId, authentication)
+            return ResponseEntity.noContent().build()
+        } catch (e: ObjectNotFoundException) {
+            return ResponseEntity.notFound().build()
+        }
     }
 }

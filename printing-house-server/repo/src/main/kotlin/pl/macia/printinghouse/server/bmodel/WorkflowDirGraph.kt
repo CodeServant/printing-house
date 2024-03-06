@@ -30,17 +30,22 @@ interface WorkflowDirGraph {
      */
     val startEdges: Set<WorkflowDirEdge>
         get() {
-            val graph = DirectedAcyclicGraph<WorkflowStage, WorkflowDirEdge>(null, EdgeSupplier(edge), false)
-            vertexes.forEach(graph::addVertex)
-
-            edge.forEach {
-                graph.addEdge(it.v1, it.v2)
-            }
+            val graph = toGrapht()
             return graph.edgeSet().filter {
                 val source = graph.getEdgeSource(it)
                 graph.inDegreeOf(source) == 0
             }.toSet()
         }
+
+    fun toGrapht(): DirectedAcyclicGraph<WorkflowStage, WorkflowDirEdge> {
+        val graph = DirectedAcyclicGraph<WorkflowStage, WorkflowDirEdge>(null, EdgeSupplier(edge), false)
+        vertexes.forEach(graph::addVertex)
+
+        edge.forEach {
+            graph.addEdge(it.v1, it.v2)
+        }
+        return graph
+    }
 
     fun addEdge(v1: WorkflowStage, v2: WorkflowStage): WorkflowDirEdge
 }

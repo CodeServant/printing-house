@@ -46,6 +46,7 @@ object Paths {
     const val IMPOSITION_TYPES = "imposition-types"
     const val ENOBLINGS = "enoblings"
     const val ORDERS = "orders"
+    const val WORKFLOW_STAGE_STOP = "workflow-stage-stop"
 }
 
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])

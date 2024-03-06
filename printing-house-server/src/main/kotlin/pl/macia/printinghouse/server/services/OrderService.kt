@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.OrderReq
 import pl.macia.printinghouse.response.*
+import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.bmodel.*
 import pl.macia.printinghouse.server.repository.*
+import java.time.LocalDateTime
 
 @Service
 class OrderService {
@@ -66,7 +68,7 @@ class OrderService {
         order.addWorkflowStageStop(
             comment = null,
             assignTime = null,
-            createTime = java.time.LocalDateTime.now(),
+            createTime = LocalDateTime.now(),
             completionTime = null,
             worker = null,
             workflowDirEdge = workflowDirEdge
@@ -200,6 +202,55 @@ class OrderService {
         return getOrdersForAssignee(
             worker.personId ?: throw Exception("fetched object from database does not have ${worker::personId.name}")
         )
+    }
+
+    /**
+     * @param wssId [WorkflowStageStop] id
+     */
+    @Transactional
+    fun markTaskAsDone(wssId: Int, authentication: Authentication) {
+        // authorize user
+        val isWorker = authentication.authorities.map { it.authority }.contains(PrimaryRoles.WORKER)
+        val isWssManeger = authentication.authorities.map { it.authority }.contains(PrimaryRoles.WORKFLOW_STAGE_MANAGER)
+        val workerName = authentication.name
+        val order = repo.findByWssId(wssId)
+            ?: throw ObjectNotFoundException("order with provided WorkflowStageStop id not found")
+        val workflowStageStop = order.workflowStageStops.find {
+            it.wfssId == wssId
+        }!!
+
+        fun isManagerOfWorkflow() = workflowStageStop.graphEdge.v1.workflowManagers.map {
+            it.name
+        }.contains(workerName)
+
+        if (
+            !(isWorker && workflowStageStop.worker?.email?.email == workerName)
+            && !(isWssManeger && isManagerOfWorkflow())
+        )
+            throw AccessDeniedException("permission denied")
+
+        if (!workflowStageStop.completed) { //todo probably some exception that indicates that wss is already completed
+            workflowStageStop.completionTime = LocalDateTime.now()
+
+            val previoudWss = order.workflowStageStops.filter {
+                it.graphEdge.v2 == workflowStageStop.graphEdge.v2
+            }
+
+            val ifAllPrevFinished = previoudWss.all {
+                it.completed
+            }
+            if (ifAllPrevFinished) {
+                val vertOut = workflowStageStop.graphEdge.v2
+                workflowStageStop.graphEdge
+                    .grapf
+                    .toGrapht()
+                    .outgoingEdgesOf(vertOut)
+                    .forEach { edge ->
+                        addEmptyWss(order, edge)
+                    }
+            }
+            repo.save(order)
+        }
     }
 }
 
