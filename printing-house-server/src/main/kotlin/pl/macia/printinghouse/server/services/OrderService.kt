@@ -60,6 +60,20 @@ class OrderService {
     }
 
     /**
+     * Creates empty [WorkflowStageStop] for this [order] and [workflowDirEdge]
+     */
+    private fun addEmptyWss(order: Order, workflowDirEdge: WorkflowDirEdge) {
+        order.addWorkflowStageStop(
+            comment = null,
+            assignTime = null,
+            createTime = java.time.LocalDateTime.now(),
+            completionTime = null,
+            worker = null,
+            workflowDirEdge = workflowDirEdge
+        )
+    }
+
+    /**
      * Inserts new order.
      * @throws ConversionException if data built not properly or not found in database
      */
@@ -125,14 +139,7 @@ class OrderService {
         }
 
         fetchedGraph.startEdges.forEach {
-            orderCreated.addWorkflowStageStop(
-                comment = null,
-                assignTime = null,
-                createTime = java.time.LocalDateTime.now(),
-                completionTime = null,
-                worker = null,
-                workflowDirEdge = it
-            )
+            addEmptyWss(orderCreated, it)
         }
         repo.save(orderCreated)
 
