@@ -15,6 +15,7 @@ import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BinderyDao
 import pl.macia.printinghouse.web.dao.BindingFormDao
 import pl.macia.printinghouse.web.dao.OrderDao
+import pl.macia.printinghouse.web.dao.WorkflowStageStopDao
 
 enum class ManagerMenuScreen {
     BINDERIES,
@@ -104,6 +105,7 @@ class WorkerMenu : EmpMenu() {
     init {
         document.title = gettext("Worker Menu")
         val orderDao = OrderDao()
+        val storageInfo = StorageInfo(localStorage)
         this.bind(orderResp) { resp ->
             if (resp == null) {
                 orderDao.getAssigneeseOrders(
@@ -128,7 +130,16 @@ class WorkerMenu : EmpMenu() {
                         orderResp.value = null
                     },
                     onDone = {
-                        TODO("mark current unfinished workflow stage stop as completed")
+                        val wssId = orderResp.value!!.workflowStageStops.filter {
+                            it.worker?.email == storageInfo.username && it.assignTime != null
+                        }.maxBy {
+                            it.assignTime!!
+                        }.wfssId!!
+                        WorkflowStageStopDao().markWorkflowStageAsDone(
+                            wssId,
+                            onFulfilled = (::println), //todo make visual responses to user
+                            onRejected = (::println)
+                        )
                     }
                 ))
             }
