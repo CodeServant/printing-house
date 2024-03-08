@@ -9,6 +9,6 @@ data class WorkflowStageStopResp(
     val comment: String?,
     val assignTime: LocalDateTime?,
     val createTime: LocalDateTime,
-    val worker: WorkerResp?,
+    val worker: WorkerResp?, // todo should not include all information about worker (f. e. pseudoPESEL)
     val graphEdge: WorkflowEdgeEmb
 )
