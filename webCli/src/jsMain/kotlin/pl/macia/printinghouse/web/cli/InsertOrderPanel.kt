@@ -155,15 +155,19 @@ data class PaperOrderTypeInputData(
     var productionSize: SizeSummary,
 )
 
-private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) : SimplePanel() {
+/**
+ * Panel consisting of multiple and varying quantity of input fields.
+ */
+private open class MultiInput<Input : Container>(inputFields: ObservableList<Input>, newInputField: () -> Input) :
+    SimplePanel() {
     init {
-        paperOrderTypes.add(PaperOrderTypeInput())
+        inputFields.add(newInputField())
         val papOrdTypButton = AddButton {
             onClick {
-                paperOrderTypes.add(PaperOrderTypeInput())
+                inputFields.add(newInputField())
             }
         }
-        paperOrderTypes.subscribe {
+        inputFields.subscribe {
             it.forEachIndexed { i, element ->
                 add(element)
                 if (it.size - 1 == i)
@@ -173,23 +177,12 @@ private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTyp
     }
 }
 
-private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingInput>) : SimplePanel() {
-    init {
-        orderEnoblings.add(OrderEnoblingInput()) // todo remove duplicates with PaperOrderTypesInput
-        val ordEnobAdd = AddButton {
-            onClick {
-                orderEnoblings.add(OrderEnoblingInput())
-            }
-        }
-        orderEnoblings.subscribe {
-            it.forEachIndexed { i, element ->
-                add(element)
-                if (it.size - 1 == i)
-                    add(ordEnobAdd)
-            }
-        }
-    }
+private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) :
+    MultiInput<PaperOrderTypeInput>(paperOrderTypes, ::PaperOrderTypeInput) {
 }
+
+private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingInput>) :
+    MultiInput<OrderEnoblingInput>(orderEnoblings, ::OrderEnoblingInput)
 
 class PaperOrderTypeInput : SimplePanel() {
     init {
