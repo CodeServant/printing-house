@@ -130,33 +130,10 @@ class InsertOrderPanel : SimplePanel() {
         val netSizeInput = SizeInput("net size")
         orderForm.add(netSizeInput)
 
-        paperOrderTypes.add(PaperOrderTypeInput())
-        val papOrdTypButton = AddButton {
-            onClick {
-                paperOrderTypes.add(PaperOrderTypeInput())
-            }
-        }
-        paperOrderTypes.subscribe {
-            it.forEachIndexed { i, element ->
-                orderForm.add(element)
-                if (it.size - 1 == i)
-                    orderForm.add(papOrdTypButton)
-            }
-        }
+        add(PaperOrderTypesInput(paperOrderTypes))
 
-        orderEnoblings.add(OrderEnoblingInput()) // todo change this structure for a common control
-        val ordEnobAdd = AddButton {
-            onClick {
-                orderEnoblings.add(OrderEnoblingInput())
-            }
-        }
-        orderEnoblings.subscribe {
-            it.forEachIndexed { i, element ->
-                orderForm.add(element)
-                if (it.size - 1 == i)
-                    orderForm.add(ordEnobAdd)
-            }
-        }
+        add(OrderEnoblingsInput(orderEnoblings))
+
         orderForm.add(CalculationCardInput())
         add(orderForm)
     }
@@ -177,6 +154,42 @@ data class PaperOrderTypeInputData(
     var size: SizeSummary,
     var productionSize: SizeSummary,
 )
+
+private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) : SimplePanel() {
+    init {
+        paperOrderTypes.add(PaperOrderTypeInput())
+        val papOrdTypButton = AddButton {
+            onClick {
+                paperOrderTypes.add(PaperOrderTypeInput())
+            }
+        }
+        paperOrderTypes.subscribe {
+            it.forEachIndexed { i, element ->
+                add(element)
+                if (it.size - 1 == i)
+                    add(papOrdTypButton)
+            }
+        }
+    }
+}
+
+private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingInput>) : SimplePanel() {
+    init {
+        orderEnoblings.add(OrderEnoblingInput()) // todo remove duplicates with PaperOrderTypesInput
+        val ordEnobAdd = AddButton {
+            onClick {
+                orderEnoblings.add(OrderEnoblingInput())
+            }
+        }
+        orderEnoblings.subscribe {
+            it.forEachIndexed { i, element ->
+                add(element)
+                if (it.size - 1 == i)
+                    add(ordEnobAdd)
+            }
+        }
+    }
+}
 
 class PaperOrderTypeInput : SimplePanel() {
     init {
