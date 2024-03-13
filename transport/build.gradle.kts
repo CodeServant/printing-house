@@ -4,9 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        jvmToolchain(libs.versions.java.get().toInt())
-    }
+    jvm {}
     js(IR) {
         browser()
     }
