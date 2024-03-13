@@ -41,11 +41,20 @@ internal class WorkflowDirGraphDAOTest {
     fun `new edge test`() {
         var found = dao.findByIdOrNull(1)!!
         val v1ID = 4
-        val edge = found.addEdge(workflowStageDAO.findByIdOrNull(v1ID)!!, workflowStageDAO.findByIdOrNull(1)!!)
+        val v1 = workflowStageDAO.findByIdOrNull(v1ID)!!
+        val v2 = workflowStageDAO.findByIdOrNull(1)!!
+        fun assertEdge(exists: Boolean) {
+            val edgeFound = found.edges.find {
+                it.v1.name == v1.name && it.v2.name == v2.name
+            }
+            assertEquals(exists, edgeFound != null)
+        }
+        assertEdge(exists = false)
+        found.addEdge(v1, v2)
         dao.save(found)
         found = dao.findByIdOrNull(1)!!
         assertEquals("typical flow", found.name)
-        assertNotNull(edge.id)
+        assertEdge(exists = true)
     }
 
     @Test
