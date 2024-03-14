@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.html.Button
 import io.kvision.html.button
 import io.kvision.i18n.gettext
 import io.kvision.i18n.tr
@@ -88,13 +89,44 @@ class ManagerMenu : EmpMenu() {
     }
 }
 
+private enum class SalesmanMenuScreens {
+    INSERT, FINALIZE, YOUR_ORDERS, MAIN
+}
+
 class SalesmanMenu : EmpMenu() {
+    private var screen = ObservableValue(SalesmanMenuScreens.MAIN)
+
     init {
         document.title = gettext("Salesman Menu")
-        vPanel {
-            button("insert new order")
-            button("finalize order")
-            button("your orders")
+
+        val insertButton = Button("insert new order") {
+            onClick {
+                screen.value = SalesmanMenuScreens.INSERT
+            }
+        }
+        val finalizeButton = Button("finalize order") {
+            onClick {
+                screen.value = SalesmanMenuScreens.FINALIZE
+            }
+        }
+        val yourPOrderButton = Button("your orders") {
+            onClick {
+                screen.value = SalesmanMenuScreens.YOUR_ORDERS
+            }
+        }
+        bind(screen) { scr ->
+            when (scr) {
+                SalesmanMenuScreens.INSERT -> TODO()
+                SalesmanMenuScreens.FINALIZE -> TODO()
+                SalesmanMenuScreens.YOUR_ORDERS -> TODO()
+                SalesmanMenuScreens.MAIN -> {
+                    vPanel {
+                        add(insertButton)
+                        add(finalizeButton)
+                        add(yourPOrderButton)
+                    }
+                }
+            }
         }
     }
 }
