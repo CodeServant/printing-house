@@ -92,9 +92,9 @@ class SalesmanMenu : EmpMenu() {
     init {
         document.title = gettext("Salesman Menu")
         vPanel {
-            button("first link")
-            button("second link")
-            button("third link")
+            button("insert new order")
+            button("finalize order")
+            button("your orders")
         }
     }
 }
