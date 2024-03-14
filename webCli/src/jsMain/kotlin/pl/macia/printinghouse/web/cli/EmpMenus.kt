@@ -116,7 +116,15 @@ class SalesmanMenu : EmpMenu() {
         }
         bind(screen) { scr ->
             when (scr) {
-                SalesmanMenuScreens.INSERT -> TODO()
+                SalesmanMenuScreens.INSERT -> {
+                    val salOrderPanel = SalesmanNewOrderPanel(
+                        onSave = TODO(),
+                        onLeave = TODO(),
+                        onAccept = TODO()
+                    )
+                    add(salOrderPanel)
+                }
+
                 SalesmanMenuScreens.FINALIZE -> TODO()
                 SalesmanMenuScreens.YOUR_ORDERS -> TODO()
                 SalesmanMenuScreens.MAIN -> {
