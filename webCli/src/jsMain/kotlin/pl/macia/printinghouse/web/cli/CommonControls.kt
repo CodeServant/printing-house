@@ -79,6 +79,12 @@ fun Container.doubleInputField(label: String, init: (Container.() -> Unit)? = nu
     }
 }
 
+class DoubleInputField(label: String, init: (Container.() -> Unit)? = null) : Numeric(label = label) {
+    init {
+        init?.invoke(this)
+    }
+}
+
 class IntegerInput(label: String?, init: (IntegerInput.() -> Unit)? = null) :
     Numeric(decimals = 0, rich = true, label = label) {
     init {

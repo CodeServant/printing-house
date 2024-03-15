@@ -52,27 +52,29 @@ class SizeInput(label: String?) : SimplePanel() {
         "A4" to SizeSummary(width = 210.0, height = 297.0, name = "A4"),
         "B5" to SizeSummary(width = 176.0, height = 250.0, name = "B5"),
     )
+    val sizeWidth = DoubleInputField("width")
+    val sizeHeight = DoubleInputField("Height")
+    val tomSel = TomSelect(
+        options = listOf(
+            "A4" to "A4",
+            "B5" to "B5",
+        )
+    )
 
     init {
         if (label != null)
             label(label) {}
         hPanel {
-            val tomSel = TomSelect(
-                options = listOf(
-                    "A4" to "A4",
-                    "B5" to "B5",
-                )
-            )
-            val width = doubleInputField("width")
-            val height = doubleInputField("Height")
+            add(sizeWidth)
+            add(sizeHeight)
             tomSel.subscribe {
                 val notNull = it != null
                 if (notNull) {
-                    height.value = allSizes[it]?.height
-                    width.value = allSizes[it]?.width
+                    sizeHeight.value = allSizes[it]?.height
+                    sizeWidth.value = allSizes[it]?.width
                 }
-                width.disabled = notNull
-                height.disabled = notNull
+                sizeWidth.disabled = notNull
+                sizeHeight.disabled = notNull
             }
             add(tomSel)
         }
