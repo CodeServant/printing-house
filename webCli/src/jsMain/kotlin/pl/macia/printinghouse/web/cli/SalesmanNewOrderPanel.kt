@@ -12,6 +12,7 @@ class SalesmanNewOrderPanel(
 ) :
     SimplePanel() {
     init {
+        val inOrdPanel = InsertOrderPanel()
         val acceptBtn = AcceptButton() {
             onClick {
                 onAccept(TODO())
@@ -27,7 +28,6 @@ class SalesmanNewOrderPanel(
                 onLeave()
             }
         }
-        val inOrdPanel = InsertOrderPanel()
         add(inOrdPanel)
         add(acceptBtn)
         add(saveBtn)
@@ -46,4 +46,8 @@ private class SaveButton(init: (SaveButton.() -> Unit)? = null) : Button("save")
     init {
         init?.invoke(this)
     }
+}
+
+private fun InsertOrderPanel.toOrderReq(): OrderReq {
+    TODO("")
 }
