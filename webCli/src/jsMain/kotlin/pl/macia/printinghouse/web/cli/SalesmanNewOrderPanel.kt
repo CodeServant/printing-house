@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.html.Button
 import io.kvision.panel.SimplePanel
 import pl.macia.printinghouse.request.OrderReq
 
@@ -11,7 +12,37 @@ class SalesmanNewOrderPanel(
 ) :
     SimplePanel() {
     init {
+        val acceptBtn = AcceptButton() {
+            onClick {
+                onAccept(TODO())
+            }
+        }
+        val saveBtn = SaveButton() {
+            onClick {
+                onSave(TODO())
+            }
+        }
+        val leaveBtn = CancelButton() {
+            onClick {
+                onLeave()
+            }
+        }
         add(InsertOrderPanel())
+        add(acceptBtn)
+        add(saveBtn)
+        add(leaveBtn)
+        init?.invoke(this)
+    }
+}
+
+private class AcceptButton(init: (AcceptButton.() -> Unit)? = null) : Button("accept") {
+    init {
+        init?.invoke(this)
+    }
+}
+
+private class SaveButton(init: (SaveButton.() -> Unit)? = null) : Button("save") {
+    init {
         init?.invoke(this)
     }
 }
