@@ -54,7 +54,7 @@ class SizeInput(label: String?) : SimplePanel() {
     )
     val sizeWidth = DoubleInputField("width")
     val sizeHeight = DoubleInputField("Height")
-    val tomSel = TomSelect(
+    val sizeNameSel = TomSelect(
         options = listOf(
             "A4" to "A4",
             "B5" to "B5",
@@ -67,7 +67,7 @@ class SizeInput(label: String?) : SimplePanel() {
         hPanel {
             add(sizeWidth)
             add(sizeHeight)
-            tomSel.subscribe {
+            sizeNameSel.subscribe {
                 val notNull = it != null
                 if (notNull) {
                     sizeHeight.value = allSizes[it]?.height
@@ -76,7 +76,7 @@ class SizeInput(label: String?) : SimplePanel() {
                 sizeWidth.disabled = notNull
                 sizeHeight.disabled = notNull
             }
-            add(tomSel)
+            add(sizeNameSel)
         }
     }
 }
