@@ -217,7 +217,7 @@ private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingIn
 
 class PaperOrderTypeInput : SimplePanel() {
     init {
-        addBsBorder(BsBorder.BORDER)
+        addBsBorder(BsBorder.BORDER, BsBorder.BORDERINFO)
         background = Background(color = Color.name(Col.LIGHTCYAN))
         label("paper order type")
         hPanel {
