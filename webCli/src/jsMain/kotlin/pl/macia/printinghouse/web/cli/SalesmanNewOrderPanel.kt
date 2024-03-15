@@ -27,7 +27,8 @@ class SalesmanNewOrderPanel(
                 onLeave()
             }
         }
-        add(InsertOrderPanel())
+        val inOrdPanel = InsertOrderPanel()
+        add(inOrdPanel)
         add(acceptBtn)
         add(saveBtn)
         add(leaveBtn)
