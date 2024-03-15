@@ -47,14 +47,21 @@ class SizesTab : SimplePanel() {
     }
 }
 
+@Serializable
+data class SizeInputData(
+    val height: Double,
+    val width: Double,
+    val name: String?
+)
+
 class SizeInput(label: String?) : SimplePanel() {
     private val allSizes = mapOf(
-        "A4" to SizeSummary(width = 210.0, height = 297.0, name = "A4"),
+        "A4" to SizeSummary(width = 210.0, height = 297.0, name = "A4"), // todo fetch all sizes from database
         "B5" to SizeSummary(width = 176.0, height = 250.0, name = "B5"),
     )
-    val sizeWidth = DoubleInputField("width")
-    val sizeHeight = DoubleInputField("Height")
-    val sizeNameSel = TomSelect(
+    private val sizeWidth = DoubleInputField("width")
+    private val sizeHeight = DoubleInputField("Height")
+    private val sizeNameSel = TomSelect(
         options = listOf(
             "A4" to "A4",
             "B5" to "B5",
@@ -78,5 +85,30 @@ class SizeInput(label: String?) : SimplePanel() {
             }
             add(sizeNameSel)
         }
+    }
+
+    /**
+     * @param markForm mark form fields for the user (currently not implemented)
+     */
+    private fun validate(markForm: Boolean): Boolean {
+        val w = sizeWidth.value
+        val h = sizeHeight.value
+        inline fun correct(num: Number?): Boolean {
+            return num != null && num.toDouble() > 0
+        }
+        return correct(w) && correct(h)
+    }
+
+    /**
+     * Get all data if it is valid.
+     * @param markForm mark form fields for the user
+     */
+    fun getFormData(markForm: Boolean): SizeInputData? {
+        if (!validate(markForm)) return null
+        return SizeInputData(
+            width = sizeWidth.value!!.toDouble(),
+            height = sizeHeight.value!!.toDouble(),
+            name = sizeNameSel.value
+        )
     }
 }
