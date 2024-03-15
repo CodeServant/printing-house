@@ -130,9 +130,9 @@ class InsertOrderPanel : SimplePanel() {
         val netSizeInput = SizeInput("net size")
         orderForm.add(netSizeInput)
 
-        add(PaperOrderTypesInput(paperOrderTypes))
+        orderForm.add(PaperOrderTypesInput(paperOrderTypes))
 
-        add(OrderEnoblingsInput(orderEnoblings))
+        orderForm.add(OrderEnoblingsInput(orderEnoblings))
 
         orderForm.add(CalculationCardInput())
         add(orderForm)
