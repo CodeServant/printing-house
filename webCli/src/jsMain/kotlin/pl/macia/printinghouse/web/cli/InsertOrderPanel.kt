@@ -178,8 +178,7 @@ private open class MultiInput<Input : Container>(inputFields: ObservableList<Inp
 }
 
 private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) :
-    MultiInput<PaperOrderTypeInput>(paperOrderTypes, ::PaperOrderTypeInput) {
-}
+    MultiInput<PaperOrderTypeInput>(paperOrderTypes, ::PaperOrderTypeInput)
 
 private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingInput>) :
     MultiInput<OrderEnoblingInput>(orderEnoblings, ::OrderEnoblingInput)
