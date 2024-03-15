@@ -119,7 +119,9 @@ class SalesmanMenu : EmpMenu() {
                 SalesmanMenuScreens.INSERT -> {
                     val salOrderPanel = SalesmanNewOrderPanel(
                         onSave = TODO(),
-                        onLeave = TODO(),
+                        onLeave = {
+                            screen.value = SalesmanMenuScreens.MAIN
+                        },
                         onAccept = TODO()
                     )
                     add(salOrderPanel)
