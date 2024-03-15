@@ -39,6 +39,16 @@ class DetailsButton(text: String = "details", init: (DetailsButton.() -> Unit)? 
     }
 }
 
+class CancelButton(
+    text: String = "calcel",
+    style: ButtonStyle = ButtonStyle.DANGER,
+    init: (CancelButton.() -> Unit)? = null
+) : Button(text = text, style = style) {
+    init {
+        init?.invoke(this)
+    }
+}
+
 fun Container.addButton(init: (AddButton.() -> Unit)? = null): AddButton {
     return AddButton(init).apply(::add)
 }
@@ -55,12 +65,12 @@ fun Container.detailsButton(text: String = "details", init: (DetailsButton.() ->
     add(DetailsButton(text, init))
 }
 
-fun Container.cancelButton(onClick: () -> Unit) {
-    button("calcel", style = ButtonStyle.DANGER) {
-        onClick {
-            onClick()
-        }
-    }
+fun Container.cancelButton(
+    text: String = "calcel",
+    style: ButtonStyle = ButtonStyle.DANGER,
+    init: (CancelButton.() -> Unit)? = null
+) {
+    add(CancelButton(text, style, init))
 }
 
 fun Container.doubleInputField(label: String, init: (Container.() -> Unit)? = null): Numeric {

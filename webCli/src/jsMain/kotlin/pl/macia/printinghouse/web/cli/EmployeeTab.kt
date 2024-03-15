@@ -68,11 +68,11 @@ class EmployeeTab : SimplePanel() {
     fun Container.controllButtons() {
         hPanel {
             acceptButton()
-            cancelButton(
-                onClick = {
-                    currentPicked.value=null
+            cancelButton() {
+                onClick {
+                    currentPicked.value = null
                 }
-            )
+            }
         }
     }
 }
