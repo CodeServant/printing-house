@@ -39,16 +39,18 @@ data class OderFormData(
     var salesman: String,
     var bindingForm: String,
     var calculationCard: CalculationCardInputData?,
-    var netSize: SizeSummary, // todo make option to choose different method
+    var netSize: SizeInputData,
     var client: String
 )
 
 class InsertOrderPanel : SimplePanel() {
+    private val orderForm = FormPanel(serializer = OderFormData.serializer())
+    private val paperOrderTypes: ObservableList<PaperOrderTypeInput> = ObservableListWrapper()
+    private val orderEnoblings: ObservableList<OrderEnoblingInput> = ObservableListWrapper()
+    private val netSizeInput = SizeInput("net size")
+
     init {
         val reqMsg = "value is required"
-        val orderForm = FormPanel(serializer = OderFormData.serializer())
-        val paperOrderTypes: ObservableList<PaperOrderTypeInput> = ObservableListWrapper()
-        val orderEnoblings: ObservableList<OrderEnoblingInput> = ObservableListWrapper()
 
         orderForm.add(OderFormData::name, TextInput("Name"), required = true, requiredMessage = reqMsg)
         orderForm.add(OderFormData::comment, TextInput("Comment"), required = false)
@@ -127,7 +129,6 @@ class InsertOrderPanel : SimplePanel() {
                 ), label = "Binding Form"
             )
         )
-        val netSizeInput = SizeInput("net size")
         orderForm.add(netSizeInput)
 
         orderForm.add(PaperOrderTypesInput(paperOrderTypes))
@@ -136,6 +137,37 @@ class InsertOrderPanel : SimplePanel() {
 
         orderForm.add(CalculationCardInput())
         add(orderForm)
+    }
+
+    /**
+     * Fetches from data if validated correctly.
+     * @param markFields if form fields must be marked for the user to see
+     */
+    fun getOrderFormData(markFields: Boolean): OderFormData? {
+        val isValidForm = orderForm.validate()
+        if (!isValidForm) return null
+        TODO("validate all the other input panels")
+        val sizeData = netSizeInput.getFormData(markFields) ?: return null
+        var orderData = OderFormData(
+            name = orderForm[OderFormData::name]!!,
+            comment = orderForm[OderFormData::comment],
+            designsNumberForSheet = orderForm[OderFormData::designsNumberForSheet]!!,
+            checked = orderForm[OderFormData::checked]!!,
+            towerCut = orderForm[OderFormData::towerCut]!!,
+            folding = orderForm[OderFormData::folding]!!,
+            realizationDate = orderForm[OderFormData::realizationDate]!!,
+            pages = orderForm[OderFormData::pages]!!,
+            paperOrderTypes = TODO(),
+            orderEnoblings = TODO(),
+            imageUrl = orderForm[OderFormData::imageUrl],
+            imageComment = orderForm[OderFormData::imageComment],
+            bindery = orderForm[OderFormData::bindery]!!,
+            salesman = orderForm[OderFormData::salesman]!!,
+            bindingForm = orderForm[OderFormData::bindingForm]!!,
+            calculationCard = TODO(),
+            netSize = sizeData,
+            client = orderForm[OderFormData::client]!!
+        )
     }
 }
 
