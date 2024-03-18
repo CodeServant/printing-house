@@ -183,8 +183,8 @@ data class PaperOrderTypeInputData(
     var printer: String?,
     var platesQuantityForPrinter: Int,
     var imposition: String,
-    var size: SizeSummary,
-    var productionSize: SizeSummary,
+    var size: SizeInputData,
+    var productionSize: SizeInputData,
 )
 
 /**
