@@ -31,8 +31,8 @@ data class OderFormData(
     @Contextual
     var realizationDate: Date,
     var pages: Int,
-    var paperOrderTypes: MutableList<PaperOrderTypeInputData>,
-    var orderEnoblings: MutableList<OrderEnoblingInputData>,
+    var paperOrderTypes: List<PaperOrderTypeInputData>,
+    var orderEnoblings: List<OrderEnoblingInputData>,
     var imageUrl: String?,
     var imageComment: String?,
     var bindery: String,
