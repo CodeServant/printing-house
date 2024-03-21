@@ -1,5 +1,7 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.core.onChange
+import io.kvision.form.select.Select
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
@@ -39,7 +41,31 @@ class ImpositionTypeTab : SimplePanel() {
 }
 
 class SelectImpositionType(label: String? = null) : SimplePanel() {
+    val select = Select(
+        options = listOf(
+            Pair("1", "f/f"), //todo change to real data
+            Pair("2", "f/o"),
+            Pair("3", "f/g"),
+        ),
+        label = label,
+        floating = true
+    ) {
+        onChange {
+            validateSelect(markFields = true)
+        }
+    }
+
     init {
-        // todo implement
+        add(select)
+    }
+
+    fun getFormData(markFields: Boolean): String? {
+        return if (validateSelect(markFields)) select.value else null
+    }
+
+    private fun validateSelect(markFields: Boolean): Boolean {
+        val valid = select.value != null
+        select.validatorError = if (markFields && !valid) "you must select one item" else null
+        return valid
     }
 }
