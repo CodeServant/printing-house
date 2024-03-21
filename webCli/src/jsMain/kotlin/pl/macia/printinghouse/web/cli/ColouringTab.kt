@@ -1,7 +1,7 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.form.FormPanel
 import io.kvision.form.number.Numeric
-import io.kvision.form.number.numeric
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
@@ -15,9 +15,16 @@ data class ColouringSummary(
     var secondSide: Byte
 )
 
+@Serializable
+data class ColouringInputData(
+    val firstSide: Byte,
+    val secondSide: Byte
+)
+
 class ColouringTab : SimplePanel() {
     init {
         val selected = ObservableValue<ColouringSummary?>(null)
+        var colorInput: ColourInput?
         insertUpdateTable(
             summaryList = listOf(
                 ColouringSummary(1, 1, 1),
@@ -32,24 +39,65 @@ class ColouringTab : SimplePanel() {
                 selected.value = it
             },
             formPanel = {
-                ColourInput {
+                colorInput = ColourInput {
                     selected.subscribe {
-                        firstSide.value = it?.firstSide
-                        secondSide.value = it?.secondSide
+                        if (it == null)
+                            this.form.clearData()
+                        else {
+                            this.form.setData(ColouringInputData(it.firstSide, it.secondSide))
+                        }
                     }
                 }
+                colorInput
             }
         )
     }
 }
 
 class ColourInput(init: (ColourInput.() -> Unit)? = null) : HPanel() {
-    var firstSide: Numeric
-    var secondSide: Numeric
+    val form = FormPanel(serializer = ColouringInputData.serializer())
 
     init {
-        firstSide = numeric(min = 0, max = 4, decimals = 0, label = "first side")
-        secondSide = numeric(min = 0, max = 4, decimals = 0, label = "second side")
+        fun commonValidator(side: Numeric): Boolean {
+            val side = side.value?.toByte() ?: return false
+            return side <= 4 && side >= 0
+        }
+
+        fun commonValidationMessage(side: Numeric): String? {
+            return if (commonValidator(side)) null
+            else
+                "colouring suppose to be between 0 and 4"
+        }
+
+        fun firstSideLower(secondSide: Numeric): Boolean {
+            return form[ColouringInputData::firstSide]?.toByte() ?: 0 < secondSide.value?.toByte() ?: 0
+        }
+        form.add(
+            ColouringInputData::firstSide,
+            Numeric(min = 0, max = 4, decimals = 0, label = "first side"),
+            validator = ::commonValidator,
+            validatorMessage = ::commonValidationMessage
+        )
+        form.add(
+            ColouringInputData::secondSide,
+            Numeric(min = 0, max = 4, decimals = 0, label = "second side"),
+            validator = {
+                println("${commonValidator(it)} validator 2")
+                println("${!firstSideLower(it)} !firstSideLower(it)")
+                commonValidator(it) && !firstSideLower(it)
+            },
+            validatorMessage = {
+                println("validator msg 2")
+                var message = commonValidationMessage(it)
+                if (message == null && firstSideLower(it)) {
+                    "first side should be equal or greater than second side"
+                } else {
+                    message
+                }
+            }
+
+        )
+        add(form)
         init?.invoke(this)
     }
 }
