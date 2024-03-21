@@ -24,7 +24,7 @@ data class ColouringInputData(
 class ColouringTab : SimplePanel() {
     init {
         val selected = ObservableValue<ColouringSummary?>(null)
-        var colorInput: ColourInput?
+        var colorInput: ColourInput? = null
         insertUpdateTable(
             summaryList = listOf(
                 ColouringSummary(1, 1, 1),
@@ -99,5 +99,14 @@ class ColourInput(init: (ColourInput.() -> Unit)? = null) : HPanel() {
         )
         add(form)
         init?.invoke(this)
+    }
+
+    /**
+     * get the data from an input and validates it
+     * @param markField fields of the form will be visibly marked
+     */
+    fun getFormData(markField: Boolean): ColouringInputData? {
+        if (!form.validate(markField)) return null
+        return form.getData()
     }
 }
