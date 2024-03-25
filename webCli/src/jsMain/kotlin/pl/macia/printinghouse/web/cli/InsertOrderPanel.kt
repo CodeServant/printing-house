@@ -185,7 +185,7 @@ data class PaperOrderTypeInputData(
     var stockCirculation: Int,
     var sheetNumber: Int,
     var comment: String?,
-    var printer: String?,
+    var printer: String,
     var platesQuantityForPrinter: Int,
     var imposition: String,
     var size: SizeInputData,
@@ -233,39 +233,44 @@ class PaperOrderTypeInput : SimplePanel() {
     private val impositionTypeF = SelectImpositionType("imposition type")
     private val sizeF = SizeInput("size")
     private val productionSizeF = SizeInput("production size")
+    val form = FormPanel<PaperOrderTypeInputData>()
 
     init {
         addBsBorder(BsBorder.BORDER, BsBorder.BORDERINFO)
         background = Background(color = Color.name(Col.LIGHTCYAN))
         label("paper order type")
         hPanel {
-            add(grammageF)
-            add(stockCirculationF)
-            add(sheetNumberF)
+            form.add(PaperOrderTypeInputData::grammage, grammageF, required = true)
+            form.add(PaperOrderTypeInputData::stockCirculation, stockCirculationF, required = true)
+            form.add(PaperOrderTypeInputData::sheetNumber, sheetNumberF, required = true)
         }
-        add(commentF)
+        form.add(PaperOrderTypeInputData::comment, commentF)
         hPanel {
-            add(circulationF)
-            add(platesQuantityForPrinterF)
-            add(paperTypeF)
-            add(printerF)
+            form.add(PaperOrderTypeInputData::circulation, circulationF, required = true)
+            form.add(PaperOrderTypeInputData::platesQuantityForPrinter, platesQuantityForPrinterF, required = true)
+            form.add(PaperOrderTypeInputData::paperType, paperTypeF, required = true)
+            form.add(PaperOrderTypeInputData::printer, printerF, required = true)
         }
-        add(colourF)
-        add(impositionTypeF)
-        add(sizeF)
-        add(productionSizeF)
+        //todo validate all below fields
+        form.add(colourF)
+        form.add(impositionTypeF)
+        form.add(sizeF)
+        form.add(productionSizeF)
+        add(form)
     }
 
     fun getFormData(markFields: Boolean): PaperOrderTypeInputData? {
+        var valid = form.validate(markFields)
+        if (!valid) return null
         return PaperOrderTypeInputData(
             paperType = paperTypeF.value ?: return null,
             grammage = grammageF.value?.toDouble() ?: return null,
             colours = colourF.getFormData(markFields) ?: return null,
             circulation = circulationF.value?.toInt() ?: return null,
             stockCirculation = stockCirculationF.value?.toInt() ?: return null,
-            sheetNumber = stockCirculationF.value?.toInt() ?: return null,
+            sheetNumber = sheetNumberF.value?.toInt() ?: return null,
             comment = commentF.value,
-            printer = printerF.value,
+            printer = printerF.value ?: return null,
             platesQuantityForPrinter = platesQuantityForPrinterF.value?.toInt() ?: return null,
             imposition = impositionTypeF.getFormData(markFields) ?: return null,
             size = sizeF.getFormData(markFields) ?: return null,
