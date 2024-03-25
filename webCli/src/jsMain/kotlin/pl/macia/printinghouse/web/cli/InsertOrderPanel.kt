@@ -48,6 +48,7 @@ class InsertOrderPanel : SimplePanel() {
     private val paperOrderTypes: ObservableList<PaperOrderTypeInput> = ObservableListWrapper()
     private val orderEnoblings: ObservableList<OrderEnoblingInput> = ObservableListWrapper()
     private val netSizeInput = SizeInput("net size")
+    private val calculationCard = CalculationCardInput()
 
     init {
         val reqMsg = "value is required"
@@ -135,7 +136,7 @@ class InsertOrderPanel : SimplePanel() {
 
         orderForm.add(OrderEnoblingsInput(orderEnoblings))
 
-        orderForm.add(CalculationCardInput())
+        orderForm.add(calculationCard)
         add(orderForm)
     }
 
