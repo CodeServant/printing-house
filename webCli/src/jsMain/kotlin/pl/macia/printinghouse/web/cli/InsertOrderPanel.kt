@@ -165,7 +165,7 @@ class InsertOrderPanel : SimplePanel() {
             salesman = orderForm[OderFormData::salesman]!!,
             bindingForm = orderForm[OderFormData::bindingForm]!!,
             calculationCard = TODO(),
-            netSize = sizeData,
+            netSize = netSizeInput.getFormData(markFields) ?: return null,
             client = orderForm[OderFormData::client]!!
         )
     }
@@ -175,7 +175,7 @@ class InsertOrderPanel : SimplePanel() {
 data class PaperOrderTypeInputData(
     var paperType: String,
     var grammage: Double,
-    var colours: ColouringSummary,
+    var colours: ColouringInputData,
     var circulation: Int,
     var stockCirculation: Int,
     var sheetNumber: Int,
