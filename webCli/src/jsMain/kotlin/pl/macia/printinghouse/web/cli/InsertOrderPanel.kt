@@ -337,21 +337,12 @@ class CalculationCardInput : SimplePanel() {
         textInput("enoblingCost")
         textInput("bindingCost")
 
-        printCostsInp.add(PrintCostInput())
-        val printCostAdd = AddButton {
-            onClick {
-                printCostsInp.add(PrintCostInput())
-            }
-        }
-        printCostsInp.subscribe {
-            it.forEachIndexed { i, element ->
-                this.add(element)
-                if (it.size - 1 == i)
-                    this.add(printCostAdd)
-            }
-        }
+        add(PrintCostsInput(printCostsInp))
     }
 }
+
+private class PrintCostsInput(printCosts: ObservableList<PrintCostInput>) :
+    MultiInput<PrintCostInput>(printCosts, ::PrintCostInput)
 
 @Serializable
 data class PrintCostInputData(
