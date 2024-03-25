@@ -144,10 +144,11 @@ class InsertOrderPanel : SimplePanel() {
      * @param markFields if form fields must be marked for the user to see
      */
     fun getOrderFormData(markFields: Boolean): OderFormData? {
-        val isValidForm = orderForm.validate()
+        val isValidForm = orderForm.validate(markFields)
         if (!isValidForm) return null
-        TODO("validate all the other input panels")
-        val sizeData = netSizeInput.getFormData(markFields) ?: return null
+        val paperOrderTypes: List<PaperOrderTypeInputData> = paperOrderTypes.map {
+            it.getFormData(markFields) ?: return null
+        }
         var orderData = OderFormData(
             name = orderForm[OderFormData::name]!!,
             comment = orderForm[OderFormData::comment],
@@ -157,7 +158,7 @@ class InsertOrderPanel : SimplePanel() {
             folding = orderForm[OderFormData::folding]!!,
             realizationDate = orderForm[OderFormData::realizationDate]!!,
             pages = orderForm[OderFormData::pages]!!,
-            paperOrderTypes = TODO(),
+            paperOrderTypes = paperOrderTypes,
             orderEnoblings = TODO(),
             imageUrl = orderForm[OderFormData::imageUrl],
             imageComment = orderForm[OderFormData::imageComment],
@@ -216,26 +217,56 @@ private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingIn
     MultiInput<OrderEnoblingInput>(orderEnoblings, ::OrderEnoblingInput)
 
 class PaperOrderTypeInput : SimplePanel() {
+    private var grammageF = DoubleInputField("grammage")
+    private var stockCirculationF = IntegerInput("stockCirculation")
+    private var sheetNumberF = IntegerInput("sheetNumber")
+    private val commentF = TextInput("comment")
+    private val circulationF = IntegerInput("circulation")
+    private val platesQuantityForPrinterF = IntegerInput("platesQuantityForPrinter")
+    private val paperTypeF = SelectPaperType(label = "paper type")
+    private val printerF = SelectPrinter(label = "printer")
+    private val colourF = ColourInput()
+    private val impositionTypeF = SelectImpositionType("imposition type")
+    private val sizeF = SizeInput("size")
+    private val productionSizeF = SizeInput("production size")
+
     init {
         addBsBorder(BsBorder.BORDER, BsBorder.BORDERINFO)
         background = Background(color = Color.name(Col.LIGHTCYAN))
         label("paper order type")
         hPanel {
-            doubleInputField("grammage")
-            add(IntegerInput("stockCirculation"))
-            add(IntegerInput("sheetNumber"))
+            add(grammageF)
+            add(stockCirculationF)
+            add(sheetNumberF)
         }
-        add(textInput("comment"))
+        add(commentF)
         hPanel {
-            add(IntegerInput("circulation"))
-            add(IntegerInput("platesQuantityForPrinter"))
-            add(SelectPaperType(label = "paper type"))
-            add(SelectPrinter(label = "printer"))
+            add(circulationF)
+            add(platesQuantityForPrinterF)
+            add(paperTypeF)
+            add(printerF)
         }
-        add(ColourInput())
-        add(SelectImpositionType())
-        add(SizeInput("size"))
-        add(SizeInput("production size"))
+        add(colourF)
+        add(impositionTypeF)
+        add(sizeF)
+        add(productionSizeF)
+    }
+
+    fun getFormData(markFields: Boolean): PaperOrderTypeInputData? {
+        return PaperOrderTypeInputData(
+            paperType = paperTypeF.value ?: return null,
+            grammage = grammageF.value?.toDouble() ?: return null,
+            colours = colourF.getFormData(markFields) ?: return null,
+            circulation = circulationF.value?.toInt() ?: return null,
+            stockCirculation = stockCirculationF.value?.toInt() ?: return null,
+            sheetNumber = stockCirculationF.value?.toInt() ?: return null,
+            comment = commentF.value,
+            printer = printerF.value,
+            platesQuantityForPrinter = platesQuantityForPrinterF.value?.toInt() ?: return null,
+            imposition = impositionTypeF.getFormData(markFields) ?: return null,
+            size = sizeF.getFormData(markFields) ?: return null,
+            productionSize = productionSizeF.getFormData(markFields) ?: return null,
+        )
     }
 }
 
