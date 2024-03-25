@@ -144,7 +144,7 @@ class InsertOrderPanel : SimplePanel() {
      * Fetches from data if validated correctly.
      * @param markFields if form fields must be marked for the user to see
      */
-    fun getOrderFormData(markFields: Boolean): OderFormData? {
+    fun getFormData(markFields: Boolean): OderFormData? {
         val isValidForm = orderForm.validate(markFields)
         if (!isValidForm) return null
         val paperOrderTypes: List<PaperOrderTypeInputData> = paperOrderTypes.map {
@@ -153,7 +153,7 @@ class InsertOrderPanel : SimplePanel() {
         val orderEnoblings: List<OrderEnoblingInputData> = orderEnoblings.map {
             it.getFormData(markFields) ?: return null
         }
-        var orderData = OderFormData(
+        return OderFormData(
             name = orderForm[OderFormData::name]!!,
             comment = orderForm[OderFormData::comment],
             designsNumberForSheet = orderForm[OderFormData::designsNumberForSheet]!!,
@@ -169,7 +169,7 @@ class InsertOrderPanel : SimplePanel() {
             bindery = orderForm[OderFormData::bindery]!!,
             salesman = orderForm[OderFormData::salesman]!!,
             bindingForm = orderForm[OderFormData::bindingForm]!!,
-            calculationCard = TODO(),
+            calculationCard = calculationCard.getFormData(markFields),
             netSize = netSizeInput.getFormData(markFields) ?: return null,
             client = orderForm[OderFormData::client]!!
         )
@@ -311,13 +311,13 @@ class OrderEnoblingInput : HPanel() {
 
     fun getFormData(markFields: Boolean): OrderEnoblingInputData? {
         val valid = form.validate(markFields)
-        if (valid) {
-            return OrderEnoblingInputData(
+        return if (valid) {
+            OrderEnoblingInputData(
                 annotation = form[OrderEnoblingInputData::annotation],
                 enobling = form[OrderEnoblingInputData::enobling]!!,
                 bindery = form[OrderEnoblingInputData::bindery]!!
             )
-        } else return null
+        } else null
     }
 }
 
@@ -327,18 +327,44 @@ data class CalculationCardInputData(
     var otherCosts: String,
     var enoblingCost: String,
     var bindingCost: String,
-    var printCosts: MutableList<PrintCostInputData>
+    var printCosts: List<PrintCostInputData>
 )
 
 class CalculationCardInput : SimplePanel() {
-    init {
-        val printCostsInp = ObservableListWrapper<PrintCostInput>()
-        textInput("transport")
-        textInput("otherCosts")
-        textInput("enoblingCost")
-        textInput("bindingCost")
+    val form = FormPanel<CalculationCardInputData>()
+    private val printCostsInp = ObservableListWrapper<PrintCostInput>()
 
+    init {
+
+        form.add(
+            CalculationCardInputData::transport,
+            textInput("transport"),
+            required = true
+        ) //todo validation of the money field
+        form.add(CalculationCardInputData::otherCosts, textInput("otherCosts"), required = true)
+        form.add(CalculationCardInputData::enoblingCost, textInput("enoblingCost"), required = true)
+        form.add(CalculationCardInputData::bindingCost, textInput("bindingCost"), required = true)
+        add(form)
         add(PrintCostsInput(printCostsInp))
+    }
+
+    fun getFormData(markFields: Boolean): CalculationCardInputData? {
+        var valid = form.validate(markFields)
+        val printCosts: MutableList<PrintCostInputData> = mutableListOf()
+        printCostsInp.forEach {
+            val printCost = it.getFormdata(markFields)
+            val printValid = printCost != null
+            valid = valid && printValid
+        }
+
+        if (!valid) return null
+        return CalculationCardInputData(
+            transport = form[CalculationCardInputData::transport]!!,
+            otherCosts = form[CalculationCardInputData::otherCosts]!!,
+            enoblingCost = form[CalculationCardInputData::enoblingCost]!!,
+            bindingCost = form[CalculationCardInputData::bindingCost]!!,
+            printCosts = printCosts
+        )
     }
 }
 
@@ -353,9 +379,24 @@ data class PrintCostInputData(
 )
 
 class PrintCostInput : SimplePanel() {
+    val form = FormPanel<PrintCostInputData>()
+
     init {
-        textInput("printCost")
-        textInput("matrixCost")
-        textInput("printer")
+        form.add(
+            PrintCostInputData::printCost,
+            textInput("printCost"),
+            required = true
+        ) //todo validation of the money field
+        form.add(
+            PrintCostInputData::matrixCost,
+            textInput("matrixCost"),
+            required = true
+        )
+        form.add(PrintCostInputData::printer, SelectPrinter("printer"), required = true)
+        add(form)
+    }
+
+    fun getFormdata(markFields: Boolean): PrintCostInputData? {
+        return if (form.validate(markFields)) form.getData() else null
     }
 }
