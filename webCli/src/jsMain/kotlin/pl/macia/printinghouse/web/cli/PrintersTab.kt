@@ -44,7 +44,10 @@ class PrintersTab : SimplePanel() {
 }
 
 class SelectPrinter(label: String? = null) : Select(label = label) {
-    init {
-        // todo initialize this give a
+    init { // todo initialize with data from the database
+        this.options= listOf(
+            Pair("1", "DK"),
+            Pair("2", "MK")
+        )
     }
 }
