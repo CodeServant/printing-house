@@ -3,8 +3,8 @@ package pl.macia.printinghouse.web.cli
 import io.kvision.core.*
 import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox
+import io.kvision.form.select.Select
 import io.kvision.form.select.TomSelect
-import io.kvision.form.select.select
 import io.kvision.form.time.DateTime
 import io.kvision.html.label
 import io.kvision.panel.HPanel
@@ -149,6 +149,9 @@ class InsertOrderPanel : SimplePanel() {
         val paperOrderTypes: List<PaperOrderTypeInputData> = paperOrderTypes.map {
             it.getFormData(markFields) ?: return null
         }
+        val orderEnoblings: List<OrderEnoblingInputData> = orderEnoblings.map {
+            it.getFormData(markFields) ?: return null
+        }
         var orderData = OderFormData(
             name = orderForm[OderFormData::name]!!,
             comment = orderForm[OderFormData::comment],
@@ -158,8 +161,8 @@ class InsertOrderPanel : SimplePanel() {
             folding = orderForm[OderFormData::folding]!!,
             realizationDate = orderForm[OderFormData::realizationDate]!!,
             pages = orderForm[OderFormData::pages]!!,
-            paperOrderTypes = paperOrderTypes,
-            orderEnoblings = TODO(),
+            paperOrderTypes = paperOrderTypes, //todo check quantities requirements for multiple fields
+            orderEnoblings = orderEnoblings,
             imageUrl = orderForm[OderFormData::imageUrl],
             imageComment = orderForm[OderFormData::imageComment],
             bindery = orderForm[OderFormData::bindery]!!,
@@ -272,16 +275,17 @@ class PaperOrderTypeInput : SimplePanel() {
 
 @Serializable
 data class OrderEnoblingInputData(
-    var orderEnobid: Int?,
     var annotation: String?,
     var enobling: String,
     var bindery: String
 )
 
 class OrderEnoblingInput : HPanel() {
+    val form = FormPanel<OrderEnoblingInputData>()
+
     init {
-        textInput("annotation")
-        select(
+        val annotation = TextInput("annotation")
+        val enobling = Select(
             label = "enobling", options = listOf(
                 "1" to "farba kolorowa",
                 "2" to "karton aksamitny",
@@ -290,7 +294,7 @@ class OrderEnoblingInput : HPanel() {
                 "5" to "wykrojnik zwyczajny",
             )
         )
-        select(
+        val bindery = Select(
             label = "bindery", options = listOf(
                 "A1" to "A1",
                 "A2" to "A2",
@@ -298,6 +302,21 @@ class OrderEnoblingInput : HPanel() {
                 "A4" to "A4",
             )
         )
+        form.add(key = OrderEnoblingInputData::annotation, control = annotation, required = false)
+        form.add(key = OrderEnoblingInputData::enobling, control = enobling, required = true)
+        form.add(key = OrderEnoblingInputData::bindery, control = bindery, required = true)
+        add(form)
+    }
+
+    fun getFormData(markFields: Boolean): OrderEnoblingInputData? {
+        val valid = form.validate(markFields)
+        if (valid) {
+            return OrderEnoblingInputData(
+                annotation = form[OrderEnoblingInputData::annotation],
+                enobling = form[OrderEnoblingInputData::enobling]!!,
+                bindery = form[OrderEnoblingInputData::bindery]!!
+            )
+        } else return null
     }
 }
 
