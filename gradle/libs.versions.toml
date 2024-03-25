@@ -1,7 +1,6 @@
 [versions]
 app = "0.0.1-SNAPSHOT"
-spring-boot = "3.2.3"
-kotlin = "2.0.0-Beta4"
+spring-boot = "3.2.4"
 kotlin = "2.0.0-Beta5"
 kotlin-serialization = "1.6.3"
 kvision = "7.4.3"
