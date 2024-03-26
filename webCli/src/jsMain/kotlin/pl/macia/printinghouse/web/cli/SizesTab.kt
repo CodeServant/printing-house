@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.form.ValidationStatus
 import io.kvision.form.select.TomSelect
 import io.kvision.html.label
 import io.kvision.panel.SimplePanel
@@ -95,6 +96,21 @@ class SizeInput(label: String?) : SimplePanel() {
         val h = sizeHeight.value
         inline fun correct(num: Number?): Boolean {
             return num != null && num.toDouble() > 0
+        }
+
+        fun errorMessage(field: DoubleInputField) {
+            if (field.value == null)
+                field.validatorError = "value must be provided"
+            else if (field.value!!.toDouble() <= 0) field.validatorError = "inappropriate value"
+            else {
+                field.validatorError = null
+                field.validationStatus=ValidationStatus.VALID
+            }
+        }
+
+        if (markForm) {
+            errorMessage(sizeWidth)
+            errorMessage(sizeHeight)
         }
         return correct(w) && correct(h)
     }
