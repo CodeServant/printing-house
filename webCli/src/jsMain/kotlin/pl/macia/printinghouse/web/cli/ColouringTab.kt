@@ -76,7 +76,8 @@ class ColourInput(init: (ColourInput.() -> Unit)? = null) : HPanel() {
             ColouringInputData::firstSide,
             Numeric(min = 0, max = 4, decimals = 0, label = "first side"),
             validator = ::commonValidator,
-            validatorMessage = ::commonValidationMessage
+            validatorMessage = ::commonValidationMessage,
+            required = true
         )
         form.add(
             ColouringInputData::secondSide,
@@ -94,7 +95,8 @@ class ColourInput(init: (ColourInput.() -> Unit)? = null) : HPanel() {
                 } else {
                     message
                 }
-            }
+            },
+            required = true
 
         )
         add(form)
