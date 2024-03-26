@@ -49,6 +49,11 @@ class PaperTypeTab : SimplePanel() {
  */
 class SelectPaperType(label: String? = null) : TomSelect(label = label) {
     init {
-        // todo implement this
+        options = listOf(
+            Pair("1", "kamienna cegła"),
+            Pair("2", "papier błysk"),
+            Pair("3", "papier ścierny"),
+        )
+        //todo implement this with database data
     }
 }
