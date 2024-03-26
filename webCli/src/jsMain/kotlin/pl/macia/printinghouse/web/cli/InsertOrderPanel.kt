@@ -62,7 +62,7 @@ class InsertOrderPanel : SimplePanel() {
                     "1" to "Marian Paździoch",
                     "2" to "Evil Corp sp. zł o.o.",
                 ), label = "Client"
-            )
+            ), required = true
         )
         orderForm.add(
             key = OderFormData::designsNumberForSheet,
@@ -110,7 +110,7 @@ class InsertOrderPanel : SimplePanel() {
                     "1" to "A1",
                     "2" to "A2",
                 ), label = "Bindery"
-            )
+            ), required = true
         )
         orderForm.add(
             key = OderFormData::salesman,
@@ -119,7 +119,7 @@ class InsertOrderPanel : SimplePanel() {
                     "1" to "Robert de Niro",
                     "2" to "Danny Devito",
                 ), label = "Salesman"
-            )
+            ), required = true
         )
         orderForm.add(
             key = OderFormData::bindingForm,
@@ -128,7 +128,7 @@ class InsertOrderPanel : SimplePanel() {
                     "1" to "Super Bind",
                     "2" to "Bind 2000",
                 ), label = "Binding Form"
-            )
+            ),            required = true
         )
         orderForm.add(netSizeInput)
 
@@ -145,14 +145,32 @@ class InsertOrderPanel : SimplePanel() {
      * @param markFields if form fields must be marked for the user to see
      */
     fun getFormData(markFields: Boolean): OderFormData? {
-        val isValidForm = orderForm.validate(markFields)
+        var isValidForm = orderForm.validate(markFields)
+
+        val paperOrderTypes: MutableList<PaperOrderTypeInputData> = mutableListOf()
+        this.paperOrderTypes.forEach {
+            val papOrdTypData = it.getFormData(markFields)
+            val isValidField = papOrdTypData != null
+            isValidForm = isValidForm && isValidField
+            if (papOrdTypData != null)
+                paperOrderTypes.add(papOrdTypData)
+        }
+
+        val orderEnoblings: MutableList<OrderEnoblingInputData> = mutableListOf()
+        this.orderEnoblings.forEach {
+            val ordEnobData = it.getFormData(markFields)
+            val isValidField = ordEnobData != null
+
+            isValidForm = isValidForm && isValidField
+            if (ordEnobData != null)
+                orderEnoblings.add(ordEnobData)
+        }
+        val netSizeValidField = netSizeInput.getFormData(markFields)
+        val validNetSize = netSizeValidField != null
+
+        isValidForm = isValidForm && validNetSize
+        isValidForm = isValidForm && calculationCard != null
         if (!isValidForm) return null
-        val paperOrderTypes: List<PaperOrderTypeInputData> = paperOrderTypes.map {
-            it.getFormData(markFields) ?: return null
-        }
-        val orderEnoblings: List<OrderEnoblingInputData> = orderEnoblings.map {
-            it.getFormData(markFields) ?: return null
-        }
         return OderFormData(
             name = orderForm[OderFormData::name]!!,
             comment = orderForm[OderFormData::comment],
@@ -170,7 +188,7 @@ class InsertOrderPanel : SimplePanel() {
             salesman = orderForm[OderFormData::salesman]!!,
             bindingForm = orderForm[OderFormData::bindingForm]!!,
             calculationCard = calculationCard.getFormData(markFields),
-            netSize = netSizeInput.getFormData(markFields) ?: return null,
+            netSize = netSizeValidField!!,
             client = orderForm[OderFormData::client]!!
         )
     }
@@ -261,20 +279,34 @@ class PaperOrderTypeInput : SimplePanel() {
 
     fun getFormData(markFields: Boolean): PaperOrderTypeInputData? {
         var valid = form.validate(markFields)
+
+        val colorFetched = colourF.getFormData(markFields)
+        valid = valid && colorFetched != null
+
+        val impositionTypeFetched = impositionTypeF.getFormData(markFields)
+        valid = valid && impositionTypeFetched != null
+
+        val sizeFetched = sizeF.getFormData(markFields)
+        valid = valid && sizeFetched != null
+
+        val productionSizeFetched = productionSizeF.getFormData(markFields)
+        valid = valid && productionSizeFetched != null
+
+
         if (!valid) return null
         return PaperOrderTypeInputData(
             paperType = paperTypeF.value ?: return null,
             grammage = grammageF.value?.toDouble() ?: return null,
-            colours = colourF.getFormData(markFields) ?: return null,
+            colours = colorFetched ?: return null,
             circulation = circulationF.value?.toInt() ?: return null,
             stockCirculation = stockCirculationF.value?.toInt() ?: return null,
             sheetNumber = sheetNumberF.value?.toInt() ?: return null,
             comment = commentF.value,
             printer = printerF.value ?: return null,
             platesQuantityForPrinter = platesQuantityForPrinterF.value?.toInt() ?: return null,
-            imposition = impositionTypeF.getFormData(markFields) ?: return null,
-            size = sizeF.getFormData(markFields) ?: return null,
-            productionSize = productionSizeF.getFormData(markFields) ?: return null,
+            imposition = impositionTypeFetched ?: return null,
+            size = sizeFetched ?: return null,
+            productionSize = productionSizeFetched ?: return null,
         )
     }
 }
