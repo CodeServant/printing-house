@@ -6,12 +6,12 @@ import io.kvision.form.check.CheckBox
 import io.kvision.form.select.Select
 import io.kvision.form.select.TomSelect
 import io.kvision.form.time.DateTime
+import io.kvision.html.button
 import io.kvision.html.label
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
-import io.kvision.state.ObservableList
-import io.kvision.state.ObservableListWrapper
+import io.kvision.state.*
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlin.js.Date
@@ -52,7 +52,7 @@ class InsertOrderPanel : SimplePanel() {
 
     init {
         val reqMsg = "value is required"
-
+        calculationCard.visible = false
         orderForm.add(OderFormData::name, TextInput("Name"), required = true, requiredMessage = reqMsg)
         orderForm.add(OderFormData::comment, TextInput("Comment"), required = false)
         orderForm.add(
@@ -136,6 +136,17 @@ class InsertOrderPanel : SimplePanel() {
 
         orderForm.add(OrderEnoblingsInput(orderEnoblings))
 
+        orderForm.add(
+            button("add calculation card") {
+                onClick {
+                    calculationCard.visible = !calculationCard.visible
+                    if (calculationCard.visible)
+                        this.text = "reject calculation card"
+                    else
+                        this.text = "add calculation card"
+                }
+            }
+        )
         orderForm.add(calculationCard)
         add(orderForm)
     }
@@ -169,7 +180,8 @@ class InsertOrderPanel : SimplePanel() {
         val validNetSize = netSizeValidField != null
 
         isValidForm = isValidForm && validNetSize
-        isValidForm = isValidForm && calculationCard != null
+        val calcData = calculationCard.getFormData(markFields)
+        isValidForm = isValidForm && (calcData != null == calculationCard.visible)
         if (!isValidForm) return null
         return OderFormData(
             name = orderForm[OderFormData::name]!!,
@@ -187,7 +199,7 @@ class InsertOrderPanel : SimplePanel() {
             bindery = orderForm[OderFormData::bindery]!!,
             salesman = orderForm[OderFormData::salesman]!!,
             bindingForm = orderForm[OderFormData::bindingForm]!!,
-            calculationCard = calculationCard.getFormData(markFields),
+            calculationCard = calcData ?: return null,
             netSize = netSizeValidField!!,
             client = orderForm[OderFormData::client]!!
         )
