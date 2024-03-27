@@ -61,7 +61,7 @@ internal class EnoblingRepoImpl : EnoblingIntRepo {
 
         val valuesLeft = allMap
             .minus(
-                found.map { it.enoblingId!! }
+                found.map { it.enoblingId!! }.toSet()
             ).values
         found.addAll(valuesLeft)
         return found
