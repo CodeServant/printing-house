@@ -128,7 +128,7 @@ class InsertOrderPanel : SimplePanel() {
                     "1" to "Super Bind",
                     "2" to "Bind 2000",
                 ), label = "Binding Form"
-            ),            required = true
+            ), required = true
         )
         orderForm.add(netSizeInput)
 
