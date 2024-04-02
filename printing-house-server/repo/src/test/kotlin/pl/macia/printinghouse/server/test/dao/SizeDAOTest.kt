@@ -67,4 +67,14 @@ internal class SizeDAOTest {
             dao.saveAndFlush(nonExistance)
         }
     }
+
+    @Test
+    fun `findByNameInNotNull test`() {
+        val foundList = dao.findByNameIsNotNull()
+        val initialSize = foundList.size
+        val filterefSize = foundList.filter {
+            it.name != null
+        }.size
+        assertEquals(initialSize, filterefSize)
+    }
 }

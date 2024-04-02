@@ -5,4 +5,5 @@ import pl.macia.printinghouse.server.dto.Size
 
 internal interface SizeDAO : JpaRepository<Size, Int>, SizeDAOCustom {
     fun findByName(s: String): Size?
+    fun findByNameIsNotNull(): List<Size>
 }
