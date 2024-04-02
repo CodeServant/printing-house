@@ -2,36 +2,53 @@ package pl.macia.printinghouse.web.cli
 
 import io.kvision.html.Button
 import io.kvision.panel.SimplePanel
+import io.kvision.state.ObservableValue
 import pl.macia.printinghouse.request.OrderReq
+import pl.macia.printinghouse.response.SizeResp
+import pl.macia.printinghouse.web.dao.SizeDao
 
 class SalesmanNewOrderPanel(
     onSave: (OrderReq) -> Unit,
     onAccept: (OrderReq) -> Unit,
-    onLeave: () -> Unit,
+    onLeave: () -> Unit, // todo make on error function when fetching data is disrupted
     init: (SalesmanNewOrderPanel.() -> Unit)? = null
 ) :
     SimplePanel() {
+    private val loaded = ObservableValue<List<SizeResp>?>(null)
+
     init {
-        val inOrdPanel = InsertOrderPanel()
-        val acceptBtn = AcceptButton() {
-            onClick {
-                onAccept(TODO())
+        SizeDao().allNamedSizes(
+            onFulfilled = {
+                loaded.value = it
+            },
+            onRejected = {}
+        )
+
+        loaded.subscribe {
+            if (it != null) {
+                val inOrdPanel = InsertOrderPanel(it)
+                add(inOrdPanel)
+                val acceptBtn = AcceptButton() {
+                    onClick {
+                        onAccept(TODO())
+                    }
+                }
+                val saveBtn = SaveButton() {
+                    onClick {
+                        inOrdPanel.getFormData(true)
+                    }
+                }
+                val leaveBtn = CancelButton() {
+                    onClick {
+                        onLeave()
+                    }
+                }
+                add(acceptBtn)
+                add(saveBtn)
+                add(leaveBtn)
             }
         }
-        val saveBtn = SaveButton() {
-            onClick {
-                onSave(TODO())
-            }
-        }
-        val leaveBtn = CancelButton() {
-            onClick {
-                onLeave()
-            }
-        }
-        add(inOrdPanel)
-        add(acceptBtn)
-        add(saveBtn)
-        add(leaveBtn)
+
         init?.invoke(this)
     }
 }

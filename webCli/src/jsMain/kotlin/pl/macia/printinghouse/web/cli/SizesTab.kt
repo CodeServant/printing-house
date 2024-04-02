@@ -8,6 +8,7 @@ import io.kvision.panel.hPanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.SizeResp
 
 @Serializable
 data class SizeSummary(
@@ -55,18 +56,20 @@ data class SizeInputData(
     val name: String?
 )
 
-class SizeInput(label: String?) : SimplePanel() {
+class SizeInput(label: String?, sizeResp: List<SizeResp>) : SimplePanel() {
     private val allSizes = mapOf(
-        "A4" to SizeSummary(width = 210.0, height = 297.0, name = "A4"), // todo fetch all sizes from database
-        "B5" to SizeSummary(width = 176.0, height = 250.0, name = "B5"),
+        *sizeResp.map {
+            it.name to it
+        }.toTypedArray()
     )
     private val sizeWidth = DoubleInputField("width")
     private val sizeHeight = DoubleInputField("Height")
     private val sizeNameSel = TomSelect(
-        options = listOf(
-            "A4" to "A4",
-            "B5" to "B5",
-        )
+        options = sizeResp
+            .filter { it.name != null }
+            .map {
+                it.name!! to it.name!!
+            }
     )
 
     init {
@@ -78,7 +81,7 @@ class SizeInput(label: String?) : SimplePanel() {
             sizeNameSel.subscribe {
                 val notNull = it != null
                 if (notNull) {
-                    sizeHeight.value = allSizes[it]?.height
+                    sizeHeight.value = allSizes[it]?.heigth
                     sizeWidth.value = allSizes[it]?.width
                 }
                 sizeWidth.disabled = notNull
@@ -104,7 +107,7 @@ class SizeInput(label: String?) : SimplePanel() {
             else if (field.value!!.toDouble() <= 0) field.validatorError = "inappropriate value"
             else {
                 field.validatorError = null
-                field.validationStatus=ValidationStatus.VALID
+                field.validationStatus = ValidationStatus.VALID
             }
         }
 
