@@ -172,6 +172,7 @@ sealed interface SizeRepo {
      * Fetch from database or create [Size] object with provided parameters.
      */
     fun createByParameters(width: Double, heigth: Double): Size
+    fun allNamedSizes(): List<Size>
 }
 
 internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>

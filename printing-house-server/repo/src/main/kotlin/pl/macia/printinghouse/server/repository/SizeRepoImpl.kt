@@ -28,4 +28,10 @@ internal class SizeRepoImpl : SizeIntRepo {
     override fun createByParameters(width: Double, heigth: Double): Size {
         return dao.findOrCreate(width, heigth).toBiz()
     }
+
+    override fun allNamedSizes(): List<Size> {
+        return dao.findByNameIsNotNull().map {
+            it.toBiz()
+        }
+    }
 }

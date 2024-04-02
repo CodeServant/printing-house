@@ -58,4 +58,8 @@ object EndpNames {
     object WorkflowStageStop {
         const val WORKFLOW_STAGE_STOP = "workflow-stage-stop"
     }
+
+    object Size {
+        const val SIZE = "sizes"
+    }
 }
