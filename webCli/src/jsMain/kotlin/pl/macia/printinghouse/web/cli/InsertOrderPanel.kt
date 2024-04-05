@@ -14,7 +14,6 @@ import io.kvision.panel.hPanel
 import io.kvision.state.*
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import pl.macia.printinghouse.response.SizeResp
 import kotlin.js.Date
 
 @Serializable
@@ -44,11 +43,11 @@ data class OderFormData(
     var client: String
 )
 
-class InsertOrderPanel(sizeList: List<SizeResp>) : SimplePanel() {
+class InsertOrderPanel : SimplePanel() {
     private val orderForm = FormPanel(serializer = OderFormData.serializer())
     private val paperOrderTypes: ObservableList<PaperOrderTypeInput> = ObservableListWrapper()
     private val orderEnoblings: ObservableList<OrderEnoblingInput> = ObservableListWrapper()
-    private val netSizeInput = SizeInput("net size", sizeList)
+    private val netSizeInput = SizeInput("net size")
     private val calculationCard = CalculationCardInput()
 
     init {
@@ -133,7 +132,7 @@ class InsertOrderPanel(sizeList: List<SizeResp>) : SimplePanel() {
         )
         orderForm.add(netSizeInput)
 
-        orderForm.add(PaperOrderTypesInput(paperOrderTypes, sizeList))
+        orderForm.add(PaperOrderTypesInput(paperOrderTypes))
 
         orderForm.add(OrderEnoblingsInput(orderEnoblings))
 
@@ -245,17 +244,17 @@ private open class MultiInput<Input : Container>(inputFields: ObservableList<Inp
     }
 }
 
-private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>, sizeList: List<SizeResp>) :
+private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) :
     MultiInput<PaperOrderTypeInput>(paperOrderTypes,
         {
-            PaperOrderTypeInput(sizeList)
+            PaperOrderTypeInput()
         }
     )
 
 private class OrderEnoblingsInput(orderEnoblings: ObservableList<OrderEnoblingInput>) :
     MultiInput<OrderEnoblingInput>(orderEnoblings, ::OrderEnoblingInput)
 
-class PaperOrderTypeInput(sizeList: List<SizeResp>) : SimplePanel() {
+class PaperOrderTypeInput : SimplePanel() {
     private var grammageF = DoubleInputField("grammage")
     private var stockCirculationF = IntegerInput("stockCirculation")
     private var sheetNumberF = IntegerInput("sheetNumber")
@@ -266,8 +265,8 @@ class PaperOrderTypeInput(sizeList: List<SizeResp>) : SimplePanel() {
     private val printerF = SelectPrinter(label = "printer")
     private val colourF = ColourInput()
     private val impositionTypeF = SelectImpositionType("imposition type")
-    private val sizeF = SizeInput("size", sizeList)
-    private val productionSizeF = SizeInput("production size", sizeList)
+    private val sizeF = SizeInput("size")
+    private val productionSizeF = SizeInput("production size")
     val form = FormPanel<PaperOrderTypeInputData>()
 
     init {

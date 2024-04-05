@@ -2,13 +2,17 @@ package pl.macia.printinghouse.web.cli
 
 import io.kvision.form.ValidationStatus
 import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.html.label
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.SizeResp
+import pl.macia.printinghouse.web.dao.SizeDao
 
 @Serializable
 data class SizeSummary(
@@ -56,20 +60,36 @@ data class SizeInputData(
     val name: String?
 )
 
-class SizeInput(label: String?, sizeResp: List<SizeResp>) : SimplePanel() {
-    private val allSizes = mapOf(
-        *sizeResp.map {
-            it.name to it
-        }.toTypedArray()
-    )
+class SizeInput(label: String?) : SimplePanel() {
+    private val allSizes = mutableMapOf<String, SizeResp>()
     private val sizeWidth = DoubleInputField("width")
     private val sizeHeight = DoubleInputField("Height")
     private val sizeNameSel = TomSelect(
-        options = sizeResp
-            .filter { it.name != null }
-            .map {
-                it.name!! to it.name!!
+        tsOptions = TomSelectOptions(
+            preload = true
+        ), tsCallbacks = TomSelectCallbacks(
+            load = { _, c ->
+                SizeDao().allNamedSizes(
+                    onFulfilled = { fetched ->
+                        val v = fetched.filter { it.name != null }.map {
+                            val keyVal = it.name
+                                ?: throw RuntimeException("null name passed to TomSelect, probably null fetched from database")
+                            allSizes[keyVal] =
+                                it
+                            obj {
+                                this.value = keyVal
+                                this.text = keyVal
+                            }
+                        }.toTypedArray()
+                        c(v)
+                    }, onRejected = {
+                        TODO("on rejected not defined")
+                    }
+                )
+            }, shouldLoad = {
+                false
             }
+        )
     )
 
     init {
