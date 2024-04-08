@@ -45,6 +45,13 @@ internal class IndividualClientDAOTest {
     }
 
     @Test
+    fun searchQueryTest() {
+        val indClients = dao.searchQuery("Rick San")
+        assertEquals(1, indClients.size)
+        assertEquals("Rick", indClients.first().name)
+    }
+
+    @Test
     @Order(3)
     fun `delete one test`() {
         val indCli = dao.findByEmail("individualClientTestCreateNew@example.com")!!
