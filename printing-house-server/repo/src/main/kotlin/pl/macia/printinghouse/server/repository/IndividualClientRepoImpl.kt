@@ -13,11 +13,11 @@ internal class IndividualClientRepoImpl : IndividualClientIntRepo {
     @Autowired
     private lateinit var dao: IndividualClientDAO
     override fun findByClientId(clientId: Int): IndividualClient? {
-        return dao.findByClientId(clientId)?.let { IndividualClientImpl(it) }
+        return dao.findByClientId(clientId)?.let(::IndividualClientImpl)
     }
 
     override fun findByPersonId(personId: Int): IndividualClient? {
-        return dao.findByIdOrNull(personId)?.let { IndividualClientImpl(it) }
+        return dao.findByIdOrNull(personId)?.let(::IndividualClientImpl)
     }
 
     override fun save(obj: IndividualClient): IndividualClientImpl {
