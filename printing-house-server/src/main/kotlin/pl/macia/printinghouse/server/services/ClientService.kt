@@ -137,6 +137,16 @@ class ClientService {
         }
         return ChangeResp(changed)
     }
+
+    fun queryClient(query: String): Collection<ClientResp> {
+        val foundCompanies = compCliRepo.searchByName(query).map {
+            it.toTransport()
+        }
+        val foundIndividuals = indCliRepo.searchQuery(query).map {
+            it.toTransport()
+        }
+        return listOf(foundCompanies, foundIndividuals).flatten()
+    }
 }
 
 /**

@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.server.controller
 
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -46,5 +47,18 @@ class ClientController {
     ): ResponseEntity<ChangeResp> {
         val changed = serv.changeOne(id, clientChange)
         return ResponseEntity.of(Optional.ofNullable(changed))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @GetMapping(value = [EndpNames.Clients.CLIENTS], produces = ["application/json"])
+    fun getClients(
+        @Parameter(
+            required = false,
+            description = "filter clients using searching query"
+        )
+        @RequestParam
+        searchQuery: String
+    ): ResponseEntity<Collection<ClientResp>> {
+        return ResponseEntity.ok(serv.queryClient(searchQuery))
     }
 }
