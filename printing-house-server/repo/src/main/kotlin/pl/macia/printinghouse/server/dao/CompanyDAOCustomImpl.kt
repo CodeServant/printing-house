@@ -15,4 +15,11 @@ internal class CompanyDAOCustomImpl : CompanyDAOCustom {
         query.setParameter("cliId", id)
         return query.resultList.firstOrNull()
     }
+
+    override fun searchQuery(qry: String): List<Company> {
+        val query =
+            em.createQuery("FROM Company as c WHERE c.name LIKE :qry", Company::class.java)
+        query.setParameter("qry", "$qry%")
+        return query.resultList
+    }
 }

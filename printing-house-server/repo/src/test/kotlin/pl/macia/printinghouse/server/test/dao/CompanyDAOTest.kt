@@ -48,4 +48,11 @@ internal class CompanyDAOTest {
         assertNotNull(company)
         assertNotNull(client)
     }
+
+    @Test
+    fun `search query test`() {
+        val evcrp = dao.searchQuery("Evil")
+        assertEquals(1, evcrp.size)
+        assertEquals("evil corp inc.", evcrp[0].name)
+    }
 }
