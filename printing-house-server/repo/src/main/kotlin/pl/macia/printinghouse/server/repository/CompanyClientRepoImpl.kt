@@ -32,4 +32,8 @@ internal class CompanyClientRepoImpl : CompanyClientIntRepo {
         val id = clientId ?: return false
         return findByClientId(id) != null
     }
+
+    override fun searchByName(name: String): List<CompanyClient> {
+        return dao.searchQuery(name).map(::CompanyClientImpl)
+    }
 }

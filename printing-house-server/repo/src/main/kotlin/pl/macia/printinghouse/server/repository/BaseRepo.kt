@@ -71,6 +71,7 @@ sealed interface CompanyClientRepo {
     fun findByClientId(clientId: Int): CompanyClient?
     fun save(obj: CompanyClient): CompanyClient
     fun Client.isCompanyClient(): Boolean
+    fun searchByName(name: String): List<CompanyClient>
 }
 
 internal sealed interface CompanyClientIntRepo : CompanyClientRepo, BaseRepo<CompanyClient>, ClientRepos
