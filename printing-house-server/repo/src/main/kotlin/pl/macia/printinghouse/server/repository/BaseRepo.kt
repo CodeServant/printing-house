@@ -31,6 +31,7 @@ sealed interface IndividualClientRepo {
     fun findByClientId(clientId: Int): IndividualClient?
     fun findByPersonId(personId: Int): IndividualClient?
     fun Client.isIndividualClient(): Boolean
+    fun searchQuery(query: String): List<IndividualClient>
 }
 
 sealed interface EmployeeRepo {

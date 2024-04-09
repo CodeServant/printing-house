@@ -30,4 +30,8 @@ internal class IndividualClientRepoImpl : IndividualClientIntRepo {
         val id = clientId ?: return false
         return findByClientId(id) != null
     }
+
+    override fun searchQuery(query: String): List<IndividualClient> {
+        return dao.searchQuery(query).map(::IndividualClientImpl)
+    }
 }
