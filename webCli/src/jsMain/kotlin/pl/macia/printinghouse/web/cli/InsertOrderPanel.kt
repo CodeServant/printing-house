@@ -5,6 +5,7 @@ import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox
 import io.kvision.form.select.Select
 import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.form.time.DateTime
 import io.kvision.html.button
 import io.kvision.html.label
@@ -12,8 +13,11 @@ import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.*
+import io.kvision.utils.obj
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.dao.ClientDao
 import kotlin.js.Date
 
 @Serializable
@@ -58,10 +62,24 @@ class InsertOrderPanel : SimplePanel() {
         orderForm.add(
             key = OderFormData::client,
             control = TomSelect(
-                options = listOf(
-                    "1" to "Marian Paździoch",
-                    "2" to "Evil Corp sp. zł o.o.",
-                ), label = "Client"
+                label = "Client",
+                tsCallbacks = TomSelectCallbacks(
+                    load = { query, callback ->
+                        ClientDao().searchClient(query,
+                            onFulfilled = {
+                                val arr = it.map { client ->
+                                    obj {
+                                        this.value = client.clientId
+                                        this.text = client.summary()
+                                    }
+                                }.toTypedArray()
+                                callback(arr)
+                            },
+                            onRejected = {
+                                callback(arrayOf())
+                            })
+                    }
+                )
             ), required = true
         )
         orderForm.add(
