@@ -26,13 +26,13 @@ class BinderyController {
     private lateinit var serv: BinderyService
 
     @Operation(summary = "get all binderies")
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = [EndpNames.Bindery.BINDERIES], produces = ["application/json"])
     fun getAllBinderies(): ResponseEntity<List<BinderyResp>> {
         return ResponseEntity.ok(serv.listAllBinderies())
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = ["${EndpNames.Bindery.BINDERIES}/{id}"], produces = ["application/json"])
     fun findById(@PathVariable id: Int): ResponseEntity<BinderyResp> {
         val found = Optional.ofNullable(serv.findById(id))
