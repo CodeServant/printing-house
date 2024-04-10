@@ -6,6 +6,7 @@ import io.kvision.form.check.CheckBox
 import io.kvision.form.select.Select
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.form.time.DateTime
 import io.kvision.html.button
 import io.kvision.html.label
@@ -17,6 +18,7 @@ import io.kvision.utils.obj
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.dao.BinderyDao
 import pl.macia.printinghouse.web.dao.ClientDao
 import kotlin.js.Date
 
@@ -124,10 +126,28 @@ class InsertOrderPanel : SimplePanel() {
         orderForm.add(
             key = OderFormData::bindery,
             control = TomSelect(
-                options = listOf(
-                    "1" to "A1",
-                    "2" to "A2",
-                ), label = "Bindery"
+                label = "Bindery",
+                tsOptions = TomSelectOptions(
+                    preload = true
+                ), tsCallbacks = TomSelectCallbacks(
+                    load = { _, callback ->
+                        BinderyDao().allBinderies(
+                            onFulfilled = { fetched ->
+                                val v = fetched.map {
+                                    obj {
+                                        this.value = it.id
+                                        this.text = it.name
+                                    }
+                                }.toTypedArray()
+                                callback(v)
+                            }, onRejected = {
+                                TODO("on rejected not defined")
+                            }
+                        )
+                    }, shouldLoad = {
+                        false
+                    }
+                )
             ), required = true
         )
         orderForm.add(
