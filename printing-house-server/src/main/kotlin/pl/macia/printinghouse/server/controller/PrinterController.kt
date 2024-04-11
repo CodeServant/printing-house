@@ -32,7 +32,7 @@ class PrinterController {
         return ResponseEntity.of(found)
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = [EndpNames.Printer.PRINTERS], produces = ["application/json"])
     fun getAllPrinters(): ResponseEntity<List<PrinterResp>> {
         return ResponseEntity.ok(serv.allPrinters())
