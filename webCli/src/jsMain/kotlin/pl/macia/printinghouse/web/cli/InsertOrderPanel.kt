@@ -19,6 +19,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.summary
 import pl.macia.printinghouse.web.dao.BinderyDao
+import pl.macia.printinghouse.web.dao.BindingFormDao
 import pl.macia.printinghouse.web.dao.ClientDao
 import kotlin.js.Date
 
@@ -162,11 +163,30 @@ class InsertOrderPanel : SimplePanel() {
         orderForm.add(
             key = OderFormData::bindingForm,
             control = TomSelect(
-                options = listOf(
-                    "1" to "Super Bind",
-                    "2" to "Bind 2000",
-                ), label = "Binding Form"
-            ), required = true
+                label = "Binding Form",
+                tsCallbacks = TomSelectCallbacks(
+                    load = { _, callback ->
+                        BindingFormDao().allBindingForms(
+                            onFulfilled = { fetched ->
+                                val arr = fetched.map {
+                                    obj {
+                                        this.value = it.id
+                                        this.text = it.name
+                                    }
+                                }.toTypedArray()
+                                callback(arr)
+                            }, onRejected = {
+                                TODO("implement Binding Form doa on rejected")
+                            }
+                        )
+                    },
+                    shouldLoad = { false }
+                ),
+                tsOptions = TomSelectOptions(
+                    preload = true
+                )
+            ),
+            required = true
         )
         orderForm.add(netSizeInput)
 
