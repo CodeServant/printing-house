@@ -1,11 +1,15 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.onChange
-import io.kvision.form.select.Select
+import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.web.dao.ImpositionTypeDao
 
 @Serializable
 data class ImpositionTypeSummary(
@@ -41,14 +45,29 @@ class ImpositionTypeTab : SimplePanel() {
 }
 
 class SelectImpositionType(label: String? = null) : SimplePanel() {
-    val select = Select(
-        options = listOf(
-            Pair("1", "f/f"), //todo change to real data
-            Pair("2", "f/o"),
-            Pair("3", "f/g"),
+    val select = TomSelect(
+        tsCallbacks = TomSelectCallbacks(
+            load = { _, callback ->
+                ImpositionTypeDao().allImpositionTypes(
+                    onFulfilled = { imTpResps ->
+                        val arr = imTpResps.map {
+                            obj {
+                                this.text = it.name
+                                this.value = it.id
+                            }
+                        }.toTypedArray()
+                        callback(arr)
+                    },
+                    onRejected = {
+                        TODO("allImpositionTypes on rejected not implemented")
+                    }
+                )
+            },
+            shouldLoad = { false }
+        ), tsOptions = TomSelectOptions(
+            preload = true
         ),
-        label = label,
-        floating = true
+        label = label
     ) {
         onChange {
             validateSelect(markFields = true)
