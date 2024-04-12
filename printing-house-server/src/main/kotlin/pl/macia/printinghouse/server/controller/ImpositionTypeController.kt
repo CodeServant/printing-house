@@ -25,14 +25,14 @@ class ImpositionTypeController {
     @Autowired
     private lateinit var serv: ImpositionTypeService
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = ["${EndpNames.ImpositionType.IMPOSITION_TYPES}/{id}"], produces = ["application/json"])
     fun findById(@PathVariable id: Int): ResponseEntity<ImpositionTypeResp> {
         val found = Optional.ofNullable(serv.findById(id))
         return ResponseEntity.of(found)
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = [EndpNames.ImpositionType.IMPOSITION_TYPES], produces = ["application/json"])
     fun getAllImpositionTypes(): ResponseEntity<List<ImpositionTypeResp>> {
         return ResponseEntity.ok(serv.allImpositionTypes())
