@@ -1,10 +1,14 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.web.dao.PaperTypeDao
 
 @Serializable
 data class PaperTypeSummary(
@@ -49,11 +53,28 @@ class PaperTypeTab : SimplePanel() {
  */
 class SelectPaperType(label: String? = null) : TomSelect(label = label) {
     init {
-        options = listOf(
-            Pair("1", "kamienna cegła"),
-            Pair("2", "papier błysk"),
-            Pair("3", "papier ścierny"),
+        tsCallbacks = TomSelectCallbacks(
+            load = { _, callback ->
+                PaperTypeDao().allPaperTypes(
+                    onFulfilled = {
+                        callback(
+                            it.map {
+                                obj {
+                                    this.text = it.name
+                                    this.value = it.id
+                                }
+                            }.toTypedArray()
+                        )
+                    },
+                    onRejected = {
+                        TODO("implement paper type fetch all rejected")
+                    },
+                )
+            },
+            shouldLoad = { false }
         )
-        //todo implement this with database data
+        tsOptions = TomSelectOptions(
+            preload = true
+        )
     }
 }
