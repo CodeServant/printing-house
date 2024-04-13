@@ -3,7 +3,6 @@ package pl.macia.printinghouse.web.cli
 import io.kvision.core.*
 import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox
-import io.kvision.form.select.Select
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.form.select.TomSelectOptions
@@ -18,7 +17,6 @@ import io.kvision.utils.obj
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.summary
-import pl.macia.printinghouse.web.dao.BinderyDao
 import pl.macia.printinghouse.web.dao.BindingFormDao
 import pl.macia.printinghouse.web.dao.ClientDao
 import kotlin.js.Date
@@ -126,30 +124,8 @@ class InsertOrderPanel : SimplePanel() {
         )
         orderForm.add(
             key = OderFormData::bindery,
-            control = TomSelect(
-                label = "Bindery",
-                tsOptions = TomSelectOptions(
-                    preload = true
-                ), tsCallbacks = TomSelectCallbacks(
-                    load = { _, callback ->
-                        BinderyDao().allBinderies(
-                            onFulfilled = { fetched ->
-                                val v = fetched.map {
-                                    obj {
-                                        this.value = it.id
-                                        this.text = it.name
-                                    }
-                                }.toTypedArray()
-                                callback(v)
-                            }, onRejected = {
-                                TODO("on rejected not defined")
-                            }
-                        )
-                    }, shouldLoad = {
-                        false
-                    }
-                )
-            ), required = true
+            control = BinderySelect(),
+            required = true
         )
         orderForm.add(
             key = OderFormData::salesman,
@@ -399,14 +375,7 @@ class OrderEnoblingInput : HPanel() {
         val annotation = TextInput("annotation")
         val enobling = EnoblingSelect()
 
-        val bindery = Select(
-            label = "bindery", options = listOf(
-                "A1" to "A1",
-                "A2" to "A2",
-                "A3" to "A3",
-                "A4" to "A4",
-            )
-        )
+        val bindery = BinderySelect()
         form.add(key = OrderEnoblingInputData::annotation, control = annotation, required = false)
         form.add(key = OrderEnoblingInputData::enobling, control = enobling, required = true)
         form.add(key = OrderEnoblingInputData::bindery, control = bindery, required = true)

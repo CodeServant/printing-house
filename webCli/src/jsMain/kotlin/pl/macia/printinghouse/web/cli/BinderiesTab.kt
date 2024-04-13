@@ -1,11 +1,15 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.Container
+import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.form.text.Text
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
@@ -89,4 +93,31 @@ fun Container.binderyFormPanel(init: (BinderyFormPanel.() -> Unit)? = null): Bin
     val bind = BinderyFormPanel(init)
     add(bind)
     return bind
+}
+
+class BinderySelect : TomSelect(label = "Bindery") {
+    init {
+        tsOptions = TomSelectOptions(
+            preload = true
+        )
+        tsCallbacks = TomSelectCallbacks(
+            load = { _, callback ->
+                BinderyDao().allBinderies(
+                    onFulfilled = { fetched ->
+                        val v = fetched.map {
+                            obj {
+                                this.value = it.id
+                                this.text = it.name
+                            }
+                        }.toTypedArray()
+                        callback(v)
+                    }, onRejected = {
+                        TODO("on rejected not defined")
+                    }
+                )
+            }, shouldLoad = {
+                false
+            }
+        )
+    }
 }
