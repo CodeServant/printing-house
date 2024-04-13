@@ -10,7 +10,7 @@ class EnoblingDao {
     private val url = "http://localhost:8080/api/enoblings"
     private val dullDao = DullDao(url)
     fun allEnoblings(
-        onFulfilled: (List<IEnoblingReq>) -> Unit,
+        onFulfilled: (List<EnoblingResp>) -> Unit,
         onRejected: (Throwable) -> Unit
     ) = dullDao.getAllDull(onFulfilled, onRejected)
 
