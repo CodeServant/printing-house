@@ -397,15 +397,8 @@ class OrderEnoblingInput : HPanel() {
 
     init {
         val annotation = TextInput("annotation")
-        val enobling = Select(
-            label = "enobling", options = listOf(
-                "1" to "farba kolorowa",
-                "2" to "karton aksamitny",
-                "3" to "papier błysk",
-                "4" to "szalony wykrojnik",
-                "5" to "wykrojnik zwyczajny",
-            )
-        )
+        val enobling = EnoblingSelect()
+
         val bindery = Select(
             label = "bindery", options = listOf(
                 "A1" to "A1",

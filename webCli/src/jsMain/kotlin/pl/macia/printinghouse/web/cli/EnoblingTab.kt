@@ -1,10 +1,15 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.form.select.TomSelectOptions
 import io.kvision.form.select.select
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.web.dao.EnoblingDao
 
 enum class EnoblingSubtype {
     UV_VARNISH, PUNCH
@@ -58,6 +63,33 @@ class EnoblingTab : SimplePanel() {
                     }
                 }
             }
+        )
+    }
+}
+
+class EnoblingSelect : TomSelect(label = "Enobling") {
+    init {
+        tsCallbacks = TomSelectCallbacks(
+            load = { _, callbacks ->
+                EnoblingDao().allEnoblings(
+                    onFulfilled = { enobs ->
+                        callbacks(
+                            enobs.map {
+                                obj {
+                                    this.text = it.name
+                                    this.value = it.id
+                                }
+                            }.toTypedArray()
+                        )
+                    },
+                    onRejected = {
+                        TODO("implement EnoblingSelect onRejected")
+                    }
+                )
+            }, shouldLoad = { false }
+        )
+        tsOptions = TomSelectOptions(
+            preload = true
         )
     }
 }
