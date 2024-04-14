@@ -14,11 +14,14 @@ import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.*
 import io.kvision.utils.obj
+import kotlinx.browser.localStorage
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BindingFormDao
 import pl.macia.printinghouse.web.dao.ClientDao
+import pl.macia.printinghouse.web.dao.SalesmanDao
 import kotlin.js.Date
 
 @Serializable
@@ -127,14 +130,33 @@ class InsertOrderPanel : SimplePanel() {
             control = BinderySelect(),
             required = true
         )
+        val salesmanSelect = TomSelect(
+            label = "Salesman"
+        ) {
+            this.disabled = true
+            val thisEmail = StorageInfo(localStorage).username
+                ?: throw RuntimeException("there is no email in local storage")
+            SalesmanDao().findByEmail(
+                thisEmail,
+                onFulfilled = { salesmanResp ->
+                    this.options = listOf(
+                        Pair(
+                            salesmanResp.id.toString(),
+                            "${salesmanResp.name} ${salesmanResp.surname}: ${salesmanResp.email}"
+                        )
+                    )
+                    this.value = salesmanResp.id.toString()
+                },
+                onRejected = {
+                    TODO("implement on rejected in InsertOrderPanel salesman")
+                }
+            )
+        }
+
         orderForm.add(
             key = OderFormData::salesman,
-            control = TomSelect(
-                options = listOf(
-                    "1" to "Robert de Niro",
-                    "2" to "Danny Devito",
-                ), label = "Salesman"
-            ), required = true
+            control = salesmanSelect,
+            required = true
         )
         orderForm.add(
             key = OderFormData::bindingForm,
