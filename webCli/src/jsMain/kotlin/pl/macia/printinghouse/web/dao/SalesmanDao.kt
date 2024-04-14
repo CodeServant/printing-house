@@ -1,14 +1,15 @@
 package pl.macia.printinghouse.web.dao
 
+import io.kvision.rest.RestClient
 import io.kvision.rest.RestResponse
+import io.kvision.rest.call
+import io.kvision.utils.obj
 import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
-import pl.macia.printinghouse.request.WorkerChangeReq
-import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.SalesmanResp
-import pl.macia.printinghouse.response.WorkerResp
+import pl.macia.printinghouse.web.authorize
 
 class SalesmanDao {
     private val url = "http://localhost:8080/api/salesmans"
@@ -45,4 +46,21 @@ class SalesmanDao {
         onFulfilled,
         onRejected
     )
+
+    fun findByEmail(
+        email: String,
+        onFulfilled: (SalesmanResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<SalesmanResp>(
+            url
+        ) {
+            authorize()
+            data = obj {
+                this.email = email
+            }
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
