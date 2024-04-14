@@ -255,7 +255,7 @@ class InsertOrderPanel : SimplePanel() {
             bindery = orderForm[OderFormData::bindery]!!,
             salesman = orderForm[OderFormData::salesman]!!,
             bindingForm = orderForm[OderFormData::bindingForm]!!,
-            calculationCard = calcData ?: return null,
+            calculationCard = calcData,
             netSize = netSizeValidField!!,
             client = orderForm[OderFormData::client]!!
         )
