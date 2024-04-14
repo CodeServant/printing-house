@@ -40,4 +40,12 @@ internal class SalesmanDAOTest {
         assertEquals(salesman?.pseudoPESEL, person?.pseudoPESEL)
         assertEquals(salesman?.id, person?.id)
     }
+
+    @Test
+    fun `find by email test`() {
+        var findSal = salesmanDAO.findByEmail("evilcorp@example.com")
+        assertEquals("Kowalski-Salesman", findSal?.surname)
+        findSal = salesmanDAO.findByEmail("nonExistingEmail@example.com")
+        assertNull(findSal)
+    }
 }

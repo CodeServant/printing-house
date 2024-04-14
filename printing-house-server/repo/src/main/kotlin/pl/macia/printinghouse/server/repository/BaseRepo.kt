@@ -212,6 +212,7 @@ sealed interface SalesmanRepo {
     fun findById(id: Int): Salesman?
     fun findAllHired(): List<Salesman>
     fun deleteById(id: Int)
+    fun findByEmail(email: String): Salesman?
 }
 
 internal sealed interface SalesmanIntRepo : SalesmanRepo, SingleIdRepo<Salesman, Int>

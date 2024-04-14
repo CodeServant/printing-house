@@ -32,6 +32,13 @@ class SalesmanController {
         return ResponseEntity.ok(serv.listSalesmans())
     }
 
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.EMPLOYEE}')")
+    @GetMapping(value = [EndpNames.Salesman.SALESMANS], produces = ["application/json"], params = ["email"])
+    fun getSalesmanId(@RequestParam email: String): ResponseEntity<SalesmanResp> {
+        val optional = Optional.ofNullable(serv.findWithEmail(email))
+        return ResponseEntity.of(optional)
+    }
+
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
     @GetMapping(value = ["${EndpNames.Salesman.SALESMANS}/{id}"], produces = ["application/json"])
     fun findById(@PathVariable id: Int): ResponseEntity<SalesmanResp> {

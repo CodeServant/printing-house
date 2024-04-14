@@ -29,4 +29,8 @@ internal class SalesmanRepoImpl : SalesmanIntRepo {
     override fun deleteById(id: Int) {
         dao.deleteById(id)
     }
+
+    override fun findByEmail(email: String): Salesman? {
+        return dao.findByEmail(email)?.toBiz()
+    }
 }

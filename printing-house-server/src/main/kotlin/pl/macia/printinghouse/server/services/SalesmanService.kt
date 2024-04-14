@@ -76,6 +76,10 @@ class SalesmanService {
     private fun Salesman.roleAsSalesman() {
         this.roles.add(roleRepo.mergeName(PrimaryRoles.SALESMAN))
     }
+
+    fun findWithEmail(email: String): SalesmanResp? {
+        return repo.findByEmail(email)?.toTransport()
+    }
 }
 
 /**

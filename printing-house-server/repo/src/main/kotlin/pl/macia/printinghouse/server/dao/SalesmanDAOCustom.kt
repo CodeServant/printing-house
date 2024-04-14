@@ -1,3 +1,7 @@
 package pl.macia.printinghouse.server.dao
 
-internal interface SalesmanDAOCustom
+import pl.macia.printinghouse.server.dto.Salesman
+
+internal interface SalesmanDAOCustom {
+    fun findByEmail(email: String): Salesman?
+}
