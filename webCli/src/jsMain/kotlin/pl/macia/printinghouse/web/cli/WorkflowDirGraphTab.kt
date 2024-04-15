@@ -1,6 +1,8 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.AlignItems
+import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.form.select.tomSelect
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
@@ -8,8 +10,10 @@ import io.kvision.state.ObservableList
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
 @Serializable
 data class WorkflowDirGraphSummary(
@@ -49,8 +53,8 @@ class WorkflowDirGraphTab : SimplePanel() {
 }
 
 class WorkflowDirGraphForm : SimplePanel() {
-    var name=TextInput("name")
-    var comment=TextInput("comment")
+    var name = TextInput("name")
+    var comment = TextInput("comment")
     private var list: ObservableList<WorkflowDirEdge> = ObservableListWrapper()
 
     init {
@@ -77,5 +81,28 @@ class WorkflowDirEdge : HPanel() {
         alignItems = AlignItems.CENTER
         tomSelect(label = "vertex 1")
         tomSelect(label = "vertex 2")
+    }
+}
+
+class WorkflowGraphSelect : TomSelect(label = "Workflow Graph") {
+    init {
+        tsCallbacks = TomSelectCallbacks(
+            load = { _, callback ->
+                WorkflowGraphDao().allWorkflowGraphs(
+                    onFulfilled = { graphhs ->
+                        val sumUp = graphhs.map {
+                            obj {
+                                this.value = it.id
+                                this.text = it.name
+                            }
+                        }.toTypedArray()
+                        callback(sumUp)
+                    },
+                    onRejected = {
+                        TODO("implement on rejected workflow graph")
+                    }
+                )
+            }
+        )
     }
 }

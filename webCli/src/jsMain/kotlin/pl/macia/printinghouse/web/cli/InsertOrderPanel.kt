@@ -48,7 +48,8 @@ data class OderFormData(
     var bindingForm: String,
     var calculationCard: CalculationCardInputData?,
     var netSize: SizeInputData,
-    var client: String
+    var client: String,
+    var workflowGraph: String
 )
 
 class InsertOrderPanel : SimplePanel() {
@@ -85,6 +86,11 @@ class InsertOrderPanel : SimplePanel() {
                     }
                 )
             ), required = true
+        )
+        orderForm.add(
+            key = OderFormData::workflowGraph,
+            control = WorkflowGraphSelect(),
+            required = true
         )
         orderForm.add(
             key = OderFormData::designsNumberForSheet,
@@ -257,7 +263,8 @@ class InsertOrderPanel : SimplePanel() {
             bindingForm = orderForm[OderFormData::bindingForm]!!,
             calculationCard = calcData,
             netSize = netSizeValidField!!,
-            client = orderForm[OderFormData::client]!!
+            client = orderForm[OderFormData::client]!!,
+            workflowGraph = orderForm[OderFormData::workflowGraph]!!,
         )
     }
 }
