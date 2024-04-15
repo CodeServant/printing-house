@@ -10,9 +10,10 @@ import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.web.authorize
+import pl.macia.printinghouse.web.clientConfig
 
 class SalesmanDao {
-    private val url = "http://localhost:8080/api/salesmans"
+    private val url = "${clientConfig.serviceUrl}/api/salesmans"
     private val dullDao = DullDao(url)
     fun allSalesmans(onFulfilled: (List<SalesmanResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

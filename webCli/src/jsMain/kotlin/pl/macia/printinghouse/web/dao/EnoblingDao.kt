@@ -5,9 +5,10 @@ import pl.macia.printinghouse.request.IEnoblingReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.EnoblingResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.web.clientConfig
 
 class EnoblingDao {
-    private val url = "http://localhost:8080/api/enoblings"
+    private val url = "${clientConfig.serviceUrl}/api/enoblings"
     private val dullDao = DullDao(url)
     fun allEnoblings(
         onFulfilled: (List<EnoblingResp>) -> Unit,

@@ -6,9 +6,10 @@ import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkerResp
+import pl.macia.printinghouse.web.clientConfig
 
 class WorkerDao {
-    private val url = "http://localhost:8080/api/workers"
+    private val url = "${clientConfig.serviceUrl}/api/workers"
     private val dullDao = DullDao(url)
     fun allWorkers(onFulfilled: (List<WorkerResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

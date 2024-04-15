@@ -6,9 +6,10 @@ import pl.macia.printinghouse.request.WorkflowStageReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowStageResp
+import pl.macia.printinghouse.web.clientConfig
 
 class WorkflowStageDao {
-    private val url = "http://localhost:8080/api/workflow-stages"
+    private val url = "${clientConfig.serviceUrl}/api/workflow-stages"
     private val dullDao = DullDao(url)
     fun allWorkflowStages(onFulfilled: (List<WorkflowStageResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

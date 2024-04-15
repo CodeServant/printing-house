@@ -2,9 +2,10 @@ package pl.macia.printinghouse.web.dao
 
 import io.kvision.rest.*
 import pl.macia.printinghouse.web.authorize
+import pl.macia.printinghouse.web.clientConfig
 
 class WorkflowStageStopDao {
-    private val url = "http://localhost:8080/api/workflow-stage-stop"
+    private val url = "${clientConfig.serviceUrl}/api/workflow-stage-stop"
 
     fun markWorkflowStageAsDone(
         wssId: Int,

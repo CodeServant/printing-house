@@ -9,9 +9,10 @@ import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.ClientResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.web.authorize
+import pl.macia.printinghouse.web.clientConfig
 
 class ClientDao {
-    private val url = "http://localhost:8080/api/clients"
+    private val url = "${clientConfig.serviceUrl}/api/clients"
     private val dullDao = DullDao(url)
     fun newClientReq(
         clientReq: ClientReq,

@@ -5,9 +5,10 @@ import pl.macia.printinghouse.request.PrinterReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.web.clientConfig
 
 class PrinterDao {
-    private val url = "http://localhost:8080/api/printers"
+    private val url = "${clientConfig.serviceUrl}/api/printers"
     private val dullDao = DullDao(url)
     fun allPrinters(onFulfilled: (List<PrinterResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

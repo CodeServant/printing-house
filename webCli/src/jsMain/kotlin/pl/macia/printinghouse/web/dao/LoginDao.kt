@@ -7,6 +7,7 @@ import kotlinx.browser.localStorage
 import pl.macia.printinghouse.request.LoginReq
 import pl.macia.printinghouse.response.BasicLoginResp
 import pl.macia.printinghouse.web.StorageInfo
+import pl.macia.printinghouse.web.clientConfig
 
 class LoginDao {
     /**
@@ -17,7 +18,7 @@ class LoginDao {
     fun signIn(login: String, password: String, onSuccess: () -> Unit, onException: (Throwable) -> Unit) {
         val restClient = RestClient()
         val premise = restClient.request<BasicLoginResp, LoginReq>(
-            "http://localhost:8080/api/signin",
+            "${clientConfig.serviceUrl}/api/signin",
             LoginReq(login, password)
         ) {
             method = HttpMethod.POST

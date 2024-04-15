@@ -5,9 +5,10 @@ import pl.macia.printinghouse.request.PaperTypeReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.PaperTypeResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.web.clientConfig
 
 class PaperTypeDao {
-    private val url = "http://localhost:8080/api/paper-types"
+    private val url = "${clientConfig.serviceUrl}/api/paper-types"
     private val dullDao = DullDao(url)
     fun allPaperTypes(onFulfilled: (List<PaperTypeResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

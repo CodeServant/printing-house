@@ -6,9 +6,10 @@ import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.web.clientConfig
 
 class BindingFormDao {
-    private val url = "http://localhost:8080/api/binding-forms"
+    private val url = "${clientConfig.serviceUrl}/api/binding-forms"
     private val dullDao = DullDao(url)
     fun allBindingForms(onFulfilled: (List<BindingFormResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)

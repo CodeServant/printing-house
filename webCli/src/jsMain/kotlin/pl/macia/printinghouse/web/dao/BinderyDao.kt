@@ -6,9 +6,10 @@ import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
+import pl.macia.printinghouse.web.clientConfig
 
 class BinderyDao {
-    private val url = "http://localhost:8080/api/binderies"
+    private val url = "${clientConfig.serviceUrl}/api/binderies"
     private val dullDao = DullDao(url)
     fun allBinderies(onFulfilled: (List<BinderyResp>) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.getAllDull(onFulfilled, onRejected)
