@@ -36,6 +36,12 @@ class WorkflowGraphController {
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @GetMapping(value = [EndpNames.WorkflowDirGraph.WORKFLOW_GRAPHS], produces = ["application/json"])
+    fun getAllGraphs(): ResponseEntity<List<WorkflowGraphResp>> {
+        return ResponseEntity.ok(serv.allGraphs())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PostMapping(value = [EndpNames.WorkflowDirGraph.WORKFLOW_GRAPHS], produces = ["application/json"])
     fun insesrtNew(@RequestBody workflowGraphReq: WorkflowGraphReq): RecID {
         try {

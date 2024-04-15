@@ -50,6 +50,10 @@ class WorkflowGraphService {
         val saved = repo.save(toSave)
         return RecID(saved.wGraphId!!.toLong())
     }
+
+    fun allGraphs(): List<WorkflowGraphResp> {
+        return repo.all().map { it.toTransport() }
+    }
 }
 
 private fun WorkflowStage.checkGraphRequirements() {

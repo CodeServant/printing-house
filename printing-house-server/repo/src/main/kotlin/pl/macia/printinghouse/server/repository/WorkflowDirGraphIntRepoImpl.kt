@@ -24,4 +24,8 @@ internal class WorkflowDirGraphIntRepoImpl : WorkflowDirGraphIntRepo {
     override fun findById(id: Int): WorkflowDirGraph? {
         return dao.findByIdOrNull(id)?.toBiz()
     }
+
+    override fun all(): List<WorkflowDirGraph> {
+        return dao.findAll().map { it.toBiz() }
+    }
 }
