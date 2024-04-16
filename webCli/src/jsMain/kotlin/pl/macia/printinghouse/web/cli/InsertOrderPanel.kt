@@ -15,8 +15,13 @@ import io.kvision.panel.hPanel
 import io.kvision.state.*
 import io.kvision.utils.obj
 import kotlinx.browser.localStorage
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.summary
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BindingFormDao
@@ -501,4 +506,95 @@ class PrintCostInput : SimplePanel() {
     fun getFormdata(markFields: Boolean): PrintCostInputData? {
         return if (form.validate(markFields)) form.getData() else null
     }
+}
+
+// todo test this function if works correctly
+fun OderFormData.toTransport(): OrderReq {
+    val imageUrl = if (imageUrl != null && imageUrl!!.isNotEmpty())
+        ImageReq(imageUrl!!, imageComment) else null
+    return OrderReq(
+        name = name,
+        comment = comment,
+        designsNumberForSheet = designsNumberForSheet,
+        checked = checked,
+        towerCut = towerCut,
+        folding = folding,
+        realizationDate = LocalDateTime(
+            realizationDate.getFullYear(),
+            realizationDate.getMonth(),
+            realizationDate.getDay(),
+            realizationDate.getHours(),
+            realizationDate.getMinutes()
+        ),
+        pages = pages,
+        paperOrderTypes = paperOrderTypes.map {
+            it.toTransport()
+        },
+        orderEnoblings = orderEnoblings.map {
+            it.toTransport()
+        },
+        imageUrl = imageUrl,
+        binderyId = bindery.toInt(),
+        salesmanId = salesman.toInt(),
+        bindingFormId = bindingForm.toInt(),
+        calculationCard = calculationCard?.toTransport(),
+        netSize = netSize.toTransport(),
+        clientId = client.toInt(),
+        workflowDirGraphId = workflowGraph.toInt(),
+        completionDate = null,
+        creationDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+        withdrawalDate = null,
+    )
+}
+
+fun PaperOrderTypeInputData.toTransport(): PaperOrderTypeReq {
+    return PaperOrderTypeReq(
+        grammage = grammage,
+        stockCirculation = stockCirculation,
+        sheetNumber = sheetNumber,
+        comment = comment,
+        circulation = circulation,
+        platesQuantityForPrinter = platesQuantityForPrinter,
+        paperTypeId = paperType.toInt(),
+        printerId = printer.toInt(),
+        colouringId = TODO("make select for colourings"),
+        impositionTypeId = imposition.toInt(),
+        size = size.toTransport(),
+        productionSize = productionSize.toTransport(),
+    )
+}
+
+fun OrderEnoblingInputData.toTransport(): OrderEnoblingReq {
+    return OrderEnoblingReq(
+        annotation = annotation,
+        enoblingId = enobling.toInt(),
+        binderyId = bindery.toInt(),
+    )
+}
+
+fun SizeInputData.toTransport(): SizeReq {
+    return SizeReq(
+        width = width,
+        heigth = height
+    )
+}
+
+fun CalculationCardInputData.toTransport(): CalculationCardReq {
+    return CalculationCardReq(
+        transport = transport,
+        otherCosts = otherCosts,
+        bindingCost = bindingCost,
+        enoblingCost = enoblingCost,
+        printCosts = printCosts.map {
+            it.toTransport()
+        }
+    )
+}
+
+fun PrintCostInputData.toTransport(): PrintCostReq {
+    return PrintCostReq(
+        printCost = printCost,
+        matrixCost = matrixCost,
+        printerId = printer.toInt()
+    )
 }
