@@ -35,7 +35,7 @@ class OrderController {
         return ResponseEntity.of(found)
     }
 
-    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PostMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
     fun newOrder(@RequestBody req: OrderReq): ResponseEntity<RecID> {
         try {
