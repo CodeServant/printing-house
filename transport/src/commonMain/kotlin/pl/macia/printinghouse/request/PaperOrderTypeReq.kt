@@ -12,8 +12,11 @@ data class PaperOrderTypeReq(
     val platesQuantityForPrinter: Int,
     val paperTypeId: Int,
     val printerId: Int,
-    val colouringId: Byte,
+    val colouring: ColouringPartReq,
     val impositionTypeId: Int,
     val size: SizeReq,
     val productionSize: SizeReq
 )
+
+@Serializable
+data class ColouringPartReq(val firstSide: Byte, val secondSide: Byte)

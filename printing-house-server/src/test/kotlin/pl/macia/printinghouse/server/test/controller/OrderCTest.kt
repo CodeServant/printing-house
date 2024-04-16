@@ -112,7 +112,7 @@ class OrderCTest {
                     platesQuantityForPrinter = 1,
                     paperTypeId = 2,
                     printerId = 1,
-                    colouringId = 4,
+                    colouring = ColouringPartReq(1, 1),
                     impositionTypeId = 1,
                     size = SizeReq(
                         heigth = 594.0,

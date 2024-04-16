@@ -131,8 +131,8 @@ class OrderService {
                     ?: throw ConversionException("${it::paperTypeId.name}: ${it.paperTypeId} not found in database"),
                 printer = printerRepo.findById(it.printerId)
                     ?: throw ConversionException("${it::printerId.name}: ${it.printerId} not found in database"),
-                colouring = colouringRepo.findById(it.colouringId)
-                    ?: throw ConversionException("${it::colouringId.name}: ${it.colouringId} not found in database"),
+                colouring = colouringRepo.findByPalette(it.colouring.firstSide, it.colouring.secondSide)
+                    ?: throw ConversionException("${it::colouring.name}: ${it.colouring} not found in database"),
                 impositionType = impositionTypeRepo.findById(it.impositionTypeId)
                     ?: throw ConversionException("${it::impositionTypeId.name}: ${it.impositionTypeId} is not in database"),
                 size = sizeRepo.createByParameters(it.size.width, it.size.heigth),
