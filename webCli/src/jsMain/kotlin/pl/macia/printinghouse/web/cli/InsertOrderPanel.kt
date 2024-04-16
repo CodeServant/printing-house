@@ -557,7 +557,7 @@ fun PaperOrderTypeInputData.toTransport(): PaperOrderTypeReq {
         platesQuantityForPrinter = platesQuantityForPrinter,
         paperTypeId = paperType.toInt(),
         printerId = printer.toInt(),
-        colouring = TODO("make select for colourings"),
+        colouring = ColouringPartReq(colours.firstSide, colours.secondSide),
         impositionTypeId = imposition.toInt(),
         size = size.toTransport(),
         productionSize = productionSize.toTransport(),
