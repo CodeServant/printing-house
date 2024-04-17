@@ -506,7 +506,14 @@ class PrintCostInput : SimplePanel() {
     }
 
     fun getFormdata(markFields: Boolean): PrintCostInputData? {
-        return if (form.validate(markFields)) form.getData() else null
+        if (form.validate(markFields)) {
+            return PrintCostInputData(
+                printCost = form[PrintCostInputData::printCost].toString(),
+                matrixCost = form[PrintCostInputData::matrixCost].toString(),
+                printer = form[PrintCostInputData::printer].toString()
+            )
+        }
+        return null
     }
 }
 
