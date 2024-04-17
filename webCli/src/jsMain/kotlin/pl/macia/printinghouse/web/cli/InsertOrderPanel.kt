@@ -462,6 +462,8 @@ class CalculationCardInput : SimplePanel() {
             val printCost = it.getFormdata(markFields)
             val printValid = printCost != null
             valid = valid && printValid
+            if (printValid)
+                printCosts.add(printCost!!)
         }
 
         if (!valid) return null
