@@ -3,6 +3,7 @@ package pl.macia.printinghouse.web.cli
 import io.kvision.html.Button
 import io.kvision.panel.SimplePanel
 import pl.macia.printinghouse.request.OrderReq
+import pl.macia.printinghouse.web.dao.OrderDao
 
 class SalesmanNewOrderPanel(
     onSave: (OrderReq) -> Unit,
@@ -21,7 +22,14 @@ class SalesmanNewOrderPanel(
         }
         val saveBtn = SaveButton {
             onClick {
-                inOrdPanel.getFormData(true)
+                val data = inOrdPanel.getFormData(true)
+                if (data != null) {
+                    OrderDao().insertNew(data.toTransport(), onFulfilled = {
+                        onLeave()
+                    }, onRejected = {
+                        TODO("define on rejected when order couldn't be created")
+                    })
+                }
             }
         }
         val leaveBtn = CancelButton {
