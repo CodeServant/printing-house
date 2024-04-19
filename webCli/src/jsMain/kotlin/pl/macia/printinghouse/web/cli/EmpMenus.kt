@@ -189,9 +189,30 @@ class WorkerMenu : EmpMenu() {
     }
 }
 
+enum class WorkflowMgrMenuOptions {
+    MAIN, ASSIGN_TASKS
+}
+
 class WorkflowManagerMenu : EmpMenu() {
     init {
         document.title = gettext("Workflow Manager Menu")
+        val currentPanel = ObservableValue(WorkflowMgrMenuOptions.MAIN)
+        val assignTaskButton = Button(text = "assign tasks to worker") {
+            onClick {
+                currentPanel.value = WorkflowMgrMenuOptions.ASSIGN_TASKS
+            }
+        }
+        this.bind(currentPanel) { workMgrPanel ->
+            when (workMgrPanel) {
+                WorkflowMgrMenuOptions.ASSIGN_TASKS -> {
+                    add(OrdersToAssignTab())
+                }
+
+                WorkflowMgrMenuOptions.MAIN -> {
+                    add(assignTaskButton)
+                }
+            }
+        }
     }
 }
 
