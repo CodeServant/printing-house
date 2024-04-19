@@ -18,7 +18,7 @@ data class OrderForWorkflowData(
 class OrdersToAssignTab : SimplePanel() {
     init {
         insertUpdateTable(
-            summaryList = listOf(
+            summaryList = listOf<OrderForWorkflowData>(
                 //todo implement fetch from server
             ),
             columnsDef = listOf(
