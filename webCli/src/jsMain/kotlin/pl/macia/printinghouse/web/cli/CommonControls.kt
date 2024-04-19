@@ -93,7 +93,7 @@ class IntegerInput(label: String?, init: (IntegerInput.() -> Unit)? = null) :
 }
 
 /**
- * Stabdard text input field.
+ * Standard text input field.
  */
 fun Container.textInput(label: String, init: (Text.() -> Unit)? = null): TextInput {
     return TextInput(label, init = init).apply(::add)
