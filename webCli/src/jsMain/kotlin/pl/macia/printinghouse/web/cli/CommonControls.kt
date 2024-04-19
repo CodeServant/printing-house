@@ -102,9 +102,10 @@ fun Container.textInput(label: String, init: (Text.() -> Unit)? = null): TextInp
 class TextInput(label: String, init: (Text.() -> Unit)? = null) : Text(label = label, floating = true, init = init)
 
 /**
- * Standard table for editing and adding elements
+ * Standard table for editing and adding elements. It can be also used as table to chose data from.
  * @param onSelected what happens when specific item is selected
  * @param formPanel is the panel that is supposed to apear in the same window as table for fast add and eddit option
+ * @param onlyEdit where add button shouldn't be visible
  */
 inline fun <reified T : Any> Container.insertUpdateTable(
     summaryList: List<T>,
@@ -112,7 +113,8 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     crossinline onSelected: (T?) -> Unit,
     crossinline formPanel: () -> Component? = { null },
     crossinline onInsert: (() -> Unit) = { },
-    crossinline onUpdate: (() -> Unit) = { }
+    crossinline onUpdate: (() -> Unit) = { },
+    onlyEdit: Boolean = false
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
 
@@ -134,13 +136,15 @@ inline fun <reified T : Any> Container.insertUpdateTable(
         }
         hPanel(useWrappers = true).bind(buttonType) {
             simplePanel {
-                if (it == ButtonType.ADD)
-                    addButton {
-                        onClick {
-                            onInsert()
+                if (it == ButtonType.ADD) {
+                    if (!onlyEdit) {
+                        addButton {
+                            onClick {
+                                onInsert()
+                            }
                         }
                     }
-                else {
+                } else {
                     editButton {
                         onClick {
                             onUpdate()
