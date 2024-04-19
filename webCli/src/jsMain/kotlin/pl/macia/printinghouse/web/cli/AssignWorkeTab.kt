@@ -28,7 +28,7 @@ data class WorkerTaskSummary(
     var orderName: OrderInfo,
 )
 
-class AssignWorkeTab() : SimplePanel() {
+class AssignWorkeTab : SimplePanel() {
     init {
         var pickedTask = ObservableValue<WorkerTaskSummary?>(null)
         insertUpdateTable(
