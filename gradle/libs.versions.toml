@@ -1,9 +1,9 @@
 [versions]
 app = "0.0.1-SNAPSHOT"
-spring-boot = "3.2.4"
+spring-boot = "3.2.5"
 kotlin = "2.0.0-Beta5"
 kotlin-serialization = "1.6.3"
-kvision = "7.4.3"
+kvision = "7.4.5"
 mysql = "8.3.0"
 poko = "0.15.2"
 kotlinx-datetime = "0.6.0-RC.2"
