@@ -131,4 +131,11 @@ internal class OrderDAOTest {
         assertNotNull(ord.id)
         assertEquals(2, dao.count())
     }
+
+    @Test
+    fun `find not assigned by workflow stage id`() {
+        val found = dao.notAssignedWorkflowStage(3)
+        assertEquals(1, found.size)
+        assertEquals("gorzelska", found.first().name)
+    }
 }

@@ -33,4 +33,13 @@ internal class OrderDAOCustomImpl : OrderDAOCustom {
             null
         }
     }
+
+    override fun notAssignedWorkflowStage(stageId: Int): List<Order> {
+        val query = em.createQuery(
+            """SELECT wss.order FROM WorkflowStageStop as wss WHERE wss.workflowGraphEdge.v1.id=:stageId AND wss.assignTime IS NULL AND wss.worker IS NULL""",
+            Order::class.java
+        )
+        query.setParameter("stageId", stageId)
+        return query.resultList
+    }
 }

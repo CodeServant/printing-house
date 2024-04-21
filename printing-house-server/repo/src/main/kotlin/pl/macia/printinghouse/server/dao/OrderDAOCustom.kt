@@ -8,4 +8,9 @@ internal interface OrderDAOCustom {
      */
     fun findNotCompletedByLastAssignee(lastAssignee: Int): List<Order>
     fun findByWorkflowStageStopId(wssId: Int): Order?
+
+    /**
+     * Orders that are not assigned but belongs to specific [pl.macia.printinghouse.server.dto.WorkflowStage].
+     */
+    fun notAssignedWorkflowStage(stageId: Int): List<Order>
 }
