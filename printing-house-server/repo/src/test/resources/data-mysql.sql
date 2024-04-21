@@ -5,7 +5,8 @@ VALUES ('Jan', 'Kowalski-Salesman', '45125478527'),
        ('Robert', 'Makłowisz-NaśwManager', '42389285u78'),
        ('Brad', 'PittIndividualCli', '01350359272'),
        ('Rick', 'SanchesIndividualCli', '91357482395'),
-       ('Anna', 'Nadstawna-Naświetlarnia', '43823523523');
+       ('Anna', 'Nadstawna-Naświetlarnia', '43823523523'),
+       ('Arthur', 'Boss-Manager', '43823523xxx');
 INSERT INTO Bindery (name)
 VALUES ('A1'),
        ('A2'),
@@ -56,7 +57,8 @@ VALUES ('anna@wp.pl'),
        ('julek@wp.pl'),
        ('maklowicz@wp.pl'),
        ('marianmieszka@wp.pl'),
-       ('rick@gmail.com');
+       ('rick@gmail.com'),
+       ('manager@example.com');
 INSERT INTO Client (email, phoneNumber)
 VALUES (5, '984324654'),
        (4, '254236643'),
@@ -76,7 +78,8 @@ VALUES (1, 3, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r2
        (2, 5, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
        (3, 4, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
        (4, 8, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
-       (7, 7, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1);
+       (7, 7, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1),
+       (8, 9, '{bcrypt}$2a$12$onVIlBR/EoHYej8KAvgGYekLQS4/IKVnseD89eYT5YMNjoK3r25W.', 1, 1);
 INSERT INTO EmploeeRole (empId, roleId)
 VALUES (1, 1),
        (1, 7),
@@ -91,7 +94,9 @@ VALUES (1, 1),
        (4, 7),
        (4, 9),
        (7, 7),
-       (7, 9);
+       (7, 9),
+       (8, 4),
+       (8, 7);
 INSERT INTO IndividualClient (personId, clientId)
 VALUES (6, 1),
        (5, 2);
