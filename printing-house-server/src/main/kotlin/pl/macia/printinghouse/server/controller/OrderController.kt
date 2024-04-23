@@ -73,4 +73,16 @@ class OrderController {
         val ordResp = serv.getOrdersForAssignee(authentication)
         return ResponseEntity.of(Optional.of(ordResp))
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
+    @GetMapping(params = ["notAssigned"], value = [EndpNames.Order.ORDERS], produces = ["application/json"])
+    fun getUnasignedOrders(
+        @Parameter(
+            required = false,
+            description = "fetches orders that are not assigned wor workflow stege of the manager"
+        )
+        @RequestParam(required = false) notAssigned: Boolean, authentication: Authentication
+    ): ResponseEntity<List<OrderResp>> {
+        return ResponseEntity.ok(serv.fetchNotAssigned(authentication.name))
+    }
 }

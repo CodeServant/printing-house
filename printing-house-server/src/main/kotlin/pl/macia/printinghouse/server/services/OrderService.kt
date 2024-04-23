@@ -252,6 +252,24 @@ class OrderService {
             repo.save(order)
         }
     }
+
+    /**
+     * Fetches not assigned [Order]s for the workflow stage of authenticated workflow stage manager.
+     */
+    fun fetchNotAssigned(email: String): List<OrderResp> {
+        val foundWorker = workerRepo.findByEmail(email)
+        val unassigned = mutableListOf<Order>()
+        foundWorker?.isManagerOf?.forEach { workflowStage ->
+            unassigned.addAll(
+                repo.getUnassigned(
+                    workflowStage.workflowStageid ?: throw RuntimeException("fetched workflow stage id is null")
+                )
+            )
+        }
+        return unassigned.map {
+            it.toTransport(clientRepo)
+        }
+    }
 }
 
 private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {
