@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import pl.macia.printinghouse.request.WorkerChangeReq
 import pl.macia.printinghouse.request.WorkerReq
@@ -15,6 +16,7 @@ import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.services.WorkerService
 import pl.macia.printinghouse.server.controller.EndpNames.Worker.WORKERS
+import java.util.Optional
 
 @RestController
 @RequestMapping(EndpNames.API_CONTEXT)
@@ -39,6 +41,15 @@ class WorkerController {
             return ResponseEntity.ok(worker)
         }
         return ResponseEntity(HttpStatus.NOT_FOUND)
+    }
+
+    @GetMapping(value = [WORKERS], produces = ["application/json"], params = ["currentWorker"])
+    fun currentWorkerDetails(
+        @RequestParam(required = false) currentWorker: Boolean,
+        authentication: Authentication
+    ): ResponseEntity<WorkerResp> {
+        val optional = Optional.ofNullable(serv.getByEmail(authentication.name))
+        return ResponseEntity.of(optional)
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")

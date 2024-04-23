@@ -84,5 +84,5 @@ class OrderController {
         @RequestParam(required = false) notAssigned: Boolean, authentication: Authentication
     ): ResponseEntity<List<OrderResp>> {
         return ResponseEntity.ok(serv.fetchNotAssigned(authentication.name))
-    }
+    } //todo test this controller
 }

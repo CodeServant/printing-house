@@ -125,6 +125,10 @@ class WorkerService {
     private fun Worker.setRoleWorker() {
         roles.add(roleRepo.mergeName(PrimaryRoles.WORKER))
     }
+
+    fun getByEmail(email: String): WorkerResp? {
+        return repo.findByEmail(email)?.toTransport()
+    }
 }
 
 /**
