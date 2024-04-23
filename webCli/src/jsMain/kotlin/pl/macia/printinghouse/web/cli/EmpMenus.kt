@@ -11,12 +11,10 @@ import io.kvision.state.bind
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import pl.macia.printinghouse.response.OrderResp
+import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
-import pl.macia.printinghouse.web.dao.BinderyDao
-import pl.macia.printinghouse.web.dao.BindingFormDao
-import pl.macia.printinghouse.web.dao.OrderDao
-import pl.macia.printinghouse.web.dao.WorkflowStageStopDao
+import pl.macia.printinghouse.web.dao.*
 
 enum class ManagerMenuScreen {
     BINDERIES,
@@ -197,15 +195,34 @@ class WorkflowManagerMenu : EmpMenu() {
     init {
         document.title = gettext("Workflow Manager Menu")
         val currentPanel = ObservableValue(WorkflowMgrMenuOptions.MAIN)
+        val curWorker = ObservableValue<WorkerResp?>(null)
         val assignTaskButton = Button(text = "assign tasks to worker") {
             onClick {
                 currentPanel.value = WorkflowMgrMenuOptions.ASSIGN_TASKS
             }
         }
+        WorkerDao().currentWorker(
+            onFulfilled = {
+                curWorker.value = it
+            },
+            onRejected = {
+                TODO("initiate on rejected when current user is not being fetched")
+            },
+        )
         this.bind(currentPanel) { workMgrPanel ->
             when (workMgrPanel) {
                 WorkflowMgrMenuOptions.ASSIGN_TASKS -> {
-                    add(OrdersToAssignTab())
+                    OrderDao().getUnassigned(
+                        onFulfilled = {
+                            println("fulfilled worker")
+                            add(OrdersToAssignTab(it, curWorker))
+                        },
+                        onRejected = {
+                            currentPanel.value = WorkflowMgrMenuOptions.MAIN
+                            TODO("bahaviour when there is an error")
+                        },
+                    )
+
                 }
 
                 WorkflowMgrMenuOptions.MAIN -> {

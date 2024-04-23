@@ -1,11 +1,15 @@
 package pl.macia.printinghouse.web.dao
 
+import io.kvision.rest.RestClient
 import io.kvision.rest.RestResponse
+import io.kvision.rest.call
+import io.kvision.utils.obj
 import pl.macia.printinghouse.request.WorkerChangeReq
 import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkerResp
+import pl.macia.printinghouse.web.authorize
 import pl.macia.printinghouse.web.clientConfig
 
 class WorkerDao {
@@ -43,4 +47,21 @@ class WorkerDao {
         onFulfilled,
         onRejected
     )
+
+    /**
+     * Gets currently authenticated worker.
+     */
+    fun currentWorker(
+        onFulfilled: (WorkerResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val premise = restClient.call<WorkerResp>(url) {
+            data = obj {
+                currentWorker = true
+            }
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
