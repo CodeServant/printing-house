@@ -25,4 +25,15 @@ class OrderDao {
 
     fun insertNew(orderReq: OrderReq, onFulfilled: (RecID) -> Unit, onRejected: (Throwable) -> Unit) =
         dullDao.newDullObj(orderReq, onFulfilled, onRejected)
+
+    fun getUnassigned(onFulfilled: (List<OrderResp>) -> Unit, onRejected: (Throwable) -> Unit) {
+        val restClient = RestClient()
+        val premise = restClient.call<List<OrderResp>>(url) {
+            authorize()
+            data = obj {
+                notAssigned = true
+            }
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
