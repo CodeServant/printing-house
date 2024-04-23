@@ -55,7 +55,7 @@ class OrderController {
     @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
     fun getOrders(
         @Parameter(required = false, description = "fetches order that are currently assigned for the worker")
-        @RequestParam lastAssignee: Int
+        @RequestParam(required = false) lastAssignee: Int
     ): ResponseEntity<List<OrderResp>> {
         val ordResp = serv.getOrdersForAssignee(lastAssignee)
         return ResponseEntity.of(Optional.of(ordResp))
@@ -68,7 +68,7 @@ class OrderController {
             required = false,
             description = "fetches order that are currently assigned for the currently authenticated worker, doesn't matter if true or false"
         )
-        @RequestParam currentWorker: Boolean, authentication: Authentication
+        @RequestParam(required = false) currentWorker: Boolean, authentication: Authentication
     ): ResponseEntity<List<OrderResp>> {
         val ordResp = serv.getOrdersForAssignee(authentication)
         return ResponseEntity.of(Optional.of(ordResp))
