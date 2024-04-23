@@ -234,6 +234,11 @@ sealed interface OrderRepo {
     fun findNotCompletedByLastAssignee(lastAssignee: Int): List<Order>
 
     fun findByWssId(wssId: Int): Order?
+
+    /**
+     * Get unassigned orders for specific [WorkflowStageStop.wfssId].
+     */
+    fun getUnassigned(wssId: Int): List<Order>
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>

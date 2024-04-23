@@ -35,4 +35,8 @@ internal class OrderRepoImpl : OrderIntRepo {
     override fun findByWssId(wssId: Int): Order? {
         return dao.findByWorkflowStageStopId(wssId)?.toBiz()
     }
+
+    override fun getUnassigned(wssId: Int): List<Order> {
+        return dao.notAssignedWorkflowStage(wssId).map { it.toBiz() }
+    }
 }
