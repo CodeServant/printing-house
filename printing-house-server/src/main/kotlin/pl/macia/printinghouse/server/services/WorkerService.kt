@@ -129,6 +129,10 @@ class WorkerService {
     fun getByEmail(email: String): WorkerResp? {
         return repo.findByEmail(email)?.toTransport()
     }
+
+    fun searchWithQuery(query: String): List<WorkerResp> {
+        return repo.searchQuery(query).map { it.toTransport() }
+    }
 }
 
 /**

@@ -34,6 +34,12 @@ class WorkerController {
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}', '${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
+    @GetMapping(value = [WORKERS], produces = ["application/json"], params = ["query"])
+    fun searchWorkers(@RequestParam(required = false) query: String): ResponseEntity<List<WorkerResp>> {
+        return ResponseEntity.ok(serv.searchWithQuery(query))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}', '${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
     @GetMapping(value = ["${WORKERS}/{id}"], produces = ["application/json"])
     fun getWorker(@PathVariable id: Int): ResponseEntity<WorkerResp> {
         val worker = serv.findById(id)
