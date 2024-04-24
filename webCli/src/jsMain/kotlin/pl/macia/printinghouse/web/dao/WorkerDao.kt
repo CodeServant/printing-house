@@ -64,4 +64,15 @@ class WorkerDao {
         }
         premise.then(onFulfilled, onRejected)
     }
+    
+    fun searchWorker(query: String, onFulfilled: (List<WorkerResp>) -> Unit, onRejected: (Throwable) -> Unit) {
+        val restClient = RestClient()
+        val premise = restClient.call<List<WorkerResp>>(url) {
+            data = obj {
+                this.query = query
+            }
+            authorize()
+        }
+        premise.then(onFulfilled, onRejected)
+    }
 }
