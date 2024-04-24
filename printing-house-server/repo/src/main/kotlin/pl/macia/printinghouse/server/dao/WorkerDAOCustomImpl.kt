@@ -14,4 +14,10 @@ internal class WorkerDAOCustomImpl : WorkerDAOCustom {
         query.setParameter("eml", email)
         return query.resultList.firstOrNull()
     }
+
+    override fun searchForName(query: String): List<Worker> {
+        val q = em.createQuery("FROM Worker as w WHERE CONCAT(w.name, ' ', w.surname) LIKE :qry", Worker::class.java)
+        q.setParameter("qry", "%$query%")
+        return q.resultList
+    }
 }

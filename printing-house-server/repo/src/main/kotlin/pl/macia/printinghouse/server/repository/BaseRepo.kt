@@ -203,6 +203,7 @@ sealed interface WorkerRepo {
     fun deleteById(id: Int)
     fun findAllById(ids: Iterable<Int>): List<Worker>
     fun findByEmail(email: String): Worker?
+    fun searchQuery(query: String): List<Worker>
 }
 
 internal sealed interface WorkerIntRepo : WorkerRepo, SingleIdRepo<Worker, Int>

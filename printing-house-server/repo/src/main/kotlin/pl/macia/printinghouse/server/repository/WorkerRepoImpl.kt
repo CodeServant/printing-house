@@ -37,4 +37,8 @@ internal class WorkerRepoImpl : WorkerIntRepo {
     override fun findByEmail(email: String): Worker? {
         return dao.findByEmail(email)?.toBiz()
     }
+
+    override fun searchQuery(query: String): List<Worker> {
+        return dao.searchForName(query).map { it.toBiz() }
+    }
 }

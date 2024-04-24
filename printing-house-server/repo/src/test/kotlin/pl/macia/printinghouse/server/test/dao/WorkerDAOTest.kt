@@ -84,4 +84,12 @@ internal class WorkerDAOTest {
                 ?.id
         )
     }
+
+    @Test
+    fun `search query test`() {
+        val workers = dao.searchForName("iliusz")
+        assertEquals(1, workers.size)
+        assertEquals(workers[0].name, "Jiliusz")
+        assertEquals(workers[0].surname, "Szymański-Introligatornia")
+    }
 }
