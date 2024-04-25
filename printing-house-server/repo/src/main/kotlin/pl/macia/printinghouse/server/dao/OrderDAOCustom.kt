@@ -11,6 +11,7 @@ internal interface OrderDAOCustom {
 
     /**
      * Orders that are not assigned but belongs to specific [pl.macia.printinghouse.server.dto.WorkflowStage].
+     * @param areChecked fetch those that are marked checked by salesman, if false get unchecked, if null ignore checked field
      */
-    fun notAssignedWorkflowStage(stageId: Int): List<Order>
+    fun notAssignedWorkflowStage(stageId: Int, areChecked: Boolean? = null): List<Order>
 }

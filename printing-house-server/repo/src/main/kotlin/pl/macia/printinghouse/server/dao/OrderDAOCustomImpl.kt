@@ -34,9 +34,14 @@ internal class OrderDAOCustomImpl : OrderDAOCustom {
         }
     }
 
-    override fun notAssignedWorkflowStage(stageId: Int): List<Order> {
+    override fun notAssignedWorkflowStage(stageId: Int, areChecked: Boolean?): List<Order> {
+        val checkedField = "wss.order.checked"
+        val checkedQuery = when (areChecked) {
+            null -> ""
+            else -> " AND ${checkedField}=$areChecked"
+        }
         val query = em.createQuery(
-            """SELECT wss.order FROM WorkflowStageStop as wss WHERE wss.workflowGraphEdge.v1.id=:stageId AND wss.assignTime IS NULL AND wss.worker IS NULL""",
+            """SELECT wss.order FROM WorkflowStageStop as wss WHERE wss.workflowGraphEdge.v1.id=:stageId AND wss.assignTime IS NULL AND wss.worker IS NULL$checkedQuery""",
             Order::class.java
         )
         query.setParameter("stageId", stageId)

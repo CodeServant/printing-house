@@ -134,8 +134,13 @@ internal class OrderDAOTest {
 
     @Test
     fun `find not assigned by workflow stage id`() {
-        val found = dao.notAssignedWorkflowStage(3)
-        assertEquals(1, found.size)
-        assertEquals("gorzelska", found.first().name)
+        fun checkVariant(areChecked: Boolean?) {
+            val found = dao.notAssignedWorkflowStage(3, areChecked)
+            assertEquals(1, found.size)
+            assertEquals("gorzelska", found.first().name)
+        }
+        checkVariant(null)
+        checkVariant(true)
+        assertEquals(0, dao.notAssignedWorkflowStage(3, false).size)
     }
 }
