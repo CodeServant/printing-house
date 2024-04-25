@@ -15,6 +15,7 @@ import pl.macia.printinghouse.web.dao.WorkerDao
 
 @Serializable
 data class OrderForWorkflowData(
+    val orderId: String,
     val stageCreated: String,
     val client: String,
     val orderName: String
@@ -34,6 +35,7 @@ class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: Observabl
                         workflowstages?.contains(wws.graphEdge.v1.name) ?: false
                     }
                     OrderForWorkflowData(
+                        orderId = it.id.toString(),
                         stageCreated = prevWss.createTime.toString(),
                         client = it.client.summary(),
                         orderName = it.name
