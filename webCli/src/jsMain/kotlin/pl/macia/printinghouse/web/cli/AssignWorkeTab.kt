@@ -1,14 +1,17 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.form.select.TomSelect
+import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
+import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.dao.WorkerDao
 
 @Serializable
 data class OrderForWorkflowData(
@@ -44,7 +47,24 @@ class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: Observabl
                 onSelected = {},
                 onlyEdit = true,
                 formPanel = {
-                    TomSelect(label = "assignee")
+                    TomSelect(label = "assignee",
+                        tsCallbacks = TomSelectCallbacks(
+                            load = { queryStr, callback ->
+                                WorkerDao().searchWorker(queryStr, { workers ->
+                                    callback(
+                                        workers.map {
+                                            obj {
+                                                this.value = it.id
+                                                this.text = "${it.name} ${it.surname} (${it.psudoPESEL})"
+                                            }
+                                        }.toTypedArray()
+                                    )
+                                }, {
+                                    TODO("exception handling when workers not fetched properly")
+                                })
+                            }
+                        )
+                    )
                 }
             )
         }
