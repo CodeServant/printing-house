@@ -262,7 +262,8 @@ class OrderService {
         foundWorker?.isManagerOf?.forEach { workflowStage ->
             unassigned.addAll(
                 repo.getUnassigned(
-                    workflowStage.workflowStageid ?: throw RuntimeException("fetched workflow stage id is null")
+                    workflowStage.workflowStageid ?: throw RuntimeException("fetched workflow stage id is null"),
+                    checked = true
                 )
             )
         }

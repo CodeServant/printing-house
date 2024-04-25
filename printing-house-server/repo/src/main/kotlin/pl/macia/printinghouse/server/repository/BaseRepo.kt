@@ -239,7 +239,7 @@ sealed interface OrderRepo {
     /**
      * Get unassigned orders for specific [WorkflowStageStop.wfssId].
      */
-    fun getUnassigned(wssId: Int): List<Order>
+    fun getUnassigned(wssId: Int, checked: Boolean?): List<Order>
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>
