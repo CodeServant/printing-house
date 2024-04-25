@@ -30,8 +30,8 @@ class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: Observabl
             insertUpdateTable(
                 summaryList = initialOrders.map {
 
-                    val prevWss = it.workflowStageStops.first {
-                        workflowstages?.contains(it.graphEdge.v1.name) ?: false
+                    val prevWss = it.workflowStageStops.first { wws ->
+                        workflowstages?.contains(wws.graphEdge.v1.name) ?: false
                     }
                     OrderForWorkflowData(
                         stageCreated = prevWss.createTime.toString(),
