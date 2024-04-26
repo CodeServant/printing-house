@@ -88,7 +88,11 @@ class OrderController {
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.WORKFLOW_STAGE_MANAGER}')")
     @PutMapping(value = ["${EndpNames.Order.ORDERS}/{id}"], produces = ["application/json"])
-    fun assignWorker(@PathVariable id:Int, @RequestParam workerId:Int, authentication: Authentication): ResponseEntity<*> {
+    fun assignWorker(
+        @PathVariable id: Int,
+        @RequestParam workerId: Int,
+        authentication: Authentication
+    ): ResponseEntity<*> {
         return ResponseEntity.ok(serv.assignWorker(id, workerId, authentication))
     }
 }
