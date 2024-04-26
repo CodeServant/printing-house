@@ -215,7 +215,15 @@ class WorkflowManagerMenu : EmpMenu() {
                     OrderDao().getUnassigned(
                         onFulfilled = {
                             println("fulfilled worker")
-                            add(OrdersToAssignTab(it, curWorker))
+                            add(
+                                OrdersToAssignTab(
+                                    it,
+                                    curWorker,
+                                    onLeave = {
+                                        currentPanel.value = WorkflowMgrMenuOptions.MAIN
+                                    }
+                                )
+                            )
                         },
                         onRejected = {
                             currentPanel.value = WorkflowMgrMenuOptions.MAIN

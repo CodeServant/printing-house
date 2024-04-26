@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.dao.OrderDao
 import pl.macia.printinghouse.web.dao.WorkerDao
 
 @Serializable
@@ -24,10 +25,16 @@ data class OrderForWorkflowData(
 /**
  * This is tab for the Workflow Stage manager with unassigned tasks for their workflow stage.
  */
-class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: ObservableValue<WorkerResp?>) : SimplePanel() {
+class OrdersToAssignTab(
+    initialOrders: List<OrderResp>,
+    currentWorker: ObservableValue<WorkerResp?>,
+    onLeave: () -> (Unit)
+) : SimplePanel() {
     init {
+        var orderIdStr: String? = null
         bind(currentWorker) { workerResp ->
             val workflowstages = workerResp?.isManagerOf?.map { it.name }
+            var select: TomSelect? = null
             insertUpdateTable(
                 summaryList = initialOrders.map {
 
@@ -46,10 +53,12 @@ class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: Observabl
                     ColumnDefinition("Client", OrderForWorkflowData::client.name),
                     ColumnDefinition("Order Name", OrderForWorkflowData::orderName.name),
                 ),
-                onSelected = {},
+                onSelected = {
+                    orderIdStr = it?.orderId
+                },
                 onlyEdit = true,
                 formPanel = {
-                    TomSelect(label = "assignee",
+                    select = TomSelect(label = "assignee",
                         tsCallbacks = TomSelectCallbacks(
                             load = { queryStr, callback ->
                                 WorkerDao().searchWorker(queryStr, { workers ->
@@ -67,6 +76,20 @@ class OrdersToAssignTab(initialOrders: List<OrderResp>, currentWorker: Observabl
                             }
                         )
                     )
+                    select
+                },
+                onUpdate = {
+                    val workerID = select?.value?.toIntOrNull()
+                    val ordId = orderIdStr?.toIntOrNull()
+                    if (workerID != null && ordId != null) {
+                        OrderDao().assigneWorker(
+                            ordId,
+                            workerID,
+                            ::println,
+                            ::println
+                        )
+                        onLeave()
+                    }
                 }
             )
         }
