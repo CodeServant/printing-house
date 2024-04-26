@@ -271,6 +271,35 @@ class OrderService {
             it.toTransport(clientRepo)
         }
     }
+
+    /**
+     * Assign [Worker] to the latest unassigned [WorkflowStageStop] for authenticated workflow stage manager.
+     * @throws NoSuchElementException when id for worker and order were not found, and criteria aren't met ([Worker] not assigned and authenticated manager have this [WorkflowStage] for keeping)
+     *
+     * NOTE. todo there is exception when there are 2 or more [WorkflowStageStop]s that the manager can assign to, this will probably be resolved in the future when client caches data about themselves
+     */
+    @Transactional
+    fun assignWorker(id: Int, workerId: Int, authentication: Authentication): ChangeResp {
+        val order = repo.findById(id)
+        val worker = workerRepo.findById(id)
+            ?: throw NoSuchElementException("${Worker::class.simpleName} no element in database with the given id")
+        val wsStopsToAssign = order?.workflowStageStops?.filter { wss ->
+            wss.graphEdge.v1.workflowManagers.map { it.email.email }.contains(authentication.name)
+                    && wss.worker == null
+                    && wss.completionTime == null
+        }
+            ?: throw NoSuchElementException("${WorkflowStageStop::class.simpleName} not found to assign this worker to")
+        if (wsStopsToAssign.isEmpty()) {
+            throw NoSuchElementException("${WorkflowStageStop::class.simpleName} not found to assign this worker to")
+        }
+        if (wsStopsToAssign.size > 1) {
+            throw NoSuchElementException("more than one ${WorkflowStageStop::class.simpleName} found for such criteria")
+        }
+        val wssToAssign = wsStopsToAssign.first()
+        wssToAssign.worker = worker
+        wssToAssign.assignTime = LocalDateTime.now()
+        return ChangeResp(true)
+    }
 }
 
 private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {
