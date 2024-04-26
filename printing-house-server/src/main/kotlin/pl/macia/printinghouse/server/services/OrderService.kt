@@ -281,7 +281,7 @@ class OrderService {
     @Transactional
     fun assignWorker(id: Int, workerId: Int, authentication: Authentication): ChangeResp {
         val order = repo.findById(id)
-        val worker = workerRepo.findById(id)
+        val worker = workerRepo.findById(workerId)
             ?: throw NoSuchElementException("${Worker::class.simpleName} no element in database with the given id")
         val wsStopsToAssign = order?.workflowStageStops?.filter { wss ->
             wss.graphEdge.v1.workflowManagers.map { it.email.email }.contains(authentication.name)
