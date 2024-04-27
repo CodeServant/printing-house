@@ -55,7 +55,7 @@ internal class OrderRepoTest {
         assertEquals(205.0, found.netSize.width)
         assertEquals(8, found.pages)
         assertEquals("Jan", found.salesman.name)
-        assertEquals("maklowicz@wp.pl", found.client.email?.email)
+        assertEquals("evilcorp@example.com", found.client.email?.email)
         assertEquals("Karton", found.bindingForm.name)
         assertEquals("A3", found.bindery.name)
         assertEquals(false, found.folding)

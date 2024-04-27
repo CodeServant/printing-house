@@ -55,7 +55,7 @@ VALUES ('anna@wp.pl'),
        ('jan@example.com'),
        ('juliusz@example.com'),
        ('marian@example.com'),
-       ('maklowicz@wp.pl'),
+       ('evilcorp@example.com'),
        ('anna@example.com'),
        ('robert@example.com'),
        ('manager@example.com');

@@ -54,7 +54,7 @@ internal class OrderDAOTest {
         assertEquals(LocalDateTime.of(2022, 10, 21, 0, 0), order.creationDate)
         assertEquals(205.0, order.netSize.width)
         assertEquals("Kowalski-Salesman", order.supervisor.surname)
-        assertEquals("maklowicz@wp.pl", order.client.email?.email)
+        assertEquals("evilcorp@example.com", order.client.email?.email)
         assertEquals("Karton", order.bindingForm.name)
         assertEquals("A3", order.bindery.name)
         assertFalse(order.imageURL?.url?.isBlank()!!)
