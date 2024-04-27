@@ -63,7 +63,7 @@ class SalesmanCTest {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpectAll(
                 MockMvcResultMatchers.jsonPath("$.name").value("Jan"),
-                MockMvcResultMatchers.jsonPath("$.email").value("evilcorp@example.com"),
+                MockMvcResultMatchers.jsonPath("$.email").value("jan@example.com"),
                 MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.SALESMAN)),
                 MockMvcResultMatchers.jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE)),
                 MockMvcResultMatchers.jsonPath("$.id").value(1)

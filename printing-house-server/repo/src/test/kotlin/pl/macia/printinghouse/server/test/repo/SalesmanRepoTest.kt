@@ -27,7 +27,7 @@ internal class SalesmanRepoTest {
         assertEquals("Jan", salm.name)
         assertEquals("Kowalski-Salesman", salm.surname)
         assertEquals("45125478527", salm.psudoPESEL.trim())
-        assertEquals("evilcorp@example.com", salm.email.email)
+        assertEquals("jan@example.com", salm.email.email)
         assertEquals(true, salm.activeAccount)
         assertEquals(true, salm.employed)
         assertEquals(2, salm.roles.size)

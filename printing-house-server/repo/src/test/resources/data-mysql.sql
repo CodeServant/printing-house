@@ -52,7 +52,7 @@ VALUES ('duża komori', 'DK'),
 INSERT INTO Email (email)
 VALUES ('anna@wp.pl'),
        ('brat@wp.pl'),
-       ('evilcorp@example.com'),
+       ('jan@example.com'),
        ('jankowa@wp.pl'),
        ('julek@wp.pl'),
        ('maklowicz@wp.pl'),

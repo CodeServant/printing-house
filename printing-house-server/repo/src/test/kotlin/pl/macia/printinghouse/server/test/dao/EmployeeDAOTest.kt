@@ -28,13 +28,13 @@ internal class EmployeeDAOTest {
         val emp = dao.findByIdOrNull(1)
 
         assertEquals("Jan", emp?.name)
-        assertEquals("evilcorp@example.com", emp?.email?.email)
+        assertEquals("jan@example.com", emp?.email?.email)
     }
 
     @Test
     @Transactional
     fun `find by email`() {
-        val emp = dao.findByEmail("evilcorp@example.com")
+        val emp = dao.findByEmail("jan@example.com")
         assertEquals("Jan", emp?.name)
     }
 

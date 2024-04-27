@@ -16,7 +16,7 @@ internal class EmployeeRepoTest {
 
     @Test
     fun `find by email`() {
-        val employee = repo.findByEmail("evilcorp@example.com")
+        val employee = repo.findByEmail("jan@example.com")
         assertEquals("Jan", employee?.name)
     }
 }
