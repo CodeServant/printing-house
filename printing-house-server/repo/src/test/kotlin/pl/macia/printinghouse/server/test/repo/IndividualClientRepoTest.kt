@@ -33,7 +33,7 @@ internal class IndividualClientRepoTest {
                 "91357482395",
                 found?.psudoPESEL?.trim()
             ) // h2 database does not auto trim fixed char values unlike mysql
-            assertEquals("julek@wp.pl", found?.email?.email)
+            assertEquals("marian@example.com", found?.email?.email)
             assertEquals("984324654", found?.phoneNumber)
         }
         found = repo.findByPersonId(6)
@@ -78,7 +78,7 @@ internal class IndividualClientRepoTest {
     @Transactional
     fun `change email test`() {
         var found = repo.findByClientId(1)!!
-        assertEquals("julek@wp.pl", found.email?.email)
+        assertEquals("marian@example.com", found.email?.email)
         found.email = null
         assertNull(found.email, "check the setter")
         repo.save(found)

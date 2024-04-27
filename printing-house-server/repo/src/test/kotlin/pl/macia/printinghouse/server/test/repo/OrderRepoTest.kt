@@ -142,7 +142,7 @@ internal class OrderRepoTest {
         assertEquals("someNameCreateTest", found.name)
         assertEquals(100.0, found.netSize.width)
         assertNotNull(found.comment)
-        assertEquals("julek@wp.pl", found.client.email?.email)
+        assertEquals("marian@example.com", found.client.email?.email)
         assertEquals("A1", found.bindery.name)
         assertEquals("Jan", found.salesman.name)
         assertEquals("Papier", found.bindingForm.name)

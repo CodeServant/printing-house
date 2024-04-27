@@ -40,8 +40,8 @@ internal class IndividualClientDAOTest {
 
     @Test
     fun `find by email test`() {
-        val indCli = dao.findByEmail("julek@wp.pl")!!
-        assertEquals("julek@wp.pl", indCli.client.email?.email)
+        val indCli = dao.findByEmail("marian@example.com")!!
+        assertEquals("marian@example.com", indCli.client.email?.email)
     }
 
     @Test

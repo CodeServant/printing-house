@@ -28,7 +28,7 @@ internal class ClientDAOTest {
     @Test
     fun `email association test`() {
         val client = dao.findByIdOrNull(1)!!
-        assertEquals("julek@wp.pl",client.email?.email)
+        assertEquals("marian@example.com",client.email?.email)
     }
 
     @Test
