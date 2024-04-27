@@ -43,7 +43,7 @@ class WorkflowGraphCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `find one graph test`() {
         standardTest.checkFindOneById(
             1,
@@ -91,7 +91,7 @@ class WorkflowGraphCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one test`() {
         insertWorkflowGraph("new schema automated test")
     }

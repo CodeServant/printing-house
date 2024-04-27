@@ -43,7 +43,7 @@ class BindingFormCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
     fun `find all binding forms`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$[*].name").value(Matchers.hasItems("Folia", "Karton", "Papier")),
@@ -52,7 +52,7 @@ class BindingFormCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         standardTest.checkFindOneById(
             2,
@@ -77,14 +77,14 @@ class BindingFormCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
     fun `insert one test`() {
         insertBindingForm("insertOneTestController")
     }
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
     fun `change one test`() {
         val bindFormChangeReq = BindingFormChangeReq(
             name = "More Paper"
@@ -99,7 +99,7 @@ class BindingFormCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN])
     fun `delete one test`() {
         standardTest.checkDeleteObjTest(
             insertBindingForm("insertOneTestController")

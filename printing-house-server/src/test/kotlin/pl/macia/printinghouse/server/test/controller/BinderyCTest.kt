@@ -43,7 +43,7 @@ class BinderyCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all binderies test`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$[*].name").value(Matchers.hasItem("A1")),
@@ -52,7 +52,7 @@ class BinderyCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         standardTest.checkFindOneById(
             2,
@@ -77,14 +77,14 @@ class BinderyCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one test`() {
         insertBindery("insertOneTestController")
     }
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `delete bindery test`() {
         standardTest.checkDeleteObjTest(
             insertBindery("bindery1")
@@ -93,7 +93,7 @@ class BinderyCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change bindery data`() {
         val binderyId = 1
         val change = BinderyChangeReq(

@@ -79,25 +79,25 @@ internal class WorkerCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all workers test`() {
         mvc.perform(MockMvcRequestBuilders.get(uri))
             .andExpect { status().isOk }
             .andExpectAll(
-                jsonPath("$[1].name").value("Jiliusz"),
+                jsonPath("$[1].name").value("Juliusz"),
                 jsonPath("$[1].id").value(3),
                 jsonPath("$.*").value(Matchers.hasSize<List<WorkerResp>>(4))
             )
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `find one test`() {
         fun perform(id: Int) = mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
         perform(3)
             .andExpect(status().isOk)
             .andExpectAll(
-                jsonPath("$.name").value("Jiliusz"),
+                jsonPath("$.name").value("Juliusz"),
                 jsonPath("$.id").value(3),
                 jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.WORKER)),
                 jsonPath("$.roles[*].name").value(Matchers.hasItem(PrimaryRoles.EMPLOYEE))
@@ -129,7 +129,7 @@ internal class WorkerCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `delete worker test`() {
         val newRecId = insertTravolta()
 
@@ -144,14 +144,14 @@ internal class WorkerCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one test`() {
         insertTravolta()
     }
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change worker data`() {
         val annaId = 7
         var change = WorkerChangeReq(

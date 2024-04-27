@@ -44,7 +44,7 @@ class SalesmanCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `find hired salesmans`() {
         mvc.perform(MockMvcRequestBuilders.get(uri))
             .andExpect { MockMvcResultMatchers.status().isOk }
@@ -56,7 +56,7 @@ class SalesmanCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `find one test`() {
         fun perform(id: Int) = mvc.perform(MockMvcRequestBuilders.get("$uri/{id}", id))
         perform(1)
@@ -107,14 +107,14 @@ class SalesmanCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one test`() {
         insertJackson()
     }
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `delete worker test`() {
         val newRecId = insertJackson()
 
@@ -129,7 +129,7 @@ class SalesmanCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change salesman data`() {
         // this code is similar to WorkerCTest change test and maybe can be refactored
         val janId = 1

@@ -40,7 +40,7 @@ class ClientCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
     fun `find one client test`() {
         standardTest.checkFindOneById(
             1,
@@ -78,7 +78,7 @@ class ClientCTest {
     )
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
     @Transactional
     fun `insert one test`() {
         standardTest.checkInsertOneObj(
@@ -104,7 +104,7 @@ class ClientCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
     @Transactional
     fun `change individual client test`() {
         val redId = standardTest.checkInsertOneObj(
@@ -128,7 +128,7 @@ class ClientCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.SALESMAN])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
     @Transactional
     fun `change company client test`() {
         val redId = standardTest.checkInsertOneObj(

@@ -39,7 +39,7 @@ class EnoblingCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.EMPLOYEE])
     fun `get one by id`() {
         fun testId(id: Int, name: String, desc: String?, type: String) {
             standardTest.checkFindOneById(
@@ -55,7 +55,7 @@ class EnoblingCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all test`() {
         standardTest.checkGetAllFromPath(
             MockMvcResultMatchers.jsonPath("$").value(Matchers.hasSize<EnoblingResp>(5)),
@@ -85,7 +85,7 @@ class EnoblingCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `insert one enobling`() {
         fun checkEnobling(name: String, desc: String, type: String, constr: (String, String) -> IEnoblingReq) {
             val dummyEnobling = constr(name, desc)
@@ -105,7 +105,7 @@ class EnoblingCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `change one test`() {
         var req: IEnoblingChangeReq = PunchChangeReq(
             name = "somename"

@@ -39,7 +39,7 @@ class PrinterCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         val dkID = 1
         standardTest.checkFindOneById(
@@ -51,7 +51,7 @@ class PrinterCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all test`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$").value(Matchers.hasSize<PrinterResp>(2)),
@@ -63,7 +63,7 @@ class PrinterCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one printer`() {
         val dummyPrinter = PrinterReq(
             "Normal Printer",
@@ -80,7 +80,7 @@ class PrinterCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change test printer`() {
         val printerId = 1
         val changeReq = PrinterChangeReq(

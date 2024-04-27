@@ -41,7 +41,7 @@ class OrderCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         standardTest.checkFindOneById(
             1,
@@ -88,7 +88,7 @@ class OrderCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert new one`() {
         val new = OrderReq(
             name = "new order",

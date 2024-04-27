@@ -43,7 +43,7 @@ class WorkflowStageCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all binderies test`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$[*].name").value(Matchers.hasItems("Handlowiec", "Introligatornia"))
@@ -51,7 +51,7 @@ class WorkflowStageCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.EMPLOYEE])
     fun `get one by id`() {
         standardTest.checkFindOneById(
             2,
@@ -79,7 +79,7 @@ class WorkflowStageCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN, PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.SALESMAN, PrimaryRoles.EMPLOYEE])
     fun `insert one test`() {
         val workers = listOf(4, 7)
         val workerURL = "/${Paths.CONTEXT}/${Paths.WORKERS}/{id}"
@@ -101,7 +101,7 @@ class WorkflowStageCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `delete workflow stage test`() {
         val newId = insertWorkflowStageChecks("insertedValue")
         val workerURL = "/${Paths.CONTEXT}/${Paths.WORKERS}/{id}"
@@ -134,7 +134,7 @@ class WorkflowStageCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER, PrimaryRoles.EMPLOYEE])
     fun `change workflow stage data`() {
         val workflowStageId = 1
         val change = WorkflowStageChangeReq(

@@ -29,7 +29,7 @@ internal class WorkerDAOTest {
     @Order(1)
     fun `find by id test`() {
         val workers = dao.findAllById(listOf(1, 2, 3, 4))
-        val expectedNames = listOf("Marian", "Jiliusz", "Robert")
+        val expectedNames = listOf("Marian", "Juliusz", "Robert")
         assertIterableEquals(expectedNames, workers.map { it.name })
         val firstWkr = workers.first()!!
         assertNotNull(firstWkr.roles.find { it.name == "krajalnia" })
@@ -87,9 +87,9 @@ internal class WorkerDAOTest {
 
     @Test
     fun `search query test`() {
-        val workers = dao.searchForName("iliusz")
+        val workers = dao.searchForName("uliusz")
         assertEquals(1, workers.size)
-        assertEquals(workers[0].name, "Jiliusz")
+        assertEquals(workers[0].name, "Juliusz")
         assertEquals(workers[0].surname, "Szymański-Introligatornia")
     }
 }

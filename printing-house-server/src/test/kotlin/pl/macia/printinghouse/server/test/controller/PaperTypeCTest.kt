@@ -39,7 +39,7 @@ class PaperTypeCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         val papTpID = 1
         standardTest.checkFindOneById(
@@ -51,7 +51,7 @@ class PaperTypeCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all test`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$").value(Matchers.hasSize<PaperTypeResp>(3)),
@@ -63,7 +63,7 @@ class PaperTypeCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one papType`() {
         val dummyPapType = PaperTypeReq(
             "Amazing Paper Retur",
@@ -80,7 +80,7 @@ class PaperTypeCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change PaperType test`() {
         val papTypeId = 1
         val changeReq = PaperTypeChangeReq(

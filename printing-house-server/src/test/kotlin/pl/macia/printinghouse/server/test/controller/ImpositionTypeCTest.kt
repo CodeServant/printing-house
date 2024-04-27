@@ -39,7 +39,7 @@ class ImpositionTypeCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get one by id`() {
         val dkID = 1
         standardTest.checkFindOneById(
@@ -50,7 +50,7 @@ class ImpositionTypeCTest {
     }
 
     @Test
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `get all test`() {
         standardTest.checkGetAllFromPath(
             jsonPath("$").value(Matchers.hasSize<PrinterResp>(3)),
@@ -63,7 +63,7 @@ class ImpositionTypeCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `insert one printer`() {
         val example = ImpositionTypeReq(
             "d/r"
@@ -78,7 +78,7 @@ class ImpositionTypeCTest {
 
     @Test
     @Transactional
-    @WithMockUser("jankowa@wp.pl", authorities = [PrimaryRoles.MANAGER])
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.MANAGER])
     fun `change ImpositionType test`() {
         val impTypId = 1
         val changeReq = ImpositionTypeChangeReq(

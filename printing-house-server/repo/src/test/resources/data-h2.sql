@@ -1,7 +1,7 @@
 INSERT INTO Person (name, surname, pseudoPESEL)
 VALUES ('Jan', 'Kowalski-Salesman', '45125478527'),
        ('Marian', 'Rokita-IntroligManager', '54874668723'),
-       ('Jiliusz', 'Szymański-Introligatornia', '91123414471'),
+       ('Juliusz', 'Szymański-Introligatornia', '91123414471'),
        ('Robert', 'Makłowisz-NaśwManager', '42389285u78'),
        ('Brad', 'PittIndividualCli', '01350359272'),
        ('Rick', 'SanchesIndividualCli', '91357482395'),
@@ -53,7 +53,7 @@ INSERT INTO Email (email)
 VALUES ('anna@wp.pl'),
        ('brat@wp.pl'),
        ('jan@example.com'),
-       ('jankowa@wp.pl'),
+       ('juliusz@example.com'),
        ('marian@example.com'),
        ('maklowicz@wp.pl'),
        ('marianmieszka@wp.pl'),
