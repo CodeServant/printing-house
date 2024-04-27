@@ -204,7 +204,7 @@ internal class OrderRepoTest {
         assertEquals(2, found.workflowStageStops.size)
         val workflStStop = found.workflowStageStops.first()
         assertNotNull(workflStStop.comment)
-        assertEquals("marianmieszka@wp.pl", workflStStop.worker?.email?.email)
+        assertEquals("anna@example.com", workflStStop.worker?.email?.email)
         assertEquals(found.orderid, workflStStop.order.orderid)
     }
 

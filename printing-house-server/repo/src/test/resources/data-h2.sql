@@ -56,7 +56,7 @@ VALUES ('anna@wp.pl'),
        ('juliusz@example.com'),
        ('marian@example.com'),
        ('maklowicz@wp.pl'),
-       ('marianmieszka@wp.pl'),
+       ('anna@example.com'),
        ('robert@example.com'),
        ('manager@example.com');
 INSERT INTO Client (email, phoneNumber)
