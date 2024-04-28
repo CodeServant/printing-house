@@ -11,6 +11,8 @@ import io.kvision.panel.simplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.serializer
 
 enum class ButtonType {
     ADD, EDIT
@@ -119,21 +121,23 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     val buttonType = ObservableValue(ButtonType.ADD)
 
     simplePanel {
-        tabulator(
-            summaryList, options = TabulatorOptions(
-                layout = Layout.FITCOLUMNS,
-                columns = columnsDef,
-                selectableRows = 1,
-            )
-        ) {
-            onEvent {
-                rowSelectionChangedTabulator = {
-                    buttonType.value =
-                        if (getSelectedRows().size == 1) ButtonType.EDIT else ButtonType.ADD
-                    onSelected(getSelectedData().firstOrNull())
+        add(
+            PrhTabulator(
+                summaryList, options = TabulatorOptions(
+                    layout = Layout.FITCOLUMNS,
+                    columns = columnsDef,
+                    selectableRows = 1,
+                ), serializer = serializer()
+            ) {
+                onEvent {
+                    rowSelectionChangedTabulator = {
+                        buttonType.value =
+                            if (getSelectedRows().size == 1) ButtonType.EDIT else ButtonType.ADD
+                        onSelected(getSelectedData().firstOrNull())
+                    }
                 }
             }
-        }
+        )
         hPanel(useWrappers = true).bind(buttonType) {
             simplePanel {
                 if (it == ButtonType.ADD) {
@@ -154,6 +158,25 @@ inline fun <reified T : Any> Container.insertUpdateTable(
             }
             formPanel()?.let(::add)
         }
+    }
+}
+
+/**
+ * This is printing house standard tabulator.
+ */
+class PrhTabulator<T : Any>(
+    data: List<T>? = null,
+    options: TabulatorOptions<T> = TabulatorOptions(),
+    serializer: KSerializer<T>? = null,
+    init: (PrhTabulator<T>.() -> Unit)? = null
+) :
+    Tabulator<T>(
+        data = data,
+        options = options,
+        serializer = serializer
+    ) {
+    init {
+        init?.invoke(this)
     }
 }
 
