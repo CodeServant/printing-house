@@ -14,6 +14,7 @@ import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
+import pl.macia.printinghouse.web.cli.salesman.FinalizeOrderPanel
 import pl.macia.printinghouse.web.dao.*
 
 enum class ManagerMenuScreen {
@@ -125,7 +126,10 @@ class SalesmanMenu : EmpMenu() {
                     add(salOrderPanel)
                 }
 
-                SalesmanMenuScreens.FINALIZE -> TODO()
+                SalesmanMenuScreens.FINALIZE -> {
+                    add(FinalizeOrderPanel())
+                }
+
                 SalesmanMenuScreens.YOUR_ORDERS -> TODO()
                 SalesmanMenuScreens.MAIN -> {
                     vPanel {
