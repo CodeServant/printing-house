@@ -57,7 +57,6 @@ class OrdersToAssignTab(
                 onSelected = {
                     orderIdStr = it?.orderId
                 },
-                onlyEdit = true,
                 formPanel = {
                     select = TomSelect(label = "assignee",
                         tsCallbacks = TomSelectCallbacks(

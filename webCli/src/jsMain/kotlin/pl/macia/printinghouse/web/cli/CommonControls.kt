@@ -12,7 +12,6 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.*
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.serializer
 
 enum class ButtonType {
     ADD, EDIT
@@ -114,13 +113,12 @@ fun <T : Any> Container.insertUpdateTable(
     columnsDef: List<ColumnDefinition<T>>,
     onSelected: (T?) -> Unit,
     formPanel: () -> Component? = { null },
-    onInsert: (() -> Unit) = { },
-    onUpdate: (() -> Unit) = { },
-    onlyEdit: Boolean = false,
+    onInsert: (() -> Unit)? = null,
+    onUpdate: (() -> Unit)? = null,
     serializer: KSerializer<T>
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
-
+    val onlyEdit = onInsert == null && onUpdate != null
     simplePanel {
         add(
             PrhTabulator(
@@ -145,14 +143,14 @@ fun <T : Any> Container.insertUpdateTable(
                     if (!onlyEdit) {
                         addButton {
                             onClick {
-                                onInsert()
+                                onInsert?.invoke()
                             }
                         }
                     }
                 } else {
                     editButton {
                         onClick {
-                            onUpdate()
+                            onUpdate?.invoke()
                         }
                     }
                 }
