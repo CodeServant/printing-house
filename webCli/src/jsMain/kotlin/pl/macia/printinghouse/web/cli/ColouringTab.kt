@@ -7,6 +7,7 @@ import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 @Serializable
 data class ColouringSummary(
@@ -49,7 +50,7 @@ class ColouringTab : SimplePanel() {
                     }
                 }
                 colorInput
-            }
+            }, serializer = serializer()
         )
     }
 }

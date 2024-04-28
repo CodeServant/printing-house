@@ -8,6 +8,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.web.dao.PrinterDao
 
 @Serializable
@@ -42,7 +43,7 @@ class PrintersTab : SimplePanel() {
                         name.value = it?.name
                     }
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

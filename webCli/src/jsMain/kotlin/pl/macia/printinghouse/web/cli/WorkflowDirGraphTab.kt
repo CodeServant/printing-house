@@ -13,6 +13,7 @@ import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
 @Serializable
@@ -47,7 +48,7 @@ class WorkflowDirGraphTab : SimplePanel() {
             },
             formPanel = {
                 WorkflowDirGraphForm()
-            }
+            }, serializer = serializer()
         )
     }
 }

@@ -5,6 +5,7 @@ import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.request.BindingFormChangeReq
 import pl.macia.printinghouse.request.BindingFormReq
 import pl.macia.printinghouse.response.BindingFormResp
@@ -77,7 +78,7 @@ class BindingFormTab(bindingForms: List<BindingFormResp>, dao: BindingFormDao) :
                         {}
                     )
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

@@ -8,6 +8,7 @@ import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.summary
@@ -90,7 +91,7 @@ class OrdersToAssignTab(
                         )
                         onLeave()
                     }
-                }
+                }, serializer = serializer()
             )
         }
     }

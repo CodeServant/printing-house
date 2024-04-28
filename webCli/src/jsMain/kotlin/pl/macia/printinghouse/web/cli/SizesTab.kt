@@ -11,6 +11,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.response.SizeResp
 import pl.macia.printinghouse.web.dao.SizeDao
 
@@ -48,7 +49,7 @@ class SizesTab : SimplePanel() {
                         height.value = it?.height
                     }
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

@@ -11,6 +11,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.request.BinderyChangeReq
 import pl.macia.printinghouse.request.BinderyReq
 import pl.macia.printinghouse.response.BinderyResp
@@ -75,7 +76,7 @@ class BinderiesTab(binderies: List<BinderyResp>, dao: BinderyDao) : SimplePanel(
                         {}
                     )
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

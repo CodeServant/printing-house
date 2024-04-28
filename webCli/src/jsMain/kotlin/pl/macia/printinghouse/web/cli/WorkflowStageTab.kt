@@ -5,6 +5,7 @@ import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 
 
 @Serializable
@@ -41,7 +42,7 @@ class WorkflowStageTab : SimplePanel() {
                         multiple = true,
                     )
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

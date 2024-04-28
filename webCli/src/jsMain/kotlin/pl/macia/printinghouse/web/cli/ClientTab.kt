@@ -5,6 +5,7 @@ import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.response.CompanyClientResp
 import pl.macia.printinghouse.response.IndividualClientResp
 
@@ -137,7 +138,7 @@ class ClientTab : SimplePanel() {
                         }
                     }
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

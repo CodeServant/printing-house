@@ -8,6 +8,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.serializer
 import pl.macia.printinghouse.web.dao.PaperTypeDao
 
 @Serializable
@@ -43,7 +44,7 @@ class PaperTypeTab : SimplePanel() {
                         shortName.value = it?.shortName
                     }
                 }
-            }
+            }, serializer = serializer()
         )
     }
 }

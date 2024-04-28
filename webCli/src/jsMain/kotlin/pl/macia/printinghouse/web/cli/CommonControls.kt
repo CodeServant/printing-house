@@ -109,14 +109,15 @@ class TextInput(label: String, init: (Text.() -> Unit)? = null) : Text(label = l
  * @param formPanel is the panel that is supposed to apear in the same window as table for fast add and eddit option
  * @param onlyEdit where add button shouldn't be visible
  */
-inline fun <reified T : Any> Container.insertUpdateTable(
+fun <T : Any> Container.insertUpdateTable(
     summaryList: List<T>,
     columnsDef: List<ColumnDefinition<T>>,
-    crossinline onSelected: (T?) -> Unit,
-    crossinline formPanel: () -> Component? = { null },
-    crossinline onInsert: (() -> Unit) = { },
-    crossinline onUpdate: (() -> Unit) = { },
-    onlyEdit: Boolean = false
+    onSelected: (T?) -> Unit,
+    formPanel: () -> Component? = { null },
+    onInsert: (() -> Unit) = { },
+    onUpdate: (() -> Unit) = { },
+    onlyEdit: Boolean = false,
+    serializer: KSerializer<T>
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
 
@@ -127,7 +128,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
                     layout = Layout.FITCOLUMNS,
                     columns = columnsDef,
                     selectableRows = 1,
-                ), serializer = serializer()
+                ), serializer = serializer
             ) {
                 onEvent {
                     rowSelectionChangedTabulator = {
