@@ -51,4 +51,15 @@ class OrderDao {
         }
         premise.then(onFulfilled, onRejected)
     }
+
+    fun toFinalizeOrders(
+        onFulfilled: (RestResponse<List<OrderResp>>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val promise = restClient.request<List<OrderResp>>("$url?toFinalize") {
+            authorize()
+        }
+        promise.then(onFulfilled, onRejected)
+    }
 }
