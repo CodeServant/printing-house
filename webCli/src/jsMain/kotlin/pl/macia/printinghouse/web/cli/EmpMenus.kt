@@ -127,7 +127,14 @@ class SalesmanMenu : EmpMenu() {
                 }
 
                 SalesmanMenuScreens.FINALIZE -> {
-                    add(FinalizeOrderPanel())
+                    OrderDao().toFinalizeOrders(
+                        {
+                            add(FinalizeOrderPanel(it.data))
+                        },
+                        {
+                            TODO("orders to finalize not fetched")
+                        }
+                    )
                 }
 
                 SalesmanMenuScreens.YOUR_ORDERS -> TODO()
