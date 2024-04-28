@@ -47,4 +47,13 @@ internal class OrderDAOCustomImpl : OrderDAOCustom {
         query.setParameter("stageId", stageId)
         return query.resultList
     }
+
+    override fun pathCompletedOrders(email: String): List<Order> {
+        val query = em.createQuery(
+            """SELECT o FROM Order AS o WHERE NOT EXISTS (SELECT wss from WorkflowStageStop AS wss WHERE wss.order=o AND wss.assignTime IS NULL) AND o.supervisor.email.email=:email""",
+            Order::class.java
+        )
+        query.setParameter("email", email)
+        return query.resultList
+    }
 }

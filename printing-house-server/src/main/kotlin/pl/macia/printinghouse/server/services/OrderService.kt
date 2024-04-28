@@ -300,6 +300,10 @@ class OrderService {
         wssToAssign.assignTime = LocalDateTime.now()
         return ChangeResp(true)
     }
+
+    fun ordersToFinalize(name: String): List<OrderResp> {
+        return repo.pathCompletedOrders(name).map { it.toTransport(clientRepo) }
+    }
 }
 
 private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {

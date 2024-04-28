@@ -14,4 +14,10 @@ internal interface OrderDAOCustom {
      * @param areChecked fetch those that are marked checked by salesman, if false get unchecked, if null ignore checked field
      */
     fun notAssignedWorkflowStage(stageId: Int, areChecked: Boolean? = null): List<Order>
+
+    /**
+     * [Order]s that are completed but not finalize by the [pl.macia.printinghouse.server.dto.Salesman] (there is no unassigned [pl.macia.printinghouse.server.dto.WorkflowStageStop])
+     * @param [pl.macia.printinghouse.server.dto.Salesman] email for which we want to select orders
+     */
+    fun pathCompletedOrders(email: String): List<Order>
 }

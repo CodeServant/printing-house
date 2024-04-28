@@ -240,6 +240,11 @@ sealed interface OrderRepo {
      * Get unassigned orders for specific [WorkflowStageStop.wfssId].
      */
     fun getUnassigned(wssId: Int, checked: Boolean?): List<Order>
+
+    /**
+     * Get [Order]s for [Salesman] by his email.
+     */
+    fun pathCompletedOrders(email: String): List<Order>
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>

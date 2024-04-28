@@ -95,4 +95,15 @@ class OrderController {
     ): ResponseEntity<*> {
         return ResponseEntity.ok(serv.assignWorker(id, workerId, authentication))
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.SALESMAN}')")
+    @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"], params = ["toFinalize"])
+    fun ordersToFinalize(
+        @Parameter(description = "orders that are not finalized for the currnetlyauthenticated salesman")
+        @RequestParam(required = false)
+        toFinalize: Boolean,
+        authentication: Authentication
+    ): ResponseEntity<List<OrderResp>> {
+        return ResponseEntity.ok(serv.ordersToFinalize(authentication.name))
+    }
 }

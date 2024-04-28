@@ -39,4 +39,8 @@ internal class OrderRepoImpl : OrderIntRepo {
     override fun getUnassigned(wssId: Int, checked: Boolean?): List<Order> {
         return dao.notAssignedWorkflowStage(wssId).map { it.toBiz() }
     }
+
+    override fun pathCompletedOrders(email: String): List<Order> {
+        return dao.pathCompletedOrders(email).map { it.toBiz() }
+    }
 }
