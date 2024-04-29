@@ -1,35 +1,29 @@
 package pl.macia.printinghouse.web.cli.salesman
 
 import io.kvision.panel.SimplePanel
+import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
-import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.serializer
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.web.cli.insertUpdateTable
 
-@Serializable
-private data class SalOrderSummary(
-    val orderName: String,
-    val orderId: Int,
-    val created: LocalDateTime
-)
-
 class FinalizeOrderPanel(ordersToFinalize: List<OrderResp>, init: (FinalizeOrderPanel.() -> Unit)? = null) :
     SimplePanel() {
+    val selected = ObservableValue<OrderResp?>(null)
+
     init {
         insertUpdateTable(
-            summaryList = ordersToFinalize.map {
-                SalOrderSummary(it.name, it.id, it.creationDate)
-            },
+            summaryList = ordersToFinalize,
             columnsDef = listOf(
-                ColumnDefinition("id", SalOrderSummary::orderId.name),
-                ColumnDefinition("name", SalOrderSummary::orderName.name),
-                ColumnDefinition("created", SalOrderSummary::created.name),
+                ColumnDefinition("id", OrderResp::id.name),
+                ColumnDefinition("name", OrderResp::name.name),
+                ColumnDefinition("created", OrderResp::creationDate.name),
             ),
-            onSelected = {},
-            serializer = serializer(),
-            onUpdate = {}
+            onSelected = {
+                selected.value = it
+            },
+            onUpdate = {
+                TODO("send request to finalize order")
+            }
         )
         init?.invoke(this)
     }
