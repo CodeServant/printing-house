@@ -50,7 +50,7 @@ internal class OrderDAOCustomImpl : OrderDAOCustom {
 
     override fun pathCompletedOrders(email: String): List<Order> {
         val query = em.createQuery(
-            """SELECT o FROM Order AS o WHERE NOT EXISTS (SELECT wss from WorkflowStageStop AS wss WHERE wss.order=o AND wss.assignTime IS NULL) AND o.supervisor.email.email=:email""",
+            """SELECT o FROM Order AS o WHERE NOT EXISTS (SELECT wss from WorkflowStageStop AS wss WHERE wss.order=o AND wss.assignTime IS NULL) AND o.supervisor.email.email=:email AND (o.completionDate IS NULL AND o.withdrawalDate IS NULL)""",
             Order::class.java
         )
         query.setParameter("email", email)
