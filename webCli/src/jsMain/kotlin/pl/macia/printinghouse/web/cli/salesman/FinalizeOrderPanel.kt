@@ -5,6 +5,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.web.cli.insertUpdateTable
+import pl.macia.printinghouse.web.dao.OrderDao
 
 class FinalizeOrderPanel(ordersToFinalize: List<OrderResp>, init: (FinalizeOrderPanel.() -> Unit)? = null) :
     SimplePanel() {
@@ -22,7 +23,18 @@ class FinalizeOrderPanel(ordersToFinalize: List<OrderResp>, init: (FinalizeOrder
                 selected.value = it
             },
             onUpdate = {
-                TODO("send request to finalize order")
+                val id = selected.value?.id
+                if (id != null) {
+                    OrderDao().finalizeOrder(
+                        id,
+                        {
+                            println(it)
+                        },
+                        {
+                            TODO("rejected connection when finalizing order")
+                        }
+                    )
+                }
             }
         )
         init?.invoke(this)

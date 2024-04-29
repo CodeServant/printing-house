@@ -62,4 +62,17 @@ class OrderDao {
         }
         promise.then(onFulfilled, onRejected)
     }
+
+    fun finalizeOrder(
+        orderId: Int,
+        onFulfilled: (RestResponse<*>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val promise = restClient.request<List<OrderResp>>("$url/$orderId?finalize") {
+            method = HttpMethod.PUT
+            authorize()
+        }
+        promise.then(onFulfilled, onRejected)
+    }
 }
