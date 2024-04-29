@@ -10,7 +10,6 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.serializer
 
 enum class EmplType {
     WORKER, SALESMAN
@@ -53,7 +52,7 @@ class EmployeeTab : SimplePanel() {
                         currentPicked.value = it
 
 
-                    }, serializer = serializer()
+                    }
                 )
             } else if (it.type == EmplType.WORKER) {
                 add(WorkerInputPanel())

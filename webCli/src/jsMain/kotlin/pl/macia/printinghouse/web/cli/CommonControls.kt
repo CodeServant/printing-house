@@ -114,8 +114,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     crossinline onSelected: (T?) -> Unit,
     crossinline formPanel: () -> Component? = { null },
     noinline onInsert: (() -> Unit)? = null,
-    noinline onUpdate: (() -> Unit)? = null,
-    serializer: KSerializer<T>
+    noinline onUpdate: (() -> Unit)? = null
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
     val onlyEdit = onInsert == null && onUpdate != null
