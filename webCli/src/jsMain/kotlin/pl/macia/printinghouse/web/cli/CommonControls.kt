@@ -108,25 +108,25 @@ class TextInput(label: String, init: (Text.() -> Unit)? = null) : Text(label = l
  * @param formPanel is the panel that is supposed to apear in the same window as table for fast add and eddit option
  * @param onlyEdit where add button shouldn't be visible
  */
-fun <T : Any> Container.insertUpdateTable(
+inline fun <reified T : Any> Container.insertUpdateTable(
     summaryList: List<T>,
     columnsDef: List<ColumnDefinition<T>>,
-    onSelected: (T?) -> Unit,
-    formPanel: () -> Component? = { null },
-    onInsert: (() -> Unit)? = null,
-    onUpdate: (() -> Unit)? = null,
+    crossinline onSelected: (T?) -> Unit,
+    crossinline formPanel: () -> Component? = { null },
+    noinline onInsert: (() -> Unit)? = null,
+    noinline onUpdate: (() -> Unit)? = null,
     serializer: KSerializer<T>
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
     val onlyEdit = onInsert == null && onUpdate != null
     simplePanel {
         add(
-            PrhTabulator(
+            prhTabulator(
                 summaryList, options = TabulatorOptions(
                     layout = Layout.FITCOLUMNS,
                     columns = columnsDef,
                     selectableRows = 1,
-                ), serializer = serializer
+                )
             ) {
                 onEvent {
                     rowSelectionChangedTabulator = {
@@ -163,20 +163,17 @@ fun <T : Any> Container.insertUpdateTable(
 /**
  * This is printing house standard tabulator.
  */
-class PrhTabulator<T : Any>(
+inline fun <reified T : Any> prhTabulator(
     data: List<T>? = null,
     options: TabulatorOptions<T> = TabulatorOptions(),
-    serializer: KSerializer<T>? = null,
-    init: (PrhTabulator<T>.() -> Unit)? = null
-) :
-    Tabulator<T>(
-        data = data,
+    noinline init: (Tabulator<T>.() -> Unit)? = null
+): Tabulator<T> {
+    val tab = Tabulator.create(
+        data,
         options = options,
-        serializer = serializer
-    ) {
-    init {
-        init?.invoke(this)
-    }
+    )
+    init?.invoke(tab)
+    return tab
 }
 
 class LoaderSpinner(var type: SpinnerType = SpinnerType.PRIMARY) : SimplePanel() {
