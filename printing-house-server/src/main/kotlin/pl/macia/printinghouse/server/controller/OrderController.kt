@@ -90,7 +90,7 @@ class OrderController {
     @PutMapping(value = ["${EndpNames.Order.ORDERS}/{id}"], produces = ["application/json"])
     fun assignWorker(
         @PathVariable id: Int,
-        @RequestParam workerId: Int,
+        @RequestParam(required = false) workerId: Int,
         authentication: Authentication
     ): ResponseEntity<*> {
         return ResponseEntity.ok(serv.assignWorker(id, workerId, authentication))
@@ -105,5 +105,18 @@ class OrderController {
         authentication: Authentication
     ): ResponseEntity<List<OrderResp>> {
         return ResponseEntity.ok(serv.ordersToFinalize(authentication.name))
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.SALESMAN}')")
+    @PutMapping(value = ["${EndpNames.Order.ORDERS}/{id}"], produces = ["application/json"], params = ["finalize"])
+    fun finalizeOrder(
+        @PathVariable
+        id: Int,
+        @RequestParam(required = false, defaultValue = "true")
+        finalize: Boolean
+    ): ResponseEntity<Void> {
+        if (serv.finalizeOrder(id))
+            return ResponseEntity.noContent().build()
+        return ResponseEntity.badRequest().build()
     }
 }

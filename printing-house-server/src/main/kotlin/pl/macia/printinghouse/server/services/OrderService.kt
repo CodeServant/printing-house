@@ -304,6 +304,18 @@ class OrderService {
     fun ordersToFinalize(name: String): List<OrderResp> {
         return repo.pathCompletedOrders(name).map { it.toTransport(clientRepo) }
     }
+
+    @Transactional
+    fun finalizeOrder(id: Int): Boolean {
+        val fetched = repo.findById(id) ?: throw NoSuchElementException("there is not order for provided id")
+        val isCompleted = fetched.workflowStageStops.map {
+            it.completionTime
+        }.filter { it == null }
+            .isEmpty()
+        if (!isCompleted) return false
+        fetched.completionDate = LocalDateTime.now()
+        return true
+    }
 }
 
 private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {
