@@ -126,8 +126,8 @@ class GenericEmployeeInput : SimplePanel() {
                 Pair("wor", "worker"),
             )
         )
-        simplePanel().bind(empType) {
-            when (it) {
+        simplePanel().bind(empType) { pickedEmpl ->
+            when (pickedEmpl) {
                 "sal" -> {
                     add(SalesmanInputPanel())
                 }
@@ -137,5 +137,20 @@ class GenericEmployeeInput : SimplePanel() {
                 }
             }
         }
+        add(
+            AddButton {
+                onClick {
+                    when (empType.value) {
+                        "sal" -> {
+
+                        }
+
+                        "wor" -> {
+
+                        }
+                    }
+                }
+            }
+        )
     }
 }
