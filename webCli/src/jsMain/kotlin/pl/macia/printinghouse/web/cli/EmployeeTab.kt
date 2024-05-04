@@ -2,6 +2,7 @@ package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.Container
 import io.kvision.form.check.checkBox
+import io.kvision.form.select.select
 import io.kvision.html.InputType
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
@@ -12,7 +13,7 @@ import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
 
 enum class EmplType {
-    WORKER, SALESMAN
+    WORKER, SALESMAN, INSERT
 }
 
 @Serializable
@@ -50,8 +51,9 @@ class EmployeeTab : SimplePanel() {
                     ),
                     onSelected = {
                         currentPicked.value = it
-
-
+                    },
+                    onInsert = {
+                        currentPicked.value = EmployeeSummary("", "", "", "", EmplType.INSERT)
                     }
                 )
             } else if (it.type == EmplType.WORKER) {
@@ -61,6 +63,8 @@ class EmployeeTab : SimplePanel() {
             } else if (it.type == EmplType.SALESMAN) {
                 add(SalesmanInputPanel())
                 controllButtons()
+            } else if (it.type == EmplType.INSERT) {
+                add(GenericEmployeeInput())
             }
         }
     }
@@ -113,3 +117,25 @@ class PersonInputPanel : SimplePanel() {
     }
 }
 
+class GenericEmployeeInput : SimplePanel() {
+    init {
+        var empType = select(
+            label = "employee type",
+            options = listOf(
+                Pair("sal", "salesman"),
+                Pair("wor", "worker"),
+            )
+        )
+        simplePanel().bind(empType) {
+            when (it) {
+                "sal" -> {
+                    add(SalesmanInputPanel())
+                }
+
+                "wor" -> {
+                    add(WorkerInputPanel())
+                }
+            }
+        }
+    }
+}
