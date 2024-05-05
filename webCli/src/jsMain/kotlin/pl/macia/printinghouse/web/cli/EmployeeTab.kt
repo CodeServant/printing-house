@@ -1,7 +1,8 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.Container
-import io.kvision.form.check.checkBox
+import io.kvision.form.FormPanel
+import io.kvision.form.check.CheckBox
 import io.kvision.form.select.select
 import io.kvision.html.InputType
 import io.kvision.panel.SimplePanel
@@ -11,6 +12,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import kotlin.reflect.KProperty1
 
 enum class EmplType {
     WORKER, SALESMAN, INSERT
@@ -92,28 +94,88 @@ class WorkerInputPanel : SimplePanel() {
     }
 }
 
-class SalesmanInputPanel : SimplePanel() {
-    init {
-        add(EmployeeInputPanel())
-    }
-}
+data class SalesmanInputData(
+    val empData: EmployeeInputData
+)
 
-class EmployeeInputPanel : SimplePanel() {
+class SalesmanInputPanel : SimplePanel() {
+    val empPanel = EmployeeInputPanel()
+
     init {
-        add(PersonInputPanel())
-        checkBox(label = "employed") { }
-        checkBox(label = "active account") { }
-        textInput(label = "email") {
-            type = InputType.EMAIL
+        add(empPanel)
+    }
+
+    fun getData(markFields: Boolean): SalesmanInputData? {
+        val data = empPanel.getData(markFields)
+        if (data == null) {
+            return null
+        } else {
+            return SalesmanInputData(data)
         }
     }
 }
 
-class PersonInputPanel : SimplePanel() {
+data class EmployeeInputData(
+    val employed: Boolean,
+    val activeAccount: Boolean,
+    val email: String,
+    val personData: PersonInputData
+)
+
+class EmployeeInputPanel : SimplePanel() {
+    val form = FormPanel<EmployeeInputData>()
+    val personInput = PersonInputPanel()
+
     init {
-        textInput("name")
-        textInput("surname")
-        textInput("pesel")
+        add(personInput)
+        form.add(EmployeeInputData::employed, CheckBox(label = "employed"))
+        form.add(EmployeeInputData::activeAccount, CheckBox(label = "active account"))
+        val emInput = TextInput(label = "email") {
+            type = InputType.EMAIL
+        }
+        form.add(EmployeeInputData::email, emInput, required = true)
+        add(form)
+    }
+
+    fun getData(markFields: Boolean): EmployeeInputData? {
+        val personData = personInput.getData(markFields)
+        if (personData == null || !form.validate(markFields)) return null
+        val msg = "data from input not valid"
+        return EmployeeInputData(
+            employed = form[EmployeeInputData::employed] ?: throw RuntimeException(msg),
+            activeAccount = form[EmployeeInputData::activeAccount] ?: throw RuntimeException(msg),
+            email = form[EmployeeInputData::email] ?: throw RuntimeException(msg),
+            personData = personData,
+        )
+    }
+}
+
+data class PersonInputData(
+    val name: String,
+    val surname: String,
+    val pesel: String,
+)
+
+class PersonInputPanel : SimplePanel() {
+    val form = FormPanel<PersonInputData>()
+
+    init {
+        form.add(PersonInputData::name, TextInput("name"), required = true)
+        form.add(PersonInputData::surname, TextInput("surname"), required = true)
+        form.add(PersonInputData::pesel, TextInput("pesel"), required = true)
+        add(form)
+    }
+
+    fun getData(markFields: Boolean): PersonInputData? {
+        form.validate(markFields)
+        fun <T, V> theMassage(prop: KProperty1<T, V>): String {
+            return "can't translate input data to valid data format: ${prop}"
+        }
+        return PersonInputData(
+            name = form[PersonInputData::name] ?: throw RuntimeException(theMassage(PersonInputData::name)),
+            surname = form[PersonInputData::surname] ?: throw RuntimeException(theMassage(PersonInputData::surname)),
+            pesel = form[PersonInputData::pesel] ?: throw RuntimeException(theMassage(PersonInputData::pesel)),
+        )
     }
 }
 
@@ -126,10 +188,11 @@ class GenericEmployeeInput : SimplePanel() {
                 Pair("wor", "worker"),
             )
         )
+        val salInPanel = SalesmanInputPanel()
         simplePanel().bind(empType) { pickedEmpl ->
             when (pickedEmpl) {
                 "sal" -> {
-                    add(SalesmanInputPanel())
+                    add(salInPanel)
                 }
 
                 "wor" -> {
@@ -142,7 +205,7 @@ class GenericEmployeeInput : SimplePanel() {
                 onClick {
                     when (empType.value) {
                         "sal" -> {
-
+                            val data = salInPanel.getData(true)
                         }
 
                         "wor" -> {
