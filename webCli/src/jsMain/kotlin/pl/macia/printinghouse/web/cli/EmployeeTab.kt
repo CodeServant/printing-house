@@ -83,14 +83,30 @@ class EmployeeTab : SimplePanel() {
     }
 }
 
+data class WorkerInputData(
+    val isManagerOf: List<Int>,
+    val empData: EmployeeInputData
+)
+
 class WorkerInputPanel : SimplePanel() {
+    val workflowStagePicker = WorkflowStagePicker(
+        label = "is manager of"
+    )
+    val empInPanel = EmployeeInputPanel()
+
     init {
-        add(
-            WorkflowStagePicker(
-                label = "is manager of"
-            )
+        add(workflowStagePicker)
+        add(empInPanel)
+    }
+
+    fun getData(markFields: Boolean): WorkerInputData? {
+        val personData = empInPanel.getData(markFields)
+        val managersIds = workflowStagePicker.getData(markFields)
+        if (personData == null || managersIds == null) return null
+        return WorkerInputData(
+            isManagerOf = managersIds,
+            empData = personData
         )
-        add(EmployeeInputPanel())
     }
 }
 
@@ -189,6 +205,7 @@ class GenericEmployeeInput : SimplePanel() {
             )
         )
         val salInPanel = SalesmanInputPanel()
+        val workInPanel = WorkerInputPanel()
         simplePanel().bind(empType) { pickedEmpl ->
             when (pickedEmpl) {
                 "sal" -> {
@@ -196,7 +213,7 @@ class GenericEmployeeInput : SimplePanel() {
                 }
 
                 "wor" -> {
-                    add(WorkerInputPanel())
+                    add(workInPanel)
                 }
             }
         }
@@ -209,7 +226,7 @@ class GenericEmployeeInput : SimplePanel() {
                         }
 
                         "wor" -> {
-
+                            val data = workInPanel.getData(true)
                         }
                     }
                 }
