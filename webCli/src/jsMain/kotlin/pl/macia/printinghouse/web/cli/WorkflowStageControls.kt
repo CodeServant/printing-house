@@ -1,12 +1,11 @@
 package pl.macia.printinghouse.web.cli
 
-import io.kvision.form.ValidationStatus
 import io.kvision.form.select.*
 import io.kvision.panel.SimplePanel
 import io.kvision.utils.obj
 import pl.macia.printinghouse.web.dao.WorkflowStageDao
 
-class WorkflowStagePicker(label: String?) : SimplePanel() {
+class WorkflowStagePicker(label: String?, private val required: Boolean) : SimplePanel() {
     private val selectField = TomSelect(
         label = label,
         rich = true,
@@ -41,7 +40,7 @@ class WorkflowStagePicker(label: String?) : SimplePanel() {
 
     fun getData(markFields: Boolean): List<Int>? {
         val selected = selectField.value
-        if (selected == null) {
+        if (selected == null && required) {
             if (markFields)
                 selectField.validatorError = "workflow stage not selected"
             return null
@@ -49,8 +48,8 @@ class WorkflowStagePicker(label: String?) : SimplePanel() {
         selectField.validationStatus = null
         selectField.validatorError = null
         return try {
-            selected.split(",")
-                .map { it.toInt() }
+            selected?.split(",")
+                ?.map { it.toInt() } ?: listOf()
         } catch (e: NumberFormatException) {
             null
         }

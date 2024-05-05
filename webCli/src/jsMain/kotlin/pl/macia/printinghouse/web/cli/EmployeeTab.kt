@@ -4,6 +4,7 @@ import io.kvision.core.Container
 import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox
 import io.kvision.form.select.select
+import io.kvision.form.text.Password
 import io.kvision.html.InputType
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
@@ -12,6 +13,10 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.SalesmanReq
+import pl.macia.printinghouse.request.WorkerReq
+import pl.macia.printinghouse.web.dao.SalesmanDao
+import pl.macia.printinghouse.web.dao.WorkerDao
 import kotlin.reflect.KProperty1
 
 enum class EmplType {
@@ -90,7 +95,8 @@ data class WorkerInputData(
 
 class WorkerInputPanel : SimplePanel() {
     val workflowStagePicker = WorkflowStagePicker(
-        label = "is manager of"
+        label = "is manager of",
+        required = false
     )
     val empInPanel = EmployeeInputPanel()
 
@@ -135,7 +141,8 @@ data class EmployeeInputData(
     val employed: Boolean,
     val activeAccount: Boolean,
     val email: String,
-    val personData: PersonInputData
+    val personData: PersonInputData,
+    val password: String
 )
 
 class EmployeeInputPanel : SimplePanel() {
@@ -150,6 +157,7 @@ class EmployeeInputPanel : SimplePanel() {
             type = InputType.EMAIL
         }
         form.add(EmployeeInputData::email, emInput, required = true)
+        form.add(EmployeeInputData::password, Password(label = "password"), required = true)
         add(form)
     }
 
@@ -162,6 +170,7 @@ class EmployeeInputPanel : SimplePanel() {
             activeAccount = form[EmployeeInputData::activeAccount] ?: throw RuntimeException(msg),
             email = form[EmployeeInputData::email] ?: throw RuntimeException(msg),
             personData = personData,
+            password = form[EmployeeInputData::password] ?: throw RuntimeException(msg)
         )
     }
 }
@@ -223,10 +232,45 @@ class GenericEmployeeInput : SimplePanel() {
                     when (empType.value) {
                         "sal" -> {
                             val data = salInPanel.getData(true)
+                            if (data != null) {
+                                SalesmanDao().newSalesmanReq(
+                                    SalesmanReq(
+                                        data.empData.employed,
+                                        data.empData.activeAccount,
+                                        data.empData.password,
+                                        data.empData.email,
+                                        data.empData.personData.pesel,
+                                        data.empData.personData.surname,
+                                        data.empData.personData.name,
+                                    ), onFulfilled = {
+                                        //TODO("fulfilled req for the salesman")
+                                    }, onRejected = {
+                                        //TODO("rejected req for the salesman")
+                                    }
+                                )
+                            }
                         }
 
                         "wor" -> {
                             val data = workInPanel.getData(true)
+                            if (data != null) {
+                                WorkerDao().newWorkerReq(
+                                    WorkerReq(
+                                        data.isManagerOf,
+                                        data.empData.employed,
+                                        data.empData.activeAccount,
+                                        data.empData.password,
+                                        data.empData.email,
+                                        data.empData.personData.pesel,
+                                        data.empData.personData.surname,
+                                        data.empData.personData.name,
+                                    ), onFulfilled = {
+                                        //TODO("fulfilled req for the worker")
+                                    }, onRejected = {
+                                        //TODO("rejected req for the worker")
+                                    }
+                                )
+                            }
                         }
                     }
                 }
