@@ -36,7 +36,7 @@ data class EmployeeSummary(
 /**
  * Table containing employee list.
  */
-class EmployeeTab : SimplePanel() {
+class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
     var currentPicked: ObservableValue<EmployeeSummary?> = ObservableValue(null)
 
     init {
@@ -45,11 +45,7 @@ class EmployeeTab : SimplePanel() {
 
             if (it == null) {
                 insertUpdateTable(
-                    summaryList = listOf(
-                        EmployeeSummary("Joe", "Biden", "joesomepesl", "joe@example.com", EmplType.WORKER),
-                        EmployeeSummary("Donald", "Trump", "trumpmepesl", "trump@example.com", EmplType.SALESMAN),
-                        EmployeeSummary("Barack", "Obama", "obamamepesl", "barack@example.com", EmplType.WORKER),
-                    ),
+                    summaryList = empResp,
                     columnsDef = listOf(
                         ColumnDefinition("Name", "name"),
                         ColumnDefinition("Surname", "surname"),

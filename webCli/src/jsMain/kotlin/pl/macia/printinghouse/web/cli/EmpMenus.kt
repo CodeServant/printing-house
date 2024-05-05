@@ -6,6 +6,7 @@ import io.kvision.i18n.gettext
 import io.kvision.i18n.tr
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.vPanel
+import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import kotlinx.browser.document
@@ -76,7 +77,46 @@ class ManagerMenu : EmpMenu() {
                 }
 
                 ManagerMenuScreen.COLOURINGS -> add(ColouringTab())
-                ManagerMenuScreen.EMPLOYEES -> add(EmployeeTab())
+                ManagerMenuScreen.EMPLOYEES -> {
+                    val fetched = ObservableListWrapper<EmployeeSummary>(mutableListOf())
+                    WorkerDao().allWorkers(
+                        onFulfilled = { workerResps ->
+                            fetched.addAll(
+                                workerResps.map { workerResp ->
+                                    EmployeeSummary(
+                                        workerResp.name,
+                                        workerResp.surname,
+                                        workerResp.psudoPESEL,
+                                        workerResp.email,
+                                        EmplType.WORKER
+                                    )
+                                }
+                            )
+                        }, onRejected = {
+                            TODO("on rejected when worker list not fetched")
+                        }
+
+
+                    )
+                    SalesmanDao().allSalesmans(
+                        onFulfilled = { salesmanResps ->
+                            fetched.addAll(
+                                salesmanResps.map { salesmanResp ->
+                                    EmployeeSummary(
+                                        salesmanResp.name,
+                                        salesmanResp.surname,
+                                        salesmanResp.psudoPESEL,
+                                        salesmanResp.email,
+                                        EmplType.SALESMAN
+                                    )
+                                }
+                            )
+                        }, onRejected = {
+                            TODO("on rejected when salesmans list not fetched")
+                        }
+                    )
+                    add(EmployeeTab(fetched))
+                }
                 ManagerMenuScreen.PAPER_TYPES -> add(PaperTypeTab())
                 ManagerMenuScreen.PRINTERS -> add(PrintersTab())
                 ManagerMenuScreen.SIZES -> add(SizesTab())
