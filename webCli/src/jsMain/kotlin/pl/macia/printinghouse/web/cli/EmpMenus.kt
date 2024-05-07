@@ -117,12 +117,22 @@ class ManagerMenu : EmpMenu() {
                     )
                     add(EmployeeTab(fetched))
                 }
+
                 ManagerMenuScreen.PAPER_TYPES -> add(PaperTypeTab())
                 ManagerMenuScreen.PRINTERS -> add(PrintersTab())
                 ManagerMenuScreen.SIZES -> add(SizesTab())
                 ManagerMenuScreen.WORKFLOW_STAGES -> add(WorkflowStageTab())
                 ManagerMenuScreen.WORKFLOW_GRAPHS -> add(WorkflowDirGraphTab())
-                ManagerMenuScreen.ENOBLINGS -> add(EnoblingTab())
+                ManagerMenuScreen.ENOBLINGS -> {
+                    EnoblingDao().allEnoblings(
+                        onFulfilled = { enoblingResps ->
+                            add(EnoblingTab(enoblingResps))
+                        },
+                        onRejected = {
+                            TODO("on rejected enoblings all fetch")
+                        }
+                    )
+                }
             }
         }
     }

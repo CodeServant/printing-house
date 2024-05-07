@@ -9,6 +9,9 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.EnoblingResp
+import pl.macia.printinghouse.response.PunchResp
+import pl.macia.printinghouse.response.UVVarnishResp
 import pl.macia.printinghouse.web.dao.EnoblingDao
 
 enum class EnoblingSubtype {
@@ -17,32 +20,31 @@ enum class EnoblingSubtype {
 
 @Serializable
 data class Enobling(
+    var id: Int,
     var name: String,
     var description: String? = null,
     var type: EnoblingSubtype? = null
 )
 
-class EnoblingTab : SimplePanel() {
+class EnoblingTab(enobligs: List<EnoblingResp>) : SimplePanel() {
     init {
-        val enoblingContext = ObservableValue<Enobling?>(null)
+        val pickedEnobling = ObservableValue<Enobling?>(null)
 
         insertUpdateTable(
-            summaryList = listOf(
-                Enobling(
-                    "muśnięcie UV",
-                    "to najlepsza z form papiery, najbezpieczniejsza dla dzieci",
-                    type = EnoblingSubtype.UV_VARNISH
-                ),
-                Enobling("papierowy wykrojnik", type = EnoblingSubtype.PUNCH),
-                Enobling("karton uszlachetniony", "karton ten jest nalepszym kartonem ble bla blu"),
-                Enobling("papier błysk"),
-            ),
+            summaryList = enobligs.map {
+                val type = when (it) {
+                    is PunchResp -> EnoblingSubtype.PUNCH
+                    is UVVarnishResp -> EnoblingSubtype.UV_VARNISH
+                    else -> null
+                }
+                Enobling(it.id, it.name, it.description, type)
+            },
             columnsDef = listOf(
                 ColumnDefinition("Name", "name"),
                 ColumnDefinition("Type", "type"),
             ),
             onSelected = {
-                enoblingContext.value = it //todo every time i create the same value maby move it somewhere else
+                pickedEnobling.value = it
             },
             formPanel = {
                 SimplePanel {
@@ -53,11 +55,11 @@ class EnoblingTab : SimplePanel() {
                             Pair(EnoblingSubtype.UV_VARNISH.toString(), "UV Varnish"),
                             Pair(EnoblingSubtype.PUNCH.toString(), "Punch")
                         )
-                        enoblingContext.subscribe {
+                        pickedEnobling.subscribe {
                             value = it?.type.toString()
                         }
                     }
-                    enoblingContext.subscribe {
+                    pickedEnobling.subscribe {
                         nameInp.value = it?.name
                         descriptionInp.value = it?.description
                     }
