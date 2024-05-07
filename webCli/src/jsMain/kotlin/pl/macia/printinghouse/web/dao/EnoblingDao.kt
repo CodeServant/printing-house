@@ -27,7 +27,7 @@ class EnoblingDao {
         onRejected: (Throwable) -> Unit
     ) = dullDao.getOneDull(id, onFulfilled, onRejected)
 
-    fun changeBindery(
+    fun changeEnobling(
         id: Int,
         changeReq: IEnoblingChangeReq,
         onFulfilled: (ChangeResp) -> Unit,
