@@ -51,6 +51,7 @@ kotlin {
                 implementation(libs.kvision.tom.select)
                 implementation(libs.kvision.i18n)
                 implementation(libs.kvision.datetime)
+                implementation(libs.kvision.toast)
             }
         }
         val jsTest by getting {
