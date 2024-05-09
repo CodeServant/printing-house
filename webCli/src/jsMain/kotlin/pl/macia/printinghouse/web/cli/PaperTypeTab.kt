@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.form.FormPanel
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.form.select.TomSelectOptions
@@ -9,6 +10,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.PaperTypeReq
 import pl.macia.printinghouse.response.PaperTypeResp
 import pl.macia.printinghouse.web.dao.PaperTypeDao
 
@@ -26,7 +28,7 @@ class PaperTypeTab(papTypeResponses: List<PaperTypeResp>) : SimplePanel() {
 
     init {
         val textFormContent = ObservableValue<PaperTypeSummary?>(null)
-
+        val form = FormPanel<PaperTypeSummary>()
         insertUpdateTable(
             summaryList = summaryList,
             columnsDef = listOf(
@@ -38,14 +40,37 @@ class PaperTypeTab(papTypeResponses: List<PaperTypeResp>) : SimplePanel() {
             },
             formPanel = {
                 SimplePanel {
-                    val name = textInput("Name")
-                    val shortName = textInput("Short Name")
-
+                    val name = TextInput("Name")
+                    val shortName = TextInput("Short Name")
+                    form.add(PaperTypeSummary::name, name, required = true)
+                    form.add(PaperTypeSummary::shortName, shortName, required = true)
+                    this.add(form)
                     textFormContent.subscribe {
                         name.value = it?.name
                         shortName.value = it?.shortName
                     }
                 }
+            }, onInsert = {
+                if (form.validate(true)) {
+                    val insertedName = form[PaperTypeSummary::name]
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::name.name} should not be null")
+                    val insertedShortName = form[PaperTypeSummary::shortName]
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::name.name} should not be null")
+                    val req = PaperTypeReq(
+                        name = insertedName,
+                        shortName = insertedShortName,
+                    )
+                    PaperTypeDao().newPaperTypeReq(
+                        req,
+                        onFulfilled = { recID ->
+                            summaryList.add(PaperTypeSummary(recID.id.toInt(), insertedName, insertedShortName))
+                        },
+                        onRejected = {
+                            TODO("on rejected when inserting new PaperType by manager")
+                        },
+                    )
+                }
+
             }
         )
     }
