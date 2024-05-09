@@ -15,9 +15,7 @@ import io.kvision.toast.ToastContainer
 import io.kvision.toast.ToastContainerPosition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
-import pl.macia.printinghouse.request.EnoblingChangeReq
-import pl.macia.printinghouse.request.PunchChangeReq
-import pl.macia.printinghouse.request.UVVarnishChangeReq
+import pl.macia.printinghouse.request.*
 import pl.macia.printinghouse.response.EnoblingResp
 import pl.macia.printinghouse.response.PunchResp
 import pl.macia.printinghouse.response.UVVarnishResp
@@ -37,7 +35,8 @@ data class Enobling(
 
 data class EnoblingData(
     val name: String,
-    val description: String?
+    val description: String?,
+    val type: String?
 )
 
 class EnoblingTab(enobligs: List<EnoblingResp>) : SimplePanel() {
@@ -71,15 +70,18 @@ class EnoblingTab(enobligs: List<EnoblingResp>) : SimplePanel() {
                     val descriptionInp = TextInput("Description (optional)")
                     form.add(EnoblingData::name, nameInp, required = true)
                     form.add(EnoblingData::description, descriptionInp, required = false)
-                    select {
-                        options = listOf(
-                            Pair(EnoblingSubtype.UV_VARNISH.toString(), "UV Varnish"),
-                            Pair(EnoblingSubtype.PUNCH.toString(), "Punch")
-                        )
-                        pickedEnobling.subscribe {
-                            value = it?.type.toString()
-                        }
-                    }
+                    form.add(
+                        EnoblingData::type,
+                        select(floating = true, label = "enobling type") {
+                            options = listOf(
+                                Pair(EnoblingSubtype.UV_VARNISH.toString(), "UV Varnish"),
+                                Pair(EnoblingSubtype.PUNCH.toString(), "Punch")
+                            )
+                            pickedEnobling.subscribe {
+                                value = it?.type.toString()
+                            }
+                        }, required = false
+                    )
                     pickedEnobling.subscribe {
                         nameInp.value = it?.name
                         descriptionInp.value = it?.description
@@ -121,6 +123,57 @@ class EnoblingTab(enobligs: List<EnoblingResp>) : SimplePanel() {
                         },
                     )
 
+                }
+            },
+            onInsert = {
+                if (form.validate(true)) {
+                    val name = form[EnoblingData::name]
+                        ?: throw RuntimeException("validation should require property ${EnoblingData::name}")
+                    val descr = form[EnoblingData::description]
+                    val type = if (form[EnoblingData::type] == null) null
+                    else
+                        try {
+                            EnoblingSubtype.valueOf(form[EnoblingData::type]!!)
+                        } catch (e: IllegalArgumentException) {
+                            null
+                        }
+                    val enobReq = when (type) {
+                        EnoblingSubtype.UV_VARNISH -> {
+                            UVVarnishReq(name, descr)
+                        }
+
+                        EnoblingSubtype.PUNCH -> {
+                            PunchReq(name, descr)
+                        }
+
+                        else -> {
+                            EnoblingReq(name, descr)
+                        }
+                    }
+                    EnoblingDao().newEnoblingReq(
+                        enobReq,
+                        onFulfilled = {
+                            val toastContainer = ToastContainer(ToastContainerPosition.BOTTOMCENTER)
+                            toastContainer.showToast(
+                                "record added succesfully",
+                                "record added",
+                                color = BsColor.SUCCESS,
+                                bgColor = BsBgColor.SUCCESSSUBTLE,
+                                autohide = true,
+                                animation = true,
+                                delay = 3000
+                            )
+                            val nextId = it.id.toInt()
+                            enoblingsTabList.add(
+                                Enobling(
+                                    nextId, name, descr, type
+                                )
+                            )
+                        },
+                        onRejected = {
+                            TODO("on rejected when enobling not inserted properly")
+                        }
+                    )
                 }
             }
         )
