@@ -118,7 +118,17 @@ class ManagerMenu : EmpMenu() {
                     add(EmployeeTab(fetched))
                 }
 
-                ManagerMenuScreen.PAPER_TYPES -> add(PaperTypeTab())
+                ManagerMenuScreen.PAPER_TYPES -> {
+                    PaperTypeDao().allPaperTypes(
+                        onFulfilled = { paperTypesResp ->
+                            add(PaperTypeTab(paperTypesResp))
+                        },
+                        onRejected = {
+                            TODO("on rejected when all paper types fetched by manager")
+                        }
+                    )
+                }
+
                 ManagerMenuScreen.PRINTERS -> add(PrintersTab())
                 ManagerMenuScreen.SIZES -> add(SizesTab())
                 ManagerMenuScreen.WORKFLOW_STAGES -> add(WorkflowStageTab())
