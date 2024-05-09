@@ -10,6 +10,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.PaperTypeChangeReq
 import pl.macia.printinghouse.request.PaperTypeReq
 import pl.macia.printinghouse.response.PaperTypeResp
 import pl.macia.printinghouse.web.dao.PaperTypeDao
@@ -55,7 +56,7 @@ class PaperTypeTab(papTypeResponses: List<PaperTypeResp>) : SimplePanel() {
                     val insertedName = form[PaperTypeSummary::name]
                         ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::name.name} should not be null")
                     val insertedShortName = form[PaperTypeSummary::shortName]
-                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::name.name} should not be null")
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::shortName.name} should not be null")
                     val req = PaperTypeReq(
                         name = insertedName,
                         shortName = insertedShortName,
@@ -70,7 +71,32 @@ class PaperTypeTab(papTypeResponses: List<PaperTypeResp>) : SimplePanel() {
                         },
                     )
                 }
-
+            }, onUpdate = {
+                if (form.validate(true)) {
+                    val insertedName = form[PaperTypeSummary::name]
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::name.name} should not be null")
+                    val insertedShortName = form[PaperTypeSummary::shortName]
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::shortName.name} should not be null")
+                    val pickedId = textFormContent.value?.id
+                        ?: throw RuntimeException("validation don't work correctly ${PaperTypeSummary::id.name} should not be null")
+                    PaperTypeDao().changePaperType(
+                        pickedId,
+                        PaperTypeChangeReq(insertedName, insertedShortName),
+                        onFulfilled = { chRes ->
+                            val newValue = PaperTypeSummary(
+                                pickedId,
+                                insertedName,
+                                insertedShortName,
+                            )
+                            val elemIndex = summaryList.indexOfLast {
+                                it.id == pickedId
+                            }
+                            summaryList[elemIndex] = newValue
+                        }, onRejected = {
+                            TODO("on rejected when inserting new PaperType by manager")
+                        }
+                    )
+                }
             }
         )
     }
