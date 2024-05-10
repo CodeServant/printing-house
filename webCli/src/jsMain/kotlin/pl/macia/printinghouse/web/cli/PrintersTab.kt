@@ -4,28 +4,20 @@ import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
 import io.kvision.form.select.TomSelectOptions
 import io.kvision.panel.SimplePanel
+import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
-import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.PrinterResp
 import pl.macia.printinghouse.web.dao.PrinterDao
 
-@Serializable
-data class PrinterSummary(
-    var name: String,
-    var digest: String
-)
+class PrintersTab(printers: List<PrinterResp>) : SimplePanel() {
+    private val printerTable = ObservableListWrapper(printers.toMutableList())
 
-class PrintersTab : SimplePanel() {
     init {
-        val summaryList = listOf(
-            PrinterSummary("Mała Komori", "MK"),
-            PrinterSummary("Duża Komori", "DK"),
-            PrinterSummary("Średnia Komori", "SK"),
-        )
-        val printerTextFormData = ObservableValue<PrinterSummary?>(null)
+        val printerTextFormData = ObservableValue<PrinterResp?>(null)
         insertUpdateTable(
-            summaryList = summaryList,
+            summaryList = printerTable,
             columnsDef = listOf(
                 ColumnDefinition("Digest", "digest"),
                 ColumnDefinition("Name", "name"),

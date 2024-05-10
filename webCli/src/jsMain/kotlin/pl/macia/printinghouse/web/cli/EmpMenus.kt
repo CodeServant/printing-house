@@ -129,7 +129,17 @@ class ManagerMenu : EmpMenu() {
                     )
                 }
 
-                ManagerMenuScreen.PRINTERS -> add(PrintersTab())
+                ManagerMenuScreen.PRINTERS -> {
+                    PrinterDao().allPrinters(
+                        onFulfilled = { printersResp ->
+                            add(PrintersTab(printersResp))
+                        },
+                        onRejected = {
+                            TODO("on rejected when all printers fetched by manager")
+                        }
+                    )
+                }
+
                 ManagerMenuScreen.SIZES -> add(SizesTab())
                 ManagerMenuScreen.WORKFLOW_STAGES -> add(WorkflowStageTab())
                 ManagerMenuScreen.WORKFLOW_GRAPHS -> add(WorkflowDirGraphTab())
