@@ -21,7 +21,6 @@ import pl.macia.printinghouse.web.dao.*
 enum class ManagerMenuScreen {
     BINDERIES,
     BINDING_FORMS,
-    COLOURINGS,
     ENOBLINGS,
     EMPLOYEES,
     PAPER_TYPES,
@@ -44,7 +43,6 @@ class ManagerMenu : EmpMenu() {
                     vPanel {
                         button(tr("binderies")) { onClick { switchScr(ManagerMenuScreen.BINDERIES) } }
                         button(tr("binding forms")) { onClick { switchScr(ManagerMenuScreen.BINDING_FORMS) } }
-                        button(tr("colourings")) { onClick { switchScr(ManagerMenuScreen.COLOURINGS) } }
                         button(tr("employees")) { onClick { switchScr(ManagerMenuScreen.EMPLOYEES) } }
                         button(tr("enoblings")) { onClick { switchScr(ManagerMenuScreen.ENOBLINGS) } }
                         button(tr("paper types")) { onClick { switchScr(ManagerMenuScreen.PAPER_TYPES) } }
@@ -76,7 +74,6 @@ class ManagerMenu : EmpMenu() {
 
                 }
 
-                ManagerMenuScreen.COLOURINGS -> add(ColouringTab())
                 ManagerMenuScreen.EMPLOYEES -> {
                     val fetched = ObservableListWrapper<EmployeeSummary>(mutableListOf())
                     WorkerDao().allWorkers(

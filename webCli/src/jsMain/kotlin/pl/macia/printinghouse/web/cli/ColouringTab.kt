@@ -21,6 +21,7 @@ data class ColouringInputData(
     val secondSide: Byte
 )
 
+@Deprecated("colourings don't have to be created or changed for now, later maybe some notes or properties may occur")
 class ColouringTab : SimplePanel() {
     init {
         val selected = ObservableValue<ColouringSummary?>(null)
