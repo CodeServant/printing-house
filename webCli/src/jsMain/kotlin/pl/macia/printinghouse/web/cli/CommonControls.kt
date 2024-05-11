@@ -117,7 +117,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     noinline onUpdate: (() -> Unit)? = null
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
-    val onlyEdit = onInsert == null && onUpdate != null
+    var isSelected = false
     simplePanel {
         add(
             prhTabulator(
@@ -131,6 +131,7 @@ inline fun <reified T : Any> Container.insertUpdateTable(
                     rowSelectionChangedTabulator = {
                         buttonType.value =
                             if (getSelectedRows().size == 1) ButtonType.EDIT else ButtonType.ADD
+                        isSelected = getSelectedData().isNotEmpty()
                         onSelected(getSelectedData().firstOrNull())
                     }
                 }
@@ -139,22 +140,25 @@ inline fun <reified T : Any> Container.insertUpdateTable(
         hPanel(useWrappers = true).bind(buttonType) {
             simplePanel {
                 if (it == ButtonType.ADD) {
-                    if (!onlyEdit) {
+                    if (onInsert != null) {
                         addButton {
                             onClick {
-                                onInsert?.invoke()
+                                onInsert.invoke()
                             }
                         }
                     }
                 } else {
-                    editButton {
-                        onClick {
-                            onUpdate?.invoke()
+                    if (onUpdate != null) {
+                        editButton {
+                            onClick {
+                                onUpdate.invoke()
+                            }
                         }
                     }
                 }
             }
-            formPanel()?.let(::add)
+            if (onInsert != null || onUpdate != null && isSelected)
+                formPanel()?.let(::add)
         }
     }
 }
