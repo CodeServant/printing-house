@@ -137,7 +137,17 @@ class ManagerMenu : EmpMenu() {
                     )
                 }
 
-                ManagerMenuScreen.SIZES -> add(SizesTab())
+                ManagerMenuScreen.SIZES -> {
+                    SizeDao().allNamedSizes(
+                        onFulfilled = {
+                            add(SizesTab(it))
+                        },
+                        onRejected = {
+                            TODO("on rejected when fetched all sizes by manager")
+                        }
+                    )
+                }
+
                 ManagerMenuScreen.WORKFLOW_STAGES -> add(WorkflowStageTab())
                 ManagerMenuScreen.WORKFLOW_GRAPHS -> add(WorkflowDirGraphTab())
                 ManagerMenuScreen.ENOBLINGS -> {

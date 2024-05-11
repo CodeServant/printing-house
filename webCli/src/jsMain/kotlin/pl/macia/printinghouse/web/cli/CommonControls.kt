@@ -11,7 +11,6 @@ import io.kvision.panel.simplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.*
-import kotlinx.serialization.KSerializer
 
 enum class ButtonType {
     ADD, EDIT

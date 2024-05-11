@@ -1,5 +1,6 @@
 package pl.macia.printinghouse.web.cli
 
+import io.kvision.form.FormPanel
 import io.kvision.form.ValidationStatus
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
@@ -7,6 +8,7 @@ import io.kvision.form.select.TomSelectOptions
 import io.kvision.html.label
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
+import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
@@ -14,40 +16,21 @@ import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.SizeResp
 import pl.macia.printinghouse.web.dao.SizeDao
 
-@Serializable
-data class SizeSummary(
-    var height: Double,
-    var width: Double,
-    var name: String
-)
-
-class SizesTab : SimplePanel() {
+class SizesTab(responses: List<SizeResp>) : SimplePanel() {
+    val responsesRummary = ObservableListWrapper<SizeResp>()
+    val form = FormPanel<SizeResp>()
     init {
-        val selected: ObservableValue<SizeSummary?> = ObservableValue(null)
-        insertUpdateTable(
-            summaryList = listOf(
-                SizeSummary(841.0, 594.0, "A1"),
-                SizeSummary(594.0, 420.0, "A2"),
-            ),
+        val selected: ObservableValue<SizeResp?> = ObservableValue(null)
+        responsesRummary.addAll(responses)
+        insertUpdateTable( //todo these could be regular tabulator
+            summaryList = responsesRummary,
             columnsDef = listOf(
-                ColumnDefinition("height", "height"),
+                ColumnDefinition("height", "heigth"),
                 ColumnDefinition("width", "width"),
                 ColumnDefinition("name", "name"),
             ),
             onSelected = {
                 selected.value = it
-            },
-            formPanel = {
-                SimplePanel {
-                    val name = textInput("name")
-                    val height = doubleInputField(label = "height")
-                    val width = doubleInputField(label = "width")
-                    selected.subscribe {
-                        name.value = it?.name
-                        width.value = it?.width
-                        height.value = it?.height
-                    }
-                }
             }
         )
     }
