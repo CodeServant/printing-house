@@ -10,6 +10,7 @@ import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.WorkflowStageChangeReq
 import pl.macia.printinghouse.request.WorkflowStageReq
 import pl.macia.printinghouse.response.PersonsIdentityResp
 import pl.macia.printinghouse.response.WorkflowStageResp
@@ -103,7 +104,7 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
             }, onInsert = {
                 if (form.validate(true)) {
                     val insertedName = form[WorkflowStageInputData::name]
-                        ?: throw RuntimeException("${WorkflowStageResp::name.name} should is required")
+                        ?: throw RuntimeException("${WorkflowStageInputData::name.name} should be required")
                     val insertedIds = form[WorkflowStageInputData::workersIds].let { idsStr ->
                         idsStr?.split(",")?.map {
                             it.trim().toInt()
@@ -115,7 +116,7 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
                             managers = insertedIds
                         ),
                         onFulfilled = {
-                            insertToast("workflow stage inserted succesfully")
+                            insertToast("workflow stage inserted successfully")
                             summary.add(
                                 WorkflowStageSummary(
                                     insertedName, it.id.toInt()
@@ -127,7 +128,27 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
                         }
                     )
                 }
-            }, onUpdate = {}
+            }, onUpdate = {
+                val selectedVal = selected.value
+                if (form.validate(true) && selectedVal != null) {
+                    val insertedName = form[WorkflowStageInputData::name]
+                        ?: throw RuntimeException("${WorkflowStageInputData::name.name} should be required")
+                    WorkflowStageDao().changeWorkflowStage(
+                        selectedVal.id,
+                        WorkflowStageChangeReq(insertedName),
+                        onFulfilled = {
+                            if (it.changed) {
+                                updateToast("workflow stage updated successfully")
+                                val updatedIndex = summary.indexOf(selectedVal)
+                                summary[updatedIndex] = WorkflowStageSummary(insertedName, selectedVal.id)
+                            }
+                        },
+                        onRejected = {
+                            TODO("on rejected when workflow stage not changed by manager")
+                        }
+                    )
+                }
+            }
         )
     }
 }
