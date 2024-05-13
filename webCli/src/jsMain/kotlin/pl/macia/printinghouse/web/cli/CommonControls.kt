@@ -11,6 +11,8 @@ import io.kvision.panel.simplePanel
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.*
+import io.kvision.toast.ToastContainer
+import io.kvision.toast.ToastContainerPosition
 
 enum class ButtonType {
     ADD, EDIT
@@ -198,3 +200,20 @@ class LoaderSpinner(var type: SpinnerType = SpinnerType.PRIMARY) : SimplePanel()
         }
     }
 }
+
+private fun crudToast(message: String, title: String) {
+    val toastContainer = ToastContainer(ToastContainerPosition.BOTTOMCENTER)
+    toastContainer.showToast(
+        message,
+        title,
+        color = BsColor.SUCCESS,
+        bgColor = BsBgColor.SUCCESSSUBTLE,
+        autohide = true,
+        animation = true,
+        delay = 3000
+    )
+}
+
+fun insertToast(message: String, title: String = "record inserted") = crudToast(message, title)
+
+fun updateToast(message: String, title: String = "record updated") = crudToast(message, title)
