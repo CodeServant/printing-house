@@ -148,7 +148,17 @@ class ManagerMenu : EmpMenu() {
                     )
                 }
 
-                ManagerMenuScreen.WORKFLOW_STAGES -> add(WorkflowStageTab())
+                ManagerMenuScreen.WORKFLOW_STAGES -> {
+                    WorkflowStageDao().allWorkflowStages(
+                        onFulfilled = {
+                            add(WorkflowStageTab(it))
+                        },
+                        onRejected = {
+                            TODO("on rejected when fetched all workflow stages by manager")
+                        }
+                    )
+                }
+
                 ManagerMenuScreen.WORKFLOW_GRAPHS -> add(WorkflowDirGraphTab())
                 ManagerMenuScreen.ENOBLINGS -> {
                     EnoblingDao().allEnoblings(
