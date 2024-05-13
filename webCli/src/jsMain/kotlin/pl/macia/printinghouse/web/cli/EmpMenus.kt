@@ -159,7 +159,17 @@ class ManagerMenu : EmpMenu() {
                     )
                 }
 
-                ManagerMenuScreen.WORKFLOW_GRAPHS -> add(WorkflowDirGraphTab())
+                ManagerMenuScreen.WORKFLOW_GRAPHS -> {
+                    WorkflowGraphDao().allWorkflowGraphs(
+                        onFulfilled = {
+                            add(WorkflowDirGraphTab(it))
+                        },
+                        onRejected = {
+                            TODO("not fetched by manager all workflow graphs")
+                        }
+                    )
+                }
+
                 ManagerMenuScreen.ENOBLINGS -> {
                     EnoblingDao().allEnoblings(
                         onFulfilled = { enoblingResps ->

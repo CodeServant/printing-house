@@ -13,6 +13,7 @@ import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
 @Serializable
@@ -23,19 +24,20 @@ data class WorkflowDirGraphSummary(
     var edgesSize: Int
 )
 
-class WorkflowDirGraphTab : SimplePanel() {
+class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimplePanel() {
+    private val worflowGraphSummary = ObservableListWrapper(workflowGraphResps.map {
+        WorkflowDirGraphSummary(
+            it.name,
+            it.comment,
+            it.creationTime,
+            it.edges.size
+        )
+    }.toMutableList())
+
     init {
         val selected = ObservableValue<WorkflowDirGraphSummary?>(null)
         insertUpdateTable(
-            summaryList = listOf(
-                WorkflowDirGraphSummary(
-                    "Route to mordor",
-                    "how the hobbits got o mordor",
-                    LocalDateTime.parse("2023-10-10T00:00"),
-                    2
-                ),
-                WorkflowDirGraphSummary("The great migration", null, LocalDateTime.parse("2024-01-16T00:00"), 3),
-            ),
+            summaryList = worflowGraphSummary,
             columnsDef = listOf(
                 ColumnDefinition("name", WorkflowDirGraphSummary::name.name),
                 ColumnDefinition("comment", WorkflowDirGraphSummary::comment.name),
@@ -47,7 +49,8 @@ class WorkflowDirGraphTab : SimplePanel() {
             },
             formPanel = {
                 WorkflowDirGraphForm()
-            }
+            }, onInsert = {},
+            onUpdate = {}
         )
     }
 }
