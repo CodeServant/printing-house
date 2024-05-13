@@ -94,6 +94,7 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
                         select.value = it.joinToString(separator = ",", transform = { obj ->
                             obj.id.toString()
                         })
+                        select.disabled = selected.value != null
                     }
                     form.add(WorkflowStageInputData::name, name, required = true)
                     form.add(WorkflowStageInputData::workersIds, select)
