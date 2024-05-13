@@ -11,6 +11,7 @@ import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.WorkflowStageReq
+import pl.macia.printinghouse.response.PersonsIdentityResp
 import pl.macia.printinghouse.response.WorkflowStageResp
 import pl.macia.printinghouse.web.dao.WorkerDao
 import pl.macia.printinghouse.web.dao.WorkflowStageDao
@@ -29,6 +30,8 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
         val workersIds: String
     )
 
+    private val managersForPicked = ObservableListWrapper<PersonsIdentityResp>()
+
     init {
         val summary = ObservableListWrapper(workflowStages.map {
             WorkflowStageSummary(it.name, it.id)
@@ -42,6 +45,18 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
             ),
             onSelected = {
                 selected.value = it
+                managersForPicked.clear()
+                if (it != null) {
+                    WorkflowStageDao().getWorkflowStage(
+                        it.id,
+                        onFulfilled = {
+                            managersForPicked.addAll(it.managers)
+                        },
+                        onRejected = {
+                            TODO("on rejected when there is not workflow stage with the given id")
+                        }
+                    )
+                }
             },
             formPanel = {
                 SimplePanel {
@@ -57,7 +72,7 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
                                         callback(
                                             fetched.map {
                                                 obj {
-                                                    this.text = it.name
+                                                    this.text = "${it.name} ${it.surname}"
                                                     this.value = it.id
                                                 }
                                             }.toTypedArray()
@@ -72,6 +87,14 @@ class WorkflowStageTab(workflowStages: List<WorkflowStageResp>) : SimplePanel() 
                         multiple = true,
                         emptyOption = false
                     )
+                    select.bind(managersForPicked) {
+                        select.options = it.map {
+                            it.id.toString() to "${it.name} ${it.surname}"
+                        }
+                        select.value = it.joinToString(separator = ",", transform = { obj ->
+                            obj.id.toString()
+                        })
+                    }
                     form.add(WorkflowStageInputData::name, name, required = true)
                     form.add(WorkflowStageInputData::workersIds, select)
                     this.add(form)
