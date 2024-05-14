@@ -5,7 +5,7 @@ import io.kvision.panel.SimplePanel
 import io.kvision.utils.obj
 import pl.macia.printinghouse.web.dao.WorkflowStageDao
 
-class WorkflowStagePicker(label: String?, private val required: Boolean) : SimplePanel() {
+class WorkflowStagePicker(label: String?, private val required: Boolean, val maxItems: Int = -1) : SimplePanel() {
     private val selectField = TomSelect(
         label = label,
         rich = true,
@@ -30,7 +30,8 @@ class WorkflowStagePicker(label: String?, private val required: Boolean) : Simpl
             shouldLoad = { false }
         ),
         tsOptions = TomSelectOptions(
-            preload = true
+            preload = true,
+            maxItems = if (maxItems < 1) null else maxItems,
         ), multiple = true
     )
 
