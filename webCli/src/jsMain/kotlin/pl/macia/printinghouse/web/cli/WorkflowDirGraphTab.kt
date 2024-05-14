@@ -3,10 +3,9 @@ package pl.macia.printinghouse.web.cli
 import io.kvision.core.AlignItems
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
-import io.kvision.form.select.tomSelect
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
-import io.kvision.state.ObservableList
+import io.kvision.panel.simplePanel
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
@@ -17,7 +16,7 @@ import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
 @Serializable
-data class WorkflowDirGraphSummary(
+private data class WorkflowDirGraphSummary(
     var name: String,
     var comment: String?,
     var creationTime: LocalDateTime,
@@ -56,34 +55,35 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
 }
 
 class WorkflowDirGraphForm : SimplePanel() {
-    var name = TextInput("name")
-    var comment = TextInput("comment")
-    private var list: ObservableList<WorkflowDirEdge> = ObservableListWrapper()
+    private var name = TextInput("name")
+    private var comment = TextInput("comment")
 
     init {
-        list.add(WorkflowDirEdge())
-
-        val addB = AddButton {
+        add(name)
+        add(comment)
+        val multipleEdgesPanel = simplePanel {
+            add(WorkflowDirEdge())
+        }
+        addButton {
             onClick {
-                list.add(WorkflowDirEdge())
+                multipleEdgesPanel.add(WorkflowDirEdge())
             }
         }
-
-        list.subscribe {
-            list.forEachIndexed { i, element ->
-                if (i == list.size - 1)
-                    element.add(addB)
-                add(element)
+        val cancel = CancelButton("delete edge") {
+            onClick {
+                if (multipleEdgesPanel.getChildren().size > 1)
+                    multipleEdgesPanel.removeAt(multipleEdgesPanel.getChildren().size - 1)
             }
         }
+        add(cancel)
     }
 }
 
 class WorkflowDirEdge : HPanel() {
     init {
         alignItems = AlignItems.CENTER
-        tomSelect(label = "vertex 1")
-        tomSelect(label = "vertex 2")
+        add(WorkflowStagePicker(label = "vertex 1", required = true, maxItems = 1))
+        add(WorkflowStagePicker(label = "vertex 2", required = true, maxItems = 1))
     }
 }
 
