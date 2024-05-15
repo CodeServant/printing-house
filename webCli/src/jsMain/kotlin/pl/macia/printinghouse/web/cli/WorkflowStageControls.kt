@@ -41,18 +41,26 @@ class WorkflowStagePicker(label: String?, private val required: Boolean, val max
 
     fun getData(markFields: Boolean): List<Int>? {
         val selected = selectField.value
+        if (validate(markFields)) {
+            return try {
+                selected?.split(",")
+                    ?.map { it.toInt() } ?: listOf()
+            } catch (e: NumberFormatException) {
+                null
+            }
+        }
+        return null
+    }
+
+    fun validate(markFields: Boolean): Boolean {
+        val selected = selectField.value
         if (selected == null && required) {
             if (markFields)
                 selectField.validatorError = "workflow stage not selected"
-            return null
+            return false
         }
         selectField.validationStatus = null
         selectField.validatorError = null
-        return try {
-            selected?.split(",")
-                ?.map { it.toInt() } ?: listOf()
-        } catch (e: NumberFormatException) {
-            null
-        }
+        return true
     }
 }
