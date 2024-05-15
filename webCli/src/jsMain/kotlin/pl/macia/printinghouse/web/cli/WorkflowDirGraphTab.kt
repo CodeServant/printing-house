@@ -12,6 +12,8 @@ import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.WorkflowEdgeReq
+import pl.macia.printinghouse.request.WorkflowGraphReq
 import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
@@ -63,6 +65,16 @@ data class GraphFormData(
     val comment: String?,
     val edges: List<Pair<Int, Int>>
 )
+
+fun GraphFormData.toGraphReq(): WorkflowGraphReq {
+    return WorkflowGraphReq(
+        name = name,
+        comment = comment,
+        edges = edges.map {
+            WorkflowEdgeReq(it.first, it.second)
+        }
+    )
+}
 
 class WorkflowDirGraphForm : SimplePanel() {
     private var name = TextInput("name")
