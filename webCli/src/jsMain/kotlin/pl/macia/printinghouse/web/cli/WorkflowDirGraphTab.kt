@@ -10,7 +10,10 @@ import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.WorkflowEdgeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
@@ -22,7 +25,8 @@ private data class WorkflowDirGraphSummary(
     var name: String,
     var comment: String?,
     var creationTime: LocalDateTime,
-    var edgesSize: Int
+    var edgesSize: Int,
+    val id: Int
 )
 
 class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimplePanel() {
@@ -31,13 +35,14 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
             it.name,
             it.comment,
             it.creationTime,
-            it.edges.size
+            it.edges.size,
+            it.id
         )
     }.toMutableList())
 
     init {
         val selected = ObservableValue<WorkflowDirGraphSummary?>(null)
-        var graphPanel: WorkflowDirGraphForm
+        var graphPanel = WorkflowDirGraphForm()
         insertUpdateTable(
             summaryList = worflowGraphSummary,
             columnsDef = listOf(
@@ -53,6 +58,29 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
             formPanel = {
                 graphPanel = WorkflowDirGraphForm()
                 graphPanel
+            }, onInsert = {
+                val insertedGraphData = graphPanel.getData(true)
+                if (insertedGraphData != null) {
+                    val toInsert = insertedGraphData.toGraphReq()
+                    WorkflowGraphDao().newWorkflowGraph(
+                        toInsert,
+                        onFulfilled = {
+                            insertToast("graph inserted successfully")
+                            worflowGraphSummary.add(
+                                WorkflowDirGraphSummary(
+                                    toInsert.name,
+                                    toInsert.comment,
+                                    creationTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+                                    toInsert.edges.size,
+                                    it.id.toInt()
+                                )
+                            )
+                        },
+                        onRejected = {
+                            TODO("on rejected when manager inserts workflow graph")
+                        }
+                    )
+                }
             },
             onUpdate = {}
         )
