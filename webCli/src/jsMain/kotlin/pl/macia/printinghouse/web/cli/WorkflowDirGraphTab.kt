@@ -57,6 +57,13 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
     }
 }
 
+@Serializable
+data class GraphFormData(
+    val name: String,
+    val comment: String?,
+    val edges: List<Pair<Int, Int>>
+)
+
 class WorkflowDirGraphForm : SimplePanel() {
     private var name = TextInput("name")
     private var comment = TextInput("comment")
@@ -82,8 +89,21 @@ class WorkflowDirGraphForm : SimplePanel() {
         add(cancel)
     }
 
-    fun getData() {
-        TODO()
+    fun getData(markFields: Boolean): GraphFormData? {
+        if (validate(markFields)) {
+            val insName = name.value ?: throw RuntimeException("name should be present")
+            val insComment = if (comment.value.isNullOrBlank()) null else comment.value
+            val edges = (multipleEdgesPanel.getChildren()).map {
+                if (it is WorkflowDirEdge) {
+                    it.getData(false)
+                        ?: throw RuntimeException("${WorkflowDirEdge::class.simpleName} not properly validated")
+                } else throw RuntimeException("all elements in a parent Component should be of a class ${WorkflowDirEdge::class.simpleName}")
+            }
+            return GraphFormData(
+                insName, insComment, edges
+            )
+        }
+        return null
     }
 
     fun validate(markFields: Boolean): Boolean {
