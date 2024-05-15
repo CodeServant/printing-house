@@ -92,13 +92,13 @@ class WorkflowDirGraphForm : SimplePanel() {
             retBool = (it as WorkflowDirEdge).validate(markFields) && retBool
         }
         val nameIsNB = name.value.isNullOrBlank()
-        retBool = retBool && nameIsNB
+        retBool = retBool && !nameIsNB
         if (nameIsNB)
             name.validatorError = "field is required"
         else
             name.validationStatus = ValidationStatus.VALID
-        val cmIsNB = comment.value.isNullOrBlank()
-        retBool = retBool && cmIsNB
+        val cmIsNB = comment.value?.isBlank() ?: false
+        retBool = retBool && !cmIsNB
         if (cmIsNB)
             comment.value = null
         return retBool
