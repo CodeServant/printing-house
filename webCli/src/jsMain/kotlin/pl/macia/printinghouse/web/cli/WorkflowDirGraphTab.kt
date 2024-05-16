@@ -195,9 +195,6 @@ class WorkflowDirGraphForm(initData: WorkflowGraphResp?) : SimplePanel() {
         }
     }
 
-    /**
-     * @param allowEmptyEdges if empty list of edges for this graph is allowed (handy when want to edit graphs data)
-     */
     fun getData(markFields: Boolean): GraphFormData? {
         if (validate(markFields)) {
             val insName = name.value ?: throw RuntimeException("name should be present")
