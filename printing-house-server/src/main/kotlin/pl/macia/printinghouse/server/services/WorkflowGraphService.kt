@@ -5,11 +5,9 @@ import kotlinx.datetime.toKotlinLocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
+import pl.macia.printinghouse.request.WorkflowGraphChangeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
-import pl.macia.printinghouse.response.RecID
-import pl.macia.printinghouse.response.WorkflowEdgeEmb
-import pl.macia.printinghouse.response.WorkflowGraphResp
-import pl.macia.printinghouse.response.WorkflowStageRespEmb
+import pl.macia.printinghouse.response.*
 import pl.macia.printinghouse.server.bmodel.WorkflowDirEdge
 import pl.macia.printinghouse.server.bmodel.WorkflowDirGraph
 import pl.macia.printinghouse.server.bmodel.WorkflowStage
@@ -53,6 +51,27 @@ class WorkflowGraphService {
 
     fun allGraphs(): List<WorkflowGraphResp> {
         return repo.all().map { it.toTransport() }
+    }
+
+    @Transactional
+    fun changeGraphDetails(id: Int, workflowGraphChangeReq: WorkflowGraphChangeReq): ChangeResp {
+        var changed = false
+        val graph = repo.findById(id)
+            ?: throw NoSuchElementException("no ${WorkflowDirGraph::class.qualifiedName} with the given id")
+        val insertName = workflowGraphChangeReq.name
+        if (insertName != null && graph.name != insertName) {
+            graph.name = insertName
+            changed = true
+        }
+        val insertComment = workflowGraphChangeReq.comment
+        if (workflowGraphChangeReq.nullingRest && graph.comment != insertComment) {
+            graph.comment = insertComment
+            changed = true
+        } else if (insertComment != null && graph.comment != insertComment) {
+            graph.comment = insertComment
+            changed = true
+        }
+        return ChangeResp(changed)
     }
 }
 

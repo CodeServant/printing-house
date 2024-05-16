@@ -8,7 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import pl.macia.printinghouse.request.WorkflowGraphChangeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -51,5 +53,16 @@ class WorkflowGraphController {
                 HttpStatus.BAD_REQUEST, e.message, e
             )
         }
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
+    @PutMapping(value = ["${EndpNames.WorkflowDirGraph.WORKFLOW_GRAPHS}/{id}"], produces = ["application/json"])
+    fun changeGraphDetails(
+        @PathVariable id: Int,
+        @RequestBody
+        graphChangeReq: WorkflowGraphChangeReq
+    ): ResponseEntity<ChangeResp> {
+        val resp = serv.changeGraphDetails(id, graphChangeReq)
+        return ResponseEntity.ok(resp)
     }
 }
