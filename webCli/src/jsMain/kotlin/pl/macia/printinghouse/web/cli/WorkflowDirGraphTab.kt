@@ -19,6 +19,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.WorkflowEdgeReq
+import pl.macia.printinghouse.request.WorkflowGraphChangeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
 import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
@@ -32,15 +33,19 @@ private data class WorkflowDirGraphSummary(
     val id: Int
 )
 
+private fun WorkflowGraphResp.toSummary(): WorkflowDirGraphSummary {
+    return WorkflowDirGraphSummary(
+        name,
+        comment,
+        creationTime,
+        edges.size,
+        id
+    )
+}
+
 class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimplePanel() {
     private val worflowGraphSummary = ObservableListWrapper(workflowGraphResps.map {
-        WorkflowDirGraphSummary(
-            it.name,
-            it.comment,
-            it.creationTime,
-            it.edges.size,
-            it.id
-        )
+        it.toSummary()
     }.toMutableList())
 
     init {
@@ -100,7 +105,36 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                     )
                 }
             },
-            onUpdate = {}
+            onUpdate = {
+                val data = graphPanel.getData(true)
+                val selectedId = selected.value?.id
+                if (data != null && selectedId != null) {
+                    val insertName = data.name
+                    val insertComment = data.comment
+                    WorkflowGraphDao().changeWorkflowGraph(
+                        selectedId,
+                        WorkflowGraphChangeReq(
+                            nullingRest = true,
+                            name = insertName,
+                            comment = insertComment,
+                        ),
+                        onFulfilled = {
+                            updateToast("workflow updated successfully")
+                            val fv = fetched.value
+                            val sel = selected.value
+                            if (fv != null && sel != null) {
+                                val changedIndex = worflowGraphSummary.indexOf(sel)
+                                val newSummary = fv.copy(name = insertName, comment = insertComment)
+                                    .toSummary()
+                                worflowGraphSummary[changedIndex] = newSummary
+                            }
+                        },
+                        onRejected = {
+                            TODO("on rejected when WorkflowGraph details changed by manager")
+                        },
+                    )
+                }
+            }
         )
     }
 }
@@ -129,14 +163,13 @@ class WorkflowDirGraphForm(initData: WorkflowGraphResp?) : SimplePanel() {
     private var comment = TextInput("comment") {
         value = initData?.comment
     }
-    private val multipleEdgesPanel = SimplePanel {
-        add(WorkflowDirEdge(required = true))
-    }
+    private val multipleEdgesPanel = SimplePanel()
 
     init {
         add(name)
         add(comment)
         if (initData == null) {
+            multipleEdgesPanel.add(WorkflowDirEdge(required = true))
             add(multipleEdgesPanel)
             addButton {
                 onClick {
@@ -162,6 +195,9 @@ class WorkflowDirGraphForm(initData: WorkflowGraphResp?) : SimplePanel() {
         }
     }
 
+    /**
+     * @param allowEmptyEdges if empty list of edges for this graph is allowed (handy when want to edit graphs data)
+     */
     fun getData(markFields: Boolean): GraphFormData? {
         if (validate(markFields)) {
             val insName = name.value ?: throw RuntimeException("name should be present")
