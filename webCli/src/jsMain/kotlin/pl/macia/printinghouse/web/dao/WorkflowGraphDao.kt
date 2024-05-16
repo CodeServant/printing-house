@@ -18,4 +18,10 @@ class WorkflowGraphDao {
         onFulfilled: (RecID) -> Unit,
         onRejected: (Throwable) -> Unit
     ) = dullDao.newDullObj(workflowGraphReq, onFulfilled, onRejected)
+
+    fun getWorkflowGraph(
+        id: Int,
+        onFulfilled: (WorkflowGraphResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) = dullDao.getOneDull(id, onFulfilled, onRejected)
 }
