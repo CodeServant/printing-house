@@ -1,6 +1,8 @@
 package pl.macia.printinghouse.web.dao
 
+import pl.macia.printinghouse.request.WorkflowGraphChangeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.response.WorkflowGraphResp
 import pl.macia.printinghouse.web.clientConfig
@@ -24,4 +26,11 @@ class WorkflowGraphDao {
         onFulfilled: (WorkflowGraphResp) -> Unit,
         onRejected: (Throwable) -> Unit
     ) = dullDao.getOneDull(id, onFulfilled, onRejected)
+
+    fun changeWorkflowGraph(
+        id: Int,
+        changeReq: WorkflowGraphChangeReq,
+        onFulfilled: (ChangeResp) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) = dullDao.changeDullObj(id, changeReq, onFulfilled, onRejected)
 }
