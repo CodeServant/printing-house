@@ -4,10 +4,13 @@ import io.kvision.core.AlignItems
 import io.kvision.form.ValidationStatus
 import io.kvision.form.select.TomSelect
 import io.kvision.form.select.TomSelectCallbacks
+import io.kvision.html.h2
+import io.kvision.html.p
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
+import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
 import kotlinx.datetime.Clock
@@ -42,7 +45,8 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
 
     init {
         val selected = ObservableValue<WorkflowDirGraphSummary?>(null)
-        var graphPanel = WorkflowDirGraphForm()
+        var graphPanel = WorkflowDirGraphForm(null)
+        val fetched = ObservableValue<WorkflowGraphResp?>(null)
         insertUpdateTable(
             summaryList = worflowGraphSummary,
             columnsDef = listOf(
@@ -51,13 +55,27 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                 ColumnDefinition("creation time", WorkflowDirGraphSummary::creationTime.name),
                 ColumnDefinition("edge size", WorkflowDirGraphSummary::edgesSize.name),
             ),
-            onSelected = {
-                selected.value = it
-                // todo download workflow stages and inject them to input fields
+            onSelected = { selVal ->
+                selected.value = selVal
+                if (selVal != null) {
+                    WorkflowGraphDao().getWorkflowGraph(
+                        selVal.id,
+                        onFulfilled = {
+                            fetched.value = it
+                        },
+                        onRejected = {
+                            TODO("on rejected when WorkflowGraph data fetched by selection")
+                        }
+                    )
+                } else {
+                    fetched.value = null
+                }
             },
             formPanel = {
-                graphPanel = WorkflowDirGraphForm()
-                graphPanel
+                SimplePanel().bind(fetched) {
+                    graphPanel = WorkflowDirGraphForm(it)
+                    add(graphPanel)
+                }
             }, onInsert = {
                 val insertedGraphData = graphPanel.getData(true)
                 if (insertedGraphData != null) {
@@ -104,9 +122,13 @@ fun GraphFormData.toGraphReq(): WorkflowGraphReq {
     )
 }
 
-class WorkflowDirGraphForm : SimplePanel() {
-    private var name = TextInput("name")
-    private var comment = TextInput("comment")
+class WorkflowDirGraphForm(initData: WorkflowGraphResp?) : SimplePanel() {
+    private var name = TextInput("name") {
+        value = initData?.name
+    }
+    private var comment = TextInput("comment") {
+        value = initData?.comment
+    }
     private val multipleEdgesPanel = SimplePanel {
         add(WorkflowDirEdge(required = true))
     }
@@ -114,19 +136,30 @@ class WorkflowDirGraphForm : SimplePanel() {
     init {
         add(name)
         add(comment)
-        add(multipleEdgesPanel)
-        addButton {
-            onClick {
-                multipleEdgesPanel.add(WorkflowDirEdge(required = true))
+        if (initData == null) {
+            add(multipleEdgesPanel)
+            addButton {
+                onClick {
+                    multipleEdgesPanel.add(WorkflowDirEdge(required = true))
+                }
+            }
+            val cancel = CancelButton("delete edge") {
+                onClick {
+                    if (multipleEdgesPanel.getChildren().size > 1)
+                        multipleEdgesPanel.removeAt(multipleEdgesPanel.getChildren().size - 1)
+                }
+            }
+            add(cancel)
+        } else {
+            h2 {
+                +"Workflow Stages"
+            }
+            initData.edges.forEach {
+                p {
+                    +"${it.v1.name} -> ${it.v2.name}"
+                }
             }
         }
-        val cancel = CancelButton("delete edge") {
-            onClick {
-                if (multipleEdgesPanel.getChildren().size > 1)
-                    multipleEdgesPanel.removeAt(multipleEdgesPanel.getChildren().size - 1)
-            }
-        }
-        add(cancel)
     }
 
     fun getData(markFields: Boolean): GraphFormData? {
