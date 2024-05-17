@@ -6,6 +6,7 @@ import io.kvision.i18n.gettext
 import io.kvision.i18n.tr
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.vPanel
+import io.kvision.routing.Routing
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
@@ -185,29 +186,39 @@ class ManagerMenu : EmpMenu() {
     }
 }
 
-private enum class SalesmanMenuScreens {
-    INSERT, FINALIZE, YOUR_ORDERS, MAIN
+private enum class SalesmanMenuScreens(val path: String) {
+    INSERT("insertion"), FINALIZE("finalization"), YOUR_ORDERS("your-orders"), MAIN("")
 }
 
 class SalesmanMenu : EmpMenu() {
     private var screen = ObservableValue(SalesmanMenuScreens.MAIN)
+    private val routing = Routing.init("/salesman")
+        .on(SalesmanMenuScreens.INSERT.path, { _ ->
+            screen.value = SalesmanMenuScreens.INSERT
+        }).on(SalesmanMenuScreens.FINALIZE.path, { _ ->
+            screen.value = SalesmanMenuScreens.FINALIZE
+        }).on(SalesmanMenuScreens.YOUR_ORDERS.path, { _ ->
+            screen.value = SalesmanMenuScreens.YOUR_ORDERS
+        }).on(SalesmanMenuScreens.MAIN.path, { _ ->
+            screen.value = SalesmanMenuScreens.MAIN
+        })
 
     init {
         document.title = gettext("Salesman Menu")
 
         val insertButton = Button("insert new order") {
             onClick {
-                screen.value = SalesmanMenuScreens.INSERT
+                routing.navigate(SalesmanMenuScreens.INSERT.path)
             }
         }
         val finalizeButton = Button("finalize order") {
             onClick {
-                screen.value = SalesmanMenuScreens.FINALIZE
+                routing.navigate(SalesmanMenuScreens.FINALIZE.path)
             }
         }
         val yourPOrderButton = Button("your orders") {
             onClick {
-                screen.value = SalesmanMenuScreens.YOUR_ORDERS
+                routing.navigate(SalesmanMenuScreens.YOUR_ORDERS.path)
             }
         }
         bind(screen) { scr ->
@@ -216,7 +227,7 @@ class SalesmanMenu : EmpMenu() {
                     val salOrderPanel = SalesmanNewOrderPanel(
                         onSave = { TODO() },
                         onLeave = {
-                            screen.value = SalesmanMenuScreens.MAIN
+                            routing.navigate(SalesmanMenuScreens.MAIN.path)
                         },
                         onAccept = { TODO() }
                     )
