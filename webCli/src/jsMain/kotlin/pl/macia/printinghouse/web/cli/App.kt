@@ -10,6 +10,7 @@ import io.kvision.i18n.I18n
 import io.kvision.i18n.tr
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.root
+import io.kvision.routing.Routing
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import kotlinx.browser.localStorage
@@ -18,8 +19,8 @@ import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.LoginDao
 import pl.macia.printinghouse.web.logged
 
-enum class Screens {
-    LOGIN, MENU
+enum class Screens(val path: String) {
+    LOGIN("login"), MENU("menu")
 }
 
 class App : Application() {
@@ -38,7 +39,22 @@ class App : Application() {
         )
         val storage = StorageInfo(localStorage)
         val screen = ObservableValue<Screens?>(null)
+        val routing = Routing.init()
+        var justStarted = true
         root("kvapp").bind(screen) {
+            routing.on(Screens.LOGIN.path, { _ ->
+                screen.value = if (screen.value != Screens.LOGIN)
+                    Screens.LOGIN
+                else null
+            })
+            routing.on(Screens.MENU.path, { _ ->
+                screen.value = if (screen.value != Screens.MENU)
+                    Screens.MENU
+                else null
+            })
+            routing.on({ _ ->
+                screen.value = null
+            })
             when (it) {
                 Screens.MENU -> {
                     if (storage.logged()) {
@@ -48,14 +64,18 @@ class App : Application() {
 
                 Screens.LOGIN -> {
                     add(SignInForm {
-                        screen.value = Screens.MENU
+                        routing.navigate(Screens.MENU.path)
+
                     })
                 }
 
                 null -> {
-                    if (storage.logged()) screen.value = Screens.MENU
+                    if (justStarted)
+                        routing.navigate("")
                     else
-                        screen.value = Screens.LOGIN
+                        if (storage.logged()) routing.navigate(Screens.MENU.path)
+                        else routing.navigate(Screens.LOGIN.path)
+                    justStarted = false
                 }
             }
         }

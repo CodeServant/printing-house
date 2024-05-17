@@ -52,6 +52,7 @@ kotlin {
                 implementation(libs.kvision.i18n)
                 implementation(libs.kvision.datetime)
                 implementation(libs.kvision.toast)
+                implementation(libs.kvision.routing)
             }
         }
         val jsTest by getting {

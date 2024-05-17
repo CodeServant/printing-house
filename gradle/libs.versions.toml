@@ -55,3 +55,4 @@ kvision-tom-select = { module = "io.kvision:kvision-tom-select", version.ref = "
 kvision-i18n = { module = "io.kvision:kvision-i18n", version.ref = "kvision" }
 kvision-datetime = { module = "io.kvision:kvision-datetime", version.ref = "kvision" }
 kvision-toast = { module = "io.kvision:kvision-toastify", version.ref = "kvision" }
+kvision-routing = { module = "io.kvision:kvision-routing-navigo", version.ref = "kvision" }
