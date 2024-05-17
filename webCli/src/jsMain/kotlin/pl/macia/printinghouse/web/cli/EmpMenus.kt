@@ -19,28 +19,51 @@ import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.cli.salesman.FinalizeOrderPanel
 import pl.macia.printinghouse.web.dao.*
 
-enum class ManagerMenuScreen {
-    BINDERIES,
-    BINDING_FORMS,
-    ENOBLINGS,
-    EMPLOYEES,
-    PAPER_TYPES,
-    PRINTERS,
-    SIZES,
-    WORKFLOW_STAGES,
-    WORKFLOW_GRAPHS,
+enum class ManagerMenuScreen(val path: String) {
+    BINDERIES("binderies"),
+    BINDING_FORMS("binding-forms"),
+    ENOBLINGS("enoblings"),
+    EMPLOYEES("employees"),
+    PAPER_TYPES("paper-types"),
+    PRINTERS("printers"),
+    SIZES("sizes"),
+    WORKFLOW_STAGES("workflow-stages"),
+    WORKFLOW_GRAPHS("workflow-graphs"),
 }
 
 class ManagerMenu : EmpMenu() {
     init {
         document.title = gettext("Managers Menu")
         val screen = ObservableValue<ManagerMenuScreen?>(null)
+        val routing = Routing.init("menu")
+            .on(ManagerMenuScreen.BINDERIES.path, { _ ->
+                screen.value = ManagerMenuScreen.BINDERIES
+            }).on(ManagerMenuScreen.BINDING_FORMS.path, { _ ->
+                screen.value = ManagerMenuScreen.BINDING_FORMS
+            }).on(ManagerMenuScreen.EMPLOYEES.path, { _ ->
+                screen.value = ManagerMenuScreen.EMPLOYEES
+            }).on(ManagerMenuScreen.ENOBLINGS.path, { _ ->
+                screen.value = ManagerMenuScreen.ENOBLINGS
+            }).on(ManagerMenuScreen.PAPER_TYPES.path, { _ ->
+                screen.value = ManagerMenuScreen.PAPER_TYPES
+            }).on(ManagerMenuScreen.PRINTERS.path, { _ ->
+                screen.value = ManagerMenuScreen.PRINTERS
+            }).on(ManagerMenuScreen.SIZES.path, { _ ->
+                screen.value = ManagerMenuScreen.SIZES
+            }).on(ManagerMenuScreen.WORKFLOW_STAGES.path, { _ ->
+                screen.value = ManagerMenuScreen.WORKFLOW_STAGES
+            }).on(ManagerMenuScreen.WORKFLOW_GRAPHS.path, { _ ->
+                screen.value = ManagerMenuScreen.WORKFLOW_GRAPHS
+            }).on({ _ ->
+                screen.value = null
+            })
+
+        fun switchScr(scr: ManagerMenuScreen) {
+            routing.navigate(scr.path)
+        }
         bind(screen) {
             when (it) {
                 null -> {
-                    fun switchScr(scr: ManagerMenuScreen) {
-                        screen.value = scr
-                    }
                     vPanel {
                         button(tr("binderies")) { onClick { switchScr(ManagerMenuScreen.BINDERIES) } }
                         button(tr("binding forms")) { onClick { switchScr(ManagerMenuScreen.BINDING_FORMS) } }
