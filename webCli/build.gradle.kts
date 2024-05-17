@@ -19,7 +19,7 @@ kotlin {
             }
             runTask {
                 sourceMaps = false
-                devServer = KotlinWebpackConfig.DevServer(
+                devServerProperty = KotlinWebpackConfig.DevServer(
                     open = false,
                     port = 3000,
                     proxy = mutableMapOf(
