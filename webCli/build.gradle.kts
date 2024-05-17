@@ -22,11 +22,6 @@ kotlin {
                 devServerProperty = KotlinWebpackConfig.DevServer(
                     open = false,
                     port = 3000,
-                    proxy = mutableMapOf(
-                        "/kv/*" to "http://localhost:8080",
-                        "/kvsse/*" to "http://localhost:8080",
-                        "/kvws/*" to mapOf("target" to "ws://localhost:8080", "ws" to true)
-                    ),
                     static = mutableListOf("${layout.buildDirectory.asFile.get()}/processedResources/js/main")
                 )
             }
