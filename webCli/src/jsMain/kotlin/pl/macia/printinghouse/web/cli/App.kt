@@ -41,20 +41,20 @@ class App : Application() {
         val screen = ObservableValue<Screens?>(null)
         val routing = Routing.init()
         var justStarted = true
+        routing.on(Screens.LOGIN.path, { _ ->
+            screen.value = if (screen.value != Screens.LOGIN)
+                Screens.LOGIN
+            else null
+        })
+        routing.on(Screens.MENU.path, { _ ->
+            screen.value = if (screen.value != Screens.MENU)
+                Screens.MENU
+            else null
+        })
+        routing.on({ _ ->
+            screen.value = null
+        })
         root("kvapp").bind(screen) {
-            routing.on(Screens.LOGIN.path, { _ ->
-                screen.value = if (screen.value != Screens.LOGIN)
-                    Screens.LOGIN
-                else null
-            })
-            routing.on(Screens.MENU.path, { _ ->
-                screen.value = if (screen.value != Screens.MENU)
-                    Screens.MENU
-                else null
-            })
-            routing.on({ _ ->
-                screen.value = null
-            })
             when (it) {
                 Screens.MENU -> {
                     if (storage.logged()) {
