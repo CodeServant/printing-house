@@ -209,7 +209,7 @@ class PersonInputPanel : SimplePanel() {
 
 class GenericEmployeeInput : SimplePanel() {
     init {
-        var empType = select(
+        val empType = select(
             label = "employee type",
             options = listOf(
                 Pair("sal", "salesman"),
