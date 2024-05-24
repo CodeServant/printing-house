@@ -329,18 +329,24 @@ class WorkerMenu : EmpMenu() {
     }
 }
 
-enum class WorkflowMgrMenuOptions {
-    MAIN, ASSIGN_TASKS
+enum class WorkflowMgrMenuOptions(val path: String) {
+    MAIN("menu"), ASSIGN_TASKS("assign-tasks")
 }
 
 class WorkflowManagerMenu : EmpMenu() {
     init {
         document.title = gettext("Workflow Manager Menu")
         val currentPanel = ObservableValue(WorkflowMgrMenuOptions.MAIN)
+        val routing = Routing.init("/workflowManager")
+            .on(WorkflowMgrMenuOptions.MAIN.path, { _ ->
+                currentPanel.value = WorkflowMgrMenuOptions.MAIN
+            }).on(WorkflowMgrMenuOptions.ASSIGN_TASKS.path, { _ ->
+                currentPanel.value = WorkflowMgrMenuOptions.ASSIGN_TASKS
+            })
         val curWorker = ObservableValue<WorkerResp?>(null)
         val assignTaskButton = Button(text = "assign tasks to worker") {
             onClick {
-                currentPanel.value = WorkflowMgrMenuOptions.ASSIGN_TASKS
+                routing.navigate(WorkflowMgrMenuOptions.ASSIGN_TASKS.path)
             }
         }
         WorkerDao().currentWorker(
@@ -362,13 +368,13 @@ class WorkflowManagerMenu : EmpMenu() {
                                     it,
                                     curWorker,
                                     onLeave = {
-                                        currentPanel.value = WorkflowMgrMenuOptions.MAIN
+                                        routing.navigate(WorkflowMgrMenuOptions.MAIN.path)
                                     }
                                 )
                             )
                         },
                         onRejected = {
-                            currentPanel.value = WorkflowMgrMenuOptions.MAIN
+                            routing.navigate(WorkflowMgrMenuOptions.MAIN.path)
                             TODO("bahaviour when there is an error")
                         },
                     )
