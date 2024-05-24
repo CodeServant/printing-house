@@ -9,6 +9,7 @@ import io.kvision.html.InputType
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.panel.simplePanel
+import io.kvision.routing.Routing
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
@@ -38,11 +39,15 @@ data class EmployeeSummary(
  */
 class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
     var currentPicked: ObservableValue<EmployeeSummary?> = ObservableValue(null)
+    val routing = Routing.init("employees")
+        .on({ _ ->
+            currentPicked.value = null
+        }).on("new-employee", { _ ->
+            currentPicked.value = EmployeeSummary("", "", "", "", EmplType.INSERT)
+        }).on("edit-employee", { _ -> })
 
     init {
-
         simplePanel().bind(currentPicked) {
-
             if (it == null) {
                 insertUpdateTable(
                     summaryList = empResp,
@@ -56,14 +61,16 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                         currentPicked.value = it
                     },
                     onInsert = {
-                        currentPicked.value = EmployeeSummary("", "", "", "", EmplType.INSERT)
+                        routing.navigate("new-employee")
                     }
                 )
             } else if (it.type == EmplType.WORKER) {
+                routing.navigate("edit-employee")
                 add(WorkerInputPanel())
                 controllButtons()
 
             } else if (it.type == EmplType.SALESMAN) {
+                routing.navigate("edit-employee")
                 add(SalesmanInputPanel())
                 controllButtons()
             } else if (it.type == EmplType.INSERT) {
@@ -77,7 +84,7 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
             acceptButton()
             cancelButton() {
                 onClick {
-                    currentPicked.value = null
+                    routing.navigate("employees")
                 }
             }
         }
