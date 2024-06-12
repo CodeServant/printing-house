@@ -99,7 +99,7 @@ class OrderController {
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.SALESMAN}')")
     @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"], params = ["toFinalize"])
     fun ordersToFinalize(
-        @Parameter(description = "orders that are not finalized for the currnetlyauthenticated salesman")
+        @Parameter(description = "orders that are not finalized for the currently authenticated salesman")
         @RequestParam(required = false, defaultValue = "true")
         toFinalize: Boolean,
         authentication: Authentication
