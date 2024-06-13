@@ -122,7 +122,7 @@ class OrderService {
         req.paperOrderTypes.forEach {
             val first = it.colouring.firstSide
             val second = it.colouring.secondSide
-            var colouring = colouringRepo.findByPalette(first, second) ?: colouringRepo.save(
+            val colouring = colouringRepo.findByPalette(first, second) ?: colouringRepo.save(
                 Colouring(first, second)
             )
             orderCreated.addPaperOrderType(
