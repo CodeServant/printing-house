@@ -245,6 +245,11 @@ sealed interface OrderRepo {
      * Get [Order]s for [Salesman] by his email.
      */
     fun pathCompletedOrders(email: String): List<Order>
+
+    /**
+     * Get not accepted all [Order]s.
+     */
+    fun notChecked(): List<Order>
 }
 
 internal sealed interface OrderIntRepo : OrderRepo, SingleIdRepo<Order, Int>

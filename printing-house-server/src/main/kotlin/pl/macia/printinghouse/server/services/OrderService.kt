@@ -320,6 +320,10 @@ class OrderService {
         fetched.completionDate = LocalDateTime.now()
         return true
     }
+
+    fun ordersToCheck(): List<OrderResp> {
+    return repo.notChecked().toTransport(clientRepo)
+    }
 }
 
 private fun Order.toTransport(clientRepo: ClientRepo): OrderResp {

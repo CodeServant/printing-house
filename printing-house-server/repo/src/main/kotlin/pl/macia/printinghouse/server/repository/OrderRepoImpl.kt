@@ -43,4 +43,8 @@ internal class OrderRepoImpl : OrderIntRepo {
     override fun pathCompletedOrders(email: String): List<Order> {
         return dao.pathCompletedOrders(email).map { it.toBiz() }
     }
+
+    override fun notChecked(): List<Order> {
+        return dao.findOrdersByCheckedFalse().map { it.toBiz() }
+    }
 }

@@ -119,4 +119,14 @@ class OrderController {
             return ResponseEntity.noContent().build()
         return ResponseEntity.badRequest().build()
     }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @GetMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"], params = ["toCheck"])
+    fun ordersToCheck(
+        @Parameter(description = "orders that are not yet accepted")
+        @RequestParam(required = false)
+        toCheck: Boolean
+    ): ResponseEntity<List<OrderResp>> {
+        return ResponseEntity.ok(serv.ordersToCheck())
+    }
 }
