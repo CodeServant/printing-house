@@ -112,10 +112,6 @@ class InsertOrderPanel : SimplePanel() {
             control = CheckBox(label = "Folding")
         )
         orderForm.add(
-            key = OderFormData::checked,
-            control = CheckBox(label = "Checked")
-        )
-        orderForm.add(
             key = OderFormData::realizationDate,
             control = DateTime(label = "Realization Date"),
             required = true
@@ -254,7 +250,7 @@ class InsertOrderPanel : SimplePanel() {
             name = orderForm[OderFormData::name]!!,
             comment = orderForm[OderFormData::comment],
             designsNumberForSheet = orderForm[OderFormData::designsNumberForSheet]!!,
-            checked = orderForm[OderFormData::checked]!!,
+            checked = false, // for salesman it is always false
             towerCut = orderForm[OderFormData::towerCut]!!,
             folding = orderForm[OderFormData::folding]!!,
             realizationDate = orderForm[OderFormData::realizationDate]!!,
