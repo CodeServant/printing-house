@@ -10,8 +10,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.web.context.WebApplicationContext
 import pl.macia.printinghouse.request.*
@@ -208,6 +211,95 @@ class OrderCTest {
             jsonPath("$.client.clientId").value(3),
             jsonPath("$.client.companyId").value(1)
         )
+    }
+
+    @Test
+    @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.SALESMAN])
+    fun `insert new one by salesman`() {
+        val newGood = OrderReq(
+            name = "new order",
+            comment = "this is test order",
+            withdrawalDate = null,
+            completionDate = LocalDateTime.parse("2024-01-13T00:00").toKotlinLocalDateTime(),
+            designsNumberForSheet = 4,
+            checked = false,
+            towerCut = true,
+            folding = false,
+            realizationDate = LocalDateTime.parse("2024-01-12T00:00").toKotlinLocalDateTime(),
+            creationDate = LocalDateTime.parse("2024-01-08T00:00").toKotlinLocalDateTime(),
+            pages = 10,
+            paperOrderTypes = listOf(
+                PaperOrderTypeReq(
+                    grammage = 70.0,
+                    stockCirculation = 70,
+                    sheetNumber = 1,
+                    comment = "some comment on paper type",
+                    circulation = 20_000,
+                    platesQuantityForPrinter = 1,
+                    paperTypeId = 2,
+                    printerId = 1,
+                    colouring = ColouringPartReq(1, 1),
+                    impositionTypeId = 1,
+                    size = SizeReq(
+                        heigth = 594.0,
+                        width = 420.0
+                    ),
+                    productionSize = SizeReq(
+                        heigth = 610.0,
+                        width = 430.0
+                    )
+                )
+            ),
+            orderEnoblings = listOf(
+                OrderEnoblingReq(
+                    annotation = "some annotation",
+                    enoblingId = 4,
+                    binderyId = 2
+                )
+            ),
+            imageUrl = ImageReq(
+                url = "https://viewer.diagrams.net/?tags=%7B%7D&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Diagram%20bez%20tytu%C5%82u.drawio#RzZXRjqMgFIafhstNFGrrXk51djoXk0zSSfaayhklRTCIo%2FbpFyrWWneSnWST6ZXwn8MPfAcBkaTsnjStihfFQCAcsA6RFGEcrsjKfpzSD8omxoOQa8580iTs%2BQm8GHi14QzqWaJRShhezcVMSQmZmWlUa9XO096VmM9a0RwWwj6jYqn%2B5swUgxrjzaTvgOfFOHO4%2FjlESjom%2B53UBWWqvZLIIyKJVsoMrbJLQDh4I5dh3K9PopeFaZDmXwa8vqVV%2F3J4o1H6%2FBC0h0x0ux%2Fe5YOKxm%2FYL9b0IwGtGsnAmQSIbNuCG9hXNHPR1tbcaoUphe2FtuntQBvoPl1neNm9PTagSjC6tynjgNgD8ycGb3y%2FnfiHI9Tiiv3aa9SXPL9YT1Rsw4P5AiR8f5BIeG%2BQyP1Buj1JZPXdkFb3B%2Bn2JH0%2FpGgBqdKn%2FoiSCMXY3aFu9bo%2FNRKOC3wWhJkzooLn0rYzCwS0FRwubm%2F4Bx8oOWNu%2BFZDzU%2F0cLZy8CvFpTnvLtqiKHVejVH18EY569podYRECWV9U6mkc3nnQtxI%2F6FMmETzHz6Il2UifykT%2BXqZbHd6ls6xq8edPP4B",
+                comment = "my schetch"
+            ),
+            binderyId = 3,
+            salesmanId = 1,
+            workflowDirGraphId = 1,
+            bindingFormId = 3,
+            calculationCard = CalculationCardReq(
+                transport = "1516.00",
+                otherCosts = "1251.00",
+                enoblingCost = "1245.00",
+                bindingCost = "1000.00",
+                printCosts = listOf(
+                    PrintCostReq(
+                        printCost = "12.00",
+                        matrixCost = "13.00",
+                        printerId = 1
+                    ),
+                    PrintCostReq(
+                        printCost = "13.00",
+                        matrixCost = "14.00",
+                        printerId = 1
+                    )
+                ),
+            ),
+            netSize = SizeReq(
+                width = 205.0,
+                heigth = 295.0
+            ),
+            clientId = 3
+        )
+
+        fun checkStatusFor(order: OrderReq, statusResMach: ResultMatcher) {
+            standardTest.mvc.perform(
+                MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON)
+                    .content(Json.encodeToString(order))
+            ).andExpect(statusResMach)
+                .andReturn()
+        }
+        checkStatusFor(newGood, status().isOk)
+        val newUnauthorized = newGood.copy(checked = true)
+        checkStatusFor(newUnauthorized, status().isUnauthorized)
     }
 
     @Test

@@ -37,7 +37,13 @@ class OrderController {
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PostMapping(value = [EndpNames.Order.ORDERS], produces = ["application/json"])
-    fun newOrder(@RequestBody req: OrderReq): ResponseEntity<RecID> {
+    fun newOrder(@RequestBody req: OrderReq, authentication: Authentication): ResponseEntity<RecID> {
+        if (req.checked && "SALESMAN" in authentication.authorities.map { it.authority }) {
+            throw ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "salesman doesn't have permission to mark order as checked"
+            )
+        }
         try {
             val resp = serv.insertNew(req)
             return ResponseEntity.ok(resp)
