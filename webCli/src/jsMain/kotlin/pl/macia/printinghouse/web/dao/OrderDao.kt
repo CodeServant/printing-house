@@ -52,16 +52,23 @@ class OrderDao {
         premise.then(onFulfilled, onRejected)
     }
 
-    fun toFinalizeOrders(
+    private fun listOrdersWithFlag(
         onFulfilled: (RestResponse<List<OrderResp>>) -> Unit,
-        onRejected: (Throwable) -> Unit
+        onRejected: (Throwable) -> Unit,
+        flag: String
     ) {
         val restClient = RestClient()
-        val promise = restClient.request<List<OrderResp>>("$url?toFinalize") {
+        val promise = restClient.request<List<OrderResp>>("$url?$flag=true") {
             authorize()
         }
         promise.then(onFulfilled, onRejected)
     }
+
+    fun toFinalizeOrders(
+        onFulfilled: (RestResponse<List<OrderResp>>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) = listOrdersWithFlag(onFulfilled, onRejected, "toFinalize")
+
 
     fun finalizeOrder(
         orderId: Int,
@@ -75,4 +82,9 @@ class OrderDao {
         }
         promise.then(onFulfilled, onRejected)
     }
+
+    fun notCheckedOrders(
+        onFulfilled: (RestResponse<List<OrderResp>>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) = listOrdersWithFlag(onFulfilled, onRejected, "toCheck")
 }
