@@ -16,6 +16,7 @@ import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.web.StorageInfo
+import pl.macia.printinghouse.web.cli.manager.ToCheckListPanel
 import pl.macia.printinghouse.web.cli.salesman.FinalizeOrderPanel
 import pl.macia.printinghouse.web.dao.*
 
@@ -29,6 +30,7 @@ enum class ManagerMenuScreen(val path: String) {
     SIZES("sizes"),
     WORKFLOW_STAGES("workflow-stages"),
     WORKFLOW_GRAPHS("workflow-graphs"),
+    ORDERS_TO_CHECK("orders-to-check"),
 }
 
 class ManagerMenu : EmpMenu() {
@@ -54,6 +56,8 @@ class ManagerMenu : EmpMenu() {
                 screen.value = ManagerMenuScreen.WORKFLOW_STAGES
             }).on(ManagerMenuScreen.WORKFLOW_GRAPHS.path, { _ ->
                 screen.value = ManagerMenuScreen.WORKFLOW_GRAPHS
+            }).on(ManagerMenuScreen.ORDERS_TO_CHECK.path, { _ ->
+                screen.value = ManagerMenuScreen.ORDERS_TO_CHECK
             }).on({ _ ->
                 screen.value = null
             })
@@ -74,6 +78,7 @@ class ManagerMenu : EmpMenu() {
                         button(tr("sizes")) { onClick { switchScr(ManagerMenuScreen.SIZES) } }
                         button(tr("workflow stages")) { onClick { switchScr(ManagerMenuScreen.WORKFLOW_STAGES) } }
                         button(tr("workflow graphs")) { onClick { switchScr(ManagerMenuScreen.WORKFLOW_GRAPHS) } }
+                        button(tr("orders to check")) { onClick { switchScr(ManagerMenuScreen.ORDERS_TO_CHECK) } }
                     }
                 }
 
@@ -201,6 +206,17 @@ class ManagerMenu : EmpMenu() {
                         },
                         onRejected = {
                             TODO("on rejected enoblings all fetch")
+                        }
+                    )
+                }
+
+                ManagerMenuScreen.ORDERS_TO_CHECK -> {
+                    OrderDao().notCheckedOrders(
+                        onFulfilled = {
+                            add(ToCheckListPanel(it.data))
+                        },
+                        onRejected = {
+                            routing.navigate("menu")
                         }
                     )
                 }

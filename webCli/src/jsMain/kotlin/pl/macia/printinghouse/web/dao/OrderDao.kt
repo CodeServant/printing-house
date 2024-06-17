@@ -69,7 +69,6 @@ class OrderDao {
         onRejected: (Throwable) -> Unit
     ) = listOrdersWithFlag(onFulfilled, onRejected, "toFinalize")
 
-
     fun finalizeOrder(
         orderId: Int,
         onFulfilled: (RestResponse<*>) -> Unit,
@@ -87,4 +86,17 @@ class OrderDao {
         onFulfilled: (RestResponse<List<OrderResp>>) -> Unit,
         onRejected: (Throwable) -> Unit
     ) = listOrdersWithFlag(onFulfilled, onRejected, "toCheck")
+
+    fun markAsChecked(
+        orderId: Int,
+        onFulfilled: (RestResponse<ChangeResp>) -> Unit,
+        onRejected: (Throwable) -> Unit
+    ) {
+        val restClient = RestClient()
+        val promise = restClient.request<ChangeResp>("$url/$orderId?checked=true") {
+            method = HttpMethod.PUT
+            authorize()
+        }
+        promise.then(onFulfilled, onRejected)
+    }
 }

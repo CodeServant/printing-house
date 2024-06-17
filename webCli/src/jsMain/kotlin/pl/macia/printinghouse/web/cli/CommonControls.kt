@@ -107,7 +107,6 @@ class TextInput(label: String, init: (Text.() -> Unit)? = null) : Text(label = l
  * Standard table for editing and adding elements. It can be also used as table to chose data from.
  * @param onSelected what happens when specific item is selected
  * @param formPanel is the panel that is supposed to apear in the same window as table for fast add and eddit option
- * @param onlyEdit where add button shouldn't be visible
  */
 inline fun <reified T : Any> Container.insertUpdateTable(
     summaryList: List<T>,
@@ -115,7 +114,8 @@ inline fun <reified T : Any> Container.insertUpdateTable(
     crossinline onSelected: (T?) -> Unit,
     crossinline formPanel: () -> Component? = { null },
     noinline onInsert: (() -> Unit)? = null,
-    noinline onUpdate: (() -> Unit)? = null
+    noinline onUpdate: (() -> Unit)? = null,
+    editButtonText: String? = null
 ) {
     val buttonType = ObservableValue(ButtonType.ADD)
     var isSelected = false
@@ -151,6 +151,8 @@ inline fun <reified T : Any> Container.insertUpdateTable(
                 } else {
                     if (onUpdate != null) {
                         editButton {
+                            if (editButtonText != null)
+                                text = editButtonText
                             onClick {
                                 onUpdate.invoke()
                             }
@@ -217,3 +219,16 @@ private fun crudToast(message: String, title: String) {
 fun insertToast(message: String, title: String = "record inserted") = crudToast(message, title)
 
 fun updateToast(message: String, title: String = "record updated") = crudToast(message, title)
+
+fun failToast(message: String, title: String) {
+    val toastContainer = ToastContainer(ToastContainerPosition.BOTTOMCENTER)
+    toastContainer.showToast(
+        message,
+        title,
+        color = BsColor.DANGERBG,
+        bgColor = BsBgColor.DANGERSUBTLE,
+        autohide = true,
+        animation = true,
+        delay = 3000
+    )
+}
