@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.macia.printinghouse.request.OrderReq
+import pl.macia.printinghouse.response.ChangeResp
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.RecID
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -134,5 +135,16 @@ class OrderController {
         toCheck: Boolean
     ): ResponseEntity<List<OrderResp>> {
         return ResponseEntity.ok(serv.ordersToCheck())
+    }
+
+    @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")
+    @PutMapping(value = ["${EndpNames.Order.ORDERS}/{id}"], produces = ["application/json"], params = ["checked"])
+    fun markOrderAsChecked(
+        @PathVariable id: Int,
+        @RequestParam(required = false, defaultValue = "true")
+        checked: Boolean
+    ): ResponseEntity<ChangeResp> {
+        val ifChanged = serv.markOrderAsChecked(id)
+        return ResponseEntity.ok(ChangeResp(ifChanged))
     }
 }

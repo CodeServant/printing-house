@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
@@ -322,7 +323,15 @@ class OrderService {
     }
 
     fun ordersToCheck(): List<OrderResp> {
-    return repo.notChecked().toTransport(clientRepo)
+        return repo.notChecked().toTransport(clientRepo)
+    }
+
+    @Transactional
+    fun markOrderAsChecked(id: Int): Boolean {
+        val order = repo.findById(id) ?: throw NotFoundException()
+        if (order.checked) return false
+        order.checked = true
+        return true
     }
 }
 
