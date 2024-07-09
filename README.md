@@ -10,5 +10,6 @@ docker run --name printing-house-dev-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root
 ```
 
 If you want to **run REST** server for **development** purpose you should invoke  
-```gradlew :printing-house-server:bootRun --args='--spring.profiles.active=dev'```  
-remember to configure **environmental variables** for the database and the **database itself**.
+```gradlew :printing-house-server:bootRun --args='--spring.profiles.active=dev'```.  
+To **run webCli** in continuous developer mode use this command
+```gradlew :webCli:run -t```.
