@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+project.group = "pl.macia.printing-house"
+project.version = libs.versions.app.get()
+
 kotlin {
     jvm {}
     js(IR) {
