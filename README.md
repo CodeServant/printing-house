@@ -4,9 +4,14 @@
 
 Server side application, that exposes REST API, for print house internal system.
 
-To configure database use docker command
+To test this service do this.
+- Build server software docker image.
 ```
-docker run --name printing-house-dev-db -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=developerDB -d mysql:9
+bash docker/server/build.sh
+```
+- run docker compose 
+```
+docker compose -f docker/docker-compose.yml up -d
 ```
 
 If you want to **run REST** server for **development** purpose you should invoke  
