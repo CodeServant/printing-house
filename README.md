@@ -5,7 +5,7 @@
 Server side application, that exposes REST API, for print house internal system.
 
 To test this service do this.
-- Build server and web-cli software docker image.
+- Build server and web-cli software docker image. (required java and docker)
 ```
 bash docker/server/build.sh &&
 bash docker/web-cli/build.sh
