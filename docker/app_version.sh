@@ -1,0 +1,1 @@
+app_version_toml=`sed -n "s/^.*app\s*=\s*\x22\(\S*\)\x22.*$/\1/p" gradle/libs.versions.toml`
