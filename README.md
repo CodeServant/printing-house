@@ -16,7 +16,8 @@ docker compose -f docker/docker-compose.yml up -d
 ```
 It requires also populate database with relevant data to start using the software.
 
-If you want to **run REST** server for **development** purpose you should invoke  
-```gradlew :printing-house-server:bootRun --args='--spring.profiles.active=dev'```.  
+If you want to **run REST** server for **development** purpose you should invoke.  
+```gradlew :printing-house-server:bootRun --args='--spring.profiles.active=dev'```   
+After this you will be able to go to [swagger api documentation](http://localhost:8080/swagger-ui/index.html).   
 To **run webCli** in continuous developer mode use this command
 ```gradlew :webCli:run -t```.
