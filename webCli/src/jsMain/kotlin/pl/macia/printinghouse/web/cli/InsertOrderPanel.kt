@@ -22,10 +22,8 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.*
-import pl.macia.printinghouse.response.summary
 import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.dao.BindingFormDao
-import pl.macia.printinghouse.web.dao.ClientDao
 import pl.macia.printinghouse.web.dao.SalesmanDao
 import kotlin.js.Date
 
@@ -69,29 +67,7 @@ class InsertOrderPanel : SimplePanel() {
         calculationCard.visible = false
         orderForm.add(OderFormData::name, TextInput("Name"), required = true, requiredMessage = reqMsg)
         orderForm.add(OderFormData::comment, TextInput("Comment"), required = false)
-        orderForm.add(
-            key = OderFormData::client,
-            control = TomSelect(
-                label = "Client",
-                tsCallbacks = TomSelectCallbacks(
-                    load = { query, callback ->
-                        ClientDao().searchClient(query,
-                            onFulfilled = {
-                                val arr = it.map { client ->
-                                    obj {
-                                        this.value = client.clientId
-                                        this.text = client.summary()
-                                    }
-                                }.toTypedArray()
-                                callback(arr)
-                            },
-                            onRejected = {
-                                callback(arrayOf())
-                            })
-                    }
-                )
-            ), required = true
-        )
+        orderForm.add(PickClientForm())
         orderForm.add(
             key = OderFormData::workflowGraph,
             control = WorkflowGraphSelect(),
