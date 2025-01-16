@@ -435,7 +435,7 @@ class CalculationCardInput : SimplePanel() {
             val printValid = printCost != null
             valid = valid && printValid
             if (printValid)
-                printCosts.add(printCost!!)
+                printCosts.add(printCost)
         }
 
         if (!valid) return null
