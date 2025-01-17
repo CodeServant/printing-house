@@ -285,7 +285,8 @@ private open class MultiInput<Input : Container>(inputFields: ObservableList<Inp
 }
 
 private class PaperOrderTypesInput(paperOrderTypes: ObservableList<PaperOrderTypeInput>) :
-    MultiInput<PaperOrderTypeInput>(paperOrderTypes,
+    MultiInput<PaperOrderTypeInput>(
+        paperOrderTypes,
         {
             PaperOrderTypeInput()
         }
