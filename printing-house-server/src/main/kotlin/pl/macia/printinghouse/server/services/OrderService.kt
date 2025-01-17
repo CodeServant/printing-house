@@ -286,6 +286,9 @@ class OrderService {
     @Transactional
     fun assignWorker(id: Int, workerId: Int, authentication: Authentication): ChangeResp {
         val order = repo.findById(id)
+        if (order?.checked != true) {
+            throw AccessDeniedException("Order you are trying to assign is not checked by supervisor")
+        }
         val worker = workerRepo.findById(workerId)
             ?: throw NoSuchElementException("${Worker::class.simpleName} no element in database with the given id")
         val wsStopsToAssign = order?.workflowStageStops?.filter { wss ->
