@@ -220,6 +220,13 @@ class PickClientForm() : SimplePanel() {
         acceptClientForm.visible = !acceptClientForm.visible
         unwindClientForm.visible = !unwindClientForm.visible
     }
+
+    /**
+     * Returns Client id as String
+     */
+    fun getFormData(): String? {
+        return tomSelClient.getValue()
+    }
 }
 
 class InsertClientForm() : SimplePanel() {

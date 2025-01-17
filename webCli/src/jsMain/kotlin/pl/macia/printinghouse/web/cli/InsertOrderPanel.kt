@@ -61,13 +61,14 @@ class InsertOrderPanel : SimplePanel() {
     private val orderEnoblings: ObservableList<OrderEnoblingInput> = ObservableListWrapper()
     private val netSizeInput = SizeInput("net size")
     private val calculationCard = CalculationCardInput()
+    private val clientPicker = PickClientForm()
 
     init {
         val reqMsg = "value is required"
         calculationCard.visible = false
         orderForm.add(OderFormData::name, TextInput("Name"), required = true, requiredMessage = reqMsg)
         orderForm.add(OderFormData::comment, TextInput("Comment"), required = false)
-        orderForm.add(PickClientForm())
+        orderForm.add(clientPicker)
         orderForm.add(
             key = OderFormData::workflowGraph,
             control = WorkflowGraphSelect(),
@@ -240,7 +241,7 @@ class InsertOrderPanel : SimplePanel() {
             bindingForm = orderForm[OderFormData::bindingForm]!!,
             calculationCard = calcData,
             netSize = netSizeValidField!!,
-            client = orderForm[OderFormData::client]!!,
+            client = clientPicker.getFormData() ?: throw RuntimeException("no client provided"),
             workflowGraph = orderForm[OderFormData::workflowGraph]!!,
         )
     }
