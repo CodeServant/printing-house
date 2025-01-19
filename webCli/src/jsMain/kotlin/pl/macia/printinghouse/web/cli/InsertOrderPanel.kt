@@ -505,7 +505,7 @@ fun OderFormData.toTransport(): OrderReq {
         realizationDate = LocalDateTime(
             realizationDate.getFullYear(),
             realizationDate.getMonth()+1,
-            realizationDate.getDay(),
+            realizationDate.getDate(),
             realizationDate.getHours(),
             realizationDate.getMinutes()
         ),
