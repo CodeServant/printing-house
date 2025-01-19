@@ -12,6 +12,7 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
+import kotlinx.browser.window
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.roles.PrimaryRoles
@@ -19,6 +20,7 @@ import pl.macia.printinghouse.web.StorageInfo
 import pl.macia.printinghouse.web.cli.manager.ToCheckListPanel
 import pl.macia.printinghouse.web.cli.salesman.FinalizeOrderPanel
 import pl.macia.printinghouse.web.dao.*
+import pl.macia.printinghouse.web.logout
 
 enum class ManagerMenuScreen(val path: String) {
     BINDERIES("binderies"),
@@ -79,6 +81,7 @@ class ManagerMenu : EmpMenu() {
                         button(tr("workflow stages")) { onClick { switchScr(ManagerMenuScreen.WORKFLOW_STAGES) } }
                         button(tr("workflow graphs")) { onClick { switchScr(ManagerMenuScreen.WORKFLOW_GRAPHS) } }
                         button(tr("orders to check")) { onClick { switchScr(ManagerMenuScreen.ORDERS_TO_CHECK) } }
+                        logoutButton()
                     }
                 }
 
@@ -290,6 +293,7 @@ class SalesmanMenu : EmpMenu() {
                         add(insertButton)
                         add(finalizeButton)
                         add(yourPOrderButton)
+                        logoutButton()
                     }
                 }
             }
@@ -322,26 +326,28 @@ class WorkerMenu : EmpMenu() {
                     }
                 )
             } else {
-                add(WorkerOrderDisplay(
-                    resp,
-                    onBack = {
-                        orderResp.value = null
-                    },
-                    onDone = {
-                        val wssId = orderResp.value!!.workflowStageStops.filter {
-                            it.worker?.email == storageInfo.username && it.assignTime != null
-                        }.maxBy {
-                            it.assignTime!!
-                        }.wfssId!!
-                        WorkflowStageStopDao().markWorkflowStageAsDone(
-                            wssId,
-                            onFulfilled = (::println), //todo make visual responses to user
-                            onRejected = (::println)
-                        )
-                    }
-                ))
+                add(
+                    WorkerOrderDisplay(
+                        resp,
+                        onBack = {
+                            orderResp.value = null
+                        },
+                        onDone = {
+                            val wssId = orderResp.value!!.workflowStageStops.filter {
+                                it.worker?.email == storageInfo.username && it.assignTime != null
+                            }.maxBy {
+                                it.assignTime!!
+                            }.wfssId!!
+                            WorkflowStageStopDao().markWorkflowStageAsDone(
+                                wssId,
+                                onFulfilled = (::println), //todo make visual responses to user
+                                onRejected = (::println)
+                            )
+                        }
+                    ))
             }
         }
+        logoutButton()
     }
 }
 
@@ -399,6 +405,7 @@ class WorkflowManagerMenu : EmpMenu() {
 
                 WorkflowMgrMenuOptions.MAIN -> {
                     add(assignTaskButton)
+                    logoutButton()
                 }
             }
         }
@@ -406,6 +413,17 @@ class WorkflowManagerMenu : EmpMenu() {
 }
 
 open class EmpMenu : SimplePanel()
+
+private fun EmpMenu.logoutButton() {
+    add(
+        CancelButton("logout") {
+            onClick {
+                StorageInfo(localStorage).logout()
+                window.location.reload()
+            }
+        }
+    )
+}
 
 class Menu : SimplePanel() {
     init {
