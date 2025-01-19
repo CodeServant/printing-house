@@ -2,6 +2,7 @@ package pl.macia.printinghouse.server.services
 
 import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
 import pl.macia.printinghouse.request.WorkflowStageChangeReq
@@ -41,6 +42,8 @@ class WorkflowStageServ {
             workflowStageReq.name
         )
         val mgrs = managerRepo.findAllById(workflowStageReq.managers)
+        if (mgrs.isEmpty())
+            throw DataIntegrityViolationException("Cannot insert workflow stage ${workflowStageReq.name}, when no managers provided or exists")
         workflowStage.workflowManagers.addAll(mgrs)
         mgrs.forEach {
             it.isManagerOf.add(workflowStage)

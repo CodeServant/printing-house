@@ -2,10 +2,13 @@ package pl.macia.printinghouse.server.controller
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import pl.macia.printinghouse.request.WorkflowStageChangeReq
 import pl.macia.printinghouse.request.WorkflowStageReq
 import pl.macia.printinghouse.response.ChangeResp
@@ -40,8 +43,14 @@ class WorkflowStageController {
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}','${PrimaryRoles.SALESMAN}')")
     @PostMapping(value = [EndpNames.WorkflowStage.WORKFLOW_STAGES], produces = ["application/json"])
     fun newWorkflowStage(@RequestBody req: WorkflowStageReq): ResponseEntity<RecID> {
-        val resp = serv.insertNew(req)
-        return ResponseEntity.ok(resp)
+        try {
+            val resp = serv.insertNew(req)
+            return ResponseEntity.ok(resp)
+        } catch (e: DataIntegrityViolationException) {
+            throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST, e.message, e
+            )
+        }
     }
 
     @PreAuthorize("hasAnyAuthority('${PrimaryRoles.MANAGER}')")

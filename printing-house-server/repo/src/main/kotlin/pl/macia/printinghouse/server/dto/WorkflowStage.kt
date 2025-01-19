@@ -3,7 +3,6 @@ package pl.macia.printinghouse.server.dto
 import dev.drewhamilton.poko.Poko
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
@@ -20,7 +19,6 @@ internal class WorkflowStage(
     @field:NotNull
     @Column(name = NAME)
     var name: String,
-    @field:NotEmpty
     @ManyToMany
     @JoinTable(
         name = MANAGER,
