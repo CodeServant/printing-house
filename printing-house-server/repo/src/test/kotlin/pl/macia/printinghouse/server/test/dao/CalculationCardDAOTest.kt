@@ -41,6 +41,7 @@ internal class CalculationCardDAOTest {
     fun `delete one test`() {
         val order = daoOrder.findByIdOrNull(1)!!
         val init = dao.count()
+        dao.deleteById(order.calculationCard?.id)
         order.calculationCard = null
         assertEquals(init - 1, dao.count())
     }
@@ -49,6 +50,7 @@ internal class CalculationCardDAOTest {
     @Transactional
     fun `change one`() {
         val order = daoOrder.findByIdOrNull(1)!!
+        dao.deleteById(order.calculationCard?.id)
         order.calculationCard = null
         daoOrder.saveAndFlush(order)
         var calc = order.setCalculationCard(BigDecimal(100), BigDecimal(101), BigDecimal(102), BigDecimal(103))
