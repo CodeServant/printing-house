@@ -25,9 +25,10 @@ class SalesmanNewOrderPanel(
                 val data = inOrdPanel.getFormData(true)
                 if (data != null) {
                     OrderDao().insertNew(data.toTransport(), onFulfilled = {
+                        insertToast("order saved succesfully")
                         onLeave()
                     }, onRejected = {
-                        TODO("define on rejected when order couldn't be created")
+                        failToast("order insert failed", "insertion failed")
                     })
                 }
             }
