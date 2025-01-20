@@ -15,11 +15,6 @@ class SalesmanNewOrderPanel(
     init {
         val inOrdPanel = InsertOrderPanel()
         add(inOrdPanel)
-        val acceptBtn = AcceptButton {
-            onClick {
-                onAccept(TODO())
-            }
-        }
         val saveBtn = SaveButton {
             onClick {
                 val data = inOrdPanel.getFormData(true)
@@ -38,10 +33,8 @@ class SalesmanNewOrderPanel(
                 onLeave()
             }
         }
-        add(acceptBtn)
         add(saveBtn)
         add(leaveBtn)
-
         init?.invoke(this)
     }
 }
