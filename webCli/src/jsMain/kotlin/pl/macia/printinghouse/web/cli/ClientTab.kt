@@ -224,7 +224,18 @@ class PickClientForm() : SimplePanel() {
     /**
      * Returns Client id as String
      */
-    fun getFormData(): String? {
+    fun getFormData(validate: Boolean): String? {
+        if (validate && tomSelClient.getValue() == null) {
+            tomSelClient.validatorError = "pick a client"
+            tomSelClient.validationStatus = ValidationStatus.INVALID
+            return null
+        } else if (validate && tomSelClient.getValue() != null) {
+            tomSelClient.validatorError = null
+            tomSelClient.validationStatus = ValidationStatus.VALID
+        } else {
+            tomSelClient.validatorError = null
+            tomSelClient.validationStatus = null
+        }
         return tomSelClient.getValue()
     }
 }

@@ -222,6 +222,8 @@ class InsertOrderPanel : SimplePanel() {
         isValidForm = isValidForm && validNetSize
         val calcData = calculationCard.getFormData(markFields)
         isValidForm = isValidForm && (calcData != null == calculationCard.visible)
+        val clientPicked = clientPicker.getFormData(true)
+        isValidForm = isValidForm && (clientPicker.getFormData(true) != null)
         if (!isValidForm) return null
         return OderFormData(
             name = orderForm[OderFormData::name]!!,
@@ -241,7 +243,7 @@ class InsertOrderPanel : SimplePanel() {
             bindingForm = orderForm[OderFormData::bindingForm]!!,
             calculationCard = calcData,
             netSize = netSizeValidField!!,
-            client = clientPicker.getFormData() ?: throw RuntimeException("no client provided"),
+            client = clientPicked ?: throw RuntimeException("no client provided"),
             workflowGraph = orderForm[OderFormData::workflowGraph]!!,
         )
     }
