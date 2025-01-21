@@ -22,6 +22,8 @@ import pl.macia.printinghouse.roles.PrimaryRoles
 import pl.macia.printinghouse.server.PrintingHouseServerApplication
 import java.time.LocalDateTime
 
+//todo test get orders for assignee
+
 @SpringBootTest(classes = [PrintingHouseServerApplication::class])
 @WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -300,11 +302,5 @@ class OrderCTest {
         checkStatusFor(newGood, status().isOk)
         val newUnauthorized = newGood.copy(checked = true)
         checkStatusFor(newUnauthorized, status().isUnauthorized)
-    }
-
-    @Test
-    @WithMockUser("janworker@example.pl", authorities = [PrimaryRoles.MANAGER])
-    fun getOrdersForAssigneeTest() {
-        TODO("Not yet implemented")
     }
 }
