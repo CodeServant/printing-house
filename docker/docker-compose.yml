@@ -7,6 +7,7 @@ services:
       MYSQL_DATABASE: developerDB
       MYSQL_USER: db_user
       MYSQL_PASSWORD: db_user_pass
+    restart: always
     ports:
       - "3306:3306"
     volumes:
