@@ -100,7 +100,10 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                             )
                         },
                         onRejected = {
-                            TODO("on rejected when manager inserts workflow graph")
+                            failToast(
+                                "there is an error while inserting graph",
+                                "insertion failed"
+                            )
                         }
                     )
                 }
@@ -130,7 +133,10 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                             }
                         },
                         onRejected = {
-                            TODO("on rejected when WorkflowGraph details changed by manager")
+                            failToast(
+                                "there is an error while changing graph",
+                                "change has failed"
+                            )
                         },
                     )
                 }
