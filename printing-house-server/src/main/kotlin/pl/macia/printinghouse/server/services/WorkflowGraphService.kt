@@ -2,6 +2,7 @@ package pl.macia.printinghouse.server.services
 
 import jakarta.transaction.Transactional
 import kotlinx.datetime.toKotlinLocalDateTime
+import org.jgrapht.graph.GraphCycleProhibitedException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.converting.ConversionException
@@ -44,6 +45,11 @@ class WorkflowGraphService {
             val v2 = repoWorkflowStage.findById(it.v2)
                 ?: throw VertexException("there is no ${WorkflowStage::class.simpleName} for ${WorkflowGraphResp::id.name} ${it.v2}")
             toSave.addEdge(v1, v2)
+        }
+        try {
+            toSave.toGrapht()
+        } catch (e: GraphCycleProhibitedException) {
+            throw VertexException(e.message);
         }
         val saved = repo.save(toSave)
         return RecID(saved.wGraphId!!.toLong())
