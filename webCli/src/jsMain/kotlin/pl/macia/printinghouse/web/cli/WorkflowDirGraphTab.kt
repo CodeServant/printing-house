@@ -8,6 +8,7 @@ import io.kvision.html.h2
 import io.kvision.html.p
 import io.kvision.panel.HPanel
 import io.kvision.panel.SimplePanel
+import io.kvision.rest.RemoteRequestException
 import io.kvision.state.ObservableListWrapper
 import io.kvision.state.ObservableValue
 import io.kvision.state.bind
@@ -100,10 +101,12 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                             )
                         },
                         onRejected = {
-                            failToast(
-                                "there is an error while inserting graph",
-                                "insertion failed"
-                            )
+                            (it as? RemoteRequestException)?.response?.json()?.then {
+                                failToast(
+                                    it.asDynamic().message.toString(),
+                                    "insertion failed"
+                                )
+                            }
                         }
                     )
                 }
@@ -133,10 +136,12 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
                             }
                         },
                         onRejected = {
-                            failToast(
-                                "there is an error while changing graph",
-                                "change has failed"
-                            )
+                            (it as? RemoteRequestException)?.response?.json()?.then {
+                                failToast(
+                                    it.asDynamic().message.toString(),
+                                    "change has failed"
+                                )
+                            }
                         },
                     )
                 }
