@@ -225,7 +225,7 @@ fun failToast(message: String, title: String) {
     toastContainer.showToast(
         message,
         title,
-        color = BsColor.DANGERBG,
+        color = BsColor.DANGER,
         bgColor = BsBgColor.DANGERSUBTLE,
         autohide = true,
         animation = true,
