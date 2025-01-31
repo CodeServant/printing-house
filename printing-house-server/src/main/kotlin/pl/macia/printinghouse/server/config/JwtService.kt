@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 import javax.crypto.SecretKey
 
+const val expiresInSec = 60*60*24*30L
 
 @Component
 class JwtService {
@@ -28,7 +29,7 @@ class JwtService {
             .claims(claims)
             .subject(userName)
             .issuedAt(Date.from(Instant.now()))
-            .expiration(Date.from(Instant.now().plus(100000, ChronoUnit.SECONDS)))
+            .expiration(Date.from(Instant.now().plus(expiresInSec, ChronoUnit.SECONDS)))
             .signWith(getSignKey(), Jwts.SIG.HS256)
             .compact()
     }
