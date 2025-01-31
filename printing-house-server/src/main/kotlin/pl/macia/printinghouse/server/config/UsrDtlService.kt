@@ -12,7 +12,7 @@ import pl.macia.printinghouse.server.repository.EmployeeRepo
 
 @Service("userDetailsService")
 @Transactional
-class UserDetailsService : UserDetailsService {
+class UsrDtlService : UserDetailsService {
     @Autowired
     private lateinit var employeeRepo: EmployeeRepo
     override fun loadUserByUsername(username: String?): UserDetails {
@@ -21,7 +21,8 @@ class UserDetailsService : UserDetailsService {
         val worker = employeeRepo.findByEmail(username)
         if (worker == null)
             throw UsernameNotFoundException("user not found")
-        return User(worker.email.email,
+        return User(
+            worker.email.email,
             worker.password,
             worker.activeAccount,
             true,

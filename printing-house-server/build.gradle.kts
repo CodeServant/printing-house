@@ -37,6 +37,9 @@ dependencies {
     implementation(libs.spring.boot.security)
     testImplementation(libs.spring.security.test)
     implementation(libs.springdoc.openapi.common)
+    implementation(libs.jjwt.api)
+    implementation(libs.jjwt.impl)
+    implementation(libs.jjwt.jackson)
 }
 
 tasks.withType<DokkaMultiModuleTask>().configureEach {

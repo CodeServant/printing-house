@@ -5,14 +5,19 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Service
 import pl.macia.printinghouse.request.LoginReq
-import pl.macia.printinghouse.response.BasicLoginResp
+import pl.macia.printinghouse.response.BaererLoginResp
 import pl.macia.printinghouse.roles.PrimaryRoles
+import pl.macia.printinghouse.server.config.JwtService
 
 @Service
 class LoginService {
     @Autowired
     private lateinit var authenticationManager: AuthenticationManager
-    fun getEmplData(loginReq: LoginReq): BasicLoginResp {
+
+    @Autowired
+    private lateinit var jwtServ: JwtService
+
+    fun getEmplData(loginReq: LoginReq): BaererLoginResp {
         val authentication =
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(loginReq.login, loginReq.password))
         val roles = authentication.authorities.map {
@@ -28,6 +33,7 @@ class LoginService {
                 PrimaryRoles.OWNER
             )
         }
-        return BasicLoginResp(authentication.isAuthenticated, roles)
+        val token = jwtServ.generateToken(loginReq.login)
+        return BaererLoginResp(authentication.isAuthenticated, token, roles)
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.macia.printinghouse.request.LoginReq
-import pl.macia.printinghouse.response.BasicLoginResp
+import pl.macia.printinghouse.response.BaererLoginResp
 import pl.macia.printinghouse.server.services.LoginService
 
 @RestController
@@ -23,11 +23,11 @@ class LoginController {
     private lateinit var serv: LoginService
 
     @PostMapping(value = [EndpNames.Login.LOGIN], produces = ["application/json"])
-    fun login(@RequestBody loginReq: LoginReq): ResponseEntity<BasicLoginResp> {
+    fun login(@RequestBody loginReq: LoginReq): ResponseEntity<BaererLoginResp> {
         val authResp = serv.getEmplData(loginReq)
         if (!authResp.authenticated) {
             return ResponseEntity.status(401).build()
         }
-        return ResponseEntity.ofNullable(serv.getEmplData(loginReq))
+        return ResponseEntity.ofNullable(authResp)
     }
 }
