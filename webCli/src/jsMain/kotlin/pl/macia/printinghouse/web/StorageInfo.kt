@@ -1,11 +1,8 @@
 package pl.macia.printinghouse.web
 
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.w3c.dom.Storage
 import org.w3c.dom.get
-import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 /**
  * This is helper class to access storage like [kotlinx.browser.localStorage], to save user preferences.
@@ -21,15 +18,15 @@ class StorageInfo(private val storage: Storage) {
             else
                 storage.removeItem("user_name")
         }
-    var userpass: String?
+    var token: String?
         get() {
-            return storage["user_password"]
+            return storage["user_access_token"]
         }
         set(value) {
             if (value != null)
-                storage.setItem("user_password", value)
+                storage.setItem("user_access_token", value)
             else
-                storage.removeItem("user_password")
+                storage.removeItem("user_access_token")
         }
     var userRoles: List<String>?
         get() {
@@ -47,12 +44,6 @@ class StorageInfo(private val storage: Storage) {
         }
 }
 
-@OptIn(ExperimentalEncodingApi::class)
-fun StorageInfo.basicAuthToken(): String {
-    val message = "$username:$userpass"
-    return Base64.encode(message.encodeToByteArray())
-}
-
 /**
  * Checks if user is logged.
  */
@@ -65,6 +56,6 @@ fun StorageInfo.logged(): Boolean {
  */
 fun StorageInfo.logout() {
     username = null
-    userpass = null
+    token = null
     userRoles = null
 }

@@ -10,7 +10,7 @@ internal fun RestRequestConfig<dynamic, dynamic>.authorize() {
     val storage = StorageInfo(localStorage)
     headers = {
         listOf(
-            Pair("Authorization", "Basic ${storage.basicAuthToken()}")
+            Pair("Authorization", "Bearer ${storage.token}")
         )
     }
 }
