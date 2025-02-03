@@ -48,7 +48,7 @@ kotlin {
                 implementation(libs.kvision.datetime)
                 implementation(libs.kvision.toast)
                 implementation(libs.kvision.routing)
-                implementation(npm("jwt-decode", "4.0.0"))
+                implementation(npm("jwt-decode", libs.versions.jwtDecode.get()))
             }
         }
         val jsTest by getting {
