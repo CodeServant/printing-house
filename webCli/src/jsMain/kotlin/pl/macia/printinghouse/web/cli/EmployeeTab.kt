@@ -16,8 +16,11 @@ import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.SalesmanReq
 import pl.macia.printinghouse.request.WorkerReq
+import pl.macia.printinghouse.response.SalesmanResp
+import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.web.dao.SalesmanDao
 import pl.macia.printinghouse.web.dao.WorkerDao
+import kotlin.Boolean
 import kotlin.reflect.KProperty1
 
 enum class EmplType {
@@ -26,6 +29,7 @@ enum class EmplType {
 
 @Serializable
 data class EmployeeSummary(
+    var id: Int,
     var name: String,
     var surname: String,
     var pesel: String,
@@ -43,7 +47,7 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
         .on({ _ ->
             currentPicked.value = null
         }).on("new-employee", { _ ->
-            currentPicked.value = EmployeeSummary("", "", "", "", EmplType.INSERT)
+            currentPicked.value = EmployeeSummary(-1, "", "", "", "", EmplType.INSERT)
         }).on("edit-employee", { _ -> })
 
     init {
@@ -66,12 +70,37 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                 )
             } else if (it.type == EmplType.WORKER) {
                 routing.navigate("edit-employee")
-                add(WorkerInputPanel())
+                val workerInput = WorkerInputPanel()
+                WorkerDao().getWorker(
+                    it.id,
+                    onFulfilled = {
+                        workerInput.setData(it.toWorkerInData())
+                    },
+                    onRejected = {
+                        failToast(
+                            "no employee found with provided id: ${it.message}. \n Possible wrong Client implementation.",
+                            "Employee not found"
+                        )
+                    }
+                )
+                add(workerInput)
                 controllButtons()
-
             } else if (it.type == EmplType.SALESMAN) {
                 routing.navigate("edit-employee")
-                add(SalesmanInputPanel())
+                val salesmanInput = SalesmanInputPanel()
+                SalesmanDao().getSalesman(
+                    it.id,
+                    onFulfilled = {
+                        salesmanInput.setData(it.toSalInData())
+                    },
+                    onRejected = {
+                        failToast(
+                            "no employee found with provided id: ${it.message}. \n Possible wrong Client implementation.",
+                            "Employee not found"
+                        )
+                    }
+                )
+                add(salesmanInput)
                 controllButtons()
             } else if (it.type == EmplType.INSERT) {
                 add(GenericEmployeeInput())
@@ -96,6 +125,24 @@ data class WorkerInputData(
     val empData: EmployeeInputData
 )
 
+private fun WorkerResp.toWorkerInData(): WorkerInputData {
+
+    return WorkerInputData(
+        isManagerOf = this.isManagerOf.map { it.id },
+        empData = EmployeeInputData(
+            employed = this.employed,
+            activeAccount = this.activeAccount,
+            email = this.email,
+            personData = PersonInputData(
+                name = this.name,
+                surname = this.surname,
+                pesel = this.psudoPESEL
+            ),
+            password = ""
+        )
+    )
+}
+
 class WorkerInputPanel : SimplePanel() {
     val workflowStagePicker = WorkflowStagePicker(
         label = "is manager of",
@@ -117,17 +164,41 @@ class WorkerInputPanel : SimplePanel() {
             empData = personData
         )
     }
+
+    fun setData(initialData: WorkerInputData) {
+        empInPanel.setData(initialData.empData)
+        workflowStagePicker.setData(initialData.isManagerOf)
+    }
 }
 
 data class SalesmanInputData(
     val empData: EmployeeInputData
 )
 
-class SalesmanInputPanel : SimplePanel() {
+private fun SalesmanResp.toSalInData(): SalesmanInputData {
+    return SalesmanInputData(
+        EmployeeInputData(
+            employed = this.employed,
+            activeAccount = this.activeAccount,
+            email = this.email,
+            personData = PersonInputData(
+                name = this.name,
+                surname = this.surname,
+                pesel = this.psudoPESEL
+            ),
+            password = ""
+        )
+    )
+}
+
+class SalesmanInputPanel(initialData: SalesmanInputData? = null) : SimplePanel() {
     val empPanel = EmployeeInputPanel()
 
     init {
         add(empPanel)
+        if (initialData != null) {
+            setData(initialData)
+        }
     }
 
     fun getData(markFields: Boolean): SalesmanInputData? {
@@ -137,6 +208,10 @@ class SalesmanInputPanel : SimplePanel() {
         } else {
             return SalesmanInputData(data)
         }
+    }
+
+    fun setData(initialData: SalesmanInputData) {
+        empPanel.setData(initialData.empData)
     }
 }
 
@@ -148,7 +223,7 @@ data class EmployeeInputData(
     val password: String
 )
 
-class EmployeeInputPanel : SimplePanel() {
+class EmployeeInputPanel(initialData: EmployeeInputData? = null) : SimplePanel() {
     val form = FormPanel<EmployeeInputData>()
     val personInput = PersonInputPanel()
 
@@ -162,6 +237,9 @@ class EmployeeInputPanel : SimplePanel() {
         form.add(EmployeeInputData::email, emInput, required = true)
         form.add(EmployeeInputData::password, Password(label = "password"), required = true)
         add(form)
+        if (initialData != null) {
+            setData(initialData)
+        }
     }
 
     fun getData(markFields: Boolean): EmployeeInputData? {
@@ -176,6 +254,13 @@ class EmployeeInputPanel : SimplePanel() {
             password = form[EmployeeInputData::password] ?: throw RuntimeException(msg)
         )
     }
+
+    fun setData(initialData: EmployeeInputData) {
+        personInput.setData(initialData.personData)
+        (form.getControl(EmployeeInputData::employed) as CheckBox).value = initialData.employed
+        (form.getControl(EmployeeInputData::activeAccount) as CheckBox).value = initialData.activeAccount
+        (form.getControl(EmployeeInputData::email) as TextInput).value = initialData.email
+    }
 }
 
 data class PersonInputData(
@@ -184,13 +269,19 @@ data class PersonInputData(
     val pesel: String,
 )
 
-class PersonInputPanel : SimplePanel() {
+class PersonInputPanel(initialData: PersonInputData? = null) : SimplePanel() {
     val form = FormPanel<PersonInputData>()
 
     init {
-        form.add(PersonInputData::name, TextInput("name"), required = true)
-        form.add(PersonInputData::surname, TextInput("surname"), required = true)
-        form.add(PersonInputData::pesel, TextInput("pesel"), required = true)
+        val nameIn = TextInput("name")
+        val surnameIn = TextInput("surname")
+        val peselIn = TextInput("pesel")
+        form.add(PersonInputData::name, nameIn, required = true)
+        form.add(PersonInputData::surname, surnameIn, required = true)
+        form.add(PersonInputData::pesel, peselIn, required = true)
+        if (initialData != null) {
+            setData(initialData)
+        }
         add(form)
     }
 
@@ -204,6 +295,12 @@ class PersonInputPanel : SimplePanel() {
             surname = form[PersonInputData::surname] ?: throw RuntimeException(theMassage(PersonInputData::surname)),
             pesel = form[PersonInputData::pesel] ?: throw RuntimeException(theMassage(PersonInputData::pesel)),
         )
+    }
+
+    fun setData(initialData: PersonInputData) {
+        (form.getControl(PersonInputData::name) as TextInput).value = initialData.name
+        (form.getControl(PersonInputData::surname) as TextInput).value = initialData.surname
+        (form.getControl(PersonInputData::pesel) as TextInput).value = initialData.pesel
     }
 }
 

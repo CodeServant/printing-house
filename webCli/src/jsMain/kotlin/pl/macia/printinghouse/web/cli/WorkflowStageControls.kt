@@ -63,4 +63,24 @@ class WorkflowStagePicker(label: String?, private val required: Boolean, val max
         selectField.validatorError = null
         return true
     }
+
+    fun setData(initData: List<Int>) {
+        WorkflowStageDao().allWorkflowStages(
+            onFulfilled = { fetched ->
+                selectField.options = fetched.map {
+                    Pair(it.id.toString(), it.name)
+                }
+                selectField.value = ""
+                if (initData.isNotEmpty()) {
+                    for (v in initData.subList(0, initData.size - 1)) {
+                        selectField.value += "$v,"
+                    }
+                    selectField.value += "${initData.last()}"
+                }
+            },
+            onRejected = {
+                TODO("on rejected when feting all workflow stages")
+            }
+        )
+    }
 }

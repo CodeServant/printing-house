@@ -113,6 +113,7 @@ class ManagerMenu : EmpMenu() {
                             fetched.addAll(
                                 workerResps.map { workerResp ->
                                     EmployeeSummary(
+                                        workerResp.id,
                                         workerResp.name,
                                         workerResp.surname,
                                         workerResp.psudoPESEL,
@@ -132,6 +133,7 @@ class ManagerMenu : EmpMenu() {
                             fetched.addAll(
                                 salesmanResps.map { salesmanResp ->
                                     EmployeeSummary(
+                                        salesmanResp.id,
                                         salesmanResp.name,
                                         salesmanResp.surname,
                                         salesmanResp.psudoPESEL,
