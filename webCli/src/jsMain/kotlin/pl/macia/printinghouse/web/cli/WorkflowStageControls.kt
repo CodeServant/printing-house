@@ -23,7 +23,7 @@ class WorkflowStagePicker(label: String?, private val required: Boolean, val max
                         )
                     },
                     onRejected = {
-                        TODO("on rejected when feting all workflow stages")
+                        failToast("couldn't fetch data about managers workflow stages", "workflow stages fatch error")
                     }
                 )
             },
@@ -79,7 +79,7 @@ class WorkflowStagePicker(label: String?, private val required: Boolean, val max
                 }
             },
             onRejected = {
-                TODO("on rejected when feting all workflow stages")
+                failToast("couldn't fetch data about managers workflow stages", "workflow stages fatch error")
             }
         )
     }
