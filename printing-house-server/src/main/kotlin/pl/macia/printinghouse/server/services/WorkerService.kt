@@ -76,7 +76,7 @@ class WorkerService {
             )
         )
         work.setRoleWorker()
-        work.setIsManagerOf(worker.isManagerOf)
+        work.setIsManagerOf(worker.isManagerOf.dropWhile { it == 1 })
         empServ.justInserted(work)
         return RecID(work.personId!!.toLong())
     }
@@ -102,7 +102,7 @@ class WorkerService {
                 it.workflowManagers.remove(found)
             }
             found.isManagerOf.clear()
-            found.setIsManagerOf(workerChange.isManagerOf!!)
+            found.setIsManagerOf(workerChange.isManagerOf!!.dropWhile { it == 1 })
             workerChanged = true
         } else if (workerChange.nullingRest) {
             found.isManagerOf.clear()

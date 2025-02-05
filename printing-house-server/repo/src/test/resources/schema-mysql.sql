@@ -352,6 +352,7 @@ CREATE TABLE EmploeeRole
     UNIQUE `empRoleUnique`(`empId`, `roleId`)
 );
 
+-- WorkflowStage with id 1 is the last workflow stage and completes the Graph edges.
 CREATE TABLE WorkflowStage
 (
     id   INT PRIMARY KEY AUTO_INCREMENT,
