@@ -14,13 +14,17 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import kotlinx.serialization.Serializable
+import pl.macia.printinghouse.request.SalesmanChangeReq
 import pl.macia.printinghouse.request.SalesmanReq
+import pl.macia.printinghouse.request.WorkerChangeReq
 import pl.macia.printinghouse.request.WorkerReq
 import pl.macia.printinghouse.response.SalesmanResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.web.dao.SalesmanDao
 import pl.macia.printinghouse.web.dao.WorkerDao
 import kotlin.Boolean
+import kotlin.Int
+import kotlin.collections.List
 import kotlin.reflect.KProperty1
 
 enum class EmplType {
@@ -70,11 +74,40 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                 )
             } else if (it.type == EmplType.WORKER) {
                 routing.navigate("edit-employee")
-                val workerInput = WorkerInputPanel()
+                val workerInput = WorkerInputPanel(passwordRequired = false)
                 WorkerDao().getWorker(
                     it.id,
                     onFulfilled = {
                         workerInput.setData(it.toWorkerInData())
+                        controllButtons {
+                            val workerChangedData = workerInput.getData(true)
+                            if (workerChangedData != null) {
+                                WorkerDao().changeWorker(
+                                    it.id,
+                                    WorkerChangeReq(
+                                        nullingRest = false,
+                                        workerChangedData.isManagerOf,
+                                        workerChangedData.empData.employed,
+                                        workerChangedData.empData.activeAccount,
+                                        workerChangedData.empData.password,
+                                        workerChangedData.empData.email,
+                                        workerChangedData.empData.personData.pesel,
+                                        workerChangedData.empData.personData.surname,
+                                        workerChangedData.empData.personData.name
+                                    ),
+                                    onFulfilled = {
+                                        if(it.changed)
+                                            updateToast("Worker data changed")
+                                        else {
+                                            failToast("There was no change to data", "No change")
+                                        }
+                                    },
+                                    onRejected = {
+                                        failToast("Error changing worker data", "Change error")
+                                    }
+                                )
+                            }
+                        }
                     },
                     onRejected = {
                         failToast(
@@ -84,14 +117,41 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                     }
                 )
                 add(workerInput)
-                controllButtons()
             } else if (it.type == EmplType.SALESMAN) {
                 routing.navigate("edit-employee")
-                val salesmanInput = SalesmanInputPanel()
+                val salesmanInput = SalesmanInputPanel(passwordRequired = false)
                 SalesmanDao().getSalesman(
                     it.id,
                     onFulfilled = {
                         salesmanInput.setData(it.toSalInData())
+                        controllButtons {
+                            val salesmanChangedData = salesmanInput.getData(true)
+                            if (salesmanChangedData != null) {
+                                SalesmanDao().changeSalesman(
+                                    it.id,
+                                    SalesmanChangeReq(
+                                        nullingRest = false,
+                                        salesmanChangedData.empData.employed,
+                                        salesmanChangedData.empData.activeAccount,
+                                        salesmanChangedData.empData.password,
+                                        salesmanChangedData.empData.email,
+                                        salesmanChangedData.empData.personData.pesel,
+                                        salesmanChangedData.empData.personData.surname,
+                                        salesmanChangedData.empData.personData.name
+                                    ),
+                                    onFulfilled = {
+                                        if(it.changed)
+                                            updateToast("Salesman data changed")
+                                        else {
+                                            failToast("There was no change to data", "No change")
+                                        }
+                                    },
+                                    onRejected = {
+                                        failToast("Error changing salesman data", "Change error")
+                                    }
+                                )
+                            }
+                        }
                     },
                     onRejected = {
                         failToast(
@@ -101,16 +161,19 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                     }
                 )
                 add(salesmanInput)
-                controllButtons()
             } else if (it.type == EmplType.INSERT) {
                 add(GenericEmployeeInput())
             }
         }
     }
 
-    fun Container.controllButtons() {
+    fun Container.controllButtons(onAccept: () -> Unit) {
         hPanel {
-            acceptButton()
+            acceptButton() {
+                onClick {
+                    onAccept()
+                }
+            }
             cancelButton() {
                 onClick {
                     routing.navigate("employees")
@@ -143,12 +206,12 @@ private fun WorkerResp.toWorkerInData(): WorkerInputData {
     )
 }
 
-class WorkerInputPanel : SimplePanel() {
+class WorkerInputPanel(passwordRequired: Boolean = true) : SimplePanel() {
     val workflowStagePicker = WorkflowStagePicker(
         label = "is manager of",
         required = false
     )
-    val empInPanel = EmployeeInputPanel()
+    val empInPanel = EmployeeInputPanel(passwordRequired = passwordRequired)
 
     init {
         add(workflowStagePicker)
@@ -158,9 +221,9 @@ class WorkerInputPanel : SimplePanel() {
     fun getData(markFields: Boolean): WorkerInputData? {
         val personData = empInPanel.getData(markFields)
         val managersIds = workflowStagePicker.getData(markFields)
-        if (personData == null || managersIds == null) return null
+        if (personData == null) return null
         return WorkerInputData(
-            isManagerOf = managersIds,
+            isManagerOf = managersIds ?: listOf(),
             empData = personData
         )
     }
@@ -191,8 +254,8 @@ private fun SalesmanResp.toSalInData(): SalesmanInputData {
     )
 }
 
-class SalesmanInputPanel(initialData: SalesmanInputData? = null) : SimplePanel() {
-    val empPanel = EmployeeInputPanel()
+class SalesmanInputPanel(initialData: SalesmanInputData? = null, passwordRequired: Boolean = true) : SimplePanel() {
+    val empPanel = EmployeeInputPanel(passwordRequired = passwordRequired)
 
     init {
         add(empPanel)
@@ -220,10 +283,10 @@ data class EmployeeInputData(
     val activeAccount: Boolean,
     val email: String,
     val personData: PersonInputData,
-    val password: String
+    val password: String?
 )
 
-class EmployeeInputPanel(initialData: EmployeeInputData? = null) : SimplePanel() {
+class EmployeeInputPanel(initialData: EmployeeInputData? = null, passwordRequired: Boolean = true) : SimplePanel() {
     val form = FormPanel<EmployeeInputData>()
     val personInput = PersonInputPanel()
 
@@ -235,7 +298,7 @@ class EmployeeInputPanel(initialData: EmployeeInputData? = null) : SimplePanel()
             type = InputType.EMAIL
         }
         form.add(EmployeeInputData::email, emInput, required = true)
-        form.add(EmployeeInputData::password, Password(label = "password"), required = true)
+        form.add(EmployeeInputData::password, Password(label = "password"), required = passwordRequired)
         add(form)
         if (initialData != null) {
             setData(initialData)
@@ -251,7 +314,7 @@ class EmployeeInputPanel(initialData: EmployeeInputData? = null) : SimplePanel()
             activeAccount = form[EmployeeInputData::activeAccount] ?: throw RuntimeException(msg),
             email = form[EmployeeInputData::email] ?: throw RuntimeException(msg),
             personData = personData,
-            password = form[EmployeeInputData::password] ?: throw RuntimeException(msg)
+            password = form[EmployeeInputData::password]
         )
     }
 
@@ -337,7 +400,8 @@ class GenericEmployeeInput : SimplePanel() {
                                     SalesmanReq(
                                         data.empData.employed,
                                         data.empData.activeAccount,
-                                        data.empData.password,
+                                        data.empData.password
+                                            ?: throw NullPointerException("emp data requires password"),
                                         data.empData.email,
                                         data.empData.personData.pesel,
                                         data.empData.personData.surname,
@@ -359,7 +423,8 @@ class GenericEmployeeInput : SimplePanel() {
                                         data.isManagerOf,
                                         data.empData.employed,
                                         data.empData.activeAccount,
-                                        data.empData.password,
+                                        data.empData.password
+                                            ?: throw NullPointerException("emp data requires password"),
                                         data.empData.email,
                                         data.empData.personData.pesel,
                                         data.empData.personData.surname,
