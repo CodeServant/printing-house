@@ -407,9 +407,9 @@ class GenericEmployeeInput : SimplePanel() {
                                         data.empData.personData.surname,
                                         data.empData.personData.name,
                                     ), onFulfilled = {
-                                        //TODO("fulfilled req for the salesman")
+                                        insertToast("salesman inserted successfully")
                                     }, onRejected = {
-                                        //TODO("rejected req for the salesman")
+                                        failToast("there was error wile inserting salesman", "insertion error")
                                     }
                                 )
                             }
@@ -430,9 +430,9 @@ class GenericEmployeeInput : SimplePanel() {
                                         data.empData.personData.surname,
                                         data.empData.personData.name,
                                     ), onFulfilled = {
-                                        //TODO("fulfilled req for the worker")
+                                        insertToast("worker inserted successfully")
                                     }, onRejected = {
-                                        //TODO("rejected req for the worker")
+                                        failToast("there was error wile inserting worker", "insertion error")
                                     }
                                 )
                             }
