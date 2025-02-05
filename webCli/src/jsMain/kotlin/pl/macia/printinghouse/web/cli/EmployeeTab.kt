@@ -96,7 +96,7 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                                         workerChangedData.empData.personData.name
                                     ),
                                     onFulfilled = {
-                                        if(it.changed)
+                                        if (it.changed)
                                             updateToast("Worker data changed")
                                         else {
                                             failToast("There was no change to data", "No change")
@@ -140,7 +140,7 @@ class EmployeeTab(empResp: List<EmployeeSummary>) : SimplePanel() {
                                         salesmanChangedData.empData.personData.name
                                     ),
                                     onFulfilled = {
-                                        if(it.changed)
+                                        if (it.changed)
                                             updateToast("Salesman data changed")
                                         else {
                                             failToast("There was no change to data", "No change")
