@@ -3,6 +3,7 @@ package pl.macia.printinghouse.server.dto
 import dev.drewhamilton.poko.Poko
 import jakarta.annotation.Nullable
 import jakarta.persistence.*
+import jakarta.validation.constraints.Positive
 
 @Poko
 @Entity
@@ -39,11 +40,23 @@ internal class PaperOrderType(
     @JoinColumn(name = IMPOSITION)
     var imposition: ImpositionType,
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    @JoinColumn(name = SIZE)
-    var size: Size,
+    @JoinColumn(name = SIZE, nullable = true)
+    var size: Size?,
+    @Column(name = SIZE_WIDTH, nullable = true)
+    @field:Positive
+    var sizeWidth: Double?,
+    @Column(name = SIZE_HEIGHT, nullable = true)
+    @field:Positive
+    var sizeHeight: Double?,
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    @JoinColumn(name = PRODUCTION_SIZE)
-    var productionSize: Size,
+    @JoinColumn(name = PRODUCTION_SIZE, nullable = true)
+    var productionSize: Size?,
+    @Column(name = PRODUCTION_SIZE_WIDTH, nullable = true)
+    @field:Positive
+    var productionSizeWidth: Double?,
+    @Column(name = PRODUCTION_SIZE_HEIGHT, nullable = true)
+    @field:Positive
+    var productionSizeHeight: Double?,
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = ORDER_ID, nullable = false)
     var order: Order
@@ -63,7 +76,11 @@ internal class PaperOrderType(
         const val PLATES_QUANTITY_FOR_PRINTER = "platesQuantityForPrinter"
         const val IMPOSITION = "imposition"
         const val SIZE = "size"
+        const val SIZE_WIDTH = "sizeWidth"
+        const val SIZE_HEIGHT = "sizeHeight"
         const val PRODUCTION_SIZE = "productionSize"
+        const val PRODUCTION_SIZE_WIDTH = "productionSizeWidth"
+        const val PRODUCTION_SIZE_HEIGHT = "productionSizeHeight"
         const val ORDER_FIELD = "order"
     }
 
@@ -78,8 +95,12 @@ internal class PaperOrderType(
         printer: Printer,
         platesQuantityForPrinter: Int,
         imposition: ImpositionType,
-        size: Size,
-        productionSize: Size,
+        size: Size?,
+        sizeWidth: Double?,
+        sizeHeight: Double?,
+        productionSize: Size?,
+        productionSizeWidth: Double?,
+        productionSizeHeight: Double?,
         order: Order
     ) : this(
         null,
@@ -94,7 +115,11 @@ internal class PaperOrderType(
         platesQuantityForPrinter,
         imposition,
         size,
+        sizeWidth,
+        sizeHeight,
         productionSize,
+        productionSizeWidth,
+        productionSizeHeight,
         order
     )
 }
