@@ -109,10 +109,7 @@ VALUES ('A0', 841.0, 1189.0),
        ('A1', 594.0, 841.0),
        ('A2', 420.0, 594.0),
        ('A3', 297.0, 420.0),
-       ('A4', 210.0, 297.0),
-       (NULL, 123.0, 123.0),
-       (NULL, 205.0, 295.0),
-       (NULL, 430.0, 610.0);
+       ('A4', 210.0, 297.0);
 INSERT INTO UVVarnish (enoblingId)
 VALUES (1);
 INSERT INTO Worker (personId)
@@ -128,10 +125,10 @@ VALUES ('Introligatornia'),
 INSERT INTO WorkflowStageManager (workflowStage, employeeId)
 VALUES (1, 2),
        (2, 4);
-INSERT INTO `Order` (name, netSize, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
+INSERT INTO `Order` (name, netSize, netSizeWidth, netSizeHeight, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
                      folding, towerCut, imageURL, checked, designsNumberForSheet, completionDate,
                      withdrawalDate, comment)
-VALUES ('gorzelska', 7, 8, 1, 3, '2022-10-21 00:00:00', '2022-10-26 00:00:00', 3, 3, 0, 1, 1,
+VALUES ('gorzelska', NULL, 205.0, 295.0, 8, 1, 3, '2022-10-21 00:00:00', '2022-10-26 00:00:00', 3, 3, 0, 1, 1,
         1, 4, NULL, NULL, NULL);
 INSERT INTO CalculationCard (orderId, bindingCost, enobling, otherCosts, transport)
 VALUES (1, 1000.00, 1245.00, 1251.00, 1516.00);
@@ -139,9 +136,9 @@ INSERT INTO OrderEnobling (enobling, `order`, bindery, annotation)
 VALUES (4, 1, 2, NULL),
        (1, 1, 3, 'zróbcie jeszcze szpagat');
 INSERT INTO PaperOrderType (typeId, orderId, grammage, colours, circulation, stockCirculation, sheetNumber, comment,
-                            printer, platesQuantityForPrinter, imposition, `size`, productionSize)
-VALUES (2, 1, 70.0, 4, 20000, 70, 1, NULL, 1, 1, 1, 3, 8),
-       (3, 1, 90.0, 4, 2000, 40, 0, NULL, 1, 0, 1, 3, 8);
+                            printer, platesQuantityForPrinter, imposition, `size`, sizeWidth, sizeHeight, productionSize, productionSizeWidth, productionSizeHeight)
+VALUES (2, 1, 70.0, 4, 20000, 70, 1, NULL, 1, 1, 1, 3, NULL, NULL, NULL, 430.0, 610.0),
+       (3, 1, 90.0, 4, 2000, 40, 0, NULL, 1, 0, 1, 3, NULL, NULL, NULL, 430.0, 610.0);
 INSERT INTO PrintCost (orderId, printer, printCost, matrixCost)
 VALUES (1, 1, 12.00, 13.00),
        (1, 1, 13.00, 14.00),
