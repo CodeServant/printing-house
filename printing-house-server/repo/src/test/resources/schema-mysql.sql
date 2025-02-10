@@ -36,7 +36,7 @@ DROP TABLE If EXISTS
 CREATE TABLE Size
 (
     id     INT PRIMARY KEY AUTO_INCREMENT,
-    name   VARCHAR(50) NULL UNIQUE,
+    name   VARCHAR(50) NOT NULL UNIQUE,
     width  DOUBLE      NOT NULL,
     heigth DOUBLE      NOT NULL,
     UNIQUE `formatSize`(`width`, `heigth`)
@@ -221,7 +221,9 @@ CREATE TABLE `Order`
 (
     id                    INT PRIMARY KEY AUTO_INCREMENT,
     name                  VARCHAR(200) NOT NULL,
-    netSize               INT          NOT NULL,
+    netSize               INT          NULL,
+    netSizeWidth          DOUBLE       NULL,
+    netSizeHeight         DOUBLE       NULL,
     pages                 INT          NOT NULL,
     supervisor            INT          NOT NULL,
     client                INT          NOT NULL,
@@ -298,9 +300,13 @@ CREATE TABLE PaperOrderType
     comment                  VARCHAR(1000) NULL,
     printer                  INT           NOT NULL,
     platesQuantityForPrinter INT           NOT NULL,
-    imposition               int           NOT NULL,
-    size                     int           NOT NULL,
-    productionSize           int           NOT NULL,
+    imposition               INT           NOT NULL,
+    size                     INT           NULL,
+    sizeWidth                DOUBLE        NULL,
+    sizeHeight               DOUBLE        NULL,
+    productionSize           INT           NULL,
+    productionSizeWidth      DOUBLE        NULL,
+    productionSizeHeight     DOUBLE        NULL,
 
 
     INDEX                    potPaperType_ind (typeId),
