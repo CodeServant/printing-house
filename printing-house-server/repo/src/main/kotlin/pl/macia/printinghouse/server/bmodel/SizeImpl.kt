@@ -17,6 +17,10 @@ internal class SizeImpl private constructor(
         null, width, heigth
     )
 
+    constructor(named: PSize) : this(
+        named, null, null
+    )
+
     override var width: Double = persistent?.width ?: cWidth
     ?: throw NullPointerException("Size implementation error, there is no ${this::sizeId.name} value")
         get() {
