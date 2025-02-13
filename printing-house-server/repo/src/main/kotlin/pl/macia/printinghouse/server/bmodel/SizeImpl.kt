@@ -1,5 +1,7 @@
 package pl.macia.printinghouse.server.bmodel
 
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KProperty
 import pl.macia.printinghouse.server.dto.Size as PSize
 
 internal class SizeImpl private constructor(
@@ -70,3 +72,42 @@ internal class SizeImpl private constructor(
 
 fun Size(name: String, width: Number, heigth: Number): Size = SizeImpl(name, width.toDouble(), heigth.toDouble())
 fun Size(width: Number, heigth: Number): Size = SizeImpl(width.toDouble(), heigth.toDouble())
+
+internal fun delegateSizeImpl(
+    size: KMutableProperty<PSize?>,
+    width: KMutableProperty<Double?>,
+    height: KMutableProperty<Double?>
+): NonNullSizeImplDelegate {
+    return NonNullSizeImplDelegate(size, width, height)
+}
+
+internal class NonNullSizeImplDelegate(
+    val size: KMutableProperty<PSize?>,
+    val width: KMutableProperty<Double?>,
+    val height: KMutableProperty<Double?>,
+) {
+    operator fun getValue(thisRef: Any, property: KProperty<*>): Size {
+        return if (size.getter.call() != null) SizeImpl(size.getter.call()!!) else SizeImpl(
+            width.getter.call()!!,
+            height.getter.call()!!
+        )
+    }
+
+    operator fun setValue(thisRef: Any, property: KProperty<*>, value: Size) {
+        fun setNew(newSize: SizeImpl) {
+            size.setter.call(newSize.persistent)
+            width.setter.call(newSize.width)
+            height.setter.call(newSize.heigth)
+        }
+
+        val idIsNull = value.sizeId == null
+        val nameIsNull = value.name == null
+        if (idIsNull && nameIsNull) {
+            setNew(SizeImpl(value.width, value.heigth))
+        } else if (idIsNull && !nameIsNull) {
+            setNew(SizeImpl(value.name!!, value.width, value.heigth))
+        } else if (!idIsNull && !nameIsNull) {
+            setNew(value as SizeImpl)
+        }
+    }
+}

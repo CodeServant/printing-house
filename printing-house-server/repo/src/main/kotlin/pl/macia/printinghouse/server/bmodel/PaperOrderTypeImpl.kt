@@ -55,45 +55,16 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
         ImpositionType::class.java
     )
     override val order: Order by delegate(persistent::order, ::OrderImpl, Order::class.java)
-    override var size: Size
-        get() = if (persistent.size != null) SizeImpl(persistent.size!!) else SizeImpl(
-            persistent.sizeWidth!!,
-            persistent.sizeHeight!!
-        )
-        set(value) {
-            fun setNew(newSize: SizeImpl) {
-                persistent.size = newSize.persistent
-                persistent.sizeWidth = newSize.width
-                persistent.sizeHeight = newSize.heigth
-            }
-            if (value.sizeId == null && value.name == null) {
-                setNew(SizeImpl(value.width, value.heigth))
-            } else if (value.sizeId == null && value.name != null) {
-                setNew(SizeImpl(value.name!!, value.width, value.heigth))
-            } else if (value.sizeId != null && value.name != null) {
-                setNew(value as SizeImpl)
-            }
-        }
-    override var productionSize: Size
-        get() = if (persistent.productionSize != null) SizeImpl(persistent.productionSize!!) else SizeImpl(
-            persistent.productionSizeWidth!!,
-            persistent.productionSizeHeight!!
-        )
-        set(value) {
-            fun setNew(newSize: SizeImpl) {
-                persistent.productionSize = newSize.persistent
-                persistent.productionSizeWidth = newSize.width
-                persistent.productionSizeHeight = newSize.heigth
-            }
-            if (value.sizeId == null && value.name == null) {
-                setNew(SizeImpl(value.width, value.heigth))
-            } else if (value.sizeId == null && value.name != null) {
-                setNew(SizeImpl(value.name!!, value.width, value.heigth))
-            } else if (value.sizeId != null && value.name != null) {
-                setNew(value as SizeImpl)
-            }
-        }
-
+    override var size: Size by delegateSizeImpl(
+        persistent::size,
+        persistent::sizeWidth,
+        persistent::sizeHeight,
+    )
+    override var productionSize: Size by delegateSizeImpl(
+        persistent::productionSize,
+        persistent::productionSizeWidth,
+        persistent::productionSizeHeight,
+    )
 }
 
 internal fun toBizPaperOrderType(ppap: MutableList<PPaperOrderType>): BMutableList<PaperOrderType, PPaperOrderType> {

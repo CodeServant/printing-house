@@ -77,25 +77,11 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         ::CalculationCardImpl,
         CalculationCard::class.java
     )
-    override var netSize: Size
-        get() = if (persistent.netSize != null) SizeImpl(persistent.netSize!!) else SizeImpl(
-            persistent.netSizeWidth!!,
-            persistent.netSizeHeight!!
-        )
-        set(value) {
-            fun setNew(newSize: SizeImpl) {
-                persistent.netSize = newSize.persistent
-                persistent.netSizeWidth = newSize.width
-                persistent.netSizeHeight = newSize.heigth
-            }
-            if (value.sizeId == null && value.name == null) {
-                setNew(SizeImpl(value.width, value.heigth))
-            } else if (value.sizeId == null && value.name != null) {
-                setNew(SizeImpl(value.name!!, value.width, value.heigth))
-            } else if (value.sizeId != null && value.name != null) {
-                setNew(value as SizeImpl)
-            }
-        }
+    override var netSize: Size by delegateSizeImpl(
+        persistent::netSize,
+        persistent::netSizeWidth,
+        persistent::netSizeHeight,
+    )
     override var client: Client by delegate(persistent::client, ::ClientImpl, Client::class.java)
     override fun addWorkflowStageStop(
         comment: String?,
