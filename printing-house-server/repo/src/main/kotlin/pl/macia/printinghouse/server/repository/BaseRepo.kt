@@ -169,11 +169,6 @@ internal sealed interface PaperTypeIntRepo : PaperTypeRepo, SingleIdRepo<PaperTy
 sealed interface SizeRepo {
     fun save(obj: Size): Size
     fun findById(id: Int): Size?
-
-    /**
-     * Fetch from database or create [Size] object with provided parameters.
-     */
-    fun createByParameters(width: Double, heigth: Double): Size
     fun allNamedSizes(): List<Size>
 }
 

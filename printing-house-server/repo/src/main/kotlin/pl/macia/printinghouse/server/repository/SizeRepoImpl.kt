@@ -16,17 +16,21 @@ internal class SizeRepoImpl : SizeIntRepo {
         return SizeImpl(this)
     }
 
+    /**
+     * Save named size.
+     * @throws MalformedSize if size is not named
+     */
     override fun save(obj: Size): Size {
         obj as SizeImpl
-        return dao.save(obj.persistent).toBiz()
+        if (obj.persistent != null) {
+            return dao.save(obj.persistent!!).toBiz()
+        } else {
+            throw MalformedSize("Can't save non named sizes")
+        }
     }
 
     override fun findById(id: Int): Size? {
         return dao.findByIdOrNull(id)?.toBiz()
-    }
-
-    override fun createByParameters(width: Double, heigth: Double): Size {
-        return dao.findOrCreate(width, heigth).toBiz()
     }
 
     override fun allNamedSizes(): List<Size> {
@@ -35,3 +39,5 @@ internal class SizeRepoImpl : SizeIntRepo {
         }
     }
 }
+
+class MalformedSize(msg: String = "Malformed size") : Exception(msg)
