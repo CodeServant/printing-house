@@ -55,7 +55,6 @@ internal class PaperOrderTypeDAOTest {
         val printer = found.printer
         val imposition = found.imposition
         val size = found.size
-        val prodSize = found.productionSize
         val initCount = dao.count()
 
         dao.delete(found)
@@ -64,7 +63,9 @@ internal class PaperOrderTypeDAOTest {
         assertTrue(daoPrinter.existsById(printer.id!!))
         assertTrue(daoImpositionType.existsById(imposition.id!!))
         assertTrue(daoSize.existsById(size?.id!!))
-        assertTrue(daoSize.existsById(prodSize?.id!!))
+        assertNotNull(found.productionSizeWidth)
+        assertNotNull(found.productionSizeHeight)
+        assertNull(found.productionSize)
     }
 
     @Test

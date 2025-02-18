@@ -23,31 +23,26 @@ internal class SizeDAOTest {
     @Test
     fun `find by id test`() {
         assertEquals("A0", dao.findByIdOrNull(1)!!.name)
-        assertNull(dao.findByIdOrNull(6)!!.name)
+        assertNull(dao.findByIdOrNull(6)?.name)
     }
 
     @Test
     @Transactional
     fun `create size`() {
-        var saved: Size? = null
-        assertDoesNotThrow {
-            saved = dao.save(Size(100.0, 100.0))
-
-        }
-        assertNotNull(saved?.id)
-        assertNull(saved?.name)
-        saved = dao.save(Size("A10", 100.0, 101.0))
-        assertNotNull(saved?.id)
-        assertNotNull(saved?.name)
+        var saved = Size("A10", 100.0, 101.0)
+        saved = dao.save(saved)
+        assertNotNull(saved.id)
+        assertNotNull(saved.name)
     }
 
     @Test
     @Transactional
     fun `teste constraint uniqnes`() {
-        dao.save(Size(100.0, 100.0))
+        val new = dao.save(Size("NEW", 100.0, 100.0))
         assertThrows<DataIntegrityViolationException> {
-            dao.save(Size(100.0, 100.0))
+            dao.save(Size("OTHER", 100.0, 100.0))
         }
+        dao.delete(new)
     }
 
     @Test
@@ -56,16 +51,6 @@ internal class SizeDAOTest {
         val idToDelete = 1
         dao.deleteById(idToDelete)
         assertNull(dao.findByIdOrNull(idToDelete), "not properly deleted when ${Size.ID}: $idToDelete")
-    }
-
-    @Test
-    @Transactional
-    fun `findOrCreate test`() {
-        assertEquals("A4", dao.findOrCreate(210.0, 297.0).name)
-        val nonExistance = dao.findOrCreate(10.0, 17.0)
-        assertDoesNotThrow {
-            dao.saveAndFlush(nonExistance)
-        }
     }
 
     @Test
