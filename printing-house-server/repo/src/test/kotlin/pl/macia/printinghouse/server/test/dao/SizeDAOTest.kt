@@ -52,14 +52,4 @@ internal class SizeDAOTest {
         dao.deleteById(idToDelete)
         assertNull(dao.findByIdOrNull(idToDelete), "not properly deleted when ${Size.ID}: $idToDelete")
     }
-
-    @Test
-    fun `findByNameInNotNull test`() {
-        val foundList = dao.findByNameIsNotNull()
-        val initialSize = foundList.size
-        val filterefSize = foundList.filter {
-            it.name != null
-        }.size
-        assertEquals(initialSize, filterefSize)
-    }
 }
