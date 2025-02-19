@@ -57,7 +57,12 @@ internal class SizeImpl private constructor(
             }
         }
 
-    override var sizeId: Int? = null
+    override var sizeId: Int?
+        get() = persistent?.id
+        set(value) {
+            persistent?.id = value
+        }
+
     override var name: String?
         get() {
             return persistent?.name
@@ -66,8 +71,6 @@ internal class SizeImpl private constructor(
             if (value != null)
                 persistent?.name = value
         }
-
-
 }
 
 fun Size(name: String, width: Number, heigth: Number): Size = SizeImpl(name, width.toDouble(), heigth.toDouble())
