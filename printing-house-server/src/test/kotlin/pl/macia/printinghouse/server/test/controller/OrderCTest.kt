@@ -86,7 +86,8 @@ class OrderCTest {
             jsonPath("$.workflowStageStops[*].wfssId").value(Matchers.hasItems(1, 2)),
             jsonPath("$.bindingForm.id").value(3),
             jsonPath("$.calculationCard.id").value(1),
-            jsonPath("$.netSize.id").value(7),
+            jsonPath("$.netSize.heigth").value(295.0),
+            jsonPath("$.netSize.width").value(205.0),
             jsonPath("$.client.clientId").value(3),
             jsonPath("$.client.companyId").value(1)
         )
@@ -212,7 +213,8 @@ class OrderCTest {
             jsonPath("$.workflowStageStops").value(Matchers.hasSize<Int>(2)),
             jsonPath("$.bindingForm.id").value(3),
             jsonPath("$.calculationCard.transport").value("1516.00"),
-            jsonPath("$.netSize.id").value(7),
+            jsonPath("$.netSize.heigth").value(295.0),
+            jsonPath("$.netSize.width").value(205.0),
             jsonPath("$.client.clientId").value(3),
             jsonPath("$.client.companyId").value(1)
         )
