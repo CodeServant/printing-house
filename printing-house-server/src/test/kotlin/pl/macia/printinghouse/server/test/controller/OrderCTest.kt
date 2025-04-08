@@ -121,11 +121,13 @@ class OrderCTest {
                     impositionTypeId = 1,
                     size = SizeReq(
                         heigth = 594.0,
-                        width = 420.0
+                        width = 420.0,
+                        name = null,
                     ),
                     productionSize = SizeReq(
                         heigth = 610.0,
-                        width = 430.0
+                        width = 430.0,
+                        name = null,
                     )
                 )
             ),
@@ -164,7 +166,8 @@ class OrderCTest {
             ),
             netSize = SizeReq(
                 width = 205.0,
-                heigth = 295.0
+                heigth = 295.0,
+                name = null,
             ),
             clientId = 3
         )
@@ -244,11 +247,13 @@ class OrderCTest {
                     impositionTypeId = 1,
                     size = SizeReq(
                         heigth = 594.0,
-                        width = 420.0
+                        width = 420.0,
+                        name = null,
                     ),
                     productionSize = SizeReq(
                         heigth = 610.0,
-                        width = 430.0
+                        width = 430.0,
+                        name = null,
                     )
                 )
             ),
@@ -287,7 +292,8 @@ class OrderCTest {
             ),
             netSize = SizeReq(
                 width = 205.0,
-                heigth = 295.0
+                heigth = 295.0,
+                name = null,
             ),
             clientId = 3
         )
