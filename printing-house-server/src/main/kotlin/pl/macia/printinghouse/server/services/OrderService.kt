@@ -453,7 +453,7 @@ private fun PrintCost.toTransport(): PrintCostResp {
 
 private fun Size.toTransport(): SizeResp {
     return SizeResp(
-        id = sizeId ?: throw ConversionException("${::sizeId.name} is null"),
+        id = sizeId,
         name = name,
         heigth = heigth,
         width = width
