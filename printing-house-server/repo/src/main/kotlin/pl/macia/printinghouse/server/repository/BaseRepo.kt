@@ -170,6 +170,8 @@ sealed interface SizeRepo {
     fun save(obj: Size): Size
     fun findById(id: Int): Size?
     fun allNamedSizes(): List<Size>
+    fun createByParameters(width: Double, heigth: Double): Size
+    fun findByName(name: String): Size?
 }
 
 internal sealed interface SizeIntRepo : SizeRepo, SingleIdRepo<Size, Int>

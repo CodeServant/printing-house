@@ -38,6 +38,17 @@ internal class SizeRepoImpl : SizeIntRepo {
             it.toBiz()
         }
     }
+
+    override fun createByParameters(
+        width: Double,
+        heigth: Double
+    ): Size {
+        return Size(width, heigth)
+    }
+
+    override fun findByName(name: String): Size? {
+        return dao.findByName(name)?.toBiz()
+    }
 }
 
 class MalformedSize(msg: String = "Malformed size") : Exception(msg)
