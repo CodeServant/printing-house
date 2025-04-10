@@ -76,7 +76,7 @@ internal class WorkerDAOTest {
     fun `workflow manager association test`() {
         val workerManager = dao.findByIdOrNull(4)!!
         assertEquals(
-            2, workerManager
+            3, workerManager
                 .isManagerOf
                 .stream()
                 .findFirst()

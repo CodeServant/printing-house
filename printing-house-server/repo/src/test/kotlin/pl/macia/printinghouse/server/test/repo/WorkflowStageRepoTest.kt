@@ -27,7 +27,7 @@ internal class WorkflowStageRepoTest {
     @Test
     @Transactional
     fun `find by id test`() {
-        val workflowStage = repo.findById(1)!!
+        val workflowStage = repo.findById(2)!!
         assertEquals("Introligatornia", workflowStage.name)
         assertEquals("Rokita-IntroligManager", workflowStage.workflowManagers.first().surname)
         assertEquals(

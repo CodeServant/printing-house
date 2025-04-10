@@ -26,14 +26,14 @@ internal class WorkflowStageDAOTest {
     @JpaOrder(1)
     @Test
     fun `get by id`() {
-        val workflowStage = dao.findByIdOrNull(1)
+        val workflowStage = dao.findByIdOrNull(2)
         assertEquals("Introligatornia", workflowStage?.name)
     }
 
     @Test
     @JpaOrder(3)
     fun `data violation test`() {
-        val workflowStage = dao.findByIdOrNull(1)
+        val workflowStage = dao.findByIdOrNull(2)
         assertThrows<DataIntegrityViolationException> {
             dao.delete(workflowStage!!)
         }
@@ -57,7 +57,7 @@ internal class WorkflowStageDAOTest {
     @JpaOrder(5)
     @Transactional
     fun `worker association test`() {
-        val workflowStage = dao.findByIdOrNull(2)!!
+        val workflowStage = dao.findByIdOrNull(3)!!
         assertEquals(
             4, workflowStage
                 .workflowStageManagers

@@ -87,10 +87,10 @@ internal class WorkflowDirGraphRepoTest {
             comment = "insert on test comment"
         )
 
-        val first = workflowStageRepo.findById(3)!!
-        val second = workflowStageRepo.findById(1)!!
-        val third = workflowStageRepo.findById(2)!!
-        val fourth = workflowStageRepo.findById(2)!!
+        val first = workflowStageRepo.findById(4)!!
+        val second = workflowStageRepo.findById(2)!!
+        val third = workflowStageRepo.findById(3)!!
+        val fourth = workflowStageRepo.findById(3)!!
 
         graph.addEdge(first, second)
         graph.addEdge(second, third)

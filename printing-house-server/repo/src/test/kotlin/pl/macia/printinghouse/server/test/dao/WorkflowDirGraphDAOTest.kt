@@ -68,8 +68,8 @@ internal class WorkflowDirGraphDAOTest {
             comment = "insert on test comment"
         )
         graph.addEdge(
-            workflowStageDAO.findByIdOrNull(1)!!,
-            workflowStageDAO.findByIdOrNull(2)!!
+            workflowStageDAO.findByIdOrNull(2)!!,
+            workflowStageDAO.findByIdOrNull(3)!!
         )
         dao.save(graph)
         graph = dao.findByIdOrNull(graph.id)!!
