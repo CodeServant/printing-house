@@ -54,8 +54,8 @@ class WorkflowStageCTest {
     @WithMockUser("juliusz@example.com", authorities = [PrimaryRoles.EMPLOYEE])
     fun `get one by id`() {
         standardTest.checkFindOneById(
-            2,
-            jsonPath("$.id").value(2),
+            3,
+            jsonPath("$.id").value(3),
             jsonPath("$.managers[0].name").value("Robert"),
             jsonPath("$.managers[0].id").value(4),
             jsonPath("$.name").value("Naświetlarnia")

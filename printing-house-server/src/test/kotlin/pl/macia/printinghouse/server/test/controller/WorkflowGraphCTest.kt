@@ -51,9 +51,9 @@ class WorkflowGraphCTest {
             jsonPath("$.name").value("typical flow"),
             jsonPath("$.comment").doesNotExist(),
             jsonPath("$.edges").value(Matchers.hasSize<WorkflowStageRespEmb>(4)),
-            jsonPath("$.edges[?(@.edgeId == 2)].v1.id").value(3),
+            jsonPath("$.edges[?(@.edgeId == 2)].v1.id").value(4),
             jsonPath("$.edges[?(@.edgeId == 2)].v1.name").value("Handlowiec"),
-            jsonPath("$.edges[?(@.edgeId == 2)].v2.id").value(2),
+            jsonPath("$.edges[?(@.edgeId == 2)].v2.id").value(3),
             jsonPath("$.edges[?(@.edgeId == 2)].v2.name").value("Naświetlarnia"),
             jsonPath("$.creationTime").value("2023-10-01T10:11"),
             jsonPath("$.changedTime").value("2023-10-01T11:00"),
@@ -65,8 +65,8 @@ class WorkflowGraphCTest {
             name = name,
             comment = "some",
             edges = listOf(
-                WorkflowEdgeReq(1, 2),
-                WorkflowEdgeReq(2, 3)
+                WorkflowEdgeReq(2, 3),
+                WorkflowEdgeReq(3, 4)
             )
         )
     }
