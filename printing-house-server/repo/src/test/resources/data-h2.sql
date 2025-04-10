@@ -121,7 +121,8 @@ VALUES (2),
        (4),
        (7);
 INSERT INTO WorkflowStage (name)
-VALUES ('Introligatornia'),
+VALUES ('STOP'),
+       ('Introligatornia'),
        ('Naświetlarnia'),
        ('Handlowiec'),
        ('Krajalnia');

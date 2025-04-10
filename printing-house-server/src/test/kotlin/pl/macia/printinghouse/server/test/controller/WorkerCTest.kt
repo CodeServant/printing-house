@@ -155,7 +155,7 @@ internal class WorkerCTest {
     fun `change worker data`() {
         val annaId = 7
         var change = WorkerChangeReq(
-            isManagerOf = listOf(1, 2),
+            isManagerOf = listOf(2, 3),
             name = "Zofia"
         )
         mvc.perform(
@@ -177,7 +177,7 @@ internal class WorkerCTest {
         )
 
         change = WorkerChangeReq(
-            isManagerOf = listOf(1, 2),
+            isManagerOf = listOf(2, 3),
             surname = "Nadstawna-Naświetlarnia"
         )
 
