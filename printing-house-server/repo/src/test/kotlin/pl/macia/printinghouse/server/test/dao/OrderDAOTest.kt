@@ -52,7 +52,7 @@ internal class OrderDAOTest {
         val order = dao.findByIdOrNull(1)!!
         assertEquals("gorzelska", order.name)
         assertEquals(LocalDateTime.of(2022, 10, 21, 0, 0), order.creationDate)
-        assertEquals(205.0, order.netSize.width)
+        assertEquals(205.0, order.netSizeWidth)
         assertEquals("Kowalski-Salesman", order.supervisor.surname)
         assertEquals("evilcorp@example.com", order.client.email?.email)
         assertEquals("Karton", order.bindingForm.name)
@@ -84,7 +84,9 @@ internal class OrderDAOTest {
     fun `create new one`() {
         val ord = Order(
             name = "createNewOneOrderDAOTest",
-            netSize = Size(10.1, 12.2),
+            netSize = null,
+            netSizeWidth = 10.1,
+            netSizeHeight = 12.2,
             pages = 21,
             supervisor = salesmanDAO.findByIdOrNull(1)!!,
             client = clientDAO.findByIdOrNull(1)!!,
@@ -124,8 +126,10 @@ internal class OrderDAOTest {
             printer = Printer("some bigger printer", "SBP"),
             platesQuantityForPrinter = 1,
             imposition = ImpositionType("impositoin"),
-            size = Size(120.0, 120.0),
-            productionSize = Size(120.0, 120.0)
+            sizeWidth = 120.0,
+            sizeHeight = 120.0,
+            productionSizeWidth = 120.0,
+            productionSizeHeight = 120.0,
         )
         dao.saveAndFlush(ord)
         assertNotNull(ord.id)

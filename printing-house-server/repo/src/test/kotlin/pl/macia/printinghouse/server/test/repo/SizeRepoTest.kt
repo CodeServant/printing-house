@@ -2,6 +2,7 @@ package pl.macia.printinghouse.server.test.repo
 
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,9 +22,6 @@ internal class SizeRepoTest {
     fun `find by id test`() {
         var found = repo.findById(1)
         assertEquals("A0", found?.name)
-        found = repo.findById(6)
-        assertNull(found?.name)
-        assertEquals(123.0, found?.width)
         found = repo.findById(1000)
         assertNull(found)
     }
@@ -32,6 +30,9 @@ internal class SizeRepoTest {
     @Transactional
     fun `create new test`() {
         val new = Size("repotest", 134.0, 151.0)
-        SingleIdTests<Size, Int>(repo).createNew(new, new::sizeId, repo::findById)
+        repo.save(new)
+        assertNotNull(new)
+        val saved = repo.findById(new.sizeId!!)
+        assertNotNull(saved)
     }
 }

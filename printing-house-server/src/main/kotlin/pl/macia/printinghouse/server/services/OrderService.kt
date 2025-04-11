@@ -84,7 +84,13 @@ class OrderService {
     fun insertNew(req: OrderReq): RecID { //todo simplify this function
         val fetchedClient =
             clientRepo.findById(req.clientId) ?: throw ConversionException("${req::clientId.name} not in database")
-        val fetchedNetSize = sizeRepo.createByParameters(req.netSize.width, req.netSize.heigth)
+
+        val fetchedNetSize = if (req.netSize.name != null) {
+            sizeRepo.findByName(req.netSize.name!!) ?: throw ConversionException("${req::netSize.name} not in database")
+        } else {
+            sizeRepo.createByParameters(req.netSize.width, req.netSize.heigth)
+        }
+        //TODO("test the createByParameters and find by name")
 
         val image: Image? = if (req.imageUrl != null)
             Image(req.imageUrl!!.url, req.imageUrl?.comment)
@@ -447,7 +453,7 @@ private fun PrintCost.toTransport(): PrintCostResp {
 
 private fun Size.toTransport(): SizeResp {
     return SizeResp(
-        id = sizeId ?: throw ConversionException("${::sizeId.name} is null"),
+        id = sizeId,
         name = name,
         heigth = heigth,
         width = width

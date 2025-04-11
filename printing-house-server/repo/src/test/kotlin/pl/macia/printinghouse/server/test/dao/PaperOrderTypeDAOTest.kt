@@ -43,8 +43,8 @@ internal class PaperOrderTypeDAOTest {
         assertEquals(2, found.colours.firstSide + found.colours.secondSide)
         assertEquals("DK", found.printer.digest)
         assertEquals("f/f", found.imposition.name)
-        assertEquals("A2", found.size.name)
-        assertEquals(430.0, found.productionSize.width, 0.00001)
+        assertEquals("A2", found.size?.name)
+        assertEquals(430.0, found.productionSizeWidth!!, 0.00001)
     }
 
     @Test
@@ -55,7 +55,6 @@ internal class PaperOrderTypeDAOTest {
         val printer = found.printer
         val imposition = found.imposition
         val size = found.size
-        val prodSize = found.productionSize
         val initCount = dao.count()
 
         dao.delete(found)
@@ -63,8 +62,10 @@ internal class PaperOrderTypeDAOTest {
         assertTrue(daoPaperType.existsById(paperType.id!!))
         assertTrue(daoPrinter.existsById(printer.id!!))
         assertTrue(daoImpositionType.existsById(imposition.id!!))
-        assertTrue(daoSize.existsById(size.id!!))
-        assertTrue(daoSize.existsById(prodSize.id!!))
+        assertTrue(daoSize.existsById(size?.id!!))
+        assertNotNull(found.productionSizeWidth)
+        assertNotNull(found.productionSizeHeight)
+        assertNull(found.productionSize)
     }
 
     @Test

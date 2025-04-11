@@ -22,8 +22,14 @@ internal class Order private constructor(
     @field:NotBlank
     var name: String,
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST, CascadeType.MERGE])
-    @JoinColumn(name = NET_SIZE, nullable = false)
-    var netSize: Size,
+    @JoinColumn(name = NET_SIZE, nullable = true)
+    var netSize: Size?,
+    @Column(name = NET_SIZE_WIDTH, nullable = true)
+    @field:Positive
+    var netSizeWidth: Double?,
+    @Column(name = NET_SIZE_HEIGHT, nullable = true)
+    @field:Positive
+    var netSizeHeight: Double?,
     @Column(name = PAGES, nullable = false)
     @field:Positive
     var pages: Int,
@@ -93,6 +99,8 @@ internal class Order private constructor(
         const val ID = "id"
         const val NAME = "name"
         const val NET_SIZE = "netSize"
+        const val NET_SIZE_WIDTH = "netSizeWidth"
+        const val NET_SIZE_HEIGHT = "netSizeHeight"
         const val PAGES = "pages"
         const val SUPERVISOR = "supervisor"
         const val CLIENT = "client"
@@ -112,7 +120,9 @@ internal class Order private constructor(
 
     constructor(
         name: String,
-        netSize: Size,
+        netSize: Size?,
+        netSizeWidth: Double?,
+        netSizeHeight: Double?,
         pages: Int,
         supervisor: Salesman,
         client: Client,
@@ -133,6 +143,8 @@ internal class Order private constructor(
         null,
         name,
         netSize,
+        netSizeWidth,
+        netSizeHeight,
         pages,
         supervisor,
         client,
@@ -222,7 +234,53 @@ internal class Order private constructor(
             platesQuantityForPrinter,
             imposition,
             size,
+            sizeWidth = null,
+            sizeHeight = null,
             productionSize,
+            productionSizeWidth = null,
+            productionSizeHeight = null,
+            this
+        )
+        paperOrderTypes.add(papOrdTp)
+        return papOrdTp
+    }
+
+    /**
+     * Adds new [PaperOrderType] with association to this [Order]
+     */
+    fun addPaperOrderType(
+        paperType: PaperType,
+        grammage: Double,
+        colours: Colouring,
+        circulation: Int,
+        stockCirculation: Int,
+        sheetNumber: Int,
+        comment: String?,
+        printer: Printer,
+        platesQuantityForPrinter: Int,
+        imposition: ImpositionType,
+        sizeWidth: Double,
+        sizeHeight: Double,
+        productionSizeWidth: Double,
+        productionSizeHeight: Double
+    ): PaperOrderType {
+        val papOrdTp = PaperOrderType(
+            paperType,
+            grammage,
+            colours,
+            circulation,
+            stockCirculation,
+            sheetNumber,
+            comment,
+            printer,
+            platesQuantityForPrinter,
+            imposition,
+            size = null,
+            sizeWidth,
+            sizeHeight,
+            productionSize = null,
+            productionSizeWidth,
+            productionSizeHeight,
             this
         )
         paperOrderTypes.add(papOrdTp)

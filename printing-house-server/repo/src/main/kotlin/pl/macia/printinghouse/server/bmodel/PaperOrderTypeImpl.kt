@@ -30,7 +30,11 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
             platesQuantityForPrinter,
             imposition.persistent,
             size.persistent,
+            size.width,
+            size.heigth,
             productionSize.persistent,
+            productionSize.width,
+            productionSize.heigth,
             order.persistent
         )
     )
@@ -51,9 +55,16 @@ internal class PaperOrderTypeImpl(p: PPaperOrderType) : PaperOrderType, Business
         ImpositionType::class.java
     )
     override val order: Order by delegate(persistent::order, ::OrderImpl, Order::class.java)
-    override var size: Size by delegate(persistent::size, ::SizeImpl, Size::class.java)
-    override var productionSize: Size by delegate(persistent::productionSize, ::SizeImpl, Size::class.java)
-
+    override var size: Size by delegateSizeImpl(
+        persistent::size,
+        persistent::sizeWidth,
+        persistent::sizeHeight,
+    )
+    override var productionSize: Size by delegateSizeImpl(
+        persistent::productionSize,
+        persistent::productionSizeWidth,
+        persistent::productionSizeHeight,
+    )
 }
 
 internal fun toBizPaperOrderType(ppap: MutableList<PPaperOrderType>): BMutableList<PaperOrderType, PPaperOrderType> {

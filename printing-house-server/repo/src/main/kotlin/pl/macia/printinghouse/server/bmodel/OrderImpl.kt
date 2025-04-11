@@ -27,6 +27,8 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         POrder(
             name = name,
             netSize = netSize.persistent,
+            netSizeWidth = netSize.width,
+            netSizeHeight = netSize.heigth,
             pages = pages,
             supervisor = salesman.persistent,
             client = client.persistent,
@@ -75,7 +77,11 @@ internal class OrderImpl(p: POrder) : Order, BusinessBase<POrder>(p) {
         ::CalculationCardImpl,
         CalculationCard::class.java
     )
-    override var netSize: Size by delegate(persistent::netSize, ::SizeImpl, Size::class.java)
+    override var netSize: Size by delegateSizeImpl(
+        persistent::netSize,
+        persistent::netSizeWidth,
+        persistent::netSizeHeight,
+    )
     override var client: Client by delegate(persistent::client, ::ClientImpl, Client::class.java)
     override fun addWorkflowStageStop(
         comment: String?,
