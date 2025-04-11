@@ -126,7 +126,7 @@ VALUES ('STOP'),
 INSERT INTO WorkflowStageManager (workflowStage, employeeId)
 VALUES (2, 2),
        (3, 4);
-INSERT INTO `Order` (name, netSize, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
+INSERT INTO `Order` (name, netSize, netSizeWidth, netSizeHeight, pages, supervisor, client, creationDate, realizationDate, bindingForm, bindery,
                      folding, towerCut, imageURL, checked, designsNumberForSheet, completionDate,
                      withdrawalDate, comment)
 VALUES ('gorzelska', NULL, 205.0, 295.0, 8, 1, 3, '2022-10-21 00:00:00', '2022-10-26 00:00:00', 3, 3, 0, 1, 1,
