@@ -559,6 +559,7 @@ fun OrderEnoblingInputData.toTransport(): OrderEnoblingReq {
 
 fun SizeInputData.toTransport(): SizeReq {
     return SizeReq(
+        name = null,
         width = width,
         heigth = height
     )
