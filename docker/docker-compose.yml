@@ -33,7 +33,7 @@ services:
       DB_DOMAIN: db
     restart: always
     ports:
-      - 8080:8080
+      - :8080
   web-cli:
     image: web-cli:0.0.1-SNAPSHOT
     container_name: web-cli
