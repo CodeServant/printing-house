@@ -231,7 +231,7 @@ class ManagerMenu : EmpMenu() {
 }
 
 private enum class SalesmanMenuScreens(val path: String) {
-    INSERT("insertion"), FINALIZE("finalization"), YOUR_ORDERS("your-orders"), MAIN("")
+    INSERT("insertion"), FINALIZE("finalization"), MAIN("")
 }
 
 class SalesmanMenu : EmpMenu() {
@@ -241,8 +241,6 @@ class SalesmanMenu : EmpMenu() {
             screen.value = SalesmanMenuScreens.INSERT
         }).on(SalesmanMenuScreens.FINALIZE.path, { _ ->
             screen.value = SalesmanMenuScreens.FINALIZE
-        }).on(SalesmanMenuScreens.YOUR_ORDERS.path, { _ ->
-            screen.value = SalesmanMenuScreens.YOUR_ORDERS
         }).on(SalesmanMenuScreens.MAIN.path, { _ ->
             screen.value = SalesmanMenuScreens.MAIN
         })
@@ -258,11 +256,6 @@ class SalesmanMenu : EmpMenu() {
         val finalizeButton = Button("finalize order") {
             onClick {
                 routing.navigate(SalesmanMenuScreens.FINALIZE.path)
-            }
-        }
-        val yourPOrderButton = Button("your orders") {
-            onClick {
-                routing.navigate(SalesmanMenuScreens.YOUR_ORDERS.path)
             }
         }
         bind(screen) { scr ->
@@ -288,13 +281,10 @@ class SalesmanMenu : EmpMenu() {
                         }
                     )
                 }
-
-                SalesmanMenuScreens.YOUR_ORDERS -> TODO()
                 SalesmanMenuScreens.MAIN -> {
                     vPanel {
                         add(insertButton)
                         add(finalizeButton)
-                        add(yourPOrderButton)
                         logoutButton()
                     }
                 }
