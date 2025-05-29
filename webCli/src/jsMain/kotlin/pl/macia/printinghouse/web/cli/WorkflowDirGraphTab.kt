@@ -17,12 +17,14 @@ import io.kvision.utils.obj
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.request.WorkflowEdgeReq
 import pl.macia.printinghouse.request.WorkflowGraphChangeReq
 import pl.macia.printinghouse.request.WorkflowGraphReq
 import pl.macia.printinghouse.response.WorkflowGraphResp
+import pl.macia.printinghouse.web.clientDateFormat
 import pl.macia.printinghouse.web.dao.WorkflowGraphDao
 
 @Serializable
@@ -58,7 +60,14 @@ class WorkflowDirGraphTab(workflowGraphResps: List<WorkflowGraphResp>) : SimpleP
             columnsDef = listOf(
                 ColumnDefinition("name", WorkflowDirGraphSummary::name.name),
                 ColumnDefinition("comment", WorkflowDirGraphSummary::comment.name),
-                ColumnDefinition("creation time", WorkflowDirGraphSummary::creationTime.name),
+                ColumnDefinition(
+                    "creation time",
+                    WorkflowDirGraphSummary::creationTime.name,
+                    formatterComponentFunction = { cell, onRendered, data ->
+                        p {
+                            +data.creationTime.format(clientDateFormat)
+                        }
+                    }),
                 ColumnDefinition("edge size", WorkflowDirGraphSummary::edgesSize.name),
             ),
             onSelected = { selVal ->

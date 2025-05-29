@@ -4,7 +4,9 @@ import io.kvision.html.button
 import io.kvision.html.link
 import io.kvision.html.p
 import io.kvision.panel.SimplePanel
+import kotlinx.datetime.format
 import pl.macia.printinghouse.response.*
+import pl.macia.printinghouse.web.clientDateFormat
 
 class WorkerOrderDisplay(orderResp: OrderResp, onBack: () -> Unit, onDone: () -> Unit) : SimplePanel() {
     init {
@@ -32,10 +34,10 @@ private class DisplayOrder(orderResp: OrderResp) : SimplePanel() {
             +(orderResp.comment ?: "")
         }
         p {
-            +"withdrawalDate: ${(orderResp.withdrawalDate?.toString()) ?: "no date"}"
+            +"withdrawalDate: ${(orderResp.withdrawalDate?.format(clientDateFormat)) ?: "no date"}"
         }
         p {
-            +"withdrawalDate: ${(orderResp.completionDate?.toString()) ?: "no date"}"
+            +"completionDate: ${(orderResp.completionDate?.format(clientDateFormat)) ?: "no date"}"
         }
         p {
             +"designsNumberForSheet: ${orderResp.designsNumberForSheet}"
@@ -50,10 +52,10 @@ private class DisplayOrder(orderResp: OrderResp) : SimplePanel() {
             +"folding: ${orderResp.folding}"
         }
         p {
-            +"realizationDate: ${orderResp.realizationDate}"
+            +"realizationDate: ${orderResp.realizationDate.format(clientDateFormat)}"
         }
         p {
-            +"creationDate: ${orderResp.creationDate}"
+            +"creationDate: ${orderResp.creationDate.format(clientDateFormat)}"
         }
         p {
             +"pages: ${orderResp.pages}"

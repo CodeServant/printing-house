@@ -1,6 +1,7 @@
 package pl.macia.printinghouse.web.cli
 
 import io.kvision.core.onEvent
+import io.kvision.html.p
 import io.kvision.panel.SimplePanel
 import io.kvision.panel.hPanel
 import io.kvision.state.ObservableListWrapper
@@ -9,11 +10,13 @@ import io.kvision.tabulator.Layout
 import io.kvision.tabulator.TabulatorOptions
 import io.kvision.tabulator.tabulator
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.format
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.ClientResp
 import pl.macia.printinghouse.response.CompanyClientResp
 import pl.macia.printinghouse.response.IndividualClientResp
 import pl.macia.printinghouse.response.OrderResp
+import pl.macia.printinghouse.web.clientDateFormat
 
 @Serializable
 data class TaskSummary(
@@ -32,7 +35,14 @@ class WorkerTasksList(initialList: List<OrderResp>, onOrderPick: (OrderResp) -> 
         val table = WorkerTaskTable(
             summaryList = summaryList,
             columnsDef = listOf(
-                ColumnDefinition("assignedTime", "assignedTime"),
+                ColumnDefinition(
+                    "assignedTime",
+                    "assignedTime",
+                    formatterComponentFunction = { cell, onRendered, data ->
+                        p {
+                            +data.assignedTime.format(clientDateFormat)
+                        }
+                    }),
                 ColumnDefinition("client", "client"),
                 ColumnDefinition("orderName", "orderName"),
             ),

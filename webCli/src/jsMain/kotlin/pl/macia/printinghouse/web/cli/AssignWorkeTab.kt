@@ -7,10 +7,12 @@ import io.kvision.state.ObservableValue
 import io.kvision.state.bind
 import io.kvision.tabulator.ColumnDefinition
 import io.kvision.utils.obj
+import kotlinx.datetime.format
 import kotlinx.serialization.Serializable
 import pl.macia.printinghouse.response.OrderResp
 import pl.macia.printinghouse.response.WorkerResp
 import pl.macia.printinghouse.response.summary
+import pl.macia.printinghouse.web.clientDateFormat
 import pl.macia.printinghouse.web.dao.OrderDao
 import pl.macia.printinghouse.web.dao.WorkerDao
 
@@ -43,13 +45,16 @@ class OrdersToAssignTab(
                     }
                     OrderForWorkflowData(
                         orderId = it.id.toString(),
-                        stageCreated = prevWss.createTime.toString(),
+                        stageCreated = prevWss.createTime.format(clientDateFormat),
                         client = it.client.summary(),
                         orderName = it.name
                     )
                 },
                 columnsDef = listOf(
-                    ColumnDefinition("Waiting From", OrderForWorkflowData::stageCreated.name),
+                    ColumnDefinition(
+                        "Waiting From",
+                        OrderForWorkflowData::stageCreated.name
+                    ),
                     ColumnDefinition("Client", OrderForWorkflowData::client.name),
                     ColumnDefinition("Order Name", OrderForWorkflowData::orderName.name),
                 ),
@@ -57,7 +62,8 @@ class OrdersToAssignTab(
                     orderIdStr = it?.orderId
                 },
                 formPanel = {
-                    select = TomSelect(label = "assignee",
+                    select = TomSelect(
+                        label = "assignee",
                         tsCallbacks = TomSelectCallbacks(
                             load = { queryStr, callback ->
                                 WorkerDao().searchWorker(queryStr, { workers ->
