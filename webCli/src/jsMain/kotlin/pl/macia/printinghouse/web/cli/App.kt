@@ -188,7 +188,7 @@ class MainScreen(signInClicked: () -> Unit) : SimplePanel() {
         p {
             +"This project lets manager to insert some data related to the business domain, Salesman to insert Orders and Workers to"
             +" to report on work done. The Manager inserts a Workflow Graph that defines the Workflow route. Next, Salesman inserts"
-            +" an Order that needs to be accepted by the Manager. After that, thr Order is going to be executed by Workers. The Workflow Manager"
+            +" an Order that needs to be accepted by the Manager. After that, the Order is going to be executed by Workers. The Workflow Manager"
             +" picks the proper Worker for the job and when the Stage is completed, the Worker confirms the task done."
             +" The system then automatically moves tasks to next Workflow Stage until the entire Order is done."
         }
