@@ -1,5 +1,5 @@
 [versions]
-app = "0.0.2"
+app = "0.0.3"
 spring-boot = "3.4.2"
 kotlin = "2.1.10"
 kotlin-serialization = "1.7.3"

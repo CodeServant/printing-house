@@ -25,7 +25,7 @@ services:
     ports:
       - 8081:80
   server:
-    image: printing-house-server:0.0.2
+    image: printing-house-server:0.0.3
     container_name: server
     links:
       - db
@@ -35,7 +35,7 @@ services:
     ports:
       - :8080
   web-cli:
-    image: web-cli:0.0.2
+    image: web-cli:0.0.3
     container_name: web-cli
     links:
       - server
