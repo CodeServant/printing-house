@@ -175,7 +175,7 @@ class MainScreen(signInClicked: () -> Unit) : SimplePanel() {
             +"Version"
         }
         p {
-            +"0.0.1"
+            +"0.0.2"
         }
         h1 {
             fontSize = h1Size
