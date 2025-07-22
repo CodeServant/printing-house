@@ -74,9 +74,9 @@ internal class OrderDAOTest {
         val paperOrderType = order.paperOrderTypes.first()
         dao.delete(order)
         assertNull(dao.findByIdOrNull(1))
-        assertNull(daoWorkflowStageStop.findByIdOrNull(workflowStageStop.id))
-        assertNull(daoOrderEnobling.findByIdOrNull(orderEnobling.id))
-        assertNull(daoPaperOrderType.findByIdOrNull(paperOrderType.id))
+        assertNull(daoWorkflowStageStop.findByIdOrNull(workflowStageStop.id!!))
+        assertNull(daoOrderEnobling.findByIdOrNull(orderEnobling.id!!))
+        assertNull(daoPaperOrderType.findByIdOrNull(paperOrderType.id!!))
     }
 
     @Test

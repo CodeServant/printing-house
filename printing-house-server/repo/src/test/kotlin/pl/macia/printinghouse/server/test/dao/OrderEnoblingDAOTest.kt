@@ -44,8 +44,8 @@ internal class OrderEnoblingDAOTest {
         val bindery = found.bindery
         val quan = dao.count()
         dao.delete(found)
-        assertNotNull(daoEnobling.findByIdOrNull(enobling.id))
-        assertNotNull(daoBindery.findByIdOrNull(bindery.id))
+        assertNotNull(daoEnobling.findByIdOrNull(enobling.id!!))
+        assertNotNull(daoBindery.findByIdOrNull(bindery.id!!))
         assertEquals(1, quan - dao.count())
     }
 
@@ -55,10 +55,10 @@ internal class OrderEnoblingDAOTest {
         found.enobling.name = "changed but should not to"
         found = dao.saveAndFlush(found)
         // the name in the database should remain the same as it was
-        assertEquals("szalony wykrojnik", daoEnobling.findByIdOrNull(found.enobling.id)?.name)
+        assertEquals("szalony wykrojnik", daoEnobling.findByIdOrNull(found.enobling.id!!)?.name)
         found.bindery.name = "CHANGED1"
         found = dao.saveAndFlush(found)
-        assertEquals("A2", daoBindery.findByIdOrNull(found.bindery.id)?.name)
+        assertEquals("A2", daoBindery.findByIdOrNull(found.bindery.id!!)?.name)
     }
 
     @Test

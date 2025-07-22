@@ -2,7 +2,8 @@ package pl.macia.printinghouse.server.test.dao
 
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
@@ -37,7 +38,7 @@ internal class PunchDAOTest {
             Punch("punchTestCreateOne", null)
         )
         assertNotNull(punch.id)
-        val enobling = daoEnobling.findByIdOrNull(punch.id)!!
+        val enobling = daoEnobling.findByIdOrNull(punch.id!!)!!
         assertEquals("punchTestCreateOne", enobling.name)
         assertNull(enobling.description)
     }

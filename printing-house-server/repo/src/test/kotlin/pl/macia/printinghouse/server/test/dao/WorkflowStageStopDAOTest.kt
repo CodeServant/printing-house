@@ -57,8 +57,8 @@ internal class WorkflowStageStopDAOTest {
         found.worker?.name = "Anna2"
         found.workflowGraphEdge.v1.name = "Handlowiec2"
         dao.saveAndFlush(found)
-        val actualWorker = daoWorker.findByIdOrNull(found.worker?.id)!!
-        val actualWorkflowStage = daoWorkflowStage.findByIdOrNull(found.workflowGraphEdge.v1.id)!!
+        val actualWorker = daoWorker.findByIdOrNull(found.worker?.id!!)!!
+        val actualWorkflowStage = daoWorkflowStage.findByIdOrNull(found.workflowGraphEdge.v1.id!!)!!
         // names should remain the same
         assertEquals("Anna", actualWorker.name)
         assertEquals("Handlowiec", actualWorkflowStage.name)

@@ -1,7 +1,9 @@
 package pl.macia.printinghouse.server.test.dao
 
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.repository.findByIdOrNull
@@ -59,7 +61,7 @@ internal class IndividualClientDAOTest {
         val indCliId = indCli.id!!
         dao.deleteById(indCliId)
         assertNull(dao.findByIdOrNull(indCliId))
-        assertNull(daoClient.findByIdOrNull(cliId))
+        assertNull(daoClient.findByIdOrNull(cliId!!))
         assertNull(dao.findByEmail("thereIsNoSuchEmail@examples.cm"))
     }
 }

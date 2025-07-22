@@ -1,7 +1,9 @@
 package pl.macia.printinghouse.server.test.dao
 
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Order as JpaOrder
 import org.springframework.beans.factory.annotation.Autowired
@@ -88,7 +90,7 @@ internal class WorkflowStageDAOTest {
         workflowStage.workflowStageManagers.add(newWorker)
         newWorker.isManagerOf.add(workflowStage)
         assertNotNull(newWorker.id)
-        assertEquals("Jan", daoWorker.findByIdOrNull(newWorker.id)?.name)
+        assertEquals("Jan", daoWorker.findByIdOrNull(newWorker.id!!)?.name)
         assertTrue(dao.findByIdOrNull(2)?.workflowStageManagers?.contains(newWorker)!!)
     }
 }

@@ -72,7 +72,7 @@ internal class WorkflowDirGraphDAOTest {
             workflowStageDAO.findByIdOrNull(3)!!
         )
         dao.save(graph)
-        graph = dao.findByIdOrNull(graph.id)!!
+        graph = dao.findByIdOrNull(graph.id!!)!!
         assertNotNull(graph.id)
         assertEquals("Introligatornia", graph.edges.first().v1.name)
     }
