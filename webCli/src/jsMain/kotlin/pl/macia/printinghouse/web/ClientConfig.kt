@@ -7,7 +7,7 @@ import kotlinx.datetime.format.char
 object clientConfig {
     const val domain = "localhost"
     var protocol = "http"
-    var port = "8080"
+    var port = "8082"
     val serviceUrl = "$protocol://$domain:$port"
 }
 
